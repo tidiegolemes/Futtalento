@@ -5,237 +5,212 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>FutTalento | Gestão de Imagem e Carreira para Atletas da Base</title>
-    <meta name="description" content="Agência especializada em Marketing Esportivo para atletas mirins. Transformamos promessas em marcas digitais. Cases de sucesso no Grêmio e grandes clubes.">
-    <meta name="keywords" content="Marketing Esportivo Infantil, Gestão de Carreira Futebol, Agência Atletas Mirins, FutTalento, Site para Jogadores">
-    <meta name="author" content="FutTalento">
-    
+    <meta name="description" content="Agência especializada em Marketing Esportivo para atletas mirins e da base. Gestão de imagem, SEO, Vídeos e Autoridade Web. Acompanhe notícias e cases como Lukas (Grêmio).">
+    <meta name="keywords" content="FutTalento, Marketing Esportivo Infantil, Agência de Atletas, Gestão de Carreira Futebol, Base Grêmio, Scout Digital, Site para Jogadores, Notícias Base">
+    <meta name="author" content="FutTalento Marketing Esportivo">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+
+    <meta name="geo.region" content="BR-RS, BR-SC" />
+    <meta name="geo.placename" content="Porto Alegre, Florianópolis, Brasil" />
+    <meta name="geo.position" content="-30.0346;-51.2177" />
+    <meta name="ICBM" content="-30.0346, -51.2177" />
+
+    <meta property="og:locale" content="pt_BR">
     <meta property="og:type" content="website">
     <meta property="og:title" content="FutTalento - O Futuro Começa na Base">
-    <meta property="og:description" content="Estratégia digital, SEO e Gestão de Carreira para jovens atletas. Conheça nossos cases.">
-    
+    <meta property="og:description" content="Gestão de carreira, SEO e Notícias da Base. Conheça a metodologia que coloca seu filho no topo das pesquisas.">
+    <meta property="og:image" content="https://tidiegolemes.github.io/futtalento-site/Futtalentologo.png">
+    <meta property="og:url" content="https://tidiegolemes.github.io/futtalento-site/">
+    <meta property="og:site_name" content="FutTalento Agency">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --primary: #00ff88; /* Verde Neon (Crescimento/Campo) */
-            --dark-bg: #0b0d10;
-            --card-bg: #15181e;
-            --text-main: #ffffff;
-            --text-muted: #a0a0a0;
-        }
+    <link rel="stylesheet" href="style.css">
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: var(--dark-bg);
-            color: var(--text-main);
-            line-height: 1.6;
+    <script type="application/ld+json">
+    [
+      {
+        "@context": "https://schema.org",
+        "@type": "SportsOrganization",
+        "name": "FutTalento Marketing Esportivo",
+        "alternateName": "FutTalento",
+        "url": "https://tidiegolemes.github.io/futtalento-site/",
+        "logo": "https://tidiegolemes.github.io/futtalento-site/Futtalentologo.png",
+        "description": "Agência de gestão de imagem e carreira focada em atletas de futebol da categoria de base.",
+        "areaServed": ["Porto Alegre", "Florianópolis", "Rio Grande do Sul", "Santa Catarina"],
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+55-48-3220-0260",
+          "contactType": "customer service"
         }
-
-        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
-        
-        /* HEADER */
-        header {
-            padding: 20px 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo { font-weight: 900; font-size: 1.5rem; letter-spacing: -1px; }
-        .logo span { color: var(--primary); }
-
-        /* HERO SECTION */
-        .hero {
-            text-align: center;
-            padding: 80px 20px;
-        }
-        .hero h1 {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-        .hero p {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            max-width: 600px;
-            margin: 0 auto 30px;
-        }
-        .cta-button {
-            background-color: var(--primary);
-            color: var(--dark-bg);
-            padding: 15px 40px;
-            text-decoration: none;
-            font-weight: 800;
-            border-radius: 50px;
-            text-transform: uppercase;
-            transition: transform 0.2s;
-            display: inline-block;
-        }
-        .cta-button:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(0, 255, 136, 0.4); }
-
-        /* SECTIONS */
-        section { padding: 60px 0; border-bottom: 1px solid #1f2228; }
-        h2 { text-align: center; margin-bottom: 40px; font-size: 1.8rem; text-transform: uppercase; }
-        h2 span { border-bottom: 3px solid var(--primary); }
-
-        /* POR QUE INVESTIR (CARDS) */
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        .card {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 15px;
-            border: 1px solid #2a2e35;
-        }
-        .card h3 { color: var(--primary); margin-bottom: 15px; }
-        .card p { font-size: 0.9rem; color: var(--text-muted); }
-
-        /* CASE LUKAS (DESTAQUE) */
-        .case-study {
-            background: linear-gradient(45deg, #1a1d24, #0b0d10);
-            border-radius: 20px;
-            padding: 40px;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 30px;
-            border: 1px solid var(--primary);
-        }
-        .case-info { flex: 1; min-width: 300px; }
-        .case-stats { 
-            display: flex; gap: 20px; margin-top: 20px; 
-        }
-        .stat-box { text-align: center; }
-        .stat-box strong { font-size: 1.5rem; display: block; color: var(--text-main); }
-        .stat-box small { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; }
-
-        .btn-outline {
-            border: 1px solid var(--text-main);
-            color: var(--text-main);
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            margin-top: 20px;
-            display: inline-block;
-        }
-
-        /* LISTA DE ATLETAS (FUTURO) */
-        .athletes-list {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .athlete-chip {
-            background: #1f2228;
-            padding: 10px 20px;
-            border-radius: 50px;
-            text-decoration: none;
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border: 1px solid transparent;
-        }
-        .athlete-chip:hover { border-color: var(--primary); }
-        .status-dot { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; }
-        .status-dot.soon { background: #ffd700; }
-
-        /* FOOTER */
-        footer { text-align: center; padding: 40px 0; color: #666; font-size: 0.8rem; }
-    </style>
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "NewsArticle",
+        "headline": "Lukas (10) é Tri-Campeão da New Cup pelo Grêmio",
+        "image": ["https://tidiegolemes.github.io/futtalento-site/atleta/lukas/perfillukinhas10.jpg"],
+        "datePublished": "2026-01-15T08:00:00-03:00",
+        "author": { "@type": "Organization", "name": "FutTalento News" }
+      }
+    ]
+    </script>
 </head>
 <body>
 
-    <header class="container">
-        <a href="#" class="logo-container">
-            <img src="Futtalentologo.png" alt="FutTalento Logo" class="logo-img">
-        </a>
-        
-        <a href="https://wa.me/554832200260" class="btn-outline">Fale Conosco</a>
-    </header>
-
-    <section class="hero">
-        <div class="container">
-            <h1>O Jogo Começa <br>Fora de Campo 🚀</h1>
-            <p>Transformamos atletas da base em marcas digitais. Gestão de imagem, SEO e autoridade web para catalisar a carreira do seu filho.</p>
-            <a href="https://wa.me/554832200260?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20a%20gestão%20FutTalento." class="cta-button">
-                Quero Profissionalizar
+    <div class="hero-wrapper">
+        <header class="container">
+            <a href="#" class="logo-container" aria-label="FutTalento Home">
+                <img src="Futtalentologo.png" alt="FutTalento Logo - Marketing Esportivo" class="logo-img">
             </a>
-        </div>
-    </section>
+            <a href="https://wa.me/554832200260" class="btn-outline">Fale Conosco</a>
+        </header>
 
-    <section>
+        <section class="hero">
+            <div class="container">
+                <span class="badge-new">✨ Gestão de Carreira 4.0</span>
+                <h1>Transforme Talento <br>em <span class="neon-text">Legado Digital</span></h1>
+                <p>A primeira agência focada em criar autoridade web, SEO e posicionamento estratégico para atletas da base. O jogo começa fora de campo.</p>
+                <a href="https://wa.me/554832200260?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20a%20FutTalento." class="cta-button">
+                    Quero Profissionalizar 🚀
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <section class="features-section">
         <div class="container">
-            <h2><span>Por Que Investir Agora?</span></h2>
+            <h2><span>O Método FutTalento</span></h2>
             <div class="grid-3">
-                <div class="card">
-                    <h3>🔍 Indexação no Google</h3>
-                    <p>Quando um olheiro buscar o nome do atleta, o que ele encontra? Criamos dossiês digitais que aparecem no topo das pesquisas com dados oficiais.</p>
+                <div class="card glass-effect">
+                    <div class="icon-box">🔍</div>
+                    <h3>Domínio do Google</h3>
+                    <p>Indexamos o nome do atleta no topo das buscas. Quando um olheiro pesquisar, ele encontrará um dossiê profissional com dados verificados.</p>
                 </div>
-                <div class="card">
-                    <h3>📈 Autoridade Digital</h3>
-                    <p>Não basta jogar bem, tem que parecer profissional. Organizamos vídeos, títulos e estatísticas em um só lugar, gerando credibilidade imediata.</p>
+                <div class="card glass-effect">
+                    <div class="icon-box">📈</div>
+                    <h3>Valorização de Passe</h3>
+                    <p>Atletas com imagem organizada e "rastro digital" positivo transmitem profissionalismo, aumentando a percepção de valor no mercado.</p>
                 </div>
-                <div class="card">
-                    <h3>🛡 Proteção de Dados</h3>
-                    <p>Ao invés de dados espalhados, centralizamos a narrativa do atleta em um domínio seguro, pronto para ser apresentado a clubes e marcas.</p>
+                <div class="card glass-effect">
+                    <div class="icon-box">🛡️</div>
+                    <h3>Blindagem de Imagem</h3>
+                    <p>Centralizamos a narrativa. Histórico, títulos, vídeos e contatos oficiais em um ambiente seguro, profissional e focado em resultados.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section>
+    <section class="cases-section">
         <div class="container">
-            <h2><span>Case de Sucesso</span></h2>
-            <div class="case-study">
-                <div class="case-info">
-                    <h3>Lukas (Lukinhas10) 🇪🇪</h3>
-                    <p>Atleta Sub-8 do Grêmio FBPA. Desenvolvemos o "Dossiê Digital" completo com SEO Geográfico e Storytelling.</p>
-                    <div class="case-stats">
-                        <div class="stat-box"><strong>#1</strong><small>No Google</small></div>
-                        <div class="stat-box"><strong>100%</strong><small>Profissional</small></div>
-                        <div class="stat-box"><strong>RS</strong><small>Referência</small></div>
+            <h2><span>Cases de Sucesso</span></h2>
+            <p class="section-subtitle" style="text-align: center; color: #888; margin-bottom: 20px;">Arraste para o lado e veja nossos atletas em destaque ➝</p>
+            
+            <div class="reels-carousel">
+                
+                <div class="reel-card" style="background-image: linear-gradient(to bottom, transparent 40%, #000 90%), url('atleta/lukas/perfillukinhas10.jpg');">
+                    <div class="reel-content">
+                        <span class="tag">Destaque Grêmio</span>
+                        <h3>Lukas (10)</h3>
+                        <p>Site oficial ranqueado, SEO geográfico e gestão de títulos.</p>
+                        <a href="atleta/lukas/" target="_blank" class="btn-reel">Ver Site Oficial ↗</a>
                     </div>
-                    <a href="atleta/lukas/" target="_blank" class="btn-outline">Ver Site do Atleta ↗</a>
                 </div>
-                </div>
-        </div>
-    </section>
 
-    <section>
-        <div class="container">
-            <h2><span>Próximas Estrelas</span></h2>
-            <p style="text-align: center; margin-bottom: 20px; color: #888;">Estamos preparando o lançamento digital dos novos agenciados:</p>
-            <div class="athletes-list">
-                <a href="#" class="athlete-chip">
-                    <span class="status-dot soon"></span> Tales Oficial (Em breve)
-                </a>
-                <a href="#" class="athlete-chip">
-                    <span class="status-dot soon"></span> Atleta X (Em breve)
-                </a>
+                <div class="reel-card coming-soon">
+                    <div class="reel-content">
+                        <span class="tag loading">Em Produção</span>
+                        <h3>Tales Oficial</h3>
+                        <p>Próximo lançamento. Estratégia de posicionamento em andamento.</p>
+                        <button class="btn-reel disabled">Aguarde...</button>
+                    </div>
+                </div>
+
+                <div class="reel-card coming-soon" style="border-style: dashed;">
+                    <div class="reel-content">
+                        <span class="tag loading" style="background: var(--primary); color:black;">Vaga Aberta</span>
+                        <h3>Seu Filho Aqui</h3>
+                        <p>Não deixe a carreira dele depender da sorte. Profissionalize.</p>
+                        <a href="https://wa.me/554832200260" class="btn-reel">Fazer Avaliação</a>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
 
-    <section>
+    <section class="news-section">
+        <div class="container">
+            <h2><span>FutTalento News</span></h2>
+            <p style="text-align: center; color: #888; margin-bottom: 30px;">Acompanhe as conquistas e movimentações dos nossos atletas.</p>
+
+            <div class="news-grid">
+                
+                <article class="news-card glass-effect">
+                    <div class="news-image" style="background-image: url('atleta/lukas/perfillukinhas10.jpg');">
+                        <span class="category-badge gold">🏆 Título</span>
+                    </div>
+                    <div class="news-content">
+                        <span class="news-date">15 Jan, 2026</span>
+                        <h3>Lukas (10) é Tri-Campeão da New Cup pelo Grêmio</h3>
+                        <p>O meia canhoto foi destaque na competição, liderando as estatísticas e garantindo mais um troféu.</p>
+                        <a href="atleta/lukas/" class="read-more">Ler notícia completa ➝</a>
+                    </div>
+                </article>
+
+                <article class="news-card glass-effect">
+                    <div class="news-image placeholder-img">
+                        <span class="category-badge green">🤝 Parceria</span>
+                    </div>
+                    <div class="news-content">
+                        <span class="news-date">10 Jan, 2026</span>
+                        <h3>Nova Estrutura Jurídica para Atletas da Base</h3>
+                        <p>Visando a proteção contratual, anunciamos nova parceria para gestão de direitos de imagem.</p>
+                        <a href="#" class="read-more">Saiba mais ➝</a>
+                    </div>
+                </article>
+
+                <article class="news-card glass-effect">
+                    <div class="news-image placeholder-img">
+                        <span class="category-badge blue">⚽ Scout</span>
+                    </div>
+                    <div class="news-content">
+                        <span class="news-date">05 Jan, 2026</span>
+                        <h3>A importância dos dados no Sub-9 e Sub-11</h3>
+                        <p>Como transformamos scouts e estatísticas em ferramentas de negociação.</p>
+                        <a href="#" class="read-more">Ler artigo ➝</a>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="reviews-section">
         <div class="container">
             <h2><span>O Que Dizem</span></h2>
-            <div class="grid-3">
-                <div class="card">
-                    <p>"A FutTalento mudou a forma como apresentamos o Lukas. Antes era só Instagram, agora temos um site profissional que impressiona."</p>
-                    <br><small>— Família Lukas 10</small>
+            <div class="grid-2">
+                <div class="review-card glass-effect">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="review-text">"A FutTalento mudou o patamar da apresentação do Lukas. Enviamos o link do site e o olheiro já entende o nível de profissionalismo."</p>
+                    <div class="review-author">
+                        <div class="author-avatar">⚽</div>
+                        <div>
+                            <strong>Família Lukas 10</strong>
+                            <span>Atleta Base Grêmio</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="card">
-                    <p>"Essencial para quem quer levar a carreira a sério desde a base. Organização impecável."</p>
-                    <br><small>— Cliente Parceiro</small>
+
+                <div class="review-card glass-effect">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="review-text">"Organização impecável. Ter um hub de notícias e dados do atleta ajuda muito a manter o nome dele vivo no mercado."</p>
+                    <div class="review-author">
+                        <div class="author-avatar">👔</div>
+                        <div>
+                            <strong>Parceiro Comercial</strong>
+                            <span>Gestão Esportiva</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -243,8 +218,9 @@
 
     <footer>
         <div class="container">
+            <img src="Futtalentologo.png" alt="FutTalento Marketing Esportivo" style="height: 40px; opacity: 0.5; margin-bottom: 15px;">
             <p>© 2026 FutTalento Marketing Esportivo. Todos os direitos reservados.</p>
-            <p>Contato: (48) 3220-0260</p>
+            <p>Atuação: Porto Alegre (RS) • Florianópolis (SC)</p>
         </div>
     </footer>
 

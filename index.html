@@ -3,13 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title>FutTalento | Agência de Marketing Esportivo & Gestão</title>
-    <meta name="description" content="Gestão de carreira para atletas da base. Transformamos promessas em marcas digitais. Cases: Lukas (Grêmio).">
+    <meta name="description" content="Planos de gestão de carreira para atletas da base. Do site básico à assessoria completa.">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800;900&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <link rel="stylesheet" href="style.css">
@@ -21,6 +19,10 @@
             <a href="#" class="logo-link">
                 <img src="Futtalentologo.png" alt="FutTalento" class="nav-logo">
             </a>
+            <div class="nav-links">
+                <a href="#cases">Cases</a>
+                <a href="#planos">Planos</a>
+            </div>
             <a href="https://wa.me/554832200260" class="btn-nav">
                 <i class="fab fa-whatsapp"></i> Fale Conosco
             </a>
@@ -28,22 +30,22 @@
     </nav>
 
     <header class="hero-section">
-        <div class="hero-bg" style="background-image: url('https://images.unsplash.com/photo-1518605348481-9dd591def6df?q=80&w=2000&auto=format&fit=crop');"></div>
+        <div class="hero-bg"></div> 
         <div class="hero-overlay"></div>
         
         <div class="container hero-content">
-            <span class="fade-in-up delay-1 badge-hero">Gestão de Carreira 4.0</span>
-            <h1 class="fade-in-up delay-2">O JOGO COMEÇA <br><span class="text-gradient">FORA DE CAMPO</span></h1>
-            <p class="fade-in-up delay-3">A primeira agência focada em SEO, Autoridade Digital e Blindagem de Imagem para atletas da base. Seu filho no topo das pesquisas.</p>
+            <span class="badge-hero">Gestão de Carreira 4.0</span>
+            <h1>O JOGO COMEÇA <br><span class="text-gradient">FORA DE CAMPO</span></h1>
+            <p>A primeira agência focada em criar autoridade digital para atletas da base. Transforme o talento do seu filho em uma marca valiosa.</p>
             
-            <div class="hero-buttons fade-in-up delay-4">
-                <a href="#cases" class="btn-primary">Ver Nossos Atletas</a>
-                <a href="#metodo" class="btn-secondary">Como Funciona</a>
+            <div class="hero-buttons">
+                <a href="#planos" class="btn-primary">Ver Planos e Preços</a>
+                <a href="#cases" class="btn-secondary">Ver Atletas</a>
             </div>
         </div>
     </header>
 
-    <div class="stats-bar container fade-in-up delay-5">
+    <div class="stats-bar container">
         <div class="stat-item">
             <h3>+50</h3>
             <p>Atletas Analisados</p>
@@ -64,93 +66,98 @@
                 <h2>Cases de <span class="text-highlight">Sucesso</span></h2>
                 <p>Arraste para o lado e veja quem já está no topo.</p>
             </div>
-
             <div class="carousel-container">
-                
                 <div class="carousel-card">
                     <div class="card-image" style="background-image: url('atleta/lukas/perfillukinhas10.jpg');">
-                        <div class="card-overlay">
-                            <span class="club-badge">Grêmio FBPA</span>
-                        </div>
+                        <div class="card-overlay"><span class="club-badge">Grêmio FBPA</span></div>
                     </div>
                     <div class="card-info">
                         <h3>Lukas (10)</h3>
                         <p class="role">Meia Canhoto • Sub-8</p>
-                        <div class="tags">
-                            <span>SEO Top 1</span>
-                            <span>Site Oficial</span>
-                        </div>
-                        <a href="atleta/lukas/" target="_blank" class="btn-card">Ver Perfil Oficial <i class="fas fa-arrow-right"></i></a>
+                        <a href="atleta/lukas/" target="_blank" class="btn-card">Ver Perfil Oficial</a>
                     </div>
                 </div>
-
-                <div class="carousel-card coming-soon">
-                    <div class="card-image placeholder-dark">
-                        <i class="fas fa-user-clock"></i>
-                    </div>
+                 <div class="carousel-card coming-soon">
+                    <div class="card-image placeholder-dark"><i class="fas fa-user-clock"></i></div>
                     <div class="card-info">
                         <h3>Tales Oficial</h3>
                         <p class="role">Em Planejamento</p>
-                        <div class="tags">
-                            <span>Lançamento Breve</span>
-                        </div>
                         <button class="btn-card disabled">Aguarde...</button>
                     </div>
                 </div>
-
                 <div class="carousel-card highlight-border">
-                    <div class="card-image placeholder-green">
-                        <i class="fas fa-plus"></i>
-                    </div>
+                    <div class="card-image placeholder-green"><i class="fas fa-plus"></i></div>
                     <div class="card-info">
                         <h3>Seu Filho Aqui</h3>
                         <p class="role">Próxima Estrela</p>
-                        <p class="description">Não dependa da sorte. Profissionalize a carreira dele hoje.</p>
                         <a href="https://wa.me/554832200260" class="btn-card primary">Agendar Avaliação</a>
                     </div>
                 </div>
-
-                 <div class="carousel-card">
-                    <div class="card-image placeholder-dark">
-                        <i class="fas fa-futbol"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>Atleta X</h3>
-                        <p class="role">Base Internacional</p>
-                        <div class="tags">
-                            <span>Monitorado</span>
-                        </div>
-                        <button class="btn-card disabled">Em breve</button>
-                    </div>
-                </div>
-
             </div>
         </div>
     </section>
 
-    <section id="metodo" class="section-dark section-padding">
+    <section id="planos" class="section-dark section-padding">
         <div class="container">
             <div class="section-header">
-                <h2>Nossa <span class="text-highlight">Metodologia</span></h2>
-                <p>Como transformamos um jogador comum em uma marca.</p>
+                <h2>Escolha seu <span class="text-highlight">Plano</span></h2>
+                <p>Investimento mensal para profissionalizar a carreira do atleta.</p>
             </div>
-            
-            <div class="steps-grid">
-                <div class="step-card">
-                    <div class="step-number">01</div>
-                    <h3>Auditoria Digital</h3>
-                    <p>Analisamos o que já existe sobre o atleta na internet. Limpamos ruídos e preparamos o terreno.</p>
+
+            <div class="pricing-grid">
+                
+                <div class="pricing-card">
+                    <div class="plan-header">
+                        <h3>Titular</h3>
+                        <p>Presença Digital Básica</p>
+                    </div>
+                    <div class="price">R$ 99<span class="period">/mês</span></div>
+                    <ul class="features">
+                        <li><i class="fas fa-check"></i> Site One-Page (Dossiê)</li>
+                        <li><i class="fas fa-check"></i> Link na Bio do Instagram</li>
+                        <li><i class="fas fa-check"></i> Hospedagem Inclusa</li>
+                        <li><i class="fas fa-check"></i> Botão WhatsApp Direto</li>
+                        <li class="disabled"><i class="fas fa-times"></i> SEO Avançado (Google)</li>
+                        <li class="disabled"><i class="fas fa-times"></i> Notícias Mensais</li>
+                    </ul>
+                    <a href="https://wa.me/554832200260?text=Quero%20o%20Plano%20Titular" class="btn-plan">Começar Agora</a>
                 </div>
-                <div class="step-card">
-                    <div class="step-number">02</div>
-                    <h3>Estrutura Web</h3>
-                    <p>Criação do Site Oficial, Otimização de SEO Geográfico e centralização de vídeos/dados.</p>
+
+                <div class="pricing-card featured">
+                    <div class="badge-popular">Recomendado</div>
+                    <div class="plan-header">
+                        <h3>Craque</h3>
+                        <p>Autoridade & Google</p>
+                    </div>
+                    <div class="price">R$ 199<span class="period">/mês</span></div>
+                    <ul class="features">
+                        <li><i class="fas fa-check"></i> <strong>Tudo do Titular</strong></li>
+                        <li><i class="fas fa-check"></i> <strong>Indexação Topo do Google</strong></li>
+                        <li><i class="fas fa-check"></i> SEO Geográfico (RS/SC)</li>
+                        <li><i class="fas fa-check"></i> 1 Notícia/Mês no Portal</li>
+                        <li><i class="fas fa-check"></i> Galeria de Troféus Atualizável</li>
+                        <li class="disabled"><i class="fas fa-times"></i> Edição de Vídeos (Reels)</li>
+                    </ul>
+                    <a href="https://wa.me/554832200260?text=Quero%20o%20Plano%20Craque" class="btn-plan primary">Assinar Plano Craque</a>
                 </div>
-                <div class="step-card">
-                    <div class="step-number">03</div>
-                    <h3>Autoridade</h3>
-                    <p>Publicação de notícias, atualização de conquistas e geração de links para validação do Google.</p>
+
+                <div class="pricing-card">
+                    <div class="plan-header">
+                        <h3>Lenda</h3>
+                        <p>Gestão Completa 360º</p>
+                    </div>
+                    <div class="price">R$ 499<span class="period">/mês</span></div>
+                    <ul class="features">
+                        <li><i class="fas fa-check"></i> <strong>Tudo do Craque</strong></li>
+                        <li><i class="fas fa-check"></i> Domínio Próprio (.com.br)</li>
+                        <li><i class="fas fa-check"></i> Portal de Notícias (Semanal)</li>
+                        <li><i class="fas fa-check"></i> <strong>Edição de Highlights (Reels)</strong></li>
+                        <li><i class="fas fa-check"></i> Assessoria Jurídica (Parceiros)</li>
+                        <li><i class="fas fa-check"></i> Suporte Prioritário 24h</li>
+                    </ul>
+                    <a href="https://wa.me/554832200260?text=Quero%20o%20Plano%20Lenda" class="btn-plan">Falar com Consultor</a>
                 </div>
+
             </div>
         </div>
     </section>
@@ -159,84 +166,36 @@
         <div class="container">
             <div class="section-header">
                 <h2>FutTalento <span class="text-highlight">News</span></h2>
-                <a href="#" class="link-all">Ver todas as notícias <i class="fas fa-arrow-right"></i></a>
+                <a href="#" class="link-all">Ver portal completo <i class="fas fa-arrow-right"></i></a>
             </div>
-
             <div class="news-grid">
                 <article class="news-item featured">
                     <div class="news-thumb" style="background-image: url('atleta/lukas/perfillukinhas10.jpg');">
                         <span class="cat-badge">Destaque</span>
                     </div>
                     <div class="news-body">
-                        <span class="date"><i class="far fa-calendar"></i> 15 Jan, 2026</span>
-                        <h3>Lukas (10) comanda o meio-campo e garante o Tri da New Cup</h3>
-                        <p>Com atuação de gala e assistência na final, o atleta agenciado pela FutTalento mostra evolução tática...</p>
-                        <a href="atleta/lukas/" class="read-link">Ler Matéria Completa</a>
+                        <span class="date">15 Jan, 2026</span>
+                        <h3>Lukas (10) é Tri-Campeão e mostra força da base Gremista</h3>
+                        <a href="atleta/lukas/" class="read-link">Ler Matéria ➝</a>
                     </div>
                 </article>
-
                 <div class="news-sidebar">
                     <article class="news-item small">
-                        <div class="news-thumb small-thumb" style="background-color: #222;"></div>
+                        <div class="small-thumb" style="background-color: #222;"></div>
                         <div class="news-body">
                             <span class="date">12 Jan</span>
-                            <h3>A importância do vídeo na avaliação de clubes da Série A</h3>
+                            <h3>A importância do vídeo na avaliação de clubes</h3>
                             <a href="#" class="read-link">Ler mais</a>
                         </div>
                     </article>
-                    
                     <article class="news-item small">
-                        <div class="news-thumb small-thumb" style="background-color: #1a1a1a;"></div>
+                        <div class="small-thumb" style="background-color: #1a1a1a;"></div>
                         <div class="news-body">
                             <span class="date">10 Jan</span>
-                            <h3>Nova parceria jurídica anunciada pela FutTalento</h3>
+                            <h3>Nova parceria jurídica anunciada</h3>
                             <a href="#" class="read-link">Ler mais</a>
                         </div>
                     </article>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section-dark section-padding">
-        <div class="container">
-            <h2 class="text-center mb-50">Quem confia no <span class="text-highlight">Trabalho</span></h2>
-            
-            <div class="reviews-carousel">
-                <div class="review-box">
-                    <div class="stars">★★★★★</div>
-                    <p>"O site do Lukas virou nosso cartão de visitas. Simplesmente outro nível de apresentação."</p>
-                    <div class="author">
-                        <img src="https://ui-avatars.com/api/?name=Lukas+Familia&background=00ff88&color=000" alt="Avatar">
-                        <div>
-                            <strong>Família Lukas</strong>
-                            <span>Atleta Grêmio</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="review-box">
-                    <div class="stars">★★★★★</div>
-                    <p>"Faltava isso no mercado. Alguém que entendesse de tecnologia e futebol de base."</p>
-                    <div class="author">
-                        <img src="https://ui-avatars.com/api/?name=Roger+Silva&background=random" alt="Avatar">
-                        <div>
-                            <strong>Roger Silva</strong>
-                            <span>Empresário</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="review-box">
-                    <div class="stars">★★★★★</div>
-                    <p>"Profissionalismo e agilidade. O site ficou pronto muito rápido e com qualidade."</p>
-                    <div class="author">
-                        <img src="https://ui-avatars.com/api/?name=Carla+M&background=random" alt="Avatar">
-                        <div>
-                            <strong>Carla M.</strong>
-                            <span>Mãe de Atleta</span>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -246,27 +205,14 @@
         <div class="container footer-content">
             <div class="footer-col">
                 <img src="Futtalentologo.png" alt="FutTalento" class="footer-logo">
-                <p>Agenciamento inteligente para o futuro do futebol.</p>
-            </div>
-            <div class="footer-col">
-                <h4>Navegação</h4>
-                <a href="#cases">Atletas</a>
-                <a href="#metodo">Metodologia</a>
-                <a href="#">Área do Cliente</a>
+                <p>Profissionalizando o futuro do futebol.</p>
             </div>
             <div class="footer-col">
                 <h4>Contato</h4>
                 <p>(48) 3220-0260</p>
-                <p>contato@futtalento.com.br</p>
-                <div class="socials">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-linkedin"></i></a>
-                </div>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 FutTalento. Todos os direitos reservados.</p>
-        </div>
+        <div class="footer-bottom"><p>&copy; 2026 FutTalento.</p></div>
     </footer>
 
 </body>

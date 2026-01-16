@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>FutTalento | Gestão de Imagem e Carreira para Atletas da Base</title>
+    <meta name="description" content="Agência especializada em Marketing Esportivo para atletas mirins. Transformamos promessas em marcas digitais. Cases de sucesso no Grêmio e grandes clubes.">
+    <meta name="keywords" content="Marketing Esportivo Infantil, Gestão de Carreira Futebol, Agência Atletas Mirins, FutTalento, Site para Jogadores">
+    <meta name="author" content="FutTalento">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="FutTalento - O Futuro Começa na Base">
+    <meta property="og:description" content="Estratégia digital, SEO e Gestão de Carreira para jovens atletas. Conheça nossos cases.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #00ff88; /* Verde Neon (Crescimento/Campo) */
+            --dark-bg: #0b0d10;
+            --card-bg: #15181e;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        
+        /* HEADER */
+        header {
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo { font-weight: 900; font-size: 1.5rem; letter-spacing: -1px; }
+        .logo span { color: var(--primary); }
+
+        /* HERO SECTION */
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+        }
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+        .cta-button {
+            background-color: var(--primary);
+            color: var(--dark-bg);
+            padding: 15px 40px;
+            text-decoration: none;
+            font-weight: 800;
+            border-radius: 50px;
+            text-transform: uppercase;
+            transition: transform 0.2s;
+            display: inline-block;
+        }
+        .cta-button:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(0, 255, 136, 0.4); }
+
+        /* SECTIONS */
+        section { padding: 60px 0; border-bottom: 1px solid #1f2228; }
+        h2 { text-align: center; margin-bottom: 40px; font-size: 1.8rem; text-transform: uppercase; }
+        h2 span { border-bottom: 3px solid var(--primary); }
+
+        /* POR QUE INVESTIR (CARDS) */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid #2a2e35;
+        }
+        .card h3 { color: var(--primary); margin-bottom: 15px; }
+        .card p { font-size: 0.9rem; color: var(--text-muted); }
+
+        /* CASE LUKAS (DESTAQUE) */
+        .case-study {
+            background: linear-gradient(45deg, #1a1d24, #0b0d10);
+            border-radius: 20px;
+            padding: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 30px;
+            border: 1px solid var(--primary);
+        }
+        .case-info { flex: 1; min-width: 300px; }
+        .case-stats { 
+            display: flex; gap: 20px; margin-top: 20px; 
+        }
+        .stat-box { text-align: center; }
+        .stat-box strong { font-size: 1.5rem; display: block; color: var(--text-main); }
+        .stat-box small { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; }
+
+        .btn-outline {
+            border: 1px solid var(--text-main);
+            color: var(--text-main);
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            margin-top: 20px;
+            display: inline-block;
+        }
+
+        /* LISTA DE ATLETAS (FUTURO) */
+        .athletes-list {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .athlete-chip {
+            background: #1f2228;
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid transparent;
+        }
+        .athlete-chip:hover { border-color: var(--primary); }
+        .status-dot { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; }
+        .status-dot.soon { background: #ffd700; }
+
+        /* FOOTER */
+        footer { text-align: center; padding: 40px 0; color: #666; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+    <header class="container">
+        <div class="logo">FUT<span>TALENTO</span></div>
+        <a href="https://wa.me/554832200260" class="btn-outline">Fale Conosco</a>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>O Jogo Começa <br>Fora de Campo 🚀</h1>
+            <p>Transformamos atletas da base em marcas digitais. Gestão de imagem, SEO e autoridade web para catalisar a carreira do seu filho.</p>
+            <a href="https://wa.me/554832200260?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20a%20gestão%20FutTalento." class="cta-button">
+                Quero Profissionalizar
+            </a>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <h2><span>Por Que Investir Agora?</span></h2>
+            <div class="grid-3">
+                <div class="card">
+                    <h3>🔍 Indexação no Google</h3>
+                    <p>Quando um olheiro buscar o nome do atleta, o que ele encontra? Criamos dossiês digitais que aparecem no topo das pesquisas com dados oficiais.</p>
+                </div>
+                <div class="card">
+                    <h3>📈 Autoridade Digital</h3>
+                    <p>Não basta jogar bem, tem que parecer profissional. Organizamos vídeos, títulos e estatísticas em um só lugar, gerando credibilidade imediata.</p>
+                </div>
+                <div class="card">
+                    <h3>🛡 Proteção de Dados</h3>
+                    <p>Ao invés de dados espalhados, centralizamos a narrativa do atleta em um domínio seguro, pronto para ser apresentado a clubes e marcas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <h2><span>Case de Sucesso</span></h2>
+            <div class="case-study">
+                <div class="case-info">
+                    <h3>Lukas (Lukinhas10) 🇪🇪</h3>
+                    <p>Atleta Sub-8 do Grêmio FBPA. Desenvolvemos o "Dossiê Digital" completo com SEO Geográfico e Storytelling.</p>
+                    <div class="case-stats">
+                        <div class="stat-box"><strong>#1</strong><small>No Google</small></div>
+                        <div class="stat-box"><strong>100%</strong><small>Profissional</small></div>
+                        <div class="stat-box"><strong>RS</strong><small>Referência</small></div>
+                    </div>
+                    <a href="atleta/lukas/" target="_blank" class="btn-outline">Ver Site do Atleta ↗</a>
+                </div>
+                </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <h2><span>Próximas Estrelas</span></h2>
+            <p style="text-align: center; margin-bottom: 20px; color: #888;">Estamos preparando o lançamento digital dos novos agenciados:</p>
+            <div class="athletes-list">
+                <a href="#" class="athlete-chip">
+                    <span class="status-dot soon"></span> Tales Oficial (Em breve)
+                </a>
+                <a href="#" class="athlete-chip">
+                    <span class="status-dot soon"></span> Atleta X (Em breve)
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <h2><span>O Que Dizem</span></h2>
+            <div class="grid-3">
+                <div class="card">
+                    <p>"A FutTalento mudou a forma como apresentamos o Lukas. Antes era só Instagram, agora temos um site profissional que impressiona."</p>
+                    <br><small>— Família Lukas 10</small>
+                </div>
+                <div class="card">
+                    <p>"Essencial para quem quer levar a carreira a sério desde a base. Organização impecável."</p>
+                    <br><small>— Cliente Parceiro</small>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2026 FutTalento Marketing Esportivo. Todos os direitos reservados.</p>
+            <p>Contato: (48) 3220-0260</p>
+        </div>
+    </footer>
+
+</body>
+</html>

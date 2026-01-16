@@ -1,252 +1,251 @@
-
-/* --- VARIÁVEIS DO TEMA (NEON DARK) --- */
+/* --- CONFIGURAÇÕES GERAIS E VARIÁVEIS --- */
 :root {
-    --primary: #00ff88;       /* Verde Neon (Sua marca) */
-    --primary-hover: #00cc6a; /* Verde mais escuro para hover */
-    --dark-bg: #0b0d10;       /* Fundo quase preto */
-    --card-bg: #15181e;       /* Fundo dos cards */
-    --text-main: #ffffff;     /* Texto branco */
-    --text-muted: #a0a0a0;    /* Texto cinza */
-    --border: 1px solid #2a2e35;
-    --glow: 0 0 25px rgba(0, 255, 136, 0.15); /* Brilho sutil */
+    --primary: #00ff88;       /* Verde Neon FutTalento */
+    --primary-glow: rgba(0, 255, 136, 0.4);
+    --dark-bg: #050608;       /* Preto Profundo */
+    --card-bg: rgba(255, 255, 255, 0.03); /* Vidro */
+    --text-main: #ffffff;
+    --text-muted: #a0a0a0;
+    --gold: #ffc107;          /* Estrelas e Troféus */
+    --border-light: rgba(255,255,255,0.08);
 }
 
-/* --- RESET GERAL --- */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    transition: all 0.3s ease;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
 
 body {
-    font-family: 'Montserrat', sans-serif;
     background-color: var(--dark-bg);
     color: var(--text-main);
-    line-height: 1.6;
     overflow-x: hidden;
+    line-height: 1.6;
 }
 
-.container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 20px;
+.container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+/* --- HERO BANNER (Topo com Grade Tecnológica) --- */
+.hero-wrapper {
+    background-color: var(--dark-bg);
+    /* Grid Pattern CSS */
+    background-image: 
+        linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-position: center top;
+    padding-bottom: 60px;
+    border-bottom: 1px solid rgba(0,255,136,0.1);
 }
 
-/* --- HEADER & LOGO --- */
 header {
     padding: 20px 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
-.logo-container {
-    display: flex;
-    align-items: center;
-}
+.logo-img { height: 50px; width: auto; object-fit: contain; }
 
-.logo-img {
-    height: 60px; /* Tamanho da logo */
-    width: auto;
-    object-fit: contain;
-}
-
-/* --- BOTÕES --- */
 .btn-outline {
-    border: 1px solid var(--text-main);
-    color: var(--text-main);
-    padding: 10px 25px;
-    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white;
+    padding: 8px 25px;
     border-radius: 50px;
+    text-decoration: none;
     font-size: 0.9rem;
     font-weight: 600;
+    transition: 0.3s;
 }
+.btn-outline:hover { border-color: var(--primary); color: var(--primary); background: rgba(0,255,136,0.05); }
 
-.btn-outline:hover {
-    background: var(--text-main);
-    color: var(--dark-bg);
-}
+.hero { text-align: center; padding: 80px 0; }
 
-.cta-button {
-    background-color: var(--primary);
-    color: var(--dark-bg);
-    padding: 18px 45px;
-    text-decoration: none;
-    font-weight: 900;
-    border-radius: 50px;
+.badge-new {
+    background: rgba(0, 255, 136, 0.1);
+    color: var(--primary);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
     text-transform: uppercase;
+    border: 1px solid rgba(0, 255, 136, 0.2);
     display: inline-block;
-    box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+    margin-bottom: 25px;
 }
 
-.cta-button:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 6px 25px rgba(0, 255, 136, 0.5);
-    background-color: var(--primary);
-}
-
-/* --- HERO SECTION --- */
-.hero {
-    text-align: center;
-    padding: 100px 20px;
-    background: radial-gradient(circle at center, rgba(0,255,136,0.05) 0%, transparent 70%);
-}
-
-.hero h1 {
+h1 {
     font-size: 3rem;
     font-weight: 900;
-    margin-bottom: 20px;
-    text-transform: uppercase;
     line-height: 1.1;
+    margin-bottom: 20px;
 }
 
-.hero p {
-    font-size: 1.2rem;
-    color: var(--text-muted);
-    max-width: 600px;
-    margin: 0 auto 40px;
-}
+@media (max-width: 768px) { h1 { font-size: 2.2rem; } }
 
-/* --- SEÇÕES PADRÃO --- */
-section {
-    padding: 80px 0;
-    border-bottom: 1px solid #1f2228;
-}
-
-h2 {
-    text-align: center;
-    margin-bottom: 50px;
-    font-size: 2rem;
-    text-transform: uppercase;
-    font-weight: 800;
-}
-
-h2 span {
-    border-bottom: 4px solid var(--primary);
-}
-
-/* --- CARDS (GRID) --- */
-.grid-3 {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-}
-
-.card {
-    background: var(--card-bg);
-    padding: 35px;
-    border-radius: 20px;
-    border: var(--border);
-}
-
-.card:hover {
-    border-color: var(--primary);
-    transform: translateY(-5px);
-}
-
-.card h3 {
+.neon-text {
     color: var(--primary);
-    margin-bottom: 15px;
-    font-size: 1.3rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    text-shadow: 0 0 25px var(--primary-glow);
 }
 
-.card p {
-    font-size: 0.95rem;
-    color: var(--text-muted);
-}
+.hero p { color: var(--text-muted); max-width: 600px; margin: 0 auto 40px; font-size: 1.1rem; }
 
-/* --- CASE STUDY (LUKAS) --- */
-.case-study {
-    background: linear-gradient(135deg, #1a1d24 0%, #0b0d10 100%);
-    border-radius: 25px;
-    padding: 40px;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 40px;
-    border: 1px solid var(--primary);
-    box-shadow: var(--glow);
-}
-
-.case-info {
-    flex: 1;
-    min-width: 300px;
-}
-
-.case-info h3 {
-    font-size: 2rem;
-    margin-bottom: 10px;
-    color: var(--text-main);
-}
-
-.case-stats {
-    display: flex;
-    gap: 30px;
-    margin: 30px 0;
-}
-
-.stat-box strong {
-    font-size: 1.8rem;
-    display: block;
-    color: var(--primary);
-}
-
-.stat-box small {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-/* --- LISTA DE ATLETAS (CHIPS) --- */
-.athletes-list {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.athlete-chip {
-    background: #1f2228;
-    padding: 12px 25px;
+.cta-button {
+    background: var(--primary);
+    color: #000;
+    padding: 16px 45px;
     border-radius: 50px;
     text-decoration: none;
-    color: white;
+    font-weight: 800;
+    text-transform: uppercase;
+    box-shadow: 0 0 20px var(--primary-glow);
+    transition: 0.3s;
+    display: inline-block;
+}
+.cta-button:hover { transform: translateY(-3px); box-shadow: 0 0 40px var(--primary-glow); }
+
+/* --- SEÇÕES PADRÃO --- */
+section { padding: 80px 0; border-bottom: 1px solid #111; }
+h2 { text-align: center; font-size: 2rem; margin-bottom: 40px; text-transform: uppercase; font-weight: 800; }
+h2 span { border-bottom: 4px solid var(--primary); }
+
+/* --- CARDS & GLASSMORPHISM --- */
+.glass-effect {
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-light);
+    border-radius: 20px;
+    padding: 30px;
+    transition: 0.3s;
+}
+.glass-effect:hover {
+    border-color: var(--primary);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+.icon-box { font-size: 2.5rem; margin-bottom: 20px; }
+.card h3 { font-size: 1.3rem; margin-bottom: 10px; color: white; }
+.card p { font-size: 0.95rem; color: #bbb; }
+
+/* --- CARROSSEL ESTILO REELS (Horizontal Scroll) --- */
+.cases-section { overflow: hidden; } 
+
+.reels-carousel {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 20px 5px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE */
+}
+.reels-carousel::-webkit-scrollbar { display: none; }
+
+.reel-card {
+    flex: 0 0 280px; /* Largura Celular */
+    height: 500px;   /* Altura Celular */
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    scroll-snap-align: center;
+    background-size: cover;
+    background-position: center;
+    background-color: #222;
+    border: 1px solid var(--border-light);
+    transition: transform 0.3s;
+}
+
+.reel-card:hover { transform: scale(1.02); border-color: var(--primary); }
+
+.reel-card.coming-soon {
+    background: radial-gradient(circle, #1a1a1a, #000);
     display: flex;
     align-items: center;
-    gap: 10px;
-    border: 1px solid transparent;
-    font-weight: 600;
+    justify-content: center;
+    text-align: center;
 }
 
-.athlete-chip:hover {
-    border-color: var(--primary);
-    background: rgba(0, 255, 136, 0.1);
+.reel-content {
+    position: absolute;
+    bottom: 0; left: 0; width: 100%;
+    padding: 25px;
+    background: linear-gradient(to top, rgba(0,0,0,0.95), transparent);
 }
 
-.status-dot {
-    width: 10px;
-    height: 10px;
+.tag {
     background: var(--primary);
-    border-radius: 50%;
-    box-shadow: 0 0 10px var(--primary);
+    color: #000;
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 5px 12px;
+    border-radius: 8px;
+    text-transform: uppercase;
 }
+.tag.loading { background: #333; color: #fff; }
 
-.status-dot.soon {
-    background: #ffd700;
-    box-shadow: 0 0 10px #ffd700;
+.reel-content h3 { font-size: 1.5rem; margin: 15px 0 5px; color: white; }
+.reel-content p { font-size: 0.85rem; margin-bottom: 15px; color: #ddd; }
+
+.btn-reel {
+    display: block; width: 100%; padding: 12px;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white; text-align: center; text-decoration: none;
+    border-radius: 10px; font-weight: 600; font-size: 0.9rem;
+    transition: 0.3s;
 }
+.btn-reel:hover { background: var(--primary); color: #000; }
+.btn-reel.disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* --- NOTÍCIAS (NEWS SECTION) --- */
+.news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+
+.news-card {
+    padding: 0; overflow: hidden; display: flex; flex-direction: column; height: 100%;
+}
+.news-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+
+.news-image {
+    height: 200px; width: 100%;
+    background-size: cover; background-position: center top;
+    background-color: #222;
+    position: relative;
+}
+.placeholder-img { background: linear-gradient(45deg, #151515, #222); }
+
+.category-badge {
+    position: absolute; top: 15px; left: 15px;
+    padding: 5px 10px; border-radius: 4px;
+    font-size: 0.7rem; font-weight: 800; text-transform: uppercase; color: #000;
+}
+.category-badge.gold { background: var(--gold); }
+.category-badge.green { background: var(--primary); }
+.category-badge.blue { background: #00eaff; }
+
+.news-content { padding: 25px; display: flex; flex-direction: column; flex-grow: 1; }
+.news-date { font-size: 0.75rem; color: #777; margin-bottom: 8px; display: block; }
+.news-content h3 { font-size: 1.15rem; margin-bottom: 12px; line-height: 1.4; }
+.news-content p { font-size: 0.9rem; color: #aaa; margin-bottom: 20px; flex-grow: 1; }
+
+.read-more {
+    color: var(--primary); text-decoration: none; font-weight: 600; font-size: 0.9rem;
+    display: inline-flex; align-items: center; gap: 5px; transition: 0.3s;
+}
+.read-more:hover { gap: 10px; color: #fff; }
+
+/* --- REVIEWS --- */
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+.stars { color: var(--gold); letter-spacing: 3px; margin-bottom: 15px; font-size: 1.1rem; }
+.review-text { font-style: italic; color: #ccc; margin-bottom: 25px; font-size: 1rem; }
+.review-author { display: flex; align-items: center; gap: 15px; }
+.author-avatar { 
+    width: 45px; height: 45px; background: #222; border-radius: 50%; border: 1px solid #333;
+    display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+}
+.review-author strong { display: block; color: white; font-size: 0.95rem; }
+.review-author span { font-size: 0.8rem; color: var(--primary); }
 
 /* --- FOOTER --- */
 footer {
-    text-align: center;
-    padding: 50px 0;
-    color: var(--text-muted);
-    font-size: 0.85rem;
-    border-top: 1px solid #1f2228;
+    text-align: center; padding: 50px 0; border-top: 1px solid #111; margin-top: 40px;
+    color: #555; font-size: 0.85rem;
 }

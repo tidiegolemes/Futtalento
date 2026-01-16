@@ -1,1 +1,252 @@
 
+/* --- VARIÁVEIS DO TEMA (NEON DARK) --- */
+:root {
+    --primary: #00ff88;       /* Verde Neon (Sua marca) */
+    --primary-hover: #00cc6a; /* Verde mais escuro para hover */
+    --dark-bg: #0b0d10;       /* Fundo quase preto */
+    --card-bg: #15181e;       /* Fundo dos cards */
+    --text-main: #ffffff;     /* Texto branco */
+    --text-muted: #a0a0a0;    /* Texto cinza */
+    --border: 1px solid #2a2e35;
+    --glow: 0 0 25px rgba(0, 255, 136, 0.15); /* Brilho sutil */
+}
+
+/* --- RESET GERAL --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--dark-bg);
+    color: var(--text-main);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* --- HEADER & LOGO --- */
+header {
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    height: 60px; /* Tamanho da logo */
+    width: auto;
+    object-fit: contain;
+}
+
+/* --- BOTÕES --- */
+.btn-outline {
+    border: 1px solid var(--text-main);
+    color: var(--text-main);
+    padding: 10px 25px;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.btn-outline:hover {
+    background: var(--text-main);
+    color: var(--dark-bg);
+}
+
+.cta-button {
+    background-color: var(--primary);
+    color: var(--dark-bg);
+    padding: 18px 45px;
+    text-decoration: none;
+    font-weight: 900;
+    border-radius: 50px;
+    text-transform: uppercase;
+    display: inline-block;
+    box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+}
+
+.cta-button:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 6px 25px rgba(0, 255, 136, 0.5);
+    background-color: var(--primary);
+}
+
+/* --- HERO SECTION --- */
+.hero {
+    text-align: center;
+    padding: 100px 20px;
+    background: radial-gradient(circle at center, rgba(0,255,136,0.05) 0%, transparent 70%);
+}
+
+.hero h1 {
+    font-size: 3rem;
+    font-weight: 900;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    line-height: 1.1;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto 40px;
+}
+
+/* --- SEÇÕES PADRÃO --- */
+section {
+    padding: 80px 0;
+    border-bottom: 1px solid #1f2228;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 50px;
+    font-size: 2rem;
+    text-transform: uppercase;
+    font-weight: 800;
+}
+
+h2 span {
+    border-bottom: 4px solid var(--primary);
+}
+
+/* --- CARDS (GRID) --- */
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.card {
+    background: var(--card-bg);
+    padding: 35px;
+    border-radius: 20px;
+    border: var(--border);
+}
+
+.card:hover {
+    border-color: var(--primary);
+    transform: translateY(-5px);
+}
+
+.card h3 {
+    color: var(--primary);
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.card p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+}
+
+/* --- CASE STUDY (LUKAS) --- */
+.case-study {
+    background: linear-gradient(135deg, #1a1d24 0%, #0b0d10 100%);
+    border-radius: 25px;
+    padding: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 40px;
+    border: 1px solid var(--primary);
+    box-shadow: var(--glow);
+}
+
+.case-info {
+    flex: 1;
+    min-width: 300px;
+}
+
+.case-info h3 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: var(--text-main);
+}
+
+.case-stats {
+    display: flex;
+    gap: 30px;
+    margin: 30px 0;
+}
+
+.stat-box strong {
+    font-size: 1.8rem;
+    display: block;
+    color: var(--primary);
+}
+
+.stat-box small {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* --- LISTA DE ATLETAS (CHIPS) --- */
+.athletes-list {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.athlete-chip {
+    background: #1f2228;
+    padding: 12px 25px;
+    border-radius: 50px;
+    text-decoration: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid transparent;
+    font-weight: 600;
+}
+
+.athlete-chip:hover {
+    border-color: var(--primary);
+    background: rgba(0, 255, 136, 0.1);
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    background: var(--primary);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--primary);
+}
+
+.status-dot.soon {
+    background: #ffd700;
+    box-shadow: 0 0 10px #ffd700;
+}
+
+/* --- FOOTER --- */
+footer {
+    text-align: center;
+    padding: 50px 0;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    border-top: 1px solid #1f2228;
+}

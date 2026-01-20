@@ -3,120 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FutTalento | Gestão de Carreira 4.0</title>
+    <title>Notícias | FutTalento - Gestão de Carreira 4.0</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        futGreen: '#22C55E',
-                        futDark: '#0A0A0A',
-                        futCard: '#141414',
+                        futtalentoGreen: '#22C55E',
+                        futtalentoDark: '#0A0A0A',
+                        futtalentoCard: '#141414',
                     }
                 }
             }
         }
     </script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        .font-impact { font-family: 'Arial Black', sans-serif; }
-    </style>
-</head>
-<body class="bg-futDark text-white selection:bg-futGreen selection:text-black">
 
-    <nav class="sticky top-0 z-50 bg-futDark/90 backdrop-blur-md p-6 border-b border-white/5">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Blog",
+      "name": "FutTalento News",
+      "description": "Notícias sobre carreira, títulos e transferências de futuros talentos do futebol.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "FutTalento"
+      }
+    }
+    </script>
+</head>
+<body class="bg-futtalentoDark text-white font-sans selection:bg-futtalentoGreen selection:text-black">
+
+    <nav class="sticky top-0 z-50 bg-futtalentoDark/80 backdrop-blur-md border-b border-white/5 p-6">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-2">
-                <img src="logo.png" alt="FutTalento" class="w-8 h-8"> 
-                <span class="font-impact text-xl italic uppercase tracking-tighter">Fut<span class="text-futGreen">Talento</span></span>
+                <div class="w-8 h-8 bg-futtalentoGreen rounded-full flex items-center justify-center">
+                    <i class="fas fa-futbol text-black"></i>
+                </div>
+                <span class="font-bold text-xl tracking-tighter uppercase italic">Fut<span class="text-futtalentoGreen">Talento</span></span>
             </div>
             
-            <div class="hidden md:flex gap-8 text-[11px] font-black uppercase tracking-[0.2em]">
-                <a href="#home" class="hover:text-futGreen transition">Home</a>
-                <a href="noticias.html" class="hover:text-futGreen transition flex items-center gap-1">
-                    Notícias <span class="w-1.5 h-1.5 bg-futGreen rounded-full animate-pulse"></span>
-                </a>
-                <a href="#cases" class="hover:text-futGreen transition">Cases</a>
-                <a href="#planos" class="hover:text-futGreen transition">Planos</a>
+            <div class="hidden md:flex gap-10 text-[11px] font-black uppercase tracking-[0.2em]">
+                <a href="index.html" class="hover:text-futtalentoGreen transition">Home</a>
+                <a href="#" class="text-futtalentoGreen border-b-2 border-futtalentoGreen pb-1">Notícias</a>
+                <a href="#" class="hover:text-futtalentoGreen transition">Cases</a>
+                <a href="#" class="hover:text-futtalentoGreen transition">Planos</a>
             </div>
 
-            <a href="https://wa.me/seunumerowhatsapp" target="_blank" class="bg-white/10 px-6 py-2 rounded-full text-[10px] font-black uppercase flex items-center gap-2 hover:bg-futGreen hover:text-black transition duration-500">
+            <button class="bg-white/10 px-6 py-2 rounded-full text-[10px] font-black uppercase flex items-center gap-2 hover:bg-futtalentoGreen hover:text-black transition duration-500">
                 <i class="fab fa-whatsapp text-sm"></i> Fale Conosco
-            </a>
+            </button>
         </div>
     </nav>
 
-    <section id="home" class="relative min-h-[80vh] flex items-center justify-center px-6 overflow-hidden">
-        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=2000')] bg-cover bg-center opacity-20"></div>
-        <div class="relative z-10 text-center max-w-4xl">
-            <span class="border border-futGreen text-futGreen text-[10px] px-4 py-1.5 rounded-full uppercase font-black tracking-[0.3em]">Gestão de Carreira 4.0</span>
-            <h1 class="text-5xl md:text-8xl font-impact uppercase italic mt-8 leading-tight">
-                O JOGO COMEÇA <br> <span class="text-futGreen uppercase">FORA DE CAMPO</span>
-            </h1>
-            <p class="text-gray-400 mt-6 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed">
-                A primeira agência focada em criar autoridade digital para atletas da base. Transforme o talento do seu filho em uma marca valiosa.
-            </p>
-            <div class="mt-12 flex flex-col md:flex-row justify-center gap-4">
-                <a href="#planos" class="bg-futGreen text-black px-10 py-4 rounded-full font-black uppercase text-xs hover:scale-105 transition shadow-[0_0_20px_rgba(34,197,94,0.3)]">Ver Planos e Preços</a>
-                <a href="#cases" class="bg-transparent border border-white/20 px-10 py-4 rounded-full font-black uppercase text-xs hover:bg-white/10 transition">Ver Atletas</a>
-            </div>
-        </div>
-    </section>
+    <header class="py-16 text-center border-b border-white/5 bg-gradient-to-b from-futtalentoDark to-futtalentoCard">
+        <span class="border border-futtalentoGreen text-futtalentoGreen text-[10px] px-4 py-1.5 rounded-full uppercase font-black tracking-widest">Radar de Talentos</span>
+        <h1 class="text-5xl md:text-7xl font-black mt-6 tracking-tighter uppercase italic">
+            O Jogo <span class="text-futtalentoGreen">Não Para</span>
+        </h1>
+        <p class="text-gray-400 mt-4 text-sm max-w-xl mx-auto px-4 font-medium uppercase tracking-widest opacity-70">Acompanhe títulos, destaques individuais e a carreira dos futuros craques.</p>
+    </header>
 
-    <section class="bg-futCard border-y border-white/5 py-12">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            <div>
-                <p class="text-4xl font-impact text-futGreen">+50</p>
-                <p class="text-[10px] font-black uppercase tracking-widest text-gray-500 mt-2">Atletas Analisados</p>
-            </div>
-            <div>
-                <p class="text-4xl font-impact text-futGreen">100%</p>
-                <p class="text-[10px] font-black uppercase tracking-widest text-gray-500 mt-2">Indexação Google</p>
-            </div>
-            <div>
-                <p class="text-4xl font-impact text-futGreen">RS/SC</p>
-                <p class="text-[10px] font-black uppercase tracking-widest text-gray-500 mt-2">Atuação Regional</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="cases" class="py-24 px-6 max-w-7xl mx-auto">
-        <div class="flex justify-between items-end mb-12">
-            <div>
-                <h2 class="text-4xl font-impact uppercase italic italic">Cases de <span class="text-futGreen">Sucesso</span></h2>
-            </div>
-            <p class="text-gray-500 text-xs font-bold uppercase hidden md:block italic">Arraste para o lado e veja quem já está no topo.</p>
-        </div>
+    <main class="max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 lg:grid-cols-3 gap-12">
         
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="bg-futCard rounded-[2.5rem] border border-white/5 overflow-hidden group">
-                <div class="relative h-96 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=600" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" alt="Lukas">
-                    <div class="absolute bottom-4 left-4 bg-blue-600 text-[10px] font-black px-3 py-1 rounded">GRÊMIO FBPA</div>
+        <div class="lg:col-span-2 space-y-8">
+            
+            <article class="bg-futtalentoCard border border-white/5 rounded-[2rem] overflow-hidden hover:border-futtalentoGreen/30 transition-all duration-500 group">
+                <div class="md:flex h-full">
+                    <div class="md:w-[40%] relative overflow-hidden">
+                        <img class="h-full w-full object-cover group-hover:scale-110 transition-transform duration-700" src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=600" alt="Atleta">
+                        <div class="absolute inset-0 bg-gradient-to-r from-futtalentoCard via-transparent to-transparent opacity-60"></div>
+                    </div>
+                    <div class="p-8 md:w-[60%] flex flex-col justify-center">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-futtalentoGreen text-[10px] font-black uppercase tracking-widest">Campeonato Sub-17</span>
+                            <span class="text-gray-500 text-[10px] font-bold uppercase">20 Jan, 2026</span>
+                        </div>
+                        <h2 class="text-2xl font-black mb-4 group-hover:text-futtalentoGreen transition-colors uppercase italic leading-tight">
+                            <a href="noticia-aberta.html">Meia canhoto se destaca com 3 assistências na final e garante título</a>
+                        </h2>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6 line-clamp-2">
+                            Com visão de jogo privilegiada e passes precisos, o jovem talento da base FutTalento brilhou no clássico regional...
+                        </p>
+                        <div class="flex items-center justify-between border-t border-white/5 pt-6">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 bg-futtalentoGreen rounded-full animate-pulse"></span>
+                                <span class="text-[10px] font-bold text-gray-400 uppercase">Grêmio FBPA</span>
+                            </div>
+                            <a href="noticia-aberta.html" class="text-futtalentoGreen text-[10px] font-black uppercase tracking-widest border-b border-futtalentoGreen pb-1 hover:text-white hover:border-white transition">Leia Mais</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="p-8">
-                    <h3 class="text-2xl font-impact uppercase italic">Lukas (10)</h3>
-                    <p class="text-gray-500 text-[10px] font-bold uppercase mt-1">Meia Canhoto • Sub-8</p>
-                    <a href="#" class="mt-6 block text-center border border-white/10 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition">Ver Perfil Oficial</a>
-                </div>
-            </div>
-            </div>
-    </section>
+            </article>
 
-    <footer class="bg-futDark border-t border-white/5 pt-24 pb-12 px-6">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex justify-center gap-8 mb-16">
-                <a href="https://instagram.com/futtalento" target="_blank" class="text-2xl text-gray-600 hover:text-futGreen transition"><i class="fab fa-instagram"></i></a>
-                <a href="https://tiktok.com/@futtalento" target="_blank" class="text-2xl text-gray-600 hover:text-futGreen transition"><i class="fab fa-tiktok"></i></a>
-                <a href="https://wa.me/seunumerowhatsapp" target="_blank" class="text-2xl text-gray-600 hover:text-futGreen transition"><i class="fab fa-whatsapp"></i></a>
+            <article class="bg-futtalentoCard border border-white/5 rounded-[2rem] overflow-hidden hover:border-futtalentoGreen/30 transition-all duration-500 group p-8">
+                <div class="flex flex-col md:flex-row gap-6 items-center">
+                    <div class="bg-futtalentoGreen/10 border border-futtalentoGreen/20 p-6 rounded-2xl w-full md:w-32 text-center">
+                        <i class="fas fa-trophy text-futtalentoGreen text-3xl"></i>
+                    </div>
+                    <div>
+                        <span class="text-futtalentoGreen text-[10px] font-black uppercase tracking-widest">Título Individual</span>
+                        <h2 class="text-2xl font-black mt-1 uppercase italic"><a href="noticia-aberta.html">Goleiro é eleito a revelação da Copa Votorantim 2026</a></h2>
+                        <p class="text-gray-400 text-sm mt-2">Segurança debaixo das traves e liderança no vestiário colocam o atleta em evidência nacional.</p>
+                    </div>
+                </div>
+            </article>
+
             </div>
-            <div class="text-center border-t border-white/5 pt-12">
-                <p class="text-gray-600 text-[10px] font-black uppercase tracking-[0.5em]">&copy; 2026 FutTalento - Gestão de Carreira 4.0</p>
-                <p class="text-gray-800 text-[8px] uppercase mt-4">Autoridade Digital para Futuros Talentos do Futebol</p>
+
+        <aside class="space-y-8">
+            
+            <div class="bg-futtalentoCard p-8 rounded-[2rem] border border-white/5">
+                <h3 class="text-sm font-black text-futtalentoGreen uppercase tracking-tighter mb-8 flex items-center gap-3">
+                    <span class="w-1.5 h-6 bg-futtalentoGreen"></span> Clubes Atuais
+                </h3>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center p-4 bg-white/5 rounded-2xl border border-white/5 group hover:bg-white/10 transition cursor-default">
+                        <div class="flex items-center gap-4">
+                            <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center font-bold text-[10px]">PAL</div>
+                            <span class="text-xs font-bold uppercase tracking-widest">S.E. Palmeiras</span>
+                        </div>
+                        <span class="bg-futtalentoGreen text-black text-[10px] font-black px-2 py-1 rounded">3 ATLETAS</span>
+                    </div>
+                    <div class="flex justify-between items-center p-4 bg-white/5 rounded-2xl border border-white/5 group hover:bg-white/10 transition">
+                        <div class="flex items-center gap-4">
+                            <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center font-bold text-[10px]">FLA</div>
+                            <span class="text-xs font-bold uppercase tracking-widest">C.R. Flamengo</span>
+                        </div>
+                        <span class="bg-futtalentoGreen text-black text-[10px] font-black px-2 py-1 rounded">2 ATLETAS</span>
+                    </div>
+                </div>
             </div>
+
+            <div class="bg-futtalentoGreen p-8 rounded-[2rem] text-black relative overflow-hidden group">
+                <i class="fas fa-star absolute -top-4 -right-4 text-black/10 text-9xl group-hover:scale-125 transition-transform duration-700"></i>
+                <h3 class="text-sm font-black uppercase tracking-tighter mb-6">🏆 Destaque do Mês</h3>
+                <div class="relative z-10 text-center">
+                    <img src="https://via.placeholder.com/80" class="w-20 h-20 rounded-full border-4 border-black/20 mx-auto mb-4 object-cover" alt="Lukas">
+                    <p class="font-black text-2xl uppercase italic">Lukas (10)</p>
+                    <p class="text-[10px] font-bold uppercase opacity-60 tracking-widest">Meia • Sub-8</p>
+                    <button class="mt-6 w-full bg-black text-white py-3 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white hover:text-black transition">Ver Scouting</button>
+                </div>
+            </div>
+
+        </aside>
+    </main>
+
+    <footer class="bg-futtalentoDark border-t border-white/5 pt-20 pb-10 px-6">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="flex justify-center gap-6 mb-12 opacity-40 grayscale hover:grayscale-0 transition duration-500">
+                <i class="fab fa-instagram text-2xl"></i>
+                <i class="fab fa-whatsapp text-2xl"></i>
+                <i class="fab fa-tiktok text-2xl"></i>
+            </div>
+            <p class="text-gray-500 text-[10px] font-black uppercase tracking-[0.5em]">&copy; 2026 FutTalento - Gestão de Carreira 4.0</p>
+            <p class="text-gray-700 text-[8px] mt-4 uppercase">Autoridade Digital para Atletas de Base</p>
         </div>
     </footer>
 

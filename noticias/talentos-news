@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Título da Notícia | FutTalento News</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        tailwind.config = { theme: { extend: { colors: { futtalentoGreen: '#22C55E', futtalentoDark: '#0A0A0A', futtalentoCard: '#141414' } } } }
+    </script>
+</head>
+<body class="bg-futtalentoDark text-white">
+
+    <main class="max-w-4xl mx-auto px-6 py-12">
+        <nav class="mb-8 text-[10px] uppercase font-bold text-gray-500 tracking-widest">
+            <a href="noticias.html" class="hover:text-futtalentoGreen">Notícias</a> / <span class="text-futtalentoGreen">Destaques</span>
+        </nav>
+
+        <header class="mb-10">
+            <h1 class="text-4xl md:text-5xl font-black leading-tight uppercase mb-6">Meia canhoto se destaca com 3 assistências na final</h1>
+            <div class="flex items-center gap-4 border-y border-white/5 py-4">
+                <img src="https://via.placeholder.com/40" class="rounded-full border border-futtalentoGreen p-0.5">
+                <div class="text-[10px] font-bold uppercase">
+                    <p>Por Redação FutTalento</p>
+                    <p class="text-gray-500">Publicado em 20 de Janeiro, 2026</p>
+                </div>
+            </div>
+        </header>
+
+        <article class="prose prose-invert max-w-none text-gray-300 leading-relaxed space-y-6">
+            <img src="foto-grande.jpg" class="w-full rounded-3xl mb-10 border border-white/10" alt="Destaque">
+            <p class="text-lg">O campo de jogo é apenas o começo. Para os novos talentos do futebol brasileiro, a visibilidade digital é o que define o próximo contrato profissional.</p>
+            <p>Nesta última rodada, vimos um desempenho excepcional que já foi captado pelo nosso sistema de indexação 4.0...</p>
+        </article>
+
+        <section class="mt-12 pt-8 border-t border-white/5">
+            <p class="text-[10px] font-black uppercase tracking-widest mb-4 text-futtalentoGreen text-center">Compartilhar Talento</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#" class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center hover:bg-green-500 transition text-xl"><i class="fab fa-whatsapp"></i></a>
+                <a href="#" class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center hover:bg-pink-600 transition text-xl"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center hover:bg-black transition text-xl"><i class="fab fa-tiktok"></i></a>
+                <a href="#" class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center hover:bg-blue-600 transition text-xl"><i class="fab fa-facebook-f"></i></a>
+                <button onclick="navigator.clipboard.writeText(window.location.href)" class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center hover:bg-futtalentoGreen hover:text-black transition text-xl" title="Copiar Link">
+                    <i class="fas fa-link"></i>
+                </button>
+            </div>
+        </section>
+    </main>
+
+    </body>
+</html>

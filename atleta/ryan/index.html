@@ -6,7 +6,19 @@
     
     <title>Ryanzinho (08) | Atleta Base Cruzeiro-RS | Perfil Oficial</title>
     <meta name="description" content="Perfil Oficial de Ryan (Ryanzinho). Meio-campista formado no Grêmio e São José, atual camisa 8 da base do Cruzeiro-RS. Destaque técnico e gestão FutTalento.">
-    
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://futtalento.com.br/atleta/ryan/">
+    <meta property="og:title" content="Ryanzinho (08) | Atleta Base Cruzeiro-RS | Perfil Oficial">
+    <meta property="og:description" content="Meio-campista formado no Grêmio e São José. Veja o perfil, fotos e estatísticas do Ryan.">
+    <meta property="og:image" content="https://futtalento.com.br/atleta/ryan/perfilryan.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Ryanzinho (08) | Perfil Oficial">
+    <meta name="twitter:image" content="https://futtalento.com.br/atleta/ryan/perfilryan.jpg">
+
     <meta name="geo.region" content="BR-RS" />
     <meta name="geo.placename" content="Cachoeirinha" />
     <meta name="geo.position" content="-29.9519;-51.0963" />
@@ -28,8 +40,9 @@
       "gender": "Male",
       "birthDate": "2008", 
       "jobTitle": "Atleta de Futebol de Base",
-      "description": "Meio-campista do Cruzeiro de Porto Alegre (Base). Passagens por Grêmio FBPA e E.C. São José.",
+      "url": "https://futtalento.com.br/atleta/ryan/",
       "image": "https://futtalento.com.br/atleta/ryan/perfilryan.jpg",
+      "description": "Meio-campista do Cruzeiro de Porto Alegre (Base). Passagens por Grêmio FBPA e E.C. São José.",
       "memberOf": [
         {
           "@type": "SportsTeam",
@@ -51,7 +64,8 @@
     }
     </script>
 </head>
-<body class="light-mode"> <button class="theme-switch" id="themeToggle" title="Mudar Tema">🌙</button>
+<body class="light-mode">
+    <button class="theme-switch" id="themeToggle" title="Mudar Tema">🌙</button>
 
     <header class="hero">
         <div class="container">
@@ -316,12 +330,9 @@
     <footer>
         <div class="container footer-content">
             <p>© <span id="year"></span> <strong>Ryanzinho 08</strong> Oficial. Todos os direitos reservados.</p>
-            
             <div class="managed-by">
                 <p>Gestão de Carreira & Imagem:</p>
-                <a href="https://futtalento.com.br" target="_blank" class="agency-link">
-                    FutTalento ↗
-                </a>
+                <a href="https://futtalento.com.br" target="_blank" class="agency-link">FutTalento ↗</a>
             </div>
         </div>
     </footer>
@@ -346,7 +357,6 @@
         }
         
         const toggleBtn = document.getElementById('themeToggle');
-        // Mantendo dark-mode como padrão se não houver a classe light-mode
         toggleBtn.addEventListener('click', () => {
             document.body.classList.toggle('light-mode');
             toggleBtn.innerHTML = document.body.classList.contains('light-mode') ? '☀️' : '🌙';

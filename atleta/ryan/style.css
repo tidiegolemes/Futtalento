@@ -1,0 +1,344 @@
+:root {
+    /* --- PALETA CRUZEIRO-RS (ESTRELADO) --- */
+    --bg-body: #02040a;       /* Azul Navy Quase Preto */
+    --bg-card: rgba(10, 20, 50, 0.7); /* Vidro Azulado Escuro */
+    
+    /* CORES PRINCIPAIS */
+    --primary: #0033cc;       /* Azul Cruzeiro (Royal) */
+    --accent: #ffffff;        /* Branco Puro */
+    --gold: #ffd700;          
+    
+    --text-main: #ffffff;
+    --text-muted: #a0a8c0;    /* Cinza Azulado */
+    --border: 1px solid rgba(0, 51, 204, 0.2);
+    
+    /* Brilho Azul Neon */
+    --glow: 0 0 20px rgba(0, 51, 204, 0.5); 
+    
+    /* Gradiente (Azul Claro para Azul Royal) */
+    --gradient-text: linear-gradient(to right, #4d79ff, #0033cc);
+    
+    --btn-social-bg: rgba(255, 255, 255, 0.05);
+}
+
+/* --- PALETA LIGHT (MODO DIA) --- */
+.light-mode {
+    --bg-body: #f0f4ff;
+    --bg-card: #ffffff;
+    --primary: #002080;       /* Azul Escuro para contraste */
+    --accent: #0033cc;
+    --text-main: #0a1020;
+    --text-muted: #505870;
+    --border: 1px solid rgba(0, 0, 0, 0.05);
+    --glow: 0 4px 20px rgba(0, 32, 128, 0.15);
+    --gradient-text: linear-gradient(to right, #002080, #0a1020);
+}
+
+/* =========================================
+   ESTRUTURA GERAL
+   ========================================= */
+* {
+    margin: 0; padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+    transition: background 0.4s ease, color 0.3s ease, border-color 0.3s;
+}
+
+body {
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* --- TEMA & HERO --- */
+.theme-switch {
+    position: fixed;
+    top: 20px; right: 20px;
+    background: var(--bg-card);
+    border: var(--border);
+    color: var(--text-main);
+    padding: 10px 15px;
+    border-radius: 50px;
+    cursor: pointer;
+    z-index: 1000;
+    font-size: 1.2rem;
+    backdrop-filter: blur(10px);
+}
+
+.hero {
+    text-align: center;
+    padding: 60px 0 40px;
+    background: radial-gradient(circle at top, rgba(0, 51, 204, 0.2), transparent 70%);
+}
+
+.profile-frame {
+    position: relative;
+    width: 140px; height: 140px;
+    margin: 0 auto 20px;
+}
+
+.profile-pic {
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--primary);
+    padding: 4px;
+    background: var(--bg-body);
+    box-shadow: var(--glow);
+}
+
+.verified-badge {
+    position: absolute;
+    bottom: 5px; right: 5px;
+    background: #1da1f2;
+    color: white;
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem;
+    border: 2px solid var(--bg-body);
+}
+
+h1 {
+    font-size: 2.8rem;
+    font-weight: 900;
+    margin-bottom: 5px;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+}
+
+.highlight {
+    background: var(--gradient-text);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    color: var(--text-muted);
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.bio-text {
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+    color: var(--text-main);
+    opacity: 0.9;
+    font-size: 0.95rem;
+}
+
+/* --- SOCIAL --- */
+.quick-links { margin-bottom: 40px; }
+.social-flex { display: flex; justify-content: center; gap: 15px; }
+.social-icon {
+    width: 50px; height: 50px;
+    border-radius: 12px;
+    background: var(--btn-social-bg);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-muted);
+    font-size: 1.5rem;
+    border: var(--border);
+    text-decoration: none;
+    transition: 0.3s;
+}
+.social-icon:hover {
+    transform: translateY(-5px);
+    color: white;
+    border-color: var(--primary);
+    background: var(--primary);
+    box-shadow: var(--glow);
+}
+
+/* --- FICHA & STATS --- */
+.stats-dynamic {
+    padding: 60px 0;
+    background: linear-gradient(to bottom, var(--bg-body), rgba(0,0,0,0.5));
+}
+.stats-dynamic h2, .messi-header h2, .section-title-wrapper h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    font-weight: 900;
+    margin-bottom: 10px;
+    color: var(--text-main);
+}
+.ficha-container {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 40px; margin-top: 40px;
+}
+.athlete-image-feature { flex: 1; min-width: 280px; max-width: 400px; position: relative; z-index: 2; }
+.action-shot { width: 100%; height: auto; filter: drop-shadow(0 0 15px rgba(0, 51, 204, 0.4)); transition: 0.5s; }
+.action-shot:hover { transform: scale(1.03); filter: drop-shadow(0 0 20px rgba(0, 51, 204, 0.7)); }
+
+.athlete-data-structure { flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 20px; }
+.data-block {
+    background: var(--bg-card); padding: 25px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); position: relative;
+}
+.data-block::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; }
+.blue-accent::before { background: var(--primary); }
+.white-accent::before { background: #fff; }
+
+.data-group { display: flex; align-items: center; gap: 15px; }
+.data-icon { width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--primary); }
+.data-label { display: block; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; }
+.data-value { font-size: 1.1rem; font-weight: 800; color: var(--text-main); }
+.data-divider { height: 1px; background: rgba(255,255,255,0.1); margin: 15px 0; }
+.highlight-neon { color: var(--primary); text-shadow: 0 0 10px var(--glow); }
+
+/* --- TABS SECTION --- */
+.messi-stats-section { position: relative; padding: 80px 0; overflow: hidden; margin-top: 40px; }
+.stats-bg-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; opacity: 0.1; filter: grayscale(100%); z-index: 0; }
+.stats-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to right, var(--bg-body) 10%, rgba(0,0,0,0.8) 50%, var(--bg-body) 90%); z-index: 1; }
+.messi-header { position: relative; z-index: 3; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+.stats-tabs { display: flex; gap: 10px; background: rgba(255,255,255,0.05); padding: 5px; border-radius: 30px; }
+.tab-btn { background: transparent; border: none; color: var(--text-muted); padding: 10px 20px; cursor: pointer; font-weight: 700; border-radius: 25px; }
+.tab-btn.active { background: var(--primary); color: white; box-shadow: var(--glow); }
+.tab-content { display: none; animation: fadeIn 0.5s; }
+.active-content { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.club-header { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.progress-bar-container { height: 25px; background: rgba(255,255,255,0.05); border-radius: 4px; position: relative; overflow: hidden; display: flex; align-items: center; margin-top: 5px; }
+.progress-bar { height: 100%; }
+.blue-bar { background: var(--primary); box-shadow: 0 0 10px var(--primary); }
+.white-bar { background: #fff; }
+.bar-value { position: absolute; right: 10px; font-weight: 800; font-size: 0.8rem; }
+.stat-row { margin-bottom: 20px; }
+.stat-info h3 { font-size: 0.8rem; color: var(--text-muted); }
+
+/* --- GALERIA TROFÉUS --- */
+.trophies-dynamic-section { padding: 80px 0; background: rgba(255,255,255,0.02); }
+.trophies-container { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; }
+.trophy-hero-image { flex: 1; min-width: 300px; display: flex; justify-content: center; }
+.hero-img-effect { max-height: 500px; filter: drop-shadow(0 0 20px rgba(0,0,0,0.8)); mask-image: linear-gradient(to bottom, black 80%, transparent 100%); }
+.trophy-carousel-wrapper { flex: 1.5; min-width: 300px; overflow: hidden; }
+.cards-scroller { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 30px; }
+.messi-card { min-width: 200px; background: var(--bg-card); border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); padding: 0; overflow: hidden; position: relative; transition: 0.3s; }
+.messi-card:hover { transform: translateY(-10px); border-color: var(--primary); }
+.card-header-date { background: rgba(0,0,0,0.3); padding: 10px; text-align: center; }
+.month { font-size: 0.8rem; color: var(--text-muted); display: block; }
+.year { font-size: 1.2rem; font-weight: 800; color: white; }
+.card-body { padding: 20px; text-align: center; }
+.status-badge { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; margin-bottom: 10px; }
+.gold { background: linear-gradient(45deg, #ffd700, #b8860b); color: black; }
+.blue { background: var(--primary); color: white; }
+.match-details { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; margin-top: 10px; font-size: 0.8rem; }
+
+/* --- GALERIA FOTOS (MOSAICO) --- */
+.photo-gallery-section { padding: 60px 0 80px; background-color: var(--bg-body); }
+.gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); grid-auto-rows: 200px; gap: 15px; }
+.photo-item.large { grid-column: span 2; grid-row: span 2; }
+.photo-item { position: relative; background-color: #222; background-size: cover; background-position: center; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); transition: transform 0.3s ease; }
+.photo-item:hover { transform: scale(1.02); border-color: var(--primary); }
+@media (max-width: 768px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 150px; } .photo-item.large { grid-column: span 2; grid-row: span 2; } }
+
+/* --- TRAJETÓRIA --- */
+.rocket-journey-section { position: relative; padding: 80px 0; background: linear-gradient(to top, #000, var(--bg-body)); overflow: hidden; }
+.journey-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; opacity: 0.15; filter: grayscale(100%); z-index: 0; }
+.rocket-timeline { position: relative; max-width: 800px; margin: 0 auto; padding-left: 30px; }
+.rocket-timeline::before { content: ''; position: absolute; top: 20px; left: 29px; height: 95%; width: 2px; background: linear-gradient(to bottom, var(--primary) 50%, rgba(255,255,255,0.1) 50%); z-index: 1; box-shadow: 0 0 15px var(--primary); }
+.journey-item { position: relative; margin-bottom: 50px; padding-left: 40px; }
+.journey-marker { position: absolute; left: -21px; top: 0; width: 42px; height: 42px; border-radius: 50%; background: var(--bg-body); border: 2px solid var(--text-muted); color: var(--text-muted); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; z-index: 2; transition: 0.3s; }
+.journey-item:hover .journey-marker { border-color: var(--primary); color: var(--primary); background: white; transform: scale(1.1); }
+.rocket-icon { background: var(--primary) !important; color: white !important; border-color: var(--primary) !important; box-shadow: 0 0 20px var(--primary); animation: floatRocket 2s infinite ease-in-out; }
+@keyframes floatRocket { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+.journey-content { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; backdrop-filter: blur(5px); transition: 0.3s; }
+.journey-item:hover .journey-content { transform: translateX(10px); border-color: var(--primary); background: rgba(30, 35, 45, 0.8); }
+.journey-year { display: block; font-size: 0.8rem; font-weight: 800; color: var(--primary); margin-bottom: 5px; text-transform: uppercase; }
+.journey-content h3 { margin: 0 0 10px 0; font-size: 1.2rem; color: white; }
+.journey-content p { font-size: 0.9rem; color: #aaa; margin: 0; }
+.highlight-content { border: 1px solid var(--primary); background: linear-gradient(to right, rgba(0, 51, 204, 0.05), transparent); }
+
+@media (min-width: 768px) {
+    .rocket-timeline { padding-left: 0; }
+    .rocket-timeline::before { left: 50%; transform: translateX(-50%); }
+    .journey-item { width: 50%; margin-left: auto; padding-left: 40px; }
+    .journey-marker { left: -61px; }
+    .journey-item:nth-child(even) { margin-left: 0; margin-right: auto; padding-left: 0; padding-right: 40px; text-align: right; }
+    .journey-item:nth-child(even) .journey-marker { left: auto; right: -61px; }
+}
+
+/* --- FOOTER PADRÃO FUTTALENTO --- */
+footer {
+    text-align: center;
+    padding: 50px 20px;
+    /* Usa a borda sutil do tema */
+    border-top: 1px solid var(--border);
+    /* Usa a cor de texto suave do tema */
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    /* Fundo ligeiramente mais escuro para fechar a página */
+    background: linear-gradient(to bottom, var(--bg-body), rgba(0,0,0,0.3));
+}
+
+.footer-content p {
+    margin-bottom: 20px;
+    opacity: 0.9;
+}
+
+/* Caixa de destaque da Agência */
+.managed-by {
+    display: inline-block;
+    /* Fundo sutil baseado na cor do time */
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    padding: 15px 30px;
+    border-radius: 50px; /* Borda bem redonda e moderna */
+    backdrop-filter: blur(5px);
+    transition: 0.3s;
+}
+
+/* Efeito ao passar o mouse na caixa da agência */
+.managed-by:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--primary); /* Brilha com a cor do time */
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.managed-by p {
+    margin: 0 0 5px 0;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    opacity: 0.7;
+}
+
+/* O Link da FutTalento */
+.agency-link {
+    /* Usa a cor principal do atleta (Verde, Azul, etc.) */
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 900;
+    font-size: 1.3rem;
+    letter-spacing: -0.5px;
+    transition: 0.3s;
+}
+
+/* Efeito ao passar o mouse no link */
+.agency-link:hover {
+    /* Fica branco e ganha um brilho da cor do time */
+    color: #ffffff;
+    text-shadow: 0 0 15px var(--primary);
+}
+
+/* Ajuste para telas pequenas */
+@media (max-width: 480px) {
+    .managed-by {
+        width: 100%;
+        padding: 15px;
+    }
+    .agency-link {
+        font-size: 1.2rem;
+    }
+}

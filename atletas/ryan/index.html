@@ -5,171 +5,160 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>Ryanzinho (08) | Atleta Base Cruzeiro-RS | Perfil Oficial</title>
-    <meta name="description" content="Perfil Oficial de Ryan (Ryanzinho). Meio-campista formado no Grêmio e São José, atual camisa 8 da base do Cruzeiro-RS. Gestão FutTalento.">
+    <meta name="description" content="Perfil Oficial de Ryan (Ryanzinho). Meio-campista formado no Grêmio e São José, atual camisa 8 da base do Cruzeiro-RS. Destaque técnico e gestão FutTalento.">
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://futtalento.com.br/atletas/ryan/">
-    <meta property="og:title" content="Ryanzinho (08) | Perfil Oficial">
+    <meta property="og:title" content="Ryanzinho (08) | Atleta Base Cruzeiro-RS | Perfil Oficial">
+    <meta property="og:description" content="Meio-campista formado no Grêmio e São José. Veja o perfil, fotos e estatísticas do Ryan.">
     <meta property="og:image" content="https://futtalento.com.br/atletas/ryan/perfilryan.jpg">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="../../style.css">
 
     <style>
-        /* Forçando Modo Escuro como Padrão */
+        /* MODO ESCURO PADRÃO (Sem flash branco) */
         :root {
-            --bg-color: #0a0a0a;
-            --text-color: #ffffff;
-            --accent-color: #22C55E;
-            --card-bg: #141414;
+            --bg-dark: #0a0a0a;
+            --card-bg: #111111;
+            --accent: #22C55E;
+            --text-main: #ffffff;
         }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            transition: background 0.3s, color 0.3s;
-            overflow-x: hidden;
+        body { 
+            background-color: var(--bg-dark); 
+            color: var(--text-main); 
+            margin: 0; 
+            font-family: 'Montserrat', sans-serif;
         }
 
-        /* Ajustes Mobile e Botão de Tema */
+        /* Botão de Tema Ajustado */
         .theme-switch {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 10000;
-            background: rgba(34, 197, 94, 0.2);
-            border: 2px solid var(--accent-color);
-            color: white;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(5px);
-            transition: 0.3s;
+            position: fixed; top: 20px; right: 20px; z-index: 9999;
+            background: rgba(0, 0, 0, 0.6); border: 2px solid var(--accent);
+            color: white; width: 45px; height: 45px; border-radius: 50%;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            backdrop-filter: blur(5px); transition: 0.3s;
         }
 
-        .hero {
-            padding: 60px 20px;
-            text-align: center;
-            background: linear-gradient(180deg, #000 0%, var(--bg-color) 100%);
-        }
+        /* Restaurando Efeitos de Ficha e Stats */
+        .highlight { color: var(--accent); }
+        .progress-bar-container { background: #222; border-radius: 10px; height: 12px; position: relative; margin-top: 10px; }
+        .progress-bar { height: 100%; border-radius: 10px; transition: 1s ease-in-out; }
+        .blue-bar { background: #0D80BF; box-shadow: 0 0 10px #0D80BF; }
+        .white-bar { background: #ffffff; box-shadow: 0 0 10px #ffffff; }
+        .bar-value { position: absolute; right: 0; top: -20px; font-size: 0.7rem; font-weight: 900; }
 
-        .profile-pic {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            border: 4px solid var(--accent-color);
-            object-fit: cover;
-            box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
-        }
-
-        .highlight { color: var(--accent-color); }
-
-        /* Melhoria da Grade de Galeria Mobile */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 10px;
-            padding: 20px;
-        }
-
-        .photo-item {
-            aspect-ratio: 1/1;
-            background-size: cover;
-            background-position: center;
-            border-radius: 8px;
-            transition: 0.3s;
-        }
-
-        /* Estilo Modo Claro (Invertido) */
-        body.light-mode {
-            --bg-color: #f4f4f4;
-            --text-color: #1a1a1a;
-            --card-bg: #ffffff;
-        }
-
+        /* Mobile Fix para Galeria e Ficha */
         @media (max-width: 768px) {
-            h1 { font-size: 2rem; }
-            .ficha-container { flex-direction: column; }
-            .action-shot { width: 100%; max-width: 300px; margin: 0 auto; }
+            .ficha-container { flex-direction: column; text-align: center; }
+            .action-shot { width: 100%; max-width: 320px; margin-bottom: 20px; }
+            .messi-header h2 { font-size: 1.8rem; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
         }
-    </style>
 
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Ryan Da Silva",
-      "jobTitle": "Atleta de Futebol de Base",
-      "url": "https://futtalento.com.br/atletas/ryan/",
-      "memberOf": [
-        { "@type": "SportsTeam", "name": "Esporte Clube Cruzeiro RS" }
-      ]
-    }
-    </script>
+        /* Modo Claro (Opcional) */
+        body.light-mode { background-color: #f5f5f5; color: #1a1a1a; }
+        body.light-mode .hero { background: #fff; }
+    </style>
 </head>
 <body>
     
-    <button class="theme-switch" id="themeToggle" title="Mudar Tema">🌙</button>
+    <button class="theme-switch" id="themeToggle">🌙</button>
 
-    <header class="hero">
+    <header class="hero" style="text-align: center; padding: 80px 20px; background: #000;">
         <div class="container">
-            <div class="profile-frame">
-                <img src="perfilryan.jpg" alt="Ryanzinho 08" class="profile-pic">
+            <div class="profile-frame" style="position: relative; display: inline-block;">
+                <img src="perfilryan.jpg" alt="Ryanzinho 08" style="width: 200px; height: 200px; border-radius: 50%; border: 4px solid var(--accent); object-fit: cover;">
+                <span style="position: absolute; bottom: 10px; right: 10px; background: var(--accent); color: #000; border-radius: 50%; padding: 5px; font-size: 12px;">✓</span>
             </div>
-            <h1 style="margin-top: 20px;">RYAN <span class="highlight">08</span></h1>
-            <p class="subtitle" style="font-weight: 700; opacity: 0.8;">Base Cruzeiro-RS | Playmaker 🔵⚪</p>
-            <p class="bio-text" style="max-width: 600px; margin: 20px auto; line-height: 1.6; opacity: 0.9;">
-                Maestro do meio-campo. <strong>Ryanzinho</strong> une visão de jogo apurada e técnica refinada, 
-                sendo peça chave na armação do Cruzeiro de Porto Alegre.
+            <h1 style="font-size: 3rem; font-weight: 900; margin: 20px 0;">RYAN <span class="highlight">08</span></h1>
+            <p style="text-transform: uppercase; font-weight: 800; letter-spacing: 2px;">Base Cruzeiro-RS | O Estrelado 🔵⚪</p>
+            <p style="max-width: 700px; margin: 20px auto; opacity: 0.8; line-height: 1.6;">
+                Maestro do meio-campo. <strong>Ryanzinho</strong> defende as cores do Cruzeiro-RS. 
+                Com formação sólida em clubes como Grêmio e São José, une visão de jogo apurada e técnica refinada.
             </p>
         </div>
     </header>
 
-    <section class="stats-dynamic" style="padding: 50px 20px; background: var(--card-bg);">
+    <section class="quick-links" style="background: var(--card-bg); padding: 20px 0; border-y: 1px solid #222;">
+        <div class="container" style="display: flex; justify-content: center; gap: 30px; font-size: 1.5rem;">
+            <a href="https://www.instagram.com/ryanzinho_8/" target="_blank" class="highlight"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/@ryanzinho_8/" target="_blank" class="highlight"><i class="fab fa-tiktok"></i></a>
+            <a href="https://wa.me/554832200260" target="_blank" class="highlight"><i class="fab fa-whatsapp"></i></a>
+        </div>
+    </section>
+
+    <section class="stats-dynamic" style="padding: 80px 20px;">
         <div class="container">
-            <h2 style="text-align: center; margin-bottom: 40px;">FICHA <span class="highlight">TÉCNICA</span></h2>
-            <div class="ficha-container" style="display: flex; align-items: center; justify-content: center; gap: 30px; flex-wrap: wrap;">
-                <img src="ryan-action.png" alt="Ryan em ação" style="max-height: 350px; border-radius: 15px;">
-                <div class="data-wrapper" style="display: grid; gap: 15px;">
-                    <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; border-left: 4px solid var(--accent-color);">
-                        <span style="display: block; font-size: 0.7rem; text-transform: uppercase;">Posição</span>
-                        <span style="font-weight: 800; font-size: 1.2rem;">Meio-Campo (8)</span>
+            <h2 style="text-align: center; font-weight: 900; margin-bottom: 50px;">FICHA <span class="highlight">TÉCNICA</span></h2>
+            <div class="ficha-container" style="display: flex; align-items: center; justify-content: center; gap: 50px;">
+                <img src="ryan-action.png" alt="Ryan" class="action-shot" style="height: 400px; border-radius: 20px;">
+                <div class="data-grid" style="display: grid; gap: 20px;">
+                    <div style="background: #111; padding: 20px; border-radius: 10px; border-left: 5px solid var(--accent); min-width: 250px;">
+                        <span style="display:block; font-size: 0.7rem; color: #888;">POSIÇÃO</span>
+                        <span style="font-weight: 900; font-size: 1.2rem;">MEIO-CAMPO (8)</span>
                     </div>
-                    <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; border-left: 4px solid var(--accent-color);">
-                        <span style="display: block; font-size: 0.7rem; text-transform: uppercase;">Pé Dominante</span>
-                        <span style="font-weight: 800; font-size: 1.2rem;">Destro</span>
+                    <div style="background: #111; padding: 20px; border-radius: 10px; border-left: 5px solid #0D80BF; min-width: 250px;">
+                        <span style="display:block; font-size: 0.7rem; color: #888;">CLUBE ATUAL</span>
+                        <span style="font-weight: 900; font-size: 1.2rem;">CRUZEIRO-RS</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="gallery">
+    <section class="stats-section" style="background: #000; padding: 80px 20px;">
         <div class="container">
-            <h2 style="text-align: center; padding: 40px 0 20px;">GALERIA <span class="highlight">EM AÇÃO</span></h2>
-            <div class="gallery-grid">
-                <div class="photo-item" style="background-image: url('ryan-galeria3.jpg');"></div>
-                <div class="photo-item" style="background-image: url('ryan-galeria4.jpg');"></div>
-                <div class="photo-item" style="background-image: url('ryan-galeria5.jpg');"></div>
-                <div class="photo-item" style="background-image: url('ryan-galeria6.jpg');"></div>
+            <h2 style="text-align: center; font-weight: 900; margin-bottom: 40px;">RYAN <span class="highlight">STATS</span></h2>
+            <div style="max-width: 600px; margin: 0 auto;">
+                <div class="stat-row" style="margin-bottom: 30px;">
+                    <span style="font-weight: 800; font-size: 0.8rem;">ASSISTÊNCIAS</span>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar blue-bar" style="width: 85%;"></div>
+                        <span class="bar-value">15</span>
+                    </div>
+                </div>
+                <div class="stat-row">
+                    <span style="font-weight: 800; font-size: 0.8rem;">GOLS</span>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar white-bar" style="width: 60%;"></div>
+                        <span class="bar-value">10</span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <footer style="padding: 40px 20px; text-align: center; border-top: 1px solid #222;">
+    <section class="journey" style="padding: 80px 20px;">
+        <div class="container">
+            <h2 style="text-align: center; font-weight: 900; margin-bottom: 50px;">A JORNADA <span class="highlight">DO 08</span> 🚀</h2>
+            <div class="rocket-timeline" style="max-width: 800px; margin: 0 auto; border-left: 2px solid var(--accent); padding-left: 30px;">
+                <div style="margin-bottom: 40px;">
+                    <span class="highlight" style="font-weight: 900;">ATUAL</span>
+                    <h3 style="margin: 5px 0;">E.C. Cruzeiro-RS</h3>
+                    <p style="color: #888;">Referência técnica na categoria de base.</p>
+                </div>
+                <div>
+                    <span style="color: #555; font-weight: 900;">7 ANOS</span>
+                    <h3 style="margin: 5px 0;">Grêmio FBPA</h3>
+                    <p style="color: #888;">Início nas escolas oficiais e campeão Copa Trivela.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer style="text-align: center; padding: 60px 20px; border-top: 1px solid #222;">
         <p>© 2026 <strong>Ryanzinho 08</strong> Oficial.</p>
-        <p style="font-size: 0.8rem; opacity: 0.6;">Plataforma de Gestão: <a href="../../index.html" class="highlight" style="text-decoration: none;">FutTalento</a></p>
+        <p style="font-size: 0.7rem; color: #555;">Plataforma de Gestão: <a href="../../index.html" class="highlight" style="text-decoration: none;">FutTalento</a></p>
     </footer>
 
     <script>
         const toggleBtn = document.getElementById('themeToggle');
-        // Mantém escuro por padrão, mas permite troca
         toggleBtn.addEventListener('click', () => {
             document.body.classList.toggle('light-mode');
             toggleBtn.innerHTML = document.body.classList.contains('light-mode') ? '☀️' : '🌙';

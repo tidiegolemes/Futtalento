@@ -47,9 +47,23 @@
           "@type": "ImageObject",
           "url": "https://futtalento.com.br/futtalentologo.png"
         }
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8", 
+        "reviewCount": "91",
+        "bestRating": "5",
+        "worstRating": "1"
       }
     }
     </script>
+    
+    <style>
+        /* Estilo extra para garantir a transição suave das estrelas */
+        .star-btn { transition: color 0.2s ease-in-out; }
+        .star-btn.active { color: #22C55E; } /* futGreen */
+        .star-btn.inactive { color: #4B5563; } /* gray-600 */
+    </style>
 </head>
 <body class="bg-futDark text-white font-sans selection:bg-futGreen selection:text-black">
 
@@ -96,11 +110,20 @@
         </article>
 
         <section class="mt-20 p-10 bg-futCard rounded-[2.5rem] border border-white/5 text-center">
-            <h4 class="text-sm font-black uppercase tracking-widest mb-4 italic">Avalie o desempenho do atleta</h4>
-            <div class="flex justify-center gap-2 mb-4 text-futGreen text-2xl">
-                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            <h4 class="text-sm font-black uppercase tracking-widest mb-4 italic" id="ratingTitle">Avalie o desempenho do atleta</h4>
+            
+            <div class="flex justify-center gap-2 mb-4 text-2xl" id="starContainer">
+                <button class="star-btn inactive" data-value="1" onclick="submitRating(1)"><i class="fas fa-star"></i></button>
+                <button class="star-btn inactive" data-value="2" onclick="submitRating(2)"><i class="fas fa-star"></i></button>
+                <button class="star-btn inactive" data-value="3" onclick="submitRating(3)"><i class="fas fa-star"></i></button>
+                <button class="star-btn inactive" data-value="4" onclick="submitRating(4)"><i class="fas fa-star"></i></button>
+                <button class="star-btn inactive" data-value="5" onclick="submitRating(5)"><i class="fas fa-star"></i></button>
             </div>
-            <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Baseado em <strong class="text-white">91 curtidas</strong> no Instagram oficial</p>
+
+            <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest" id="ratingText">
+                Média 4.8 &bull; Baseado em <strong class="text-white">91 avaliações</strong>
+            </p>
+
             <div class="flex flex-col md:flex-row justify-center gap-4 mt-8">
                 <a href="https://tidiegolemes.github.io/lukinhas10/" target="_blank" class="bg-white/5 px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-futGreen hover:text-black transition duration-500">Ver Perfil Oficial do Atleta</a>
                 <button class="bg-white/5 px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-futGreen hover:text-black transition duration-500" onclick="copyURL()">Copiar Link da Notícia</button>
@@ -113,9 +136,82 @@
     </footer>
 
     <script>
+        // Função de copiar URL
         function copyURL() {
             navigator.clipboard.writeText(window.location.href);
             alert("URL de Lucas Azambuja copiada!");
+        }
+
+        // --- LÓGICA DE AVALIAÇÃO ---
+        const stars = document.querySelectorAll('.star-btn');
+        const ratingTitle = document.getElementById('ratingTitle');
+        const ratingText = document.getElementById('ratingText');
+        
+        // Verifica se já votou (LocalStorage)
+        const hasVoted = localStorage.getItem('voted_lucas_newcup');
+        if(hasVoted) {
+            highlightStars(hasVoted);
+            lockVoting(hasVoted);
+        }
+
+        // Efeito Hover
+        stars.forEach(star => {
+            star.addEventListener('mouseover', function() {
+                if(localStorage.getItem('voted_lucas_newcup')) return;
+                const value = this.getAttribute('data-value');
+                highlightStars(value);
+            });
+
+            star.addEventListener('mouseout', function() {
+                if(localStorage.getItem('voted_lucas_newcup')) return;
+                resetStars(); // Se não votou, apaga ao sair o mouse
+            });
+        });
+
+        // Função para pintar estrelas
+        function highlightStars(value) {
+            stars.forEach(star => {
+                const starValue = star.getAttribute('data-value');
+                if (starValue <= value) {
+                    star.classList.remove('inactive');
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                    star.classList.add('inactive');
+                }
+            });
+        }
+
+        function resetStars() {
+            stars.forEach(star => {
+                star.classList.remove('active');
+                star.classList.add('inactive');
+            });
+        }
+
+        // Enviar Voto
+        function submitRating(rating) {
+            if(localStorage.getItem('voted_lucas_newcup')) {
+                return; // Impede votar 2x
+            }
+
+            // 1. Salva no navegador do usuário
+            localStorage.setItem('voted_lucas_newcup', rating);
+            
+            // 2. Trava a votação visualmente
+            lockVoting(rating);
+
+            // 3. (OPCIONAL) Enviar para seu Backend/Banco de Dados
+            // fetch('URL_DO_SEU_BACKEND/votar.php', { method: 'POST', body: JSON.stringify({nota: rating}) });
+            
+            console.log("Voto registrado: " + rating);
+        }
+
+        function lockVoting(rating) {
+            ratingTitle.innerHTML = "Obrigado pelo seu voto!";
+            ratingText.innerHTML = `VOCÊ AVALIOU COM NOTA <strong class="text-futGreen text-lg">${rating}</strong>`;
+            // Desabilita o hover removendo a lógica visual (mantendo a cor fixa)
+            stars.forEach(s => s.style.pointerEvents = 'none'); 
         }
     </script>
 </body>

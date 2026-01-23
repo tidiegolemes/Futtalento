@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bem-vindo ao Time! | FutTalento</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css"> 
+    
+    <style>
+        :root {
+            --primary: #22C55E;
+            --dark-bg: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+        }
+
+        body.thanks-page {
+            background-color: var(--dark-bg);
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+
+        .thanks-container {
+            max-width: 600px;
+            padding: 40px 20px;
+        }
+
+        .icon-success {
+            font-size: 80px;
+            color: var(--primary);
+            margin-bottom: 20px;
+            animation: scaleUp 0.5s ease-out;
+        }
+
+        h1 { font-weight: 900; font-size: 2.5rem; margin-bottom: 10px; }
+        p { color: #94a3b8; line-height: 1.6; margin-bottom: 30px; }
+
+        .steps-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: left;
+            backdrop-filter: blur(10px);
+        }
+
+        .step-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .step-number {
+            background: var(--primary);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .btn-home {
+            display: inline-block;
+            margin-top: 40px;
+            padding: 15px 30px;
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 800;
+            transition: 0.3s;
+        }
+
+        .btn-home:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        @keyframes scaleUp {
+            from { transform: scale(0); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="thanks-page">
+
+    <div class="thanks-container">
+        <div class="icon-success">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        
+        <h1>BEM-VINDO AO <br><span class="text-gradient">TIME FUTTALENTO!</span></h1>
+        <p>A jornada para transformar o talento do seu filho em uma marca valiosa começou oficialmente.</p>
+
+        <div class="steps-card">
+            <h3 style="margin-top: 0; color: white;">Próximos Passos:</h3>
+            
+            <div class="step-item">
+                <div class="step-number">1</div>
+                <div>
+                    <strong>Confirmação de Dados</strong>
+                    <br><small style="color: #94a3b8;">Nossa equipe já recebeu as informações do formulário e o comprovante da InfinitePay.</small>
+                </div>
+            </div>
+
+            <div class="step-item">
+                <div class="step-number">2</div>
+                <div>
+                    <strong>Registro de Domínio</strong>
+                    <br><small style="color: #94a3b8;">Iniciamos agora o processo no Registro.br. Isso pode levar até 48h para propagação total.</small>
+                </div>
+            </div>
+
+            <div class="step-item">
+                <div class="step-number">3</div>
+                <div>
+                    <strong>Design e SEO</strong>
+                    <br><small style="color: #94a3b8;">Nossos especialistas estão estruturando as fotos e a jornada esportiva para o Google.</small>
+                </div>
+            </div>
+        </div>
+
+        <p style="margin-top: 25px; font-size: 0.9rem;">
+            Qualquer dúvida, nossa equipe está disponível no WhatsApp: <br>
+            <strong>(48) 3220-0260</strong>
+        </p>
+
+        <a href="index.html" class="btn-home">VOLTAR AO PORTAL</a>
+    </div>
+
+</body>
+</html>

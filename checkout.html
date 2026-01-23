@@ -370,23 +370,21 @@
         }
 
         document.getElementById('checkoutForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const texto = `*NOVA CONTRATAÇÃO - FUTTALENTO*%0A` +
-                          `*----------------------------*%0A` +
-                          `*PLANO:* ${planoGlobal}%0A%0A` +
-                          `*DADOS DO ATLETA*%0A` +
-                          `*Nome:* ${document.getElementById('atleta').value}%0A` +
-                          `*Redes:* ${document.getElementById('redes').value}%0A` +
-                          `*Vídeo:* ${document.getElementById('video').value}%0A` +
-                          `*Histórico:* ${document.getElementById('historia').value}%0A%0A` +
-                          `*DADOS DE REGISTRO*%0A` +
-                          `*Domínio:* ${document.getElementById('dominio').value}%0A` +
-                          `*Responsável:* ${document.getElementById('responsavel').value}%0A` +
-                          `*CPF:* ${document.getElementById('cpf').value}%0A%0A` +
-                          `_Estou enviando as fotos em anexo agora._`;
+    e.preventDefault();
+    
+    // ... (todo o código de coleta de variáveis que já existe aí) ...
 
-            window.location.href = `https://wa.me/554832200260?text=${texto}`;
-        });
+    const texto = `*NOVA CONTRATAÇÃO - FUTTALENTO*%0A` +
+                  // ... (resto da sua mensagem do whatsapp) ...
+
+    // 1. Abre o WhatsApp em uma nova aba (ou no app)
+    window.open(`https://wa.me/554832200260?text=${texto}`, '_blank');
+
+    // 2. Redireciona a página atual para o "Obrigado" após 2 segundos
+    setTimeout(() => {
+        window.location.href = "obrigado.html";
+    }, 2000); 
+});
 
         async function verificarDominio() {
             const dominioInput = document.getElementById('dominio');

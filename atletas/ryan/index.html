@@ -1,168 +1,803 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     
+
     <title>Ryanzinho (08) | Atleta Base Cruzeiro-RS | Perfil Oficial</title>
+
     <meta name="description" content="Perfil Oficial de Ryan (Ryanzinho). Meio-campista formado no Grêmio e São José, atual camisa 8 da base do Cruzeiro-RS. Destaque técnico e gestão FutTalento.">
 
+
+
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://futtalento.com.br/atletas/ryan/">
+
+    <meta property="og:url" content="https://futtalento.com.br/atleta/ryan/">
+
     <meta property="og:title" content="Ryanzinho (08) | Atleta Base Cruzeiro-RS | Perfil Oficial">
+
     <meta property="og:description" content="Meio-campista formado no Grêmio e São José. Veja o perfil, fotos e estatísticas do Ryan.">
-    <meta property="og:image" content="https://futtalento.com.br/atletas/ryan/perfilryan.jpg">
+
+    <meta property="og:image" content="https://futtalento.com.br/atleta/ryan/perfilryan.jpg">
+
+    <meta property="og:image:width" content="1200">
+
+    <meta property="og:image:height" content="630">
+
+
+
+    <meta name="twitter:card" content="summary_large_image">
+
+    <meta name="twitter:title" content="Ryanzinho (08) | Perfil Oficial">
+
+    <meta name="twitter:image" content="https://futtalento.com.br/atleta/ryan/perfilryan.jpg">
+
+
+
+    <meta name="geo.region" content="BR-RS" />
+
+    <meta name="geo.placename" content="Cachoeirinha" />
+
+    <meta name="geo.position" content="-29.9519;-51.0963" />
+
+    <meta name="ICBM" content="-29.9519, -51.0963" />
+
+    
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
+
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap" rel="stylesheet">
+
     
-    <link rel="stylesheet" href="../../style.css">
+
+    <link rel="stylesheet" href="style.css">
+
+
 
     <style>
-        /* MODO ESCURO PADRÃO (Sem flash branco) */
-        :root {
-            --bg-dark: #0a0a0a;
-            --card-bg: #111111;
-            --accent: #22C55E;
-            --text-main: #ffffff;
-        }
 
-        body { 
-            background-color: var(--bg-dark); 
-            color: var(--text-main); 
-            margin: 0; 
-            font-family: 'Montserrat', sans-serif;
-        }
+        /* Correção para o botão de tema não vazar no Mobile */
 
-        /* Botão de Tema Ajustado */
         .theme-switch {
-            position: fixed; top: 20px; right: 20px; z-index: 9999;
-            background: rgba(0, 0, 0, 0.6); border: 2px solid var(--accent);
-            color: white; width: 45px; height: 45px; border-radius: 50%;
-            cursor: pointer; display: flex; align-items: center; justify-content: center;
-            backdrop-filter: blur(5px); transition: 0.3s;
+
+            position: fixed;
+
+            top: 20px;
+
+            right: 20px; /* Margem de segurança */
+
+            z-index: 9999;
+
+            background: rgba(0, 0, 0, 0.5);
+
+            border: 2px solid #FFD700;
+
+            color: white;
+
+            padding: 10px;
+
+            border-radius: 50%;
+
+            cursor: pointer;
+
+            width: 45px;
+
+            height: 45px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 1.2rem;
+
+            transition: 0.3s;
+
+            backdrop-filter: blur(5px);
+
         }
 
-        /* Restaurando Efeitos de Ficha e Stats */
-        .highlight { color: var(--accent); }
-        .progress-bar-container { background: #222; border-radius: 10px; height: 12px; position: relative; margin-top: 10px; }
-        .progress-bar { height: 100%; border-radius: 10px; transition: 1s ease-in-out; }
-        .blue-bar { background: #0D80BF; box-shadow: 0 0 10px #0D80BF; }
-        .white-bar { background: #ffffff; box-shadow: 0 0 10px #ffffff; }
-        .bar-value { position: absolute; right: 0; top: -20px; font-size: 0.7rem; font-weight: 900; }
+        
 
-        /* Mobile Fix para Galeria e Ficha */
-        @media (max-width: 768px) {
-            .ficha-container { flex-direction: column; text-align: center; }
-            .action-shot { width: 100%; max-width: 320px; margin-bottom: 20px; }
-            .messi-header h2 { font-size: 1.8rem; }
-            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+        /* Ajuste para telas muito pequenas */
+
+        @media (max-width: 480px) {
+
+            .theme-switch {
+
+                top: 15px;
+
+                right: 15px;
+
+                width: 40px;
+
+                height: 40px;
+
+            }
+
         }
 
-        /* Modo Claro (Opcional) */
-        body.light-mode { background-color: #f5f5f5; color: #1a1a1a; }
-        body.light-mode .hero { background: #fff; }
     </style>
-</head>
-<body>
-    
-    <button class="theme-switch" id="themeToggle">🌙</button>
 
-    <header class="hero" style="text-align: center; padding: 80px 20px; background: #000;">
+
+
+    <script type="application/ld+json">
+
+    {
+
+      "@context": "https://schema.org",
+
+      "@type": "Person",
+
+      "name": "Ryan Da Silva",
+
+      "alternateName": ["Ryanzinho 08", "Ryan Cruzeiro RS"],
+
+      "gender": "Male",
+
+      "birthDate": "2008", 
+
+      "jobTitle": "Atleta de Futebol de Base",
+
+      "url": "https://futtalento.com.br/atleta/ryan/",
+
+      "image": "https://futtalento.com.br/atleta/ryan/perfilryan.jpg",
+
+      "description": "Meio-campista do Cruzeiro de Porto Alegre (Base). Passagens por Grêmio FBPA e E.C. São José.",
+
+      "memberOf": [
+
+        {
+
+          "@type": "SportsTeam",
+
+          "name": "Esporte Clube Cruzeiro RS",
+
+          "sport": "Futebol"
+
+        },
+
+        {
+
+          "@type": "SportsTeam",
+
+          "name": "Grêmio FBPA"
+
+        },
+
+        {
+
+          "@type": "SportsTeam",
+
+          "name": "E.C. São José"
+
+        }
+
+      ],
+
+      "sameAs": [
+
+        "https://www.instagram.com/ryanzinho_8/"
+
+      ]
+
+    }
+
+    </script>
+
+</head>
+
+<body class="light-mode">
+
+    
+
+    <button class="theme-switch" id="themeToggle" title="Mudar Tema">🌙</button>
+
+
+
+    <header class="hero">
+
         <div class="container">
-            <div class="profile-frame" style="position: relative; display: inline-block;">
-                <img src="perfilryan.jpg" alt="Ryanzinho 08" style="width: 200px; height: 200px; border-radius: 50%; border: 4px solid var(--accent); object-fit: cover;">
-                <span style="position: absolute; bottom: 10px; right: 10px; background: var(--accent); color: #000; border-radius: 50%; padding: 5px; font-size: 12px;">✓</span>
+
+            <div class="profile-frame">
+
+                <img src="perfilryan.jpg" alt="Ryanzinho 08" class="profile-pic">
+
+                <span class="verified-badge">✓</span>
+
             </div>
-            <h1 style="font-size: 3rem; font-weight: 900; margin: 20px 0;">RYAN <span class="highlight">08</span></h1>
-            <p style="text-transform: uppercase; font-weight: 800; letter-spacing: 2px;">Base Cruzeiro-RS | O Estrelado 🔵⚪</p>
-            <p style="max-width: 700px; margin: 20px auto; opacity: 0.8; line-height: 1.6;">
-                Maestro do meio-campo. <strong>Ryanzinho</strong> defende as cores do Cruzeiro-RS. 
-                Com formação sólida em clubes como Grêmio e São José, une visão de jogo apurada e técnica refinada.
+
+            <h1>RYAN <span class="highlight">08</span></h1>
+
+            <p class="subtitle">Base Cruzeiro-RS | O Estrelado 🔵⚪</p>
+
+            
+
+            <p class="bio-text">
+
+                Maestro do meio-campo. <strong>Ryanzinho</strong> defende as cores tradicionais do 
+
+                <strong>Cruzeiro de Porto Alegre</strong>. Com formação sólida em grandes clubes gaúchos, une visão de jogo apurada e técnica refinada.
+
             </p>
+
         </div>
+
     </header>
 
-    <section class="quick-links" style="background: var(--card-bg); padding: 20px 0; border-y: 1px solid #222;">
-        <div class="container" style="display: flex; justify-content: center; gap: 30px; font-size: 1.5rem;">
-            <a href="https://www.instagram.com/ryanzinho_8/" target="_blank" class="highlight"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.tiktok.com/@ryanzinho_8/" target="_blank" class="highlight"><i class="fab fa-tiktok"></i></a>
-            <a href="https://wa.me/554832200260" target="_blank" class="highlight"><i class="fab fa-whatsapp"></i></a>
-        </div>
-    </section>
 
-    <section class="stats-dynamic" style="padding: 80px 20px;">
-        <div class="container">
-            <h2 style="text-align: center; font-weight: 900; margin-bottom: 50px;">FICHA <span class="highlight">TÉCNICA</span></h2>
-            <div class="ficha-container" style="display: flex; align-items: center; justify-content: center; gap: 50px;">
-                <img src="ryan-action.png" alt="Ryan" class="action-shot" style="height: 400px; border-radius: 20px;">
-                <div class="data-grid" style="display: grid; gap: 20px;">
-                    <div style="background: #111; padding: 20px; border-radius: 10px; border-left: 5px solid var(--accent); min-width: 250px;">
-                        <span style="display:block; font-size: 0.7rem; color: #888;">POSIÇÃO</span>
-                        <span style="font-weight: 900; font-size: 1.2rem;">MEIO-CAMPO (8)</span>
-                    </div>
-                    <div style="background: #111; padding: 20px; border-radius: 10px; border-left: 5px solid #0D80BF; min-width: 250px;">
-                        <span style="display:block; font-size: 0.7rem; color: #888;">CLUBE ATUAL</span>
-                        <span style="font-weight: 900; font-size: 1.2rem;">CRUZEIRO-RS</span>
-                    </div>
-                </div>
+
+    <section class="quick-links">
+
+        <div class="social-top-bar">
+
+            <div class="container social-flex">
+
+                <a href="#" target="_blank" class="social-icon youtube"><i class="fab fa-youtube"></i></a>
+
+                <a href="https://www.instagram.com/ryanzinho_8/" target="_blank" class="social-icon instagram"><i class="fab fa-instagram"></i></a>
+
+                <a href="https://www.tiktok.com/ryanzinho_8/" target="_blank" class="social-icon tiktok"><i class="fab fa-tiktok"></i></a>
+
+                <a href="https://wa.me/554832200260" target="_blank" class="social-icon whatsapp"><i class="fab fa-whatsapp"></i></a>
+
             </div>
+
         </div>
+
     </section>
 
-    <section class="stats-section" style="background: #000; padding: 80px 20px;">
+
+
+    <section class="stats-dynamic">
+
         <div class="container">
-            <h2 style="text-align: center; font-weight: 900; margin-bottom: 40px;">RYAN <span class="highlight">STATS</span></h2>
-            <div style="max-width: 600px; margin: 0 auto;">
-                <div class="stat-row" style="margin-bottom: 30px;">
-                    <span style="font-weight: 800; font-size: 0.8rem;">ASSISTÊNCIAS</span>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar blue-bar" style="width: 85%;"></div>
-                        <span class="bar-value">15</span>
-                    </div>
+
+            <h2>FICHA TÉCNICA</h2>
+
+            <div class="ficha-container">
+
+                <div class="athlete-image-feature">
+
+                    <img src="ryan-action.png" alt="Ryan em ação" class="action-shot">
+
                 </div>
+
+
+
+                <div class="athlete-data-structure">
+
+                    <div class="data-block blue-accent">
+
+                        <div class="data-group">
+
+                            <span class="data-icon"><i class="fas fa-shield-alt"></i></span>
+
+                            <div>
+
+                                <span class="data-label">Clube</span>
+
+                                <span class="data-value">Cruzeiro-RS</span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="data-divider"></div>
+
+                        <div class="data-group">
+
+                            <span class="data-icon"><i class="fas fa-tshirt"></i></span>
+
+                            <div>
+
+                                <span class="data-label">Camisa</span>
+
+                                <span class="data-value">08</span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="data-block white-accent">
+
+                         <div class="data-group">
+
+                            <span class="data-icon"><i class="fas fa-bolt"></i></span>
+
+                            <div>
+
+                                <span class="data-label">Estilo</span>
+
+                                <span class="data-value">Playmaker</span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="data-divider"></div>
+
+                        <div class="data-group">
+
+                            <span class="data-icon"><i class="fas fa-shoe-prints"></i></span>
+
+                            <div>
+
+                                <span class="data-label">Pé Dominante</span>
+
+                                <span class="data-value highlight-neon">Direito</span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="history-badges-container" style="margin-top: 30px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+
+                <div class="club-badge-item" style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid #333; display: flex; align-items: center; gap: 10px;">
+
+                    <i class="fas fa-history" style="color: var(--accent);"></i>
+
+                    <span style="font-size: 0.8rem; font-weight: 600; color: #ccc;">FORMAÇÃO:</span>
+
+                    <span style="font-size: 0.9rem; font-weight: 700;">Grêmio FBPA</span>
+
+                </div>
+
+                <div class="club-badge-item" style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid #333; display: flex; align-items: center; gap: 10px;">
+
+                    <i class="fas fa-medal" style="color: #00a859;"></i>
+
+                    <span style="font-size: 0.9rem; font-weight: 700;">E.C. São José</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <section class="messi-stats-section">
+
+        <div class="stats-overlay"></div>
+
+        <div class="stats-bg-image" style="background-image: url('ryan-fundo-stats.png');"></div>
+
+        
+
+        <div class="container" style="position: relative; z-index: 2;">
+
+            <div class="messi-header">
+
+                <h2>RYAN <span class="highlight">STATS</span></h2>
+
+                <div class="stats-tabs">
+
+                    <button class="tab-btn active" onclick="openTab(event, 'campo')">CRUZEIRO</button>
+
+                    <button class="tab-btn" onclick="openTab(event, 'futsal')">FUTSAL</button>
+
+                </div>
+
+            </div>
+
+
+
+            <div id="campo" class="tab-content active-content">
+
+                <div class="club-header">
+
+                    <img src="cruzeiro-logo.png" alt="Cruzeiro RS" class="club-logo-mini" style="height: 60px; width: auto;">
+
+                    <div>
+
+                        <a href="https://www.instagram.com/eccruzeiro/" target="_blank" style="color: #fff; text-decoration: underline;">
+
+                            <h3 style="margin:0; font-size:1.2rem;">E.C. Cruzeiro ↗</h3>
+
+                        </a>
+
+                        <p style="margin:0; font-size:0.8rem; color:#ccc;">Base Oficial • Cachoeirinha</p>
+
+                    </div>
+
+                </div>
+
+                
+
                 <div class="stat-row">
-                    <span style="font-weight: 800; font-size: 0.8rem;">GOLS</span>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar white-bar" style="width: 60%;"></div>
-                        <span class="bar-value">10</span>
+
+                    <div class="stat-info">
+
+                        <h3>ASSISTÊNCIAS</h3>
+
+                        <div class="progress-bar-container">
+
+                            <div class="progress-bar blue-bar" style="width: 80%;"></div>
+
+                            <span class="bar-value">15</span>
+
+                        </div>
+
                     </div>
+
                 </div>
+
+                <div class="stat-row">
+
+                    <div class="stat-info">
+
+                        <h3>GOLS</h3>
+
+                        <div class="progress-bar-container">
+
+                            <div class="progress-bar white-bar" style="width: 65%;"></div>
+
+                            <span class="bar-value">10</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
+
+
+
+            <div id="futsal" class="tab-content">
+
+                <div class="club-header"><p>Quadras</p></div>
+
+                <div class="stat-row">
+
+                    <div class="stat-info">
+
+                        <h3>INTENSIDADE</h3>
+
+                        <div class="progress-bar-container">
+
+                            <div class="progress-bar blue-bar" style="width: 95%;"></div>
+
+                            <span class="bar-value">Alta</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
+
     </section>
 
-    <section class="journey" style="padding: 80px 20px;">
+
+
+    <section class="trophies-dynamic-section">
+
+        <div class="container trophies-container">
+
+            <div class="trophy-hero-image">
+
+                <img src="ryan-trofeu.png" alt="Ryan Campeão" class="hero-img-effect">
+
+            </div>
+
+
+
+            <div class="trophy-carousel-wrapper">
+
+                <div class="section-title-wrapper">
+
+                    <h2>COLEÇÃO DE <span class="highlight">TÍTULOS</span></h2>
+
+                    <p>Arraste para ver ➝</p>
+
+                </div>
+
+
+
+                <div class="cards-scroller">
+
+                    <div class="messi-card">
+
+                        <div class="card-header-date"><span class="month">DEZ</span><span class="year">2021</span></div>
+
+                        <div class="card-body">
+
+                            <span class="status-badge gold">CAMPEÃO</span>
+
+                            <h3>Copa Encosta da Serra</h3>
+
+                            <div class="match-details"><span class="team-name">E.C. São José</span></div>
+
+                            <div class="card-footer"><i class="fas fa-trophy"></i> Título Regional</div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="messi-card">
+
+                        <div class="card-header-date"><span class="month">NOV</span><span class="year">2021</span></div>
+
+                        <div class="card-body">
+
+                            <span class="status-badge blue">VICE</span>
+
+                            <h3>Gauchão Noligafi</h3>
+
+                            <div class="match-details"><span class="team-name">E.C. São José</span></div>
+
+                            <div class="card-footer"><i class="fas fa-medal"></i> Estadual</div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="messi-card">
+
+                        <div class="card-header-date"><span class="month">BASE</span><span class="year">INÍCIO</span></div>
+
+                        <div class="card-body">
+
+                            <span class="status-badge gold">CAMPEÃO</span>
+
+                            <h3>Copa Trivela</h3>
+
+                            <div class="match-details"><span class="team-name">Grêmio FBPA</span></div>
+
+                            <div class="card-footer"><i class="fas fa-trophy"></i> Iniciação</div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <section class="photo-gallery-section">
+
         <div class="container">
-            <h2 style="text-align: center; font-weight: 900; margin-bottom: 50px;">A JORNADA <span class="highlight">DO 08</span> 🚀</h2>
-            <div class="rocket-timeline" style="max-width: 800px; margin: 0 auto; border-left: 2px solid var(--accent); padding-left: 30px;">
-                <div style="margin-bottom: 40px;">
-                    <span class="highlight" style="font-weight: 900;">ATUAL</span>
-                    <h3 style="margin: 5px 0;">E.C. Cruzeiro-RS</h3>
-                    <p style="color: #888;">Referência técnica na categoria de base.</p>
-                </div>
-                <div>
-                    <span style="color: #555; font-weight: 900;">7 ANOS</span>
-                    <h3 style="margin: 5px 0;">Grêmio FBPA</h3>
-                    <p style="color: #888;">Início nas escolas oficiais e campeão Copa Trivela.</p>
-                </div>
+
+            <div class="section-title-wrapper" style="text-align: center; margin-bottom: 30px;">
+
+                <h2>RYAN EM <span class="highlight">AÇÃO</span> 📸</h2>
+
+                <p>Registros Exclusivos</p>
+
             </div>
+
+            <div class="gallery-grid">
+
+                <div class="photo-item large" style="background-image: url('ryan-galeria9.jpg');"></div>
+
+                <div class="photo-item" style="background-image: url('ryan-galeria8.jpg');"></div>
+
+                <div class="photo-item" style="background-image: url('ryan-galeria3.jpg');"></div>
+
+                <div class="photo-item" style="background-image: url('ryan-galeria4.jpg');"></div>
+
+                <div class="photo-item" style="background-image: url('ryan-galeria5.jpg');"></div>
+
+                <div class="photo-item" style="background-image: url('ryan-galeria6.jpg');"></div>
+
+                <div class="photo-item" style="background-image: url('ryan-galeria7.jpg');"></div>
+
+                <div class="photo-item" style="background-image: url('ryan-galeria10.jpg');"></div>
+
+                <div class="photo-item" style="background-image: url('ryan-galeria11.jpg');"></div>
+
+            </div>
+
         </div>
+
     </section>
 
-    <footer style="text-align: center; padding: 60px 20px; border-top: 1px solid #222;">
-        <p>© 2026 <strong>Ryanzinho 08</strong> Oficial.</p>
-        <p style="font-size: 0.7rem; color: #555;">Plataforma de Gestão: <a href="../../index.html" class="highlight" style="text-decoration: none;">FutTalento</a></p>
+
+
+    <section class="rocket-journey-section">
+
+        <div class="journey-bg" style="background-image: url('ryan-action.png');"></div>
+
+        <div class="container" style="position: relative; z-index: 2;">
+
+            <div class="section-title-wrapper" style="text-align: center; margin-bottom: 50px;">
+
+                <h2>A JORNADA <span class="highlight">DO 08</span> 🚀</h2>
+
+            </div>
+
+            <div class="rocket-timeline">
+
+                <div class="journey-item">
+
+                    <div class="journey-marker rocket-icon"><i class="fas fa-star"></i></div>
+
+                    <div class="journey-content highlight-content">
+
+                        <span class="journey-year">ATUAL</span>
+
+                        <h3>E.C. Cruzeiro-RS</h3>
+
+                        <p>Referência técnica na categoria de base do "Estrelado" em Cachoeirinha.</p>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="journey-item">
+
+                    <div class="journey-marker"><i class="fas fa-medal"></i></div>
+
+                    <div class="journey-content">
+
+                        <span class="journey-year">2021</span>
+
+                        <h3>E.C. São José (Zequinha)</h3>
+
+                        <p>Campeão da Copa Encosta da Serra e Vice-Campeão Gaúcho (Noligafi).</p>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="journey-item">
+
+                    <div class="journey-marker"><i class="fas fa-dumbbell"></i></div>
+
+                    <div class="journey-content">
+
+                        <span class="journey-year">2020</span>
+
+                        <h3>Evolução Técnica</h3>
+
+                        <p>Treinamento intensivo durante a pandemia com Alex Xavier (Indicação técnica), focando em fundamentos de alta performance.</p>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="journey-item">
+
+                    <div class="journey-marker"><i class="fas fa-futbol"></i></div>
+
+                    <div class="journey-content">
+
+                        <span class="journey-year">7 ANOS</span>
+
+                        <h3>Grêmio FBPA</h3>
+
+                        <p>Início nas escolas oficiais do Grêmio, sagrando-se Campeão da Copa Trivela.</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <footer>
+
+        <div class="container footer-content">
+
+            <p>© <span id="year"></span> <strong>Ryanzinho 08</strong> Oficial. Todos os direitos reservados.</p>
+
+            <div class="managed-by">
+
+                <p>Gestão de Carreira & Imagem:</p>
+
+                <a href="https://futtalento.com.br" target="_blank" class="agency-link">FutTalento ↗</a>
+
+            </div>
+
+        </div>
+
     </footer>
 
+
+
     <script>
+
+        function openTab(evt, tabName) {
+
+            var i, tabcontent, tablinks;
+
+            tabcontent = document.getElementsByClassName("tab-content");
+
+            for (i = 0; i < tabcontent.length; i++) {
+
+                tabcontent[i].style.display = "none";
+
+                tabcontent[i].classList.remove("active-content");
+
+            }
+
+            tablinks = document.getElementsByClassName("tab-btn");
+
+            for (i = 0; i < tablinks.length; i++) {
+
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+
+            }
+
+            document.getElementById(tabName).style.display = "block";
+
+            setTimeout(() => {
+
+                document.getElementById(tabName).classList.add("active-content");
+
+            }, 10);
+
+            evt.currentTarget.className += " active";
+
+        }
+
+        
+
         const toggleBtn = document.getElementById('themeToggle');
+
         toggleBtn.addEventListener('click', () => {
+
             document.body.classList.toggle('light-mode');
+
             toggleBtn.innerHTML = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
+
         });
+
+        document.getElementById("year").textContent = new Date().getFullYear();
+
     </script>
+
 </body>
+
 </html>

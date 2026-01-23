@@ -269,5 +269,28 @@
         </div>
     </div>
 </footer>
+    <div id="lgpd-toast" style="position: fixed; bottom: 20px; left: 20px; right: 20px; background: #1e293b; border: 1px solid #334155; padding: 20px; border-radius: 15px; display: none; align-items: center; justify-content: space-between; gap: 20px; z-index: 9999; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+    <div style="font-size: 0.85rem; color: #94a3b8; line-height: 1.4;">
+        Utilizamos cookies e dados para oferecer a melhor experiência e profissionalizar a carreira do atleta. Ao continuar navegando, você concorda com nossa 
+        <a href="privacidade.html" style="color: #22C55E; text-decoration: underline;">Política de Privacidade</a>.
+    </div>
+    <button onclick="aceitarLGPD()" style="background: #22C55E; color: white; border: none; padding: 10px 25px; border-radius: 8px; font-weight: 800; cursor: pointer; white-space: nowrap;">
+        ACEITAR
+    </button>
+</div>
+
+<script>
+    function aceitarLGPD() {
+        localStorage.setItem('lgpd_aceito', 'true');
+        document.getElementById('lgpd-toast').style.display = 'none';
+    }
+
+    // Verifica se já aceitou ao carregar a página
+    window.onload = function() {
+        if (!localStorage.getItem('lgpd_aceito')) {
+            document.getElementById('lgpd-toast').style.display = 'flex';
+        }
+    }
+</script>
 </body>
 </html>

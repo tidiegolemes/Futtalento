@@ -67,11 +67,12 @@
         "description": "Meio-campista camisa 8 do Cruzeiro-RS. Formação no Grêmio FBPA e E.C. São José.",
         "affiliation": {
           "@type": "SportsTeam",
-          "name": "Esporte Clube Cruzeiro RS"
+          "name": "Esporte Clube Cruzeiro RS",
+          "url": "https://www.instagram.com/eccruzeiro/"
         },
         "memberOf": [
-          { "@type": "SportsTeam", "name": "Grêmio FBPA" },
-          { "@type": "SportsTeam", "name": "E.C. São José" }
+          { "@type": "SportsTeam", "name": "Grêmio FBPA", "url": "https://gremio.net/" },
+          { "@type": "SportsTeam", "name": "E.C. São José", "url": "https://www.saojosefutebol.com.br/" }
         ],
         "award": [
           "Campeão Copa Encosta da Serra 2021",
@@ -84,7 +85,9 @@
           "url": "https://futtalento.com.br"
         },
         "sameAs": [
-          "https://www.instagram.com/ryanzinho_8/"
+          "https://www.instagram.com/ryanzinho_8/",
+          "https://wa.me/554832200260",
+          "https://fgf.com.br/"
         ]
       },
       {
@@ -342,8 +345,8 @@
                     <div class="journey-marker rocket-icon"><i class="fas fa-star"></i></div>
                     <div class="journey-content highlight-content">
                         <span class="journey-year">ATUAL</span>
-                        <h3>E.C. Cruzeiro-RS</h3>
-                        <p>Referência técnica na categoria de base do "Estrelado" em Cachoeirinha.</p>
+                        <h3><a href="https://www.instagram.com/eccruzeiro/" target="_blank" style="color: inherit; text-decoration: underline;">E.C. Cruzeiro-RS</a></h3>
+                        <p>Referência técnica na base do Estrelado em Cachoeirinha. Filiado à <a href="https://fgf.com.br/" target="_blank" style="color: var(--accent);">FGF</a>.</p>
                     </div>
                 </div>
 
@@ -351,8 +354,8 @@
                     <div class="journey-marker"><i class="fas fa-medal"></i></div>
                     <div class="journey-content">
                         <span class="journey-year">2021</span>
-                        <h3>E.C. São José (Zequinha)</h3>
-                        <p>Campeão da Copa Encosta da Serra e Vice-Campeão Gaúcho (Noligafi).</p>
+                        <h3><a href="https://www.saojosefutebol.com.br/" target="_blank" style="color: inherit; text-decoration: underline;">E.C. São José</a></h3>
+                        <p>Campeão da Copa Encosta da Serra e Vice Gaúcho pela <a href="https://www.noligafi.com.br/" target="_blank" style="color: var(--accent);">Noligafi</a>.</p>
                     </div>
                 </div>
 
@@ -369,7 +372,7 @@
                     <div class="journey-marker"><i class="fas fa-futbol"></i></div>
                     <div class="journey-content">
                         <span class="journey-year">7 ANOS</span>
-                        <h3>Grêmio FBPA</h3>
+                        <h3><a href="https://gremio.net/formacao/escola_futebol" target="_blank" style="color: inherit; text-decoration: underline;">Grêmio FBPA</a></h3>
                         <p>Início nas escolas oficiais do Grêmio, sagrando-se Campeão da Copa Trivela.</p>
                     </div>
                 </div>
@@ -388,7 +391,6 @@
     </footer>
 
     <script>
-        // Função para as Abas de Estatísticas
         function openTab(evt, tabName) {
             var i, tabcontent, tablinks;
             tabcontent = document.getElementsByClassName("tab-content");
@@ -407,14 +409,11 @@
             evt.currentTarget.className += " active";
         }
         
-        // Controle do Modo Escuro/Claro
         const toggleBtn = document.getElementById('themeToggle');
         toggleBtn.addEventListener('click', () => {
             document.body.classList.toggle('light-mode');
             toggleBtn.innerHTML = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
         });
-
-        // Ano Automático no Rodapé
         document.getElementById("year").textContent = new Date().getFullYear();
     </script>
 </body>

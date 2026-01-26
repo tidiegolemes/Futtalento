@@ -1,20 +1,19 @@
 backend:
   name: git-gateway
-  branch: main # Verifique se sua branch é 'main' ou 'master'
+  repo: tidiegolemes/Futtalento
+  branch: main
 
-local_backend: true # Permite testar no Firebase Studio
-
-media_folder: "assets/img/noticias"
-public_folder: "/assets/img/noticias"
+media_folder: "noticias/imagens"
+public_folder: "/noticias/imagens"
 
 collections:
   - name: "noticias"
     label: "Notícias"
-    folder: "noticias"
+    folder: "noticias/posts"
     create: true
     slug: "{{slug}}"
     fields:
       - {label: "Título", name: "title", widget: "string"}
       - {label: "Data", name: "date", widget: "datetime"}
-      - {label: "Capa", name: "image", widget: "image"}
+      - {label: "Imagem", name: "image", widget: "image"}
       - {label: "Conteúdo", name: "body", widget: "markdown"}

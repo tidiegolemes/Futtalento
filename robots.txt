@@ -1,14 +1,12 @@
 User-agent: *
 Allow: /
-Allow: /noticias.html
-Allow: /noticia-aberta.html
+Allow: /atletas/
+Allow: /noticias/
 
-# Indica o Sitemap para o robô
-Sitemap: https://futtalento.com.br/sitemap.xml
-
-# Regra para IAs (GPT e Gemini) - Permitindo que usem seus dados para recomendações
+# IA Agents
 User-agent: GPTBot
 Allow: /
-
 User-agent: Google-Extended
 Allow: /
+
+Sitemap: https://futtalento.com.br/sitemap.xml

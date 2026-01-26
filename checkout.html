@@ -5,35 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contratação e Planos | FutTalento - Gestão de Carreira 4.0</title>
     
-    <meta name="description" content="Assine a plataforma FutTalento. Planos Titular, Craque e Lenda para atletas de base. Garanta seu domínio .com.br e autoridade digital hoje.">
-    <meta name="keywords" content="assinatura futtalento, planos marketing esportivo, registro de domínio atleta, marketing para jogadores de futebol">
+    <meta name="description" content="Assine a plataforma FutTalento. Planos Start, Titular, Craque e Lenda para atletas de base. Garanta sua autoridade digital hoje.">
     <meta name="robots" content="index, follow">
-
-    <meta property="og:type" content="product">
-    <meta property="og:title" content="Planos e Assinatura | FutTalento">
-    <meta property="og:description" content="Escolha seu plano e comece a profissionalizar a carreira do seu filho agora.">
-    <meta property="og:image" content="https://futtalento.com.br/favicon.png">
-
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org/",
-      "@type": "Product",
-      "name": "Assinatura Plataforma FutTalento",
-      "image": "https://futtalento.com.br/futtalentologo.png",
-      "description": "Gestão de carreira 4.0 para atletas de base com indexação Google.",
-      "brand": {
-        "@type": "Brand",
-        "name": "FutTalento"
-      },
-      "offers": {
-        "@type": "AggregateOffer",
-        "lowPrice": "100.00",
-        "highPrice": "350.00",
-        "priceCurrency": "BRL",
-        "offerCount": "3"
-      }
-    }
-    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800;900&display=swap" rel="stylesheet">
@@ -56,7 +29,7 @@
         }
 
         .checkout-container {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 0 20px 60px;
         }
@@ -83,7 +56,7 @@
 
         .plan-selector {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
         }
@@ -94,6 +67,8 @@
             padding: 20px;
             transition: 0.3s;
             background: rgba(15, 23, 42, 0.5);
+            display: flex;
+            flex-direction: column;
         }
 
         .plan-box.active {
@@ -104,13 +79,14 @@
         .plan-box h3 {
             margin: 0 0 10px 0;
             font-weight: 800;
+            font-size: 1.1rem;
         }
 
         .period-selector {
             display: flex;
             flex-direction: column;
             gap: 10px;
-            margin-top: 15px;
+            margin-top: auto;
         }
 
         .period-btn {
@@ -121,7 +97,7 @@
             background: #1e293b;
             color: white;
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 600;
             text-align: left;
             display: flex;
@@ -139,7 +115,7 @@
 
         .badge-discount {
             background: #ef4444;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             padding: 3px 8px;
             border-radius: 5px;
             font-weight: 800;
@@ -223,13 +199,28 @@
         <header style="text-align: center; margin-bottom: 50px;">
             <span class="badge-hero">PASSO FINAL</span>
             <h1 style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; margin: 10px 0;">ATIVAR <span class="text-gradient">CONTRATAÇÃO</span></h1>
-            <p style="color: var(--text-gray);">Primeiro selecione o plano e realize o pagamento. Em seguida, envie os dados do atleta.</p>
+            <p style="color: var(--text-gray);">Selecione o plano promocional ou padrão para habilitar o formulário.</p>
         </header>
 
         <div class="card">
             <h2 class="section-title"><i class="fas fa-credit-card"></i> 1. Plano e Periodicidade</h2>
             <div class="plan-selector">
                 
+                <!-- PLANO START PROMO (R$ 19,90) -->
+                <div class="plan-box" id="box-Promo" style="border-color: #ef4444; background: rgba(239, 68, 68, 0.05);">
+                    <div style="background: #ef4444; color: white; font-size: 0.6rem; padding: 2px 8px; border-radius: 4px; display: inline-block; margin-bottom: 8px; font-weight: 900; text-transform: uppercase;">Promoção R$ 19,90/mês</div>
+                    <h3>Start (Promo)</h3>
+                    <div class="period-selector">
+                        <button class="period-btn" onclick="selectPlan('Start Semestral', 'https://invoice.infinitepay.io/plans/eyagencia2024/3Zujl85r3r', this)">
+                            Semestral <span>R$ 119,40</span>
+                        </button>
+                        <button class="period-btn" onclick="selectPlan('Start Anual', 'https://invoice.infinitepay.io/plans/eyagencia2024/79pUYJaS7L', this)">
+                            Anual <span class="badge-discount">R$ 238,80</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- TITULAR -->
                 <div class="plan-box" id="box-Titular">
                     <h3>Titular</h3>
                     <div class="period-selector">
@@ -237,14 +228,15 @@
                             Mensal <span>R$ 100,00</span>
                         </button>
                         <button class="period-btn" onclick="selectPlan('Titular Semestral', 'https://invoice.infinitepay.io/plans/eyagencia2024/nBFOidLBd', this)">
-                            Semestral <span class="badge-discount">R$ 480,00</span>
+                            Semestral <span>R$ 480,00</span>
                         </button>
                         <button class="period-btn" onclick="selectPlan('Titular Anual', 'https://invoice.infinitepay.io/plans/eyagencia2024/1BlsbKqIYh', this)">
-                            Anual <span class="badge-discount">R$ 840,00</span>
+                            Anual <span>R$ 840,00</span>
                         </button>
                     </div>
                 </div>
 
+                <!-- CRAQUE -->
                 <div class="plan-box" id="box-Craque">
                     <h3>Craque</h3>
                     <div class="period-selector">
@@ -252,14 +244,15 @@
                             Mensal <span>R$ 200,00</span>
                         </button>
                         <button class="period-btn" onclick="selectPlan('Craque Semestral', 'https://invoice.infinitepay.io/plans/eyagencia2024/2DDPJem4J', this)">
-                            Semestral <span class="badge-discount">R$ 960,00</span>
+                            Semestral <span>R$ 960,00</span>
                         </button>
                         <button class="period-btn" onclick="selectPlan('Craque Anual', 'https://invoice.infinitepay.io/plans/eyagencia2024/78dIk6x5in', this)">
-                            Anual <span class="badge-discount">R$ 1.680,00</span>
+                            Anual <span>R$ 1.680,00</span>
                         </button>
                     </div>
                 </div>
 
+                <!-- LENDA -->
                 <div class="plan-box" id="box-Lenda">
                     <h3>Lenda</h3>
                     <div class="period-selector">
@@ -267,10 +260,10 @@
                             Mensal <span>R$ 350,00</span>
                         </button>
                         <button class="period-btn" onclick="selectPlan('Lenda Semestral', 'https://invoice.infinitepay.io/plans/eyagencia2024/78dGgih4LD', this)">
-                            Semestral <span class="badge-discount">R$ 1.680,00</span>
+                            Semestral <span>R$ 1.680,00</span>
                         </button>
                         <button class="period-btn" onclick="selectPlan('Lenda Anual', 'https://invoice.infinitepay.io/plans/eyagencia2024/1mepQ4k0e1', this)">
-                            Anual <span class="badge-discount">R$ 2.940,00</span>
+                            Anual <span>R$ 2.940,00</span>
                         </button>
                     </div>
                 </div>
@@ -370,21 +363,26 @@
         }
 
         document.getElementById('checkoutForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    // ... (todo o código de coleta de variáveis que já existe aí) ...
+            e.preventDefault();
+            const responsavel = document.getElementById('responsavel').value;
+            const atleta = document.getElementById('atleta').value;
+            const dominio = document.getElementById('dominio').value;
+            const redes = document.getElementById('redes').value;
 
-    const texto = `*NOVA CONTRATAÇÃO - FUTTALENTO*%0A` +
-                  // ... (resto da sua mensagem do whatsapp) ...
+            const texto = `*NOVA CONTRATAÇÃO - FUTTALENTO*%0A` +
+                          `*Plano:* ${planoGlobal}%0A` +
+                          `*Responsável:* ${responsavel}%0A` +
+                          `*Atleta:* ${atleta}%0A` +
+                          `*Sugestão Domínio:* ${dominio}%0A` +
+                          `*Redes Sociais:* ${redes}%0A%0A` +
+                          `_Estou enviando o comprovante de pagamento em anexo e as 10 fotos em seguida._`;
 
-    // 1. Abre o WhatsApp em uma nova aba (ou no app)
-    window.open(`https://wa.me/554832200260?text=${texto}`, '_blank');
+            window.open(`https://wa.me/554832200260?text=${texto}`, '_blank');
 
-    // 2. Redireciona a página atual para o "Obrigado" após 2 segundos
-    setTimeout(() => {
-        window.location.href = "obrigado.html";
-    }, 2000); 
-});
+            setTimeout(() => {
+                window.location.href = "obrigado.html";
+            }, 2000); 
+        });
 
         async function verificarDominio() {
             const dominioInput = document.getElementById('dominio');

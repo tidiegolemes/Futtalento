@@ -3,78 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 1. Atualize o H1 e Title -->
-<title>LUCAS AZAMBUJA é Tri-Campeão na New Cup 2026 | FutTalento</title>
+    <title>LUCAS AZAMBUJA é Tri-Campeão na New Cup 2026 | FutTalento</title>
+    
+    <meta name="description" content="Lucas Azambuja, meia canhoto do Grêmio FBPA e agenciado FutTalento, conquista o Tri na New Cup 2026.">
+    
+    <!-- TAILWIND CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- CONFIGURAÇÃO DE CORES (Obrigatório para o design funcionar) -->
+    <script>
+        tailwind.config = {
+            theme: { extend: { colors: { futGreen: '#22C55E', futDark: '#0A0A0A', futCard: '#141414' } } }
+        }
+    </script>
 
-<!-- 2. Atualize o Schema JSON-LD (Substitua o antigo) -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "NewsArticle",
-  "headline": "LUCAS AZAMBUJA é Tri-Campeão e mostra força da base Gremista",
-  "image": "https://futtalento.com.br/atletas/lukas/campeao-lukas.jpg",
-  "datePublished": "2026-01-21T08:59:00-03:00",
-  "author": {"@type": "Organization", "name": "FutTalento"},
-  "about": {
-    "@type": "Person",
-    "name": "LUCAS AZAMBUJA",
-    "sameAs": "https://lucasazambuja.com.br", 
-    "affiliation": {"@type": "SportsTeam", "name": "Grêmio FBPA"}
-  }
-}
-</script>
-
-<!-- 3. No corpo da notícia, atualize os links -->
-<p>O jovem meia canhoto <strong class="text-white">LUCAS AZAMBUJA</strong> consolidou sua posição... <a href="https://lucasazambuja.com.br" target="_blank" class="text-futGreen underline">Visite o site oficial dele ↗</a></p>
-
+    <!-- SCHEMA JSON-LD (SEO/AEO) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "NewsArticle",
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "https://futtalento.com.br/noticias/lucas-azambuja-tri-campeao-index.html"
-      },
-      "headline": "Lucas Azambuja (Lukinhas) é Tri-Campeão e mostra força da base Gremista na New Cup 2026",
-      "image": {
-        "@type": "ImageObject",
-        "url": "https://futtalento.com.br/atletas/lukas/campeao-lukas.jpg",
-        "width": 1200,
-        "height": 675
-      },
+      "headline": "LUCAS AZAMBUJA é Tri-Campeão e mostra força da base Gremista na New Cup 2026",
+      "image": "https://futtalento.com.br/atletas/lukas/campeao-lukas.jpg",
       "datePublished": "2026-01-21T08:59:00-03:00",
-      "author": {
-        "@type": "Organization",
-        "name": "Redação FutTalento",
-        "url": "https://futtalento.com.br"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "FutTalento",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://futtalento.com.br/futtalentologo.png"
-        }
-      },
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.8", 
-        "reviewCount": "91",
-        "bestRating": "5",
-        "worstRating": "1"
+      "author": { "@type": "Organization", "name": "FutTalento" },
+      "about": {
+        "@type": "Person",
+        "name": "LUCAS AZAMBUJA",
+        "sameAs": "https://lucasazambuja.com.br",
+        "affiliation": { "@type": "SportsTeam", "name": "Grêmio FBPA" }
       }
     }
     </script>
-    
-    <style>
-        /* Estilo extra para garantir a transição suave das estrelas */
-        .star-btn { transition: color 0.2s ease-in-out; }
-        .star-btn.active { color: #22C55E; } /* futGreen */
-        .star-btn.inactive { color: #4B5563; } /* gray-600 */
-    </style>
 </head>
 <body class="bg-futDark text-white font-sans selection:bg-futGreen selection:text-black">
 
+    <!-- NAVBAR CORRIGIDA -->
     <nav class="sticky top-0 z-50 bg-futDark/90 backdrop-blur-md border-b border-white/5 p-6">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <a href="../index.html"><img src="../futtalentologo.png" alt="FutTalento" class="h-8"></a>
@@ -90,137 +54,42 @@
         <header class="mb-12">
             <span class="border border-futGreen text-futGreen text-[10px] px-4 py-1.5 rounded-full uppercase font-black tracking-widest">Performance 4.0</span>
             <h1 class="text-4xl md:text-6xl font-black uppercase italic mt-8 leading-tight">
-                Lucas Azambuja <span class="text-futGreen">(Lukinhas)</span> conquista o Tri-Campeonato na New Cup 2026
+                LUCAS AZAMBUJA <span class="text-futGreen">(Lukinhas)</span> conquista o Tri-Campeonato na New Cup 2026
             </h1>
             
             <div class="flex items-center justify-between border-y border-white/5 py-6 mt-8">
                 <div class="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-gray-500">
-                    <span>Sede: <a href="https://www.instagram.com/explore/locations/255018651/chopinzinho/" target="_blank" class="hover:text-futGreen">Chopinzinho - PR</a></span>
+                    <span>Sede: Chopinzinho - PR</span>
                     <span class="text-futGreen">●</span>
-                    <span><a href="https://www.gremio.net" target="_blank" class="hover:text-futGreen">Grêmio FBPA</a></span>
-                </div>
-                <div class="flex gap-4">
-                    <a href="https://wa.me/554832200260" class="hover:text-futGreen transition"><i class="fab fa-whatsapp"></i></a>
-                    <a href="https://www.instagram.com/futtalentoplataforma/" class="hover:text-futGreen transition"><i class="fab fa-instagram"></i></a>
+                    <span>Grêmio FBPA</span>
                 </div>
             </div>
         </header>
 
         <article class="prose prose-invert max-w-none text-gray-400 leading-relaxed text-lg">
-            <img src="../atletas/lukas/campeao-lukas.jpg" class="w-full rounded-[2.5rem] mb-12 border border-white/5 shadow-2xl shadow-futGreen/5" alt="Lucas Azambuja Lukinhas Tri-Campeão na New Cup 2026">
+            <img src="../atletas/lukas/campeao-lukas.jpg" class="w-full rounded-[2.5rem] mb-12 border border-white/5 shadow-2xl shadow-futGreen/5" alt="Lucas Azambuja Tri-Campeão">
             
-            <p>O jovem meia canhoto <strong class="text-white">Lucas Azambuja (Lukinhas)</strong> consolidou sua posição como uma das maiores promessas da base gremista ao levantar o troféu da <strong class="text-white"><a href="https://www.instagram.com/newcuptorneiosfuteboldebase/" target="_blank" class="text-futGreen underline">New Cup 2026</a></strong> na categoria 2018.</p>
-
-            <h2 class="text-2xl font-impact uppercase italic mt-12 mb-6 text-white">DOMÍNIO TÉCNICO EM CHOPINZINHO</h2>
-            <p>Representando o <strong class="text-white"><a href="https://www.instagram.com/gremio/" target="_blank" class="text-futGreen underline">Grêmio FBPA</a></strong>, Lukinhas demonstrou visão de jogo e precisão tática durante toda a competição em Chopinzinho-PR. O título da Série Ouro veio após uma campanha impecável, reafirmando o sucesso da gestão de carreira da FutTalento.</p>
-            
-            <p class="mt-6">A competição contou com organização da <strong class="text-white">New Cup Torneios de Futebol de Base</strong>, que possui uma comunidade ativa interessada no futuro do esporte.</p>
-        </article>
-
-        <section class="mt-20 p-10 bg-futCard rounded-[2.5rem] border border-white/5 text-center">
-            <h4 class="text-sm font-black uppercase tracking-widest mb-4 italic" id="ratingTitle">Avalie o desempenho do atleta</h4>
-            
-            <div class="flex justify-center gap-2 mb-4 text-2xl" id="starContainer">
-                <button class="star-btn inactive" data-value="1" onclick="submitRating(1)"><i class="fas fa-star"></i></button>
-                <button class="star-btn inactive" data-value="2" onclick="submitRating(2)"><i class="fas fa-star"></i></button>
-                <button class="star-btn inactive" data-value="3" onclick="submitRating(3)"><i class="fas fa-star"></i></button>
-                <button class="star-btn inactive" data-value="4" onclick="submitRating(4)"><i class="fas fa-star"></i></button>
-                <button class="star-btn inactive" data-value="5" onclick="submitRating(5)"><i class="fas fa-star"></i></button>
-            </div>
-
-            <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest" id="ratingText">
-                Média 4.8 &bull; Baseado em <strong class="text-white">91 avaliações</strong>
+            <p class="mb-6">
+                O jovem meia canhoto <strong class="text-white">LUCAS AZAMBUJA</strong> consolidou sua posição como uma das maiores promessas da base gremista ao levantar o troféu da New Cup 2026. 
+                <a href="https://lucasazambuja.com.br" target="_blank" class="text-futGreen underline font-bold ml-2">Visite o site oficial dele ↗</a>
             </p>
 
-            <div class="flex flex-col md:flex-row justify-center gap-4 mt-8">
-                <a href="https://tidiegolemes.github.io/lukinhas10/" target="_blank" class="bg-white/5 px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-futGreen hover:text-black transition duration-500">Ver Perfil Oficial do Atleta</a>
-                <button class="bg-white/5 px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-futGreen hover:text-black transition duration-500" onclick="copyURL()">Copiar Link da Notícia</button>
+            <h2 class="text-2xl font-black uppercase italic mt-12 mb-6 text-white">DOMÍNIO TÉCNICO EM CHOPINZINHO</h2>
+            <p>Representando o Grêmio FBPA, Lucas demonstrou visão de jogo e precisão tática durante toda a competição. O título da Série Ouro veio após uma campanha impecável, reafirmando o sucesso da gestão de autoridade digital da FutTalento.</p>
+        </article>
+
+        <!-- BOTÕES DE AÇÃO -->
+        <section class="mt-20 p-10 bg-futCard rounded-[2.5rem] border border-white/5 text-center">
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+                <a href="https://lucasazambuja.com.br" target="_blank" class="bg-futGreen text-black px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-white transition duration-500">Acessar Site do Atleta</a>
+                <a href="index.html" class="bg-white/5 px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-futGreen hover:text-black transition duration-500">Voltar para Notícias</a>
             </div>
         </section>
     </main>
 
     <footer class="bg-futDark border-t border-white/5 py-12 text-center">
-        <p class="text-gray-600 text-[10px] font-black uppercase tracking-[0.4em]">&copy; 2026 FutTalento - Plataforma de Gestão 4.0</p>
+        <p class="text-gray-600 text-[10px] font-black uppercase tracking-[0.4em]">&copy; 2026 FutTalento - Gestão 4.0</p>
     </footer>
 
-    <script>
-        // Função de copiar URL
-        function copyURL() {
-            navigator.clipboard.writeText(window.location.href);
-            alert("URL de Lucas Azambuja copiada!");
-        }
-
-        // --- LÓGICA DE AVALIAÇÃO ---
-        const stars = document.querySelectorAll('.star-btn');
-        const ratingTitle = document.getElementById('ratingTitle');
-        const ratingText = document.getElementById('ratingText');
-        
-        // Verifica se já votou (LocalStorage)
-        const hasVoted = localStorage.getItem('voted_lucas_newcup');
-        if(hasVoted) {
-            highlightStars(hasVoted);
-            lockVoting(hasVoted);
-        }
-
-        // Efeito Hover
-        stars.forEach(star => {
-            star.addEventListener('mouseover', function() {
-                if(localStorage.getItem('voted_lucas_newcup')) return;
-                const value = this.getAttribute('data-value');
-                highlightStars(value);
-            });
-
-            star.addEventListener('mouseout', function() {
-                if(localStorage.getItem('voted_lucas_newcup')) return;
-                resetStars(); // Se não votou, apaga ao sair o mouse
-            });
-        });
-
-        // Função para pintar estrelas
-        function highlightStars(value) {
-            stars.forEach(star => {
-                const starValue = star.getAttribute('data-value');
-                if (starValue <= value) {
-                    star.classList.remove('inactive');
-                    star.classList.add('active');
-                } else {
-                    star.classList.remove('active');
-                    star.classList.add('inactive');
-                }
-            });
-        }
-
-        function resetStars() {
-            stars.forEach(star => {
-                star.classList.remove('active');
-                star.classList.add('inactive');
-            });
-        }
-
-        // Enviar Voto
-        function submitRating(rating) {
-            if(localStorage.getItem('voted_lucas_newcup')) {
-                return; // Impede votar 2x
-            }
-
-            // 1. Salva no navegador do usuário
-            localStorage.setItem('voted_lucas_newcup', rating);
-            
-            // 2. Trava a votação visualmente
-            lockVoting(rating);
-
-            // 3. (OPCIONAL) Enviar para seu Backend/Banco de Dados
-            // fetch('URL_DO_SEU_BACKEND/votar.php', { method: 'POST', body: JSON.stringify({nota: rating}) });
-            
-            console.log("Voto registrado: " + rating);
-        }
-
-        function lockVoting(rating) {
-            ratingTitle.innerHTML = "Obrigado pelo seu voto!";
-            ratingText.innerHTML = `VOCÊ AVALIOU COM NOTA <strong class="text-futGreen text-lg">${rating}</strong>`;
-            // Desabilita o hover removendo a lógica visual (mantendo a cor fixa)
-            stars.forEach(s => s.style.pointerEvents = 'none'); 
-        }
-    </script>
 </body>
 </html>

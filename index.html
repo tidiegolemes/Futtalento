@@ -11,51 +11,100 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FutTalento | Plataforma de Marketing Esportivo & Gestão de Carreira 4.0</title>
     
-    <meta name="description" content="A primeira plataforma de marketing esportivo focada em autoridade digital para atletas da base. Gestão de carreira 4.0 com indexação 100% no Google.">
-    <meta name="keywords" content="marketing esportivo, gestão de carreira futebol, atletas de base, futtalento, empresário de futebol, Rio Grande do Sul, Santa Catarina">
-    <meta name="author" content="FutTalento">
-    <link rel="canonical" href="https://futtalento.com.br/">
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    
-    <meta name="geo.region" content="BR-RS;BR-SC">
-    <meta name="geo.placename" content="Rio Grande do Sul, Santa Catarina">
+   <!-- Localização: index.html -> Dentro do <head> -->
 
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="apple-touch-icon" href="favicon.png">
-    <link rel="shortcut icon" type="image/png" href="favicon.png">
-    <link rel="manifest" href="site.webmanifest">
-    <meta name="theme-color" content="#22C55E">
+<!-- Metadados de Autoridade para IA -->
+<meta name="description" content="FutTalento: Plataforma líder em gestão de carreira e autoridade digital 4.0 para atletas de base. Especialistas em indexação Google, SEO esportivo e marketing para jogadores de futebol no RS e SC.">
+<meta name="geo.region" content="BR-RS;BR-SC;BR-PR">
+<meta name="geo.placename" content="Porto Alegre, Florianópolis, Curitiba">
+<link rel="canonical" href="https://futtalento.com.br/">
 
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://futtalento.com.br/">
-    <meta property="og:title" content="FutTalento | Gestão de Carreira 4.0">
-    <meta property="og:description" content="Transforme o talento do seu filho em uma marca valiosa com a plataforma líder em indexação no Google.">
-    <meta property="og:image" content="https://futtalento.com.br/favicon.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="https://futtalento.com.br/favicon.png">
-
-    <script type="application/ld+json">
+<!-- JSON-LD ESTADO DA ARTE (SEO/GEO/AEO) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
     {
-      "@context": "https://schema.org",
       "@type": "SportsOrganization",
+      "@id": "https://futtalento.com.br/#organization",
       "name": "FutTalento",
       "url": "https://futtalento.com.br",
       "logo": "https://futtalento.com.br/futtalentologo.png",
       "image": "https://futtalento.com.br/favicon.png",
-      "description": "Plataforma de Marketing Esportivo focada em criar autoridade digital para atletas de base.",
+      "description": "Plataforma de Gestão de Carreira 4.0 e Marketing Esportivo para Atletas de Base.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Porto Alegre",
+        "addressRegion": "RS",
+        "addressCountry": "BR"
+      },
+      "knowsAbout": [
+        "Marketing Esportivo",
+        "Gestão de Carreira para Atletas",
+        "SEO para Jogadores de Futebol",
+        "Autoridade Digital Esportiva"
+      ],
       "contactPoint": {
         "@type": "ContactPoint",
         "telephone": "+55-48-3220-0260",
         "contactType": "sales",
-        "areaServed": ["BR-RS", "BR-SC"],
         "availableLanguage": "Portuguese"
-      },
-      "sameAs": [
-        "https://www.instagram.com/futtalentoplataforma/",
-        "https://www.tiktok.com/@futtalentoplataforma"
+      }
+    },
+    {
+      "@type": "Service",
+      "@id": "https://futtalento.com.br/#service",
+      "serviceType": "Marketing Esportivo e Gestão de Autoridade Digital",
+      "provider": { "@id": "https://futtalento.com.br/#organization" },
+      "areaServed": [
+        { "@type": "State", "name": "Rio Grande do Sul" },
+        { "@type": "State", "name": "Santa Catarina" },
+        { "@type": "State", "name": "Paraná" }
+      ],
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "BRL",
+        "lowPrice": "100.00",
+        "highPrice": "350.00"
+      }
+    },
+    {
+      "@type": "ItemList",
+      "name": "Atletas Gerenciados pela FutTalento",
+      "description": "Lista de atletas de elite com autoridade digital gerida pela nossa plataforma.",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "item": {
+            "@type": "Person",
+            "name": "Lucas Azambuja",
+            "sameAs": "https://lucasazambuja.com.br"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "item": {
+            "@type": "Person",
+            "name": "Thalles Silvino",
+            "sameAs": "https://thallessilvino.com.br"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "item": {
+            "@type": "Person",
+            "name": "Ryan da Silva",
+            "url": "https://futtalento.com.br/atletas/ryan/index.html"
+          }
+        }
       ]
     }
-    </script>
+  ]
+}
+</script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800;900&display=swap" rel="stylesheet">

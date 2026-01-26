@@ -373,31 +373,78 @@
         </div>
     </footer>
 
-    <script>
-        function openTab(evt, tabName) {
-            var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tab-content");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-                tabcontent[i].classList.remove("active-content");
-            }
-            tablinks = document.getElementsByClassName("tab-btn");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
-            document.getElementById(tabName).style.display = "block";
-            setTimeout(() => {
-                document.getElementById(tabName).classList.add("active-content");
-            }, 10);
-            evt.currentTarget.className += " active";
+    <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Ryanzinho (08) | Atleta Base Cruzeiro-RS | Perfil Oficial</title>
+    <meta name="description" content="Perfil Oficial do atleta Ryan (Ryanzinho). Meio-campista camisa 8 da base do Cruzeiro-RS. Trajetória no Grêmio e São José. Gestão Futtalento.">
+
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://futtalento.com.br/atleta/ryan/">
+    <meta property="og:title" content="Ryanzinho (08) | Atleta Base Cruzeiro-RS">
+    <meta property="og:image" content="https://futtalento.com.br/atleta/ryan/perfilryan.jpg">
+    <meta name="geo.region" content="BR-RS" />
+    <meta name="geo.placename" content="Cachoeirinha" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Ryan Da Silva",
+      "alternateName": ["Ryanzinho", "Ryan 08"],
+      "jobTitle": "Jogador de Futebol",
+      "gender": "Male",
+      "birthDate": "2008",
+      "description": "Meio-campista do Cruzeiro-RS. Atleta de alto rendimento com formação no Grêmio FBPA e E.C. São José.",
+      "image": "https://futtalento.com.br/atleta/ryan/perfilryan.jpg",
+      "url": "https://futtalento.com.br/atleta/ryan/",
+      "affiliation": {
+        "@type": "SportsTeam",
+        "name": "Esporte Clube Cruzeiro RS",
+        "sport": "Futebol",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Cachoeirinha",
+          "addressRegion": "RS"
         }
-        
-        const toggleBtn = document.getElementById('themeToggle');
-        toggleBtn.addEventListener('click', () => {
-            document.body.classList.toggle('light-mode');
-            toggleBtn.innerHTML = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
-        });
-        document.getElementById("year").textContent = new Date().getFullYear();
+      },
+      "memberOf": [
+        {
+          "@type": "SportsTeam",
+          "name": "Grêmio FBPA",
+          "description": "Formação inicial e base aos 7 anos"
+        },
+        {
+          "@type": "SportsTeam",
+          "name": "E.C. São José",
+          "description": "Passagem competitiva e títulos"
+        }
+      ],
+      "hasOccupation": {
+        "@type": "Occupation",
+        "name": "Atleta de Futebol de Base",
+        "description": "Meio-campista, Playmaker, Visão de Jogo"
+      },
+      "award": [
+        "Campeão Copa Encosta da Serra 2021 (São José)",
+        "Vice-campeão Gaúcho Noligafi 2021 (São José)",
+        "Campeão Copa Trivela (Grêmio)"
+      ],
+      "brand": {
+        "@type": "Brand",
+        "name": "Futtalento",
+        "url": "https://futtalento.com.br"
+      },
+      "sameAs": [
+        "https://www.instagram.com/ryanzinho_8/",
+        "https://futtalento.com.br/atleta/ryan/"
+      ]
+    }
     </script>
 </body>
 </html>

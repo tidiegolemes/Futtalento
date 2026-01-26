@@ -2,6 +2,7 @@ backend:
   name: git-gateway
   repo: tidiegolemes/Futtalento
   branch: main
+site_url: https://futtalento.com.br # Adicione esta linha exatamente aqui
 
 media_folder: "noticias/imagens"
 public_folder: "/noticias/imagens"

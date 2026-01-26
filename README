@@ -1,0 +1,41 @@
+
+# FutTalento - Gestão de Carreira 4.0
+
+Plataforma de marketing esportivo e gestão de autoridade digital para atletas de base de futebol. Este projeto utiliza tecnologias modernas como React 19, Tailwind CSS e Google Gemini API para oferecer uma experiência 4.0 na gestão de talentos.
+
+## 🚀 Tecnologias Utilizadas
+
+- **React 19**: UI reativa com suporte a Modern Hooks.
+- **Tailwind CSS**: Estilização via CDN para máxima performance.
+- **Google Gemini API**: Consultoria inteligente (AI Scout Advisor).
+- **ESM.sh & Import Maps**: Gerenciamento de dependências sem necessidade de build step (No-Build).
+
+## 📦 Como rodar localmente
+
+Como este projeto utiliza módulos ES e Import Maps, você precisa de um servidor local para evitar erros de CORS:
+
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/seu-usuario/futtalento.git
+   ```
+2. Abra a pasta no VS Code.
+3. Use a extensão **Live Server** ou rode:
+   ```bash
+   npx serve .
+   ```
+
+## 🌐 Deploy no GitHub Pages
+
+Este projeto está pronto para o GitHub Pages. 
+> **Nota**: Como utilizamos roteamento SPA (`window.history.pushState`), se você atualizar a página em uma sub-rota como `/atletas`, o GitHub Pages retornará 404. Para produção, recomenda-se configurar um `404.html` que redirecione para o `index.html`.
+
+## 🔑 Configuração da API Gemini
+
+O projeto espera uma chave de API no ambiente:
+```javascript
+window.process.env.API_KEY = 'SUA_CHAVE_AQUI';
+```
+No ambiente de desenvolvimento, você pode definir isso no `index.html` ou através de um provedor de segredos.
+
+---
+© 2026 FutTalento - Todos os direitos reservados.

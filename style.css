@@ -1,3 +1,28 @@
+/* Localização: style.css -> Início do arquivo */
+
+/* Otimização AEO: Renderização prioritária de texto para robôs */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    font-display: swap; /* Garante que o texto apareça antes da fonte carregar */
+}
+
+/* Prevenção de CLS (Layout Shift): Evita que a página 'pule' ao carregar imagens */
+img {
+    content-visibility: auto;
+    decoding: async;
+    height: auto; /* Mantém a proporção */
+}
+
+/* Camada de prioridade para a Hero: SEO de Performance */
+.hero-section {
+    contain: layout;
+    content-visibility: visible;
+}
 /* --- CONFIGURAÇÕES GERAIS --- */
 :root {
     --primary: #00ff88;

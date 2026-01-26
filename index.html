@@ -11,9 +11,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FutTalento | Plataforma de Marketing Esportivo & Gestão de Carreira 4.0</title>
     
-   <!-- Localização: index.html -> Dentro do <head> -->
-
-<!-- Metadados de Autoridade para IA -->
 <meta name="description" content="FutTalento: Plataforma líder em gestão de carreira e autoridade digital 4.0 para atletas de base. Especialistas em indexação Google, SEO esportivo e marketing para jogadores de futebol no RS e SC.">
 <meta name="geo.region" content="BR-RS;BR-SC;BR-PR">
 <meta name="geo.placename" content="Porto Alegre, Florianópolis, Curitiba">
@@ -64,8 +61,9 @@
       "offers": {
         "@type": "AggregateOffer",
         "priceCurrency": "BRL",
-        "lowPrice": "100.00",
-        "highPrice": "350.00"
+        "lowPrice": "19.90", 
+        "highPrice": "350.00",
+        "offerCount": "4"
       }
     },
     {
@@ -132,13 +130,11 @@
         </div>
     </nav>
 
-    <!-- Localização: index.html -> Hero Section -->
 <header class="hero-section" id="home">
     <div class="hero-bg"></div> 
     <div class="hero-overlay"></div>
     <div class="container hero-content">
         <span class="badge-hero">Especialistas em Marketing Esportivo RS/SC</span>
-        <!-- H1 com palavras-chave de alta intenção para IA -->
         <h1>GESTÃO DE CARREIRA 4.0 PARA <br><span class="text-gradient">ATLETAS DE BASE</span></h1>
         <p>A FutTalento é a plataforma líder em **autoridade digital**. Criamos sites oficiais e estratégias de SEO para que o talento do seu filho seja encontrado por olheiros e clubes no Google.</p>
         <div class="hero-buttons">
@@ -163,16 +159,33 @@
         </div>
     </div>
 
-    <!-- Localização: index.html -> Section Planos -->
 <section id="planos" class="section-dark section-padding" itemscope itemtype="https://schema.org/OfferCatalog">
     <div class="container">
         <div class="section-header">
             <h2 itemprop="name">Planos de <span class="text-highlight">Autoridade Digital</span></h2>
             <p itemprop="description">Soluções completas de SEO, Domínio Próprio e Indexação Google para atletas.</p>
         </div>
-        <!-- ... restante do código dos planos ... -->
-            <div class="pricing-grid">
+            <div class="pricing-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
                 
+                <!-- NOVO PLANO PROMOCIONAL -->
+                <div class="pricing-card promo" style="border: 2px dashed var(--primary); background: rgba(34, 197, 94, 0.05); position: relative;">
+                    <div class="badge-popular" style="background: #ef4444; color: white;">PROMO DESTAQUE</div>
+                    <div class="plan-header">
+                        <h3>Start (Diretório)</h3>
+                        <p>Sua página no portal oficial</p>
+                    </div>
+                    <div class="price">R$ 19,90<span class="period">/mês*</span></div>
+                    <p style="font-size: 0.75rem; color: #94a3b8; text-align: center; margin-top: -20px; margin-bottom: 20px;">*Exclusivo planos Semestral/Anual</p>
+                    <ul class="features">
+                        <li><i class="fas fa-check"></i> Perfil no Diretório FutTalento</li>
+                        <li><i class="fas fa-check"></i> Indexação Google (SEO)</li>
+                        <li><i class="fas fa-check"></i> Fotos e Vídeos ilimitados</li>
+                        <li><i class="fas fa-check"></i> <strong>SEO GEO AEO</strong> (IA)</li>
+                        <li class="disabled"><i class="fas fa-times"></i> Domínio próprio (.com.br)</li>
+                    </ul>
+                    <a href="checkout.html" class="btn-plan" style="background: var(--primary); color: #000;">Aproveitar Oferta</a>
+                </div>
+
                 <div class="pricing-card">
                     <div class="plan-header">
                         <h3>Titular (Presença)</h3>
@@ -324,7 +337,7 @@
 </footer>
     <div id="lgpd-toast" style="position: fixed; bottom: 20px; left: 20px; right: 20px; background: #1e293b; border: 1px solid #334155; padding: 20px; border-radius: 15px; display: none; align-items: center; justify-content: space-between; gap: 20px; z-index: 9999; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
     <div style="font-size: 0.85rem; color: #94a3b8; line-height: 1.4;">
-        Utilizamos cookies e dados para oferecer a melhor experiência e profissionalizar a carreira do atleta. Ao continuar navegando, você concorda com nossa 
+        Utilizamos cookies e dados para oferecer a melhor experiêncian e profissionalizar a carreira do atleta. Ao continuar navegando, você concorda com nossa 
         <a href="privacidade.html" style="color: #22C55E; text-decoration: underline;">Política de Privacidade</a>.
     </div>
     <button onclick="aceitarLGPD()" style="background: #22C55E; color: white; border: none; padding: 10px 25px; border-radius: 8px; font-weight: 800; cursor: pointer; white-space: nowrap;">

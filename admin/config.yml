@@ -2,7 +2,8 @@ backend:
   name: github
   repo: tidiegolemes/Futtalento
   branch: main
-  base_url: https://decap-cms-proxy.vercel.app
+  # ATENÇÃO: Use exatamente o endereço do novo projeto que aparece na sua imagem
+  base_url: https://futtalento-leqk.vercel.app
 
 media_folder: "noticias/imagens"
 public_folder: "/noticias/imagens"

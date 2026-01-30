@@ -3,7 +3,7 @@ backend:
   repo: tidiegolemes/Futtalento
   branch: main
   # ATENÇÃO: Use exatamente o endereço do novo projeto que aparece na sua imagem
-  base_url: https://futtalento-leqk.vercel.app
+  base_url: https://cms-free-auth.vercel.app
 
 media_folder: "noticias/imagens"
 public_folder: "/noticias/imagens"

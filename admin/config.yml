@@ -1,8 +1,8 @@
 backend:
-  name: git-gateway
+  name: github
   repo: tidiegolemes/Futtalento
   branch: main
-site_url: https://futtalento.com.br # Adicione esta linha exatamente aqui
+  base_url: https://sua-api-de-autenticacao.com # Opcional, veja abaixo
 
 media_folder: "noticias/imagens"
 public_folder: "/noticias/imagens"

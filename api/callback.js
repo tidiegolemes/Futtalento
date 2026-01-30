@@ -14,7 +14,6 @@ module.exports = async (req, res) => {
 
     const token = response.data.access_token;
     
-    // Script otimizado para fechar a janela e enviar o token
     res.setHeader('Content-Type', 'text/html');
     res.send(`
       <html>
@@ -25,12 +24,11 @@ module.exports = async (req, res) => {
               const content = JSON.stringify({ token: token, provider: "github" });
               
               if (window.opener) {
-                // Envia o token para a janela principal
-                window.opener.postMessage("authorization:github:success:" + content, window.location.origin);
-                // Fecha esta janela branca
+                // O "*" permite que a mensagem seja enviada mesmo que o domínio varie (futtalento.com.br vs vercel.app)
+                window.opener.postMessage("authorization:github:success:" + content, "*");
                 window.close();
               } else {
-                document.body.innerHTML = "Autenticação concluída! Você já pode fechar esta aba e voltar ao painel.";
+                document.body.innerHTML = "Autenticação concluída! Pode fechar esta aba.";
               }
             })();
           </script>

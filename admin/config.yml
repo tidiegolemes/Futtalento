@@ -6,4 +6,15 @@ backend:
 
 media_folder: "noticias/imagens"
 public_folder: "/noticias/imagens"
-# ... resto do arquivo
+
+collections:
+  - name: "noticias"
+    label: "Notícias"
+    folder: "noticias/posts"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Título", name: "title", widget: "string"}
+      - {label: "Data", name: "date", widget: "datetime"}
+      - {label: "Imagem", name: "image", widget: "image"}
+      - {label: "Conteúdo", name: "body", widget: "markdown"}

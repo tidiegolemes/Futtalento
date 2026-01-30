@@ -3,3 +3,7 @@ backend:
   repo: tidiegolemes/Futtalento
   branch: main
   base_url: https://decap-cms-proxy.vercel.app
+
+media_folder: "noticias/imagens"
+public_folder: "/noticias/imagens"
+# ... resto do arquivo

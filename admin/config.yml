@@ -2,4 +2,4 @@ backend:
   name: github
   repo: tidiegolemes/Futtalento
   branch: main
-  base_url: https://decap-cms-proxy.vercel.app # Este é um servidor de login gratuito
+  base_url: https://decap-cms-proxy.vercel.app

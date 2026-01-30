@@ -2,19 +2,4 @@ backend:
   name: github
   repo: tidiegolemes/Futtalento
   branch: main
-  base_url: https://sua-api-de-autenticacao.com # Opcional, veja abaixo
-
-media_folder: "noticias/imagens"
-public_folder: "/noticias/imagens"
-
-collections:
-  - name: "noticias"
-    label: "Notícias"
-    folder: "noticias/posts"
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - {label: "Título", name: "title", widget: "string"}
-      - {label: "Data", name: "date", widget: "datetime"}
-      - {label: "Imagem", name: "image", widget: "image"}
-      - {label: "Conteúdo", name: "body", widget: "markdown"}
+  base_url: https://decap-cms-proxy.vercel.app # Este é um servidor de login gratuito

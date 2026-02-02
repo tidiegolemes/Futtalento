@@ -2,8 +2,11 @@ backend:
   name: github
   repo: tidiegolemes/Futtalento
   branch: main
+  # Este link deve ser o seu "servidor" de chaves
   base_url: https://futtalento.vercel.app/api
-  site_domain: futtalento.com.br # ESTA LINHA É O SEGREDO
+  # Estas duas linhas abaixo são as que matam o looping
+  auth_endpoint: auth
+  site_domain: futtalento.com.br
 
 media_folder: "noticias/imagens"
 public_folder: "/noticias/imagens"

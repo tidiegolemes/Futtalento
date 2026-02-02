@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
               const content = JSON.stringify({ token: token, provider: "github" });
               
               if (window.opener) {
-                // O "*" permite que a mensagem seja enviada mesmo que o domínio varie (futtalento.com.br vs vercel.app)
+                window.opener.postMessage("authorizing:github", "*");
                 window.opener.postMessage("authorization:github:success:" + content, "*");
                 window.close();
               } else {

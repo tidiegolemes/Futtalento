@@ -3,8 +3,7 @@ backend:
   repo: tidiegolemes/Futtalento
   branch: main
   base_url: https://futtalento.vercel.app/api
-  auth_endpoint: auth  # Adicione esta linha
-  site_domain: futtalento.com.br # Adicione esta linha
+  site_domain: futtalento.com.br # ESTA LINHA É O SEGREDO
 
 media_folder: "noticias/imagens"
 public_folder: "/noticias/imagens"

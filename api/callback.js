@@ -20,15 +20,15 @@ module.exports = async (req, res) => {
         <body>
           <script>
             (function() {
-              const token = "${token}";
-              const content = JSON.stringify({ token: token, provider: "github" });
+              const content = JSON.stringify({ token: "${token}", provider: "github" });
               
               if (window.opener) {
+                // Envia o sinal de autorização para a janela principal
                 window.opener.postMessage("authorizing:github", "*");
                 window.opener.postMessage("authorization:github:success:" + content, "*");
                 window.close();
               } else {
-                document.body.innerHTML = "Autenticação concluída! Pode fechar esta aba.";
+                document.body.innerHTML = "Logado! Você já pode fechar esta aba.";
               }
             })();
           </script>

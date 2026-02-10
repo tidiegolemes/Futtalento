@@ -1,11 +1,11 @@
-module.exports = async (req, res) => {
-  const { state } = req.query;
-  // O nome aqui deve ser IGUAL ao da Vercel (Maiúsculas)
-  const client_id = process.env.GITHUB_CLIENT_ID;
+// api/auth.js
 
-  if (!client_id) {
-    return res.status(500).send("Erro: GITHUB_CLIENT_ID não encontrado.");
-  }
-
-  res.redirect(`https://github.com/login/oauth/authorize?client_id=${client_id}&scope=repo,user&state=${state}`);
-};
+export default function handler(req, res) {
+  // Escopo de permissões que sua aplicação precisa. 'repo' é comum.
+  const scope = 'repo';
+  const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&scope=${scope}`;
+  
+  // Redireciona o pop-up para a página de autorização do GitHub
+  res.writeHead(302, { Location: githubAuthUrl });
+  res.end();
+}

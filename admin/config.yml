@@ -3,7 +3,7 @@ backend:
   repo: tidiegolemes/Futtalento
   branch: main
   # Este link deve ser o seu "servidor" de chaves
-  base_url: https://futtalento.vercel.app/api
+  base_url: https://futtalento.vercel.app
   # Estas duas linhas abaixo são as que matam o looping
   auth_endpoint: auth
   site_domain: futtalento.com.br

@@ -90,6 +90,10 @@ export default async function handler(req,res){
         coupon=safe(body.coupon,60),support=safe(body.support,220);
       if(offer.length<8||validity.length<5||support.length<4)
         return forbidden(res,400,'Descreva o benefício, a validade e como a empresa apoia o Lucas.');
+      if(portal.offer){
+        portal.offerHistory=Array.isArray(portal.offerHistory)?portal.offerHistory.slice(-18):[];
+        portal.offerHistory.push(portal.offer);
+      }
       portal.offer={offer,validity,coupon,support,status:'pending',reviewNote:'',
         submittedAt:now,reviewedAt:null};
     }else if(action==='report_result'){

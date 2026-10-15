@@ -1,0 +1,15 @@
+window.FUTTALENTO_SCHEDULE=[
+{date:"2026-10-19",partner:"oze",type:"story",note:"Apresentar barbearia e modalidade do apoio, sujeito à aprovação"},
+{date:"2026-10-21",partner:"didi",type:"story",note:"Produto da confeitaria e benefício aprovado, caso exista"},
+{date:"2026-10-23",partner:"guimaraes",type:"reel",note:"Rede de apoio ao futebol de base"},
+{date:"2026-10-25",partner:"realgaucho",type:"post",note:"Carrossel de formação em futebol e futsal"},
+{date:"2026-10-26",partner:"realgaucho",type:"story",note:"Treino institucional autorizado"},
+{date:"2026-10-28",partner:"guimaraes",type:"story",note:"Conheça o parceiro"},
+{date:"2026-10-30",partner:"oze",type:"reel",note:"Bastidores do estabelecimento"},
+{date:"2026-11-02",partner:"didi",type:"story",note:"Produto e condições de oferta aprovadas"},
+{date:"2026-11-04",partner:"oze",type:"story",note:"Lembrete de oferta válida para adultos"},
+{date:"2026-11-06",partner:"realgaucho",type:"reel",note:"Rotina de preparação esportiva"},
+{date:"2026-11-08",partner:"guimaraes",type:"post",note:"Carrossel de trajetória e rede de apoio"},
+{date:"2026-11-09",partner:"guimaraes",type:"story",note:"Apresentação da marca"},
+{date:"2026-11-11",partner:"realgaucho",type:"story",note:"Conteúdo educativo de futsal"},
+{date:"2026-11-13",partner:"didi",type:"reel",note:"Bastidores da confeitaria"}];

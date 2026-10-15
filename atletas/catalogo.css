@@ -56,3 +56,5 @@
 .mobile-note{font-size:.78rem;color:#bbcbd8}
 @media(max-width:850px){.athlete-profile{grid-template-columns:210px 1fr;gap:20px}.metrics-row{grid-template-columns:repeat(2,1fr)}.journey{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.athlete-hero{padding:55px 0 26px}.athlete-profile{grid-template-columns:1fr;padding:18px}.athlete-photo{max-height:330px;object-position:center 28%;aspect-ratio:5/4}.athlete-more{padding:20px}.journey{grid-template-columns:1fr}.metrics-row{grid-template-columns:repeat(2,1fr)}.funnel{display:grid;grid-template-columns:repeat(2,1fr)}.partner-rail{grid-auto-columns:minmax(172px,78%)}.community{padding:22px}.carousel-controls button{width:36px;height:36px}}
+
+.athlete-disclosure{margin-top:22px}.athlete-disclosure>summary{cursor:pointer;color:var(--brand);font-weight:800;list-style-position:inside;border:1px solid rgba(201,252,84,.42);background:#142a3b;padding:12px 17px;border-radius:11px}.athlete-disclosure[open]>summary{border-radius:11px 11px 0 0}.athlete-disclosure>summary:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}.athlete-disclosure .section-line:first-of-type{margin-top:0}

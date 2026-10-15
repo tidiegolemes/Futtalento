@@ -55,7 +55,8 @@ $('activityRows').innerHTML=(state.activities||[]).slice().reverse().map(a=>'<tr
 renderMetrics();
 }
 function renderSocial(){$('socialRows').innerHTML=(state.social||[]).slice().reverse().map((a,i)=>'<tr><td>'+safe(a.date)+'</td><td>'+safe(label(a.partner))+'</td><td>'+number(a.followers)+'</td><td>'+number(a.reach)+'</td><td>'+number(a.visits)+'</td><td>'+safe(a.source||'—')+'</td><td><button type="button" data-rm-social="'+(state.social.length-1-i)+'">Excluir</button></td></tr>').join('');}
-function render(){renderPartners();renderMissions();renderActivities();renderSocial();}
+function render(){renderPartners();renderMissions();renderActivities();renderSocial();renderCalendar();}
+function renderCalendar(){const rows=window.FUTTALENTO_SCHEDULE||[];$('calendarRows').innerHTML=rows.map(x=>'<tr><td>'+safe(x.date)+'</td><td>'+safe(label(x.partner))+'</td><td>'+safe(x.type)+'</td><td>'+safe(x.note)+'</td></tr>').join('');}
 async function fetchData(){
 try{const response=await fetch('/api/sponsor-state',{credentials:'same-origin',cache:'no-store'});if(response.status===401){$('login').classList.remove('hidden');$('app').classList.add('hidden');return}
 const raw=await response.json();if(!response.ok)throw Error(raw.error||'Falha ao carregar');
@@ -73,6 +74,7 @@ catch(err){status(err.message,true)}finally{$('save').disabled=false}
 function init(){
 document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{if(ready){pullPartners();pullMissions()}setTab(b.dataset.tab)}));
 $('save').addEventListener('click',save);
+$('adoptCalendar').addEventListener('click',()=>{const list=window.FUTTALENTO_SCHEDULE||[];const current=new Set(state.activities.map(x=>x.id));let added=0;for(const x of list){const id='calendar-'+x.date+'-'+x.partner+'-'+x.type;if(current.has(id))continue;state.activities.push({...x,id,status:'planejado',source:'',qty:1,revenue:0});added++;}renderActivities();status(added+' ações planejadas adicionadas. Clique em Salvar atualizações.');});
 $('acPartner').innerHTML=partnerOptions();$('soPartner').innerHTML=partnerOptions();setToday();
 $('addActivity').addEventListener('click',()=>{pullPartners();pullMissions();const type=$('acType').value,statusVal=$('acStatus').value,qty=Number($('acQty').value||0),revenue=Number($('acRevenue').value||0),source=$('acSource').value.trim();
 if(!$('acDate').value||qty<0||revenue<0)return alert('Verifique data, quantidade e valor.');

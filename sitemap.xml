@@ -1,37 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Home Page - Versão Limpa -->
-  <url>
-    <loc>https://futtalento.com.br/</loc>
-    <lastmod>2026-01-26</lastmod>
-    <priority>1.00</priority>
-  </url>
-
-  <!-- Diretório de Atletas -->
-  <url>
-    <loc>https://futtalento.com.br/atletas/</loc>
-    <lastmod>2026-01-26</lastmod>
-    <priority>0.90</priority>
-  </url>
-
-  <!-- Perfil do Ryan (Entidade) -->
-  <url>
-    <loc>https://futtalento.com.br/atletas/ryan/</loc>
-    <lastmod>2026-01-26</lastmod>
-    <priority>0.85</priority>
-  </url>
-
-  <!-- Portal de Notícias -->
-  <url>
-    <loc>https://futtalento.com.br/noticias/</loc>
-    <lastmod>2026-01-26</lastmod>
-    <priority>0.80</priority>
-  </url>
-
-  <!-- Notícia específica Lucas Azambuja -->
-  <url>
-    <loc>https://futtalento.com.br/noticias/lucas-azambuja-tri-campeao-index.html</loc>
-    <lastmod>2026-01-26</lastmod>
-    <priority>0.80</priority>
-  </url>
+  <url><loc>https://www.futtalento.com.br/</loc><lastmod>2026-10-15</lastmod></url>
+  <url><loc>https://www.futtalento.com.br/sobre.html</loc><lastmod>2026-10-15</lastmod></url>
+  <url><loc>https://www.futtalento.com.br/patrocinadores.html</loc><lastmod>2026-10-15</lastmod></url>
+  <url><loc>https://www.futtalento.com.br/metodologia.html</loc><lastmod>2026-10-15</lastmod></url>
+  <url><loc>https://www.futtalento.com.br/atletas/</loc><lastmod>2026-10-15</lastmod></url>
+  <url><loc>https://www.futtalento.com.br/atletas/ryan/</loc><lastmod>2026-10-15</lastmod></url>
+  <url><loc>https://www.futtalento.com.br/noticias/</loc><lastmod>2026-10-15</lastmod></url>
+  <url><loc>https://www.futtalento.com.br/noticias/como-conseguir-patrocinio-atleta-base.html</loc><lastmod>2026-10-15</lastmod></url>
+  <url><loc>https://www.futtalento.com.br/noticias/patrocinio-permuta-atleta-futebol.html</loc><lastmod>2026-10-15</lastmod></url>
+  <url><loc>https://www.futtalento.com.br/noticias/como-medir-retorno-patrocinio-esportivo.html</loc><lastmod>2026-10-15</lastmod></url>
+  <url><loc>https://www.futtalento.com.br/noticias/lucas-azambuja-tri-campeao-index.html</loc><lastmod>2026-01-27</lastmod></url>
+  <url><loc>https://www.futtalento.com.br/noticias/ryan-estreia-copa-maravilha-2026.html</loc><lastmod>2026-01-27</lastmod></url>
+  <url><loc>https://www.futtalento.com.br/noticias/ryan-vitoria-estreia-copa-maravilha.html</loc><lastmod>2026-01-27</lastmod></url>
 </urlset>

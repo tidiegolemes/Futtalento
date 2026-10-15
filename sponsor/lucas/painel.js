@@ -55,7 +55,7 @@ $('activityRows').innerHTML=(state.activities||[]).slice().reverse().map(a=>'<tr
 renderMetrics();
 }
 function renderSocial(){$('socialRows').innerHTML=(state.social||[]).slice().reverse().map((a,i)=>'<tr><td>'+safe(a.date)+'</td><td>'+safe(label(a.partner))+'</td><td>'+number(a.followers)+'</td><td>'+number(a.reach)+'</td><td>'+number(a.visits)+'</td><td>'+safe(a.source||'—')+'</td><td><button type="button" data-rm-social="'+(state.social.length-1-i)+'">Excluir</button></td></tr>').join('');}
-function render(){renderPartners();renderMissions();renderActivities();renderSocial();renderCalendar();}
+function render(){renderPartners();renderMissions();renderActivities();renderSocial();renderCalendar();renderReport();}
 function renderCalendar(){const rows=window.FUTTALENTO_SCHEDULE||[];$('calendarRows').innerHTML=rows.map(x=>'<tr><td>'+safe(x.date)+'</td><td>'+safe(label(x.partner))+'</td><td>'+safe(x.type)+'</td><td>'+safe(x.note)+'</td></tr>').join('');}
 async function fetchData(){
 try{const response=await fetch('/api/sponsor-state',{credentials:'same-origin',cache:'no-store'});if(response.status===401){$('login').classList.remove('hidden');$('app').classList.add('hidden');return}
@@ -71,21 +71,33 @@ if(!ready)return;pullPartners();pullMissions();status('Salvando...');$('save').d
 try{const res=await fetch('/api/sponsor-state',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:JSON.stringify(state)}),reply=await res.json();if(!res.ok)throw Error(reply.error||'Erro ao salvar');state.updatedAt=reply.updatedAt;status('Salvo com sucesso em '+new Date(reply.updatedAt).toLocaleString('pt-BR'));renderMissions();renderMetrics()}
 catch(err){status(err.message,true)}finally{$('save').disabled=false}
 }
+
+function renderReport(){
+const id=$('reportPartner').value||'oze',p=state.partners[id]||{},events=(state.activities||[]).filter(x=>x.partner===id),snapshots=(state.social||[]).filter(x=>x.partner===id).sort((a,b)=>a.date.localeCompare(b.date));
+const deliveries=events.filter(x=>['story','reel','post'].includes(x.type)&&['publicado','confirmado'].includes(x.status)).reduce((n,x)=>n+(x.qty||1),0);
+const coupons=events.filter(x=>['resgate','cupom'].includes(x.type)&&x.status==='confirmado').reduce((n,x)=>n+(x.qty||0),0);
+const sales=events.filter(x=>x.type==='venda'&&x.status==='confirmado').reduce((n,x)=>n+(x.qty||0),0);
+const value=events.filter(x=>x.type==='venda'&&x.status==='confirmado').reduce((n,x)=>n+(x.revenue||0),0);
+const followerGain=snapshots.length>=2?snapshots[snapshots.length-1].followers-snapshots[0].followers:null;
+const evidence=events.filter(x=>x.status==='confirmado'&&x.source).map(x=>'<li>'+safe(x.date)+' · '+safe(x.type)+' · '+safe(x.source)+'</li>').join('')||'<li>Sem comprovações confirmadas ainda.</li>';
+$('reportContent').innerHTML='<div class="record"><span class="eyebrow">FutTalento Sponsor · Relatório de acompanhamento</span><h2>'+safe(label(id))+'</h2><p class="mini">Data: '+new Date().toLocaleDateString('pt-BR')+' · Atleta: Lucas Azambuja · Estado da parceria: '+(p.approved?'registrada como aprovada':'pendente de confirmação')+'</p><p><b>Modalidade:</b> '+safe(p.kind||'A confirmar')+'<br><b>Oferta:</b> '+safe(p.offer||'Não definida')+'<br><b>Cupom:</b> '+safe(p.coupon||'Não definido')+'<br><b>Período:</b> '+safe(p.validity||'Não definido')+'</p><div class="panels"><div class="metricbox"><small>Conteúdos publicados</small><strong>'+number(deliveries)+'</strong></div><div class="metricbox"><small>Cupons/resgates</small><strong>'+number(coupons)+'</strong></div><div class="metricbox"><small>Compras confirmadas</small><strong>'+number(sales)+'</strong></div><div class="metricbox"><small>Vendas atribuídas</small><strong>'+money(value)+'</strong></div></div><h3>Instagram / audiência</h3><p>Seguidores em data inicial: <b>'+(snapshots.length?number(snapshots[0].followers):'Sem dados')+'</b> · Última medição: <b>'+(snapshots.length?number(snapshots[snapshots.length-1].followers):'Sem dados')+'</b> · Variação observada: <b>'+(followerGain===null?'Sem série histórica':(followerGain>0?'+':'')+number(followerGain))+'</b></p><p class="mini">Variação total de seguidores não comprova que o crescimento veio de um post específico. Cliques e visitas originados de Stories/Reels dependerão de links instrumentados e integração GA4; visitas ao perfil do Instagram exigem Insights da conta autorizada.</p><h3>Comprovações</h3><ul>'+evidence+'</ul><p class="mini">Fonte de vendas: registro validado pelo comércio. Não representa lucro líquido, resultado causal ou retorno financeiro garantido. Este resumo não contém dados pessoais dos consumidores.</p></div>';
+}
+
 function init(){
 document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{if(ready){pullPartners();pullMissions()}setTab(b.dataset.tab)}));
 $('save').addEventListener('click',save);
 $('adoptCalendar').addEventListener('click',()=>{const list=window.FUTTALENTO_SCHEDULE||[];const current=new Set(state.activities.map(x=>x.id));let added=0;for(const x of list){const id='calendar-'+x.date+'-'+x.partner+'-'+x.type;if(current.has(id))continue;state.activities.push({...x,id,status:'planejado',source:'',qty:1,revenue:0});added++;}renderActivities();status(added+' ações planejadas adicionadas. Clique em Salvar atualizações.');});
-$('acPartner').innerHTML=partnerOptions();$('soPartner').innerHTML=partnerOptions();setToday();
+$('acPartner').innerHTML=partnerOptions();$('soPartner').innerHTML=partnerOptions();$('reportPartner').innerHTML=partnerOptions();$('reportPartner').addEventListener('change',()=>{pullPartners();renderReport()});$('printReport').addEventListener('click',()=>window.print());setToday();
 $('addActivity').addEventListener('click',()=>{pullPartners();pullMissions();const type=$('acType').value,statusVal=$('acStatus').value,qty=Number($('acQty').value||0),revenue=Number($('acRevenue').value||0),source=$('acSource').value.trim();
 if(!$('acDate').value||qty<0||revenue<0)return alert('Verifique data, quantidade e valor.');
 if(['cupom','resgate','venda'].includes(type)&&statusVal==='confirmado'&&!source)return alert('Para confirmar venda ou cupom, inclua a fonte da comprovação.');
 state.activities.push({id:'a-'+Date.now()+'-'+Math.random().toString(36).slice(2,8),date:$('acDate').value,partner:$('acPartner').value,type,status:statusVal,qty,revenue,source,note:$('acNote').value.trim()});
-$('acSource').value='';$('acNote').value='';renderActivities();status('Registro adicionado; clique Salvar atualizações para persistir.')});
-$('activityRows').addEventListener('click',e=>{const id=e.target.dataset.rmActivity;if(!id)return;state.activities=state.activities.filter(x=>x.id!==id);renderActivities();status('Exclusão pendente de salvar.')});
+$('acSource').value='';$('acNote').value='';renderActivities();renderReport();status('Registro adicionado; clique Salvar atualizações para persistir.')});
+$('activityRows').addEventListener('click',e=>{const id=e.target.dataset.rmActivity;if(!id)return;state.activities=state.activities.filter(x=>x.id!==id);renderActivities();renderReport();status('Exclusão pendente de salvar.')});
 $('addSocial').addEventListener('click',()=>{const s={date:$('soDate').value,partner:$('soPartner').value,followers:Number($('soFollowers').value),reach:Number($('soReach').value),visits:Number($('soVisits').value),source:$('soSource').value.trim()};
 if(!s.date||!s.source||!Number.isFinite(s.followers)||s.followers<0)return alert('Informe data, dados válidos e a fonte real.');
-state.social.push(s);renderSocial();status('Insight adicionado; clique Salvar.')});
-$('socialRows').addEventListener('click',e=>{const i=e.target.dataset.rmSocial;if(i===undefined)return;state.social.splice(Number(i),1);renderSocial();status('Exclusão pendente de salvar.')});
+state.social.push(s);renderSocial();renderReport();status('Insight adicionado; clique Salvar.')});
+$('socialRows').addEventListener('click',e=>{const i=e.target.dataset.rmSocial;if(i===undefined)return;state.social.splice(Number(i),1);renderSocial();renderReport();status('Exclusão pendente de salvar.')});
 fetchData();
 }
 init();

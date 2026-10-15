@@ -8,14 +8,20 @@
 </div><p class="bottomline">Os links acima direcionam aos canais oficiais informados. Cliques não equivalem a novos seguidores, mensagens ou compras. Cada comércio é responsável por validar vendas e resgates de cupons.</p>
 <div class="actions"><a class="btn btn-outline" href="https://www.lucasazambuja.com.br/#parceiros" target="_blank" rel="noopener noreferrer">Ver site oficial do atleta</a><a class="btn btn-outline" href="../../metodologia.html">Como medimos resultados</a></div>
 </section></main><footer class="footer"><div class="wrap"><p>FutTalento — Apoio responsável à formação esportiva.</p><p><a href="../../privacidade.html">Privacidade</a> · <a href="../../termos.html">Termos</a></p></div></footer>
+<div id="metric-consent" hidden role="region" aria-label="Preferências de métricas" style="position:fixed;z-index:100;bottom:12px;left:12px;right:12px;max-width:600px;background:#fff;color:#142033;padding:16px;border-radius:13px;box-shadow:0 8px 30px #0009"><p style="margin:0 0 12px">Para medir visitas e cliques, utilizamos métricas opcionais com seu consentimento. <a style="color:#142033;text-decoration:underline" href="../../privacidade.html">Privacidade</a>.</p><button id="metric-yes" style="border:0;background:#142033;color:#fff;padding:10px;border-radius:7px">Aceitar</button> <button id="metric-no" style="border:0;background:#eee;color:#142033;padding:10px;border-radius:7px">Recusar</button></div>
 <script>
 (function(){
 const key='futtalento_analytics_consent';
-let enabled=false;try{enabled=localStorage.getItem(key)==='granted'}catch(e){}
-if(!enabled)return;
+let pref=null;try{pref=localStorage.getItem(key)}catch(e){}
+const notice=document.getElementById('metric-consent');if(!pref)notice.hidden=false;
+function activate(){
 window.dataLayer=window.dataLayer||[];window.dataLayer.push({'gtm.start':Date.now(),event:'gtm.js'});
 const s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtm.js?id=GTM-KWG5W6XZ';document.head.appendChild(s);
-for(const link of document.querySelectorAll('.sponsor-cta'))link.addEventListener('click',()=>window.dataLayer.push({event:'futtalento_partner_click',partner_id:link.dataset.partner,referral_medium:new URLSearchParams(location.search).get('utm_medium')||'unknown',referral_campaign:new URLSearchParams(location.search).get('utm_campaign')||'unknown'}));
+}
+if(pref==='granted')activate();
+document.getElementById('metric-yes').addEventListener('click',()=>{try{localStorage.setItem(key,'granted')}catch(e){}pref='granted';notice.hidden=true;activate()});
+document.getElementById('metric-no').addEventListener('click',()=>{try{localStorage.setItem(key,'denied')}catch(e){}pref='denied';notice.hidden=true});
+for(const link of document.querySelectorAll('.sponsor-cta'))link.addEventListener('click',()=>{if(pref!=='granted')return;window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'futtalento_partner_click',partner_id:link.dataset.partner,referral_medium:new URLSearchParams(location.search).get('utm_medium')||'unknown',referral_campaign:new URLSearchParams(location.search).get('utm_campaign')||'unknown'})});
 })();
 </script>
 </body></html>

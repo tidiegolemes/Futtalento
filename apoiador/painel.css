@@ -1,0 +1,31 @@
+/* Meu Apoio FutTalento — mesma linguagem acessível da Jornada Lucas */
+.partner-avatar{width:72px;height:72px;display:grid;place-items:center;flex:none;border-radius:24px;background:#e0f6cd;border:4px solid white;font-size:2.55rem;box-shadow:0 6px 18px #183f3814}
+.login-icon{text-align:center;font-size:3.3rem;margin:0 0 4px}
+.sponsortop{display:flex;gap:7px;align-items:center;flex-wrap:wrap;justify-content:end}
+.smallNumbers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin:15px 0}
+.numberCard{background:white;border:1px solid #d8e9df;border-radius:19px;padding:17px;min-width:0}
+.numberCard strong{display:block;font-size:clamp(1.3rem,4vw,1.9rem);color:#26563d;letter-spacing:-.045em;line-height:1.3;overflow-wrap:anywhere}
+.numberCard .isMissing{font-size:1.05rem;color:#728a87}
+.numberCard small{display:block;color:#52647a;font-weight:720;font-size:.77rem;line-height:1.4;margin-top:4px}
+.supportLink{background:#e6f7ed;margin-top:15px}
+.simpleRows{margin-top:12px}
+.simpleRow{padding:11px 0;border-bottom:1px solid #dfebea;display:flex;justify-content:space-between;gap:15px;font-size:.86rem}
+.simpleRow b{white-space:nowrap}
+.statusFlag{display:inline-block;font-size:.77rem;font-weight:850;border-radius:100px;padding:5px 11px;background:#fff5d8;color:#866016;border:1px solid #efda9c}
+.statusFlag.verified{background:#e1f7db;color:#235c38;border-color:#c7eac2}
+.statusFlag.rejected{background:#fce6e7;color:#82303b;border-color:#e9c9ce}
+.offerSummary{display:grid;gap:8px;font-size:.89rem;color:#4e6470;margin-top:11px}
+.offerSummary b{color:#234b3c}
+.formarea{margin-top:17px;display:grid;gap:8px;border-top:1px solid #dce9df;padding-top:18px}
+.formarea textarea{min-height:95px;resize:vertical}
+.formarea label:not(:first-child){margin-top:6px}
+.formarea .action{margin-top:11px}
+.deliveryIcon{width:52px;height:52px;display:grid;place-items:center;border-radius:15px;background:#edf8e7;font-size:1.75rem;flex:none}
+.deliveryState{display:inline-block;font-weight:800;color:#9a6b1e;background:#fff5dd;border-radius:99px;padding:4px 9px;margin-top:5px;font-size:.72rem}
+.deliveryState.live{background:#e7f8db;color:#2a6836}
+.trackNotice{margin-top:14px;border:1px solid #c9e2f2;border-radius:16px;background:#f0faff;padding:14px;font-size:.8rem;color:#4e6470}
+.cardlabel{margin:12px 0 6px;display:block;font-size:.8rem;color:#3b7558;font-weight:850;text-transform:uppercase;letter-spacing:.045em}
+.subMission{background:#f9fcf8;border:1px solid #dce9da;padding:14px;border-radius:16px;margin:13px 0 0}
+.inlineBtns{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:13px}
+.action-link{color:#246a62;text-decoration:underline;font-weight:800}
+@media(max-width:460px){.partner-avatar{width:63px;height:63px;border-radius:20px;font-size:2rem}.smallNumbers{gap:8px}.numberCard{padding:13px}.numberCard strong{font-size:1.3rem}.inlineBtns{grid-template-columns:1fr}}

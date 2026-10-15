@@ -30,6 +30,7 @@ export default async function handler(req,res){
   const name=clean(raw.nome,90),business=clean(raw.empresa,90),city=clean(raw.cidade,70);
   const phone=clean(raw.whatsapp,30).replace(/[^\d]/g,'');
   const goal=clean(raw.interesse,45);
+  const athlete=persona==='empresa'&&['lucas','ryan','thalles'].includes(raw.atleta)?raw.atleta:null;
   if(name.length<3)return error(res,400,'Informe seu nome.');
   if(persona==='empresa'&&business.length<2)return error(res,400,'Informe o nome da empresa.');
   if(phone.length<10||phone.length>13)return error(res,400,'Informe um WhatsApp válido com DDD.');
@@ -48,7 +49,7 @@ export default async function handler(req,res){
   const record={
     id,createdAt:now,updatedAt:now,status:'novo',persona,
     nome:name,whatsapp:phone,cidade:city,
-    empresa:persona==='empresa'?business:null,interesse:goal,
+    empresa:persona==='empresa'?business:null,interesse:goal,atletaInteresse:athlete,
     origem:{
       utm_source:tracking(raw.utm_source),
       utm_medium:tracking(raw.utm_medium),

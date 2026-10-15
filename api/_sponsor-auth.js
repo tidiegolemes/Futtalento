@@ -10,3 +10,18 @@ const until=Date.parse(process.env.SPONSOR_TEMP_PASSWORD_EXPIRES_AT||'');
 if(payload.kind==='sponsor-temp'&&hash.length===64&&Number.isFinite(until)&&Date.now()<until&&payload.ver===hash.slice(0,16)&&payload.login==='lucas-temporario')return payload;
 return null}
 export function cookie(name,value,age){return name+'='+value+'; Path=/; Secure; HttpOnly; SameSite=Lax; Max-Age='+age}
+
+export const PARTNER_IDS=['oze','didi','guimaraes','realgaucho'];
+export function partnerHash(id){
+  if(!PARTNER_IDS.includes(id))return '';
+  const key={oze:'SPONSOR_PARTNER_HASH_OZE',didi:'SPONSOR_PARTNER_HASH_DIDI',guimaraes:'SPONSOR_PARTNER_HASH_GUIMARAES',realgaucho:'SPONSOR_PARTNER_HASH_REALGAUCHO'}[id];
+  return process.env[key]||'';
+}
+export function authenticatePartner(req){
+  const raw=(req.headers.cookie||'').split(';').map(x=>x.trim()).find(x=>x.startsWith('ft_partner_session='));
+  const payload=verify(raw?.slice('ft_partner_session='.length));
+  if(!payload||payload.kind!=='sponsor-partner'||!PARTNER_IDS.includes(payload.partner)||payload.exp<=Date.now())return null;
+  const hash=partnerHash(payload.partner);
+  if(!/^[0-9a-f]{64}$/.test(hash)||payload.ver!==hash.slice(0,16))return null;
+  return payload;
+}

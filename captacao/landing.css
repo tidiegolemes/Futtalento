@@ -1,0 +1,108 @@
+/* FutTalento — páginas públicas de captação, leve e mobile-first */
+:root{color-scheme:light;--ink:#1b293c;--muted:#536579;--green:#245744;--lime:#b5eb60;--pale:#f1f9ed;--stroke:#dce9dc;--blue:#eaf6fb}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font:400 16px/1.52,system-ui,-apple-system,"Segoe UI",sans-serif;margin:0;color:var(--ink);background:#f7faf7;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+img{max-width:100%;height:auto}
+input,button,select{font:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid #397fc0;outline-offset:3px}
+[hidden]{display:none!important}
+.wrap{width:min(100% - 32px,1120px);margin:0 auto}
+.skip{position:absolute;top:-110px;left:12px;background:#fff;padding:9px;z-index:99}.skip:focus{top:9px}
+.navbar{background:rgba(255,255,255,.96);border-bottom:1px solid var(--stroke);position:sticky;top:0;z-index:20;backdrop-filter:blur(9px)}
+.navinside{min-height:69px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.brand{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:950;font-size:1.15rem;letter-spacing:-.06em}
+.brand span{color:var(--green)}.brand img{width:37px;height:37px;object-fit:contain}
+.navlink{border:1px solid #cdded1;padding:10px 15px;background:#fff;border-radius:14px;text-decoration:none;font-size:.82rem;font-weight:850;white-space:nowrap}
+.navlink:hover{background:var(--pale)}
+.audience-nav{padding:12px 0 0;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.audience-nav a{border:1px solid #cfdfd2;background:white;padding:8px 13px;border-radius:99px;text-decoration:none;font-size:.82rem;font-weight:780}
+.audience-nav a[aria-current="page"]{background:#def7c6;color:#1b5935;border-color:#9fd292}
+.eyebrow{display:inline-block;font-size:.71rem;letter-spacing:.12em;text-transform:uppercase;font-weight:900;color:#327053;margin-bottom:14px}
+.hero{padding:34px 0 34px;background:radial-gradient(circle at 14% 18%,#e7f7d7 0,transparent 43%),linear-gradient(135deg,#f4faf2,#f5f9fb)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);align-items:start;gap:48px}
+.hero-copy{padding:42px 0 25px}
+.hero-icon{font-size:2.6rem;display:block;margin-bottom:10px}
+h1,h2,h3,p{margin-top:0}
+h1,h2{letter-spacing:-.053em;line-height:1.11}
+h1{font-size:clamp(2.55rem,5.4vw,4.65rem);margin:0 0 20px;font-weight:930}
+h1 em{font-style:normal;color:#36763e}
+h2{font-size:clamp(1.65rem,3.4vw,2.45rem);margin:0 0 15px}
+h3{font-size:1.13rem;margin-bottom:7px;line-height:1.24}
+.lead{font-size:1.1rem;color:#526275;max-width:575px;line-height:1.6;margin-bottom:23px}
+.benefits{display:flex;flex-direction:column;gap:12px;padding:0;margin:25px 0;list-style:none}
+.benefits li{display:flex;gap:12px;align-items:flex-start;font-weight:720;font-size:.95rem}
+.benefits .symbol{font-size:1.48rem;line-height:1.2}
+.soft-note{background:#eaf8e7;border:1px solid #d3e6ce;border-radius:15px;padding:14px 16px;color:#48634d;font-size:.81rem;max-width:545px}
+.formcard{border-radius:25px;padding:27px 28px 23px;background:white;border:1px solid var(--stroke);box-shadow:0 15px 50px #14322312}
+.formcard h2{font-size:1.61rem;margin-bottom:8px}
+.formcard>p{color:var(--muted);font-size:.88rem;margin-bottom:20px}
+.form-row{margin-bottom:13px}
+.field-label{display:block;font-size:.84rem;font-weight:820;margin-bottom:5px}
+.field{display:block;width:100%;background:#f9fcfb;border:1.5px solid #bacfce;border-radius:13px;color:#1c2b3c;min-height:49px;padding:12px 13px}
+.field:focus{border-color:#348d78;outline:3px solid #d5eddf}
+.field-help{font-size:.73rem;color:#667982;display:block;margin-top:5px}
+.consent{display:flex;align-items:flex-start;gap:11px;font-size:.77rem;color:#526275;margin:17px 0 10px}
+.consent input{accent-color:#2f7358;flex:none;width:19px;height:19px;margin:0}
+.consent a{color:#235e4c;font-weight:760}
+.formbutton{width:100%;min-height:55px;display:flex;align-items:center;justify-content:center;gap:10px;background:var(--lime);border:2px solid #2b5e38;border-bottom-width:5px;color:#193b2a;font-weight:930;border-radius:16px;box-shadow:0 2px 0 #43783e;font-size:1.02rem;margin-top:17px}
+.formbutton:disabled{opacity:.55;cursor:wait}
+.formbutton:active{border-bottom-width:2px;transform:translateY(2px)}
+.form-foot{color:#667985;font-size:.73rem;text-align:center;margin:13px 0 0}
+.error{color:#9f342f;font-size:.83rem;font-weight:720;min-height:20px;margin:10px 0 0}
+.call-alt{display:inline-flex;gap:6px;font-size:.81rem;color:#3b6b60;font-weight:800;margin-top:10px}
+.success{border:2px solid #aad99c;border-radius:19px;background:#f0faea;padding:22px;text-align:center}
+.success .big{font-size:2.5rem}.success h3{margin:11px 0}.success p{color:#516855;font-size:.94rem}
+.success a{display:inline-block;margin-top:9px;font-weight:850;color:#236649}
+.steps-section{padding:48px 0 62px}
+.section-kicker{margin:0 0 20px}
+.step-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.step{background:white;border:1px solid var(--stroke);padding:21px;border-radius:19px}
+.step .icon{display:inline-flex;background:#e9f8e1;border-radius:13px;font-size:1.85rem;width:48px;height:48px;align-items:center;justify-content:center;margin-bottom:13px}
+.step p{color:var(--muted);font-size:.88rem;margin:0}
+.case{border-radius:22px;background:#173f36;color:white;padding:29px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:18px;margin:0 auto 45px}
+.case h2{font-size:1.52rem;margin:0 0 10px}.case p{color:#d8ebdf;font-size:.9rem;margin-bottom:0}
+.case a{display:inline-block;background:#c5ee80;color:#224338;padding:12px 16px;border-radius:12px;font-weight:900;text-decoration:none;text-align:center}
+.faq-section{padding-bottom:65px}
+.faq-section h2{margin-bottom:20px}
+.faq-section details{background:white;border:1px solid var(--stroke);border-radius:15px;margin-bottom:10px;padding:14px 18px}
+.faq-section summary{font-weight:830;cursor:pointer;list-style-position:outside;padding:2px 5px}
+.faq-section details p{font-size:.9rem;color:var(--muted);margin:12px 0 3px}
+.footer{border-top:1px solid var(--stroke);background:#edf5f1;padding:27px 0 45px;font-size:.79rem;color:#5d7469}
+.foot-inner{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.footer a{color:#1d6753;font-weight:730}
+.subline{display:block;margin-top:6px}
+.honeypot{position:absolute!important;left:-9999px!important;opacity:0!important;pointer-events:none!important;height:0!important;overflow:hidden!important}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr;gap:8px}.hero-copy{padding-top:10px;padding-bottom:5px}.formcard{max-width:600px}.hero{padding-top:24px}}
+@media(max-width:600px){.wrap{width:calc(100% - 28px)}.navbar .brand{font-size:1.03rem}.hero{padding-top:16px}.hero-copy{padding-top:8px}.hero-icon{font-size:2rem}h1{font-size:clamp(2.4rem,11vw,3.8rem)}.lead{font-size:1rem}.benefits{margin:14px 0}.formcard{padding:21px 17px}.step-grid{grid-template-columns:1fr}.steps-section{padding:38px 0}.case{grid-template-columns:1fr;padding:24px}.faq-section{padding-bottom:40px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+
+/* Vitrine de atletas — retratos 9:16 com navegação touch estilo Reels */
+.athlete-showcase{padding:56px 0 44px}
+.athlete-heading{display:flex;justify-content:space-between;align-items:end;gap:25px;margin-bottom:22px}
+.athlete-heading h2{max-width:660px;margin-bottom:10px}
+.athlete-heading p{color:var(--muted);max-width:680px;font-size:.96rem;margin:0}
+.athlete-controls{display:flex;align-items:center;gap:10px;white-space:nowrap}
+.athlete-controls button{height:43px;width:43px;border-radius:13px;border:1px solid #bed8c4;background:white;font-size:1.45rem;font-weight:900}
+.athlete-controls span{color:#4c6a5e;font-size:.81rem;font-weight:850}
+.athlete-rail{display:flex;align-items:stretch;gap:17px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;padding:5px 4px 18px;scrollbar-width:thin}
+.athlete-tile{position:relative;overflow:hidden;isolation:isolate;border-radius:25px;flex:0 0 clamp(244px,30vw,320px);aspect-ratio:9 / 16;background:#152c29;color:white;scroll-snap-align:start;box-shadow:0 14px 29px #152c341e}
+.athlete-tile>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%}
+.athlete-shade{position:absolute;inset:0;background:linear-gradient(0deg,rgba(4,16,15,.98),rgba(8,24,25,.55) 39%,rgba(8,24,25,.03) 70%,rgba(0,0,0,.4) 100%)}
+.athlete-content{position:absolute;inset:0;display:flex;flex-direction:column;align-items:start;padding:18px;justify-content:end}
+.verify-sticker{position:absolute;top:17px;left:15px;display:inline-flex;align-items:center;gap:6px;background:rgba(11,36,39,.79);color:#e7f8fc;border:1px solid rgba(217,255,240,.5);padding:7px 10px;border-radius:100px;font-weight:860;font-size:.75rem;backdrop-filter:blur(9px)}
+.verify-sticker span{border-radius:50%;width:19px;height:19px;display:grid;place-items:center;background:#4d9bcb;color:white;font-size:.75rem}
+.athlete-reel-label{color:#b8f17f;font-weight:890;font-size:.69rem;letter-spacing:.12em;margin:0 0 6px}
+.athlete-content h3{font-size:clamp(1.46rem,2.9vw,1.92rem);line-height:1.12;letter-spacing:-.04em;margin-bottom:8px;color:#fff}
+.athlete-content p{font-size:.79rem;line-height:1.46;color:#e3e9e7;margin-bottom:16px}
+.athlete-actions{display:flex;flex-direction:column;gap:9px;width:100%}
+.athlete-actions button,.athlete-actions a{display:flex;align-items:center;justify-content:center;border-radius:12px;padding:11px 10px;text-decoration:none;font-size:.84rem;font-weight:900;min-height:45px;text-align:center}
+.athlete-actions button{background:var(--lime);color:#20382e;border:0;border-bottom:3px solid #7ba83e}
+.athlete-actions a{border:1px solid #b3d0c4;background:#16302db8;color:#fff}
+.athlete-foot{display:flex;justify-content:space-between;gap:15px;align-items:start;flex-wrap:wrap;margin-top:8px;color:#526b65;font-size:.74rem}
+.athlete-foot span{max-width:630px}
+.athlete-foot a{color:#23715a;font-weight:800}
+.featured-jump{display:inline-block;margin:2px 0 8px;font-weight:850;color:#255f49;border-bottom:2px solid #75b884;text-decoration:none}
+@media(max-width:650px){.athlete-showcase{padding:40px 0}.athlete-heading{align-items:start;flex-direction:column;gap:13px}.athlete-controls{align-self:flex-end}.athlete-tile{flex-basis:min(77vw,310px)}.athlete-rail{gap:12px}.athlete-content{padding:17px}.athlete-content h3{font-size:1.7rem}}

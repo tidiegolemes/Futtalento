@@ -30,6 +30,9 @@ function sendEvent(){
    lead_medium:clean(urlParams.get('utm_medium')||'organic')
  });
 }
+const athleteSelect=document.getElementById('atleta');
+const preset=urlParams.get('atleta');
+if(athleteSelect&&['lucas','ryan','thalles'].includes(preset))athleteSelect.value=preset;
 const rail=document.getElementById('athleteRail');
 if(rail){
   const slides=[...rail.querySelectorAll('.athlete-tile')],counter=document.getElementById('athleteCounter');

@@ -1,4 +1,3 @@
-import {list,get,put} from '@vercel/blob';
 import {authenticate} from './_sponsor-auth.js';
 const PATH='lucas/sponsor-operations-v1.json';
 const allowed=['guimaraes','didi','oze','realgaucho'];
@@ -6,6 +5,7 @@ const clipped=(v,max=400)=>typeof v==='string'?v.slice(0,max):'';
 const cleanNumber=v=>Number.isFinite(+v)?Math.max(0,Math.min(+v,10000000)):0;
 const initial=()=>({partners:{},missions:{},activities:[],social:[],updatedAt:null});
 async function load(){
+const {list,get}=await import('@vercel/blob');
 const p=await list({prefix:PATH,limit:10});
 if(!(p.blobs||[]).some(x=>x.pathname===PATH))return initial();
 const result=await get(PATH,{access:'private'});return result?.stream?JSON.parse(await new Response(result.stream).text()):initial();
@@ -25,5 +25,5 @@ for(const [key,v] of Object.entries(raw.missions||{})){if(!/^[a-z0-9_-]{1,70}$/.
 const activities=Array.isArray(raw.activities)?raw.activities.slice(-220).map(a=>({id:clipped(a.id,80),date:clipped(a.date,10),partner:allowed.includes(a.partner)?a.partner:'',type:['story','reel','post','entrega','cupom','resgate','venda'].includes(a.type)?a.type:'post',status:['planejado','publicado','confirmado'].includes(a.status)?a.status:'planejado',source:clipped(a.source,300),qty:cleanNumber(a.qty),revenue:cleanNumber(a.revenue),note:clipped(a.note,500)})):[];
 const social=Array.isArray(raw.social)?raw.social.slice(-100).map(s=>({date:clipped(s.date,10),partner:allowed.includes(s.partner)?s.partner:'',followers:cleanNumber(s.followers),reach:cleanNumber(s.reach),visits:cleanNumber(s.visits),source:clipped(s.source,300)})):[];
 const data={version:1,partners,missions,activities,social,updatedAt:new Date().toISOString(),updatedBy:user.login};
-try{await put(PATH,JSON.stringify(data),{access:'private',allowOverwrite:true,addRandomSuffix:false,contentType:'application/json'});return res.status(200).json({ok:true,updatedAt:data.updatedAt})}catch(e){console.error('sponsor store write',e?.message);return res.status(503).json({error:'Não foi possível salvar'})}
+try{const {put}=await import('@vercel/blob');await put(PATH,JSON.stringify(data),{access:'private',allowOverwrite:true,addRandomSuffix:false,contentType:'application/json'});return res.status(200).json({ok:true,updatedAt:data.updatedAt})}catch(e){console.error('sponsor store write',e?.message);return res.status(503).json({error:'Não foi possível salvar'})}
 }

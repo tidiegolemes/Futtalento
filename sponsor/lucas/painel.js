@@ -84,7 +84,37 @@ $('reportContent').innerHTML='<div class="record"><span class="eyebrow">FutTalen
 }
 
 function campaignUrl(){const medium=$('linkMedium').value,campaign=($('linkCampaign').value||'futtalento').toLowerCase().replace(/[^a-z0-9_-]/g,'-').slice(0,60);return 'https://www.futtalento.com.br/apoiadores/lucas/?'+new URLSearchParams({utm_source:'instagram',utm_medium:medium,utm_campaign:campaign}).toString()}
+async function signInTemporary(event){
+  event.preventDefault();
+  const passwordField=$('temporary-password');
+  const feedback=$('password-feedback');
+  const submit=$('temporary-login-button');
+  const password=passwordField.value;
+  if(!password){feedback.textContent='Informe a senha temporária.';return;}
+  submit.disabled=true;feedback.style.color='#c9fc54';feedback.textContent='Conferindo acesso...';
+  try{
+    const result=await fetch('/api/sponsor-password',{
+      method:'POST',
+      credentials:'same-origin',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({password}),
+      cache:'no-store'
+    });
+    const reply=await result.json();
+    if(!result.ok)throw new Error(reply.error||'Não foi possível entrar');
+    passwordField.value='';
+    feedback.textContent='Acesso autorizado. Carregando painel...';
+    await fetchData();
+  }catch(error){
+    feedback.style.color='#ffc7a1';
+    feedback.textContent=error.message||'Falha de autenticação';
+  }finally{
+    submit.disabled=false;
+  }
+}
 function init(){
+const passwordLogin=$('password-login-form');
+if(passwordLogin)passwordLogin.addEventListener('submit',signInTemporary);
 document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{if(ready){pullPartners();pullMissions()}setTab(b.dataset.tab)}));
 $('save').addEventListener('click',save);
 const syncLink=()=>$('campaignLink').textContent=campaignUrl();$('linkMedium').addEventListener('change',syncLink);$('linkCampaign').addEventListener('input',syncLink);syncLink();

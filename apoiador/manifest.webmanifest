@@ -1,0 +1,26 @@
+{
+  "name": "Meu Apoio FutTalento — Lucas",
+  "short_name": "Meu Apoio",
+  "description": "Missões simples, entregas da agência e resultados de apoiadores do Lucas.",
+  "id": "/apoiador/",
+  "start_url": "/apoiador/",
+  "scope": "/apoiador/",
+  "lang": "pt-BR",
+  "display": "standalone",
+  "background_color": "#f1faef",
+  "theme_color": "#f1faef",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "type": "image/png",
+      "sizes": "any",
+      "purpose": "any"
+    },
+    {
+      "src": "/futtalentologo.png",
+      "type": "image/png",
+      "sizes": "any",
+      "purpose": "any"
+    }
+  ]
+}

@@ -75,7 +75,7 @@ $('progressFill').style.width=(completed/missionDefs.length*100)+'%';
 const todo=missionDefs.filter(m=>!done(m.id));
 const main=todo[0];
 if(main){
-$('primaryMission').innerHTML='<p class="mission-kicker">⚡ Uma coisa de cada vez</p><div class="mission-grid"><div class="illustration" aria-hidden="true">'+main.icon+'</div><div class="mission-text"><h2>'+esc(main.title)+'</h2><p>'+esc(main.description)+'</p><span class="timechip">⏱️ '+esc(main.time)+'</span></div></div>'+missionButtons(main,true)+ '<button type="button" data-help-mission="'+esc(main.id)+'" style="display:block;margin:14px auto 0;background:none;border:0;color:#2a6b80;text-decoration:underline;font-size:.82rem;font-weight:800">Não consigo fazer / preciso de ajuda</button>';
+$('primaryMission').innerHTML='<p class="mission-kicker">⚡ Uma coisa de cada vez</p><div class="mission-grid"><div class="illustration" aria-hidden="true">'+main.icon+'</div><div class="mission-text"><h2>'+esc(main.title)+'</h2><p>'+esc(main.description)+'</p><span class="timechip">⏱️ '+esc(main.time)+'</span></div></div>'+missionButtons(main,true)+ (agency()?'':'<button type="button" data-help-mission="'+esc(main.id)+'" style="display:block;margin:14px auto 0;background:none;border:0;color:#2a6b80;text-decoration:underline;font-size:.82rem;font-weight:800">Não consigo fazer / preciso de ajuda</button>');
 $('missionEstimate').textContent=main.time;
 }else{
 $('primaryMission').innerHTML='<div style="text-align:center;padding:16px 0"><div style="font-size:3.3rem">🏆</div><h2>Você concluiu as primeiras missões!</h2><p class="muted" style="margin:10px 0">A agência continua preparando as próximas novidades. Sem cobranças nem sequência obrigatória.</p></div>';
@@ -118,6 +118,8 @@ function bindEvents(){
 $('loginForm').addEventListener('submit',submit);
 document.querySelectorAll('[data-view]').forEach(x=>x.addEventListener('click',()=>{setView(x.dataset.view);window.scrollTo({top:0,behavior:'smooth'})}));
 $('primaryMission').addEventListener('click',async e=>{
+const go=e.target.closest('[data-mission-link]')?.dataset.missionLink;
+if(go==='review_benefits'){e.preventDefault();setView('conquistas');return;}
 const id=e.target.closest('[data-done]')?.dataset.done;
 if(id){await act('complete_mission',{missionId:id,done:true},'Boa! Mais uma missão concluída. 🌟');return;}
 const help=e.target.closest('[data-help-mission]')?.dataset.helpMission;

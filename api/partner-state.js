@@ -65,7 +65,7 @@ export default async function handler(req,res){
   if(req.method==='POST'&&!String(req.headers['content-type']||'').toLowerCase().startsWith('application/json'))return forbidden(res,415,'Envie JSON');
   if(req.method==='POST'&&JSON.stringify(req.body||{}).length>8000)return forbidden(res,413,'Registro muito grande');
   // Partner session completely ignores any caller-supplied partner ID.
-  const id=session?.partner||(agency?safe(req.method==='GET'?req.query?.partner:req.body?.partner,40):'');
+  const id=agency?safe(req.method==='GET'?req.query?.partner:req.body?.partner,40):(session?.partner||'');
   if(!PARTNER_IDS.includes(id))return forbidden(res,400,'Escolha um parceiro válido');
   try{
     const path=PARTNER_PATH(id);

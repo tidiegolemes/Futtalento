@@ -94,7 +94,7 @@ function formatDate(date){if(!/^20\d\d-\d\d-\d\d$/.test(date||''))return date||'
 function renderAgenda(){
 const items=Array.isArray(window.FUTTALENTO_SCHEDULE)?window.FUTTALENTO_SCHEDULE:[];
 const now=todayISO();
-const upcoming=items.filter(x=>x.date>=now),list=upcoming.length?upcoming:items;
+const list=items.filter(x=>x.date>=now).slice(0,6);
 $('agendaList').innerHTML=list.map(x=>'<article class="event"><div class="date">'+esc(x.date.slice(8,10))+'<br>'+esc(x.date.slice(5,7))+'</div><div style="flex:1"><h3>'+({story:'📱 Story',reel:'🎬 Reel',post:'🖼️ Carrossel'}[x.type]||'📍 Conteúdo')+' · '+esc(partner(x.partner).name)+'</h3><p>'+esc(x.note)+'</p><p style="margin-top:6px">🟡 Em planejamento pela agência</p></div></article>').join('')||'<div class="panel">A agência ainda está organizando as próximas datas.</div>';
 }
 function renderConquistas(){

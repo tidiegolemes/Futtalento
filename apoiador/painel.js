@@ -109,10 +109,15 @@ function renderNumbers(){
   numberBox(count(verified.length),'Registros validados')+
   numberBox(reports.length?count(reports.length):'Nenhum','Enviados para conferência')+
   numberBox('Em integração','Cliques em links rastreados',true);
+ const confirmedSales=(portal.results||[]).filter(x=>x.type==='compra'&&x.status==='verified');
+ const confirmedQty=confirmedSales.reduce((s,x)=>s+Number(x.qty||0),0);
+ const confirmedRevenue=confirmedSales.reduce((s,x)=>s+Number(x.amount||0),0);
  $('resultNumbers').innerHTML=numberBox(count(metrics.publications||0),'Stories, Reels e posts publicados')+
-  numberBox(count(metrics.coupons||0),'Cupons/resgates validados pela agência')+
-  numberBox(count(metrics.sales||0),'Compras confirmadas pela agência')+
-  numberBox(money(metrics.revenue||0),'Faturamento confirmado nos registros da agência');
+  numberBox(count(metrics.coupons||0),'Cupons/resgates nos registros da agência')+
+  numberBox(count(confirmedQty),'Compras validadas no Meu Apoio')+
+  numberBox(money(confirmedRevenue),'Faturamento validado neste painel');
+ $('legacyResults').hidden=!(Number(metrics.sales||0)>0||Number(metrics.revenue||0)>0);
+ $('legacyResults').textContent='Registros comerciais anteriores da agência: '+count(metrics.sales||0)+' compra(s), '+money(metrics.revenue||0)+'. Os dois históricos não são somados automaticamente para evitar contar a mesma venda duas vezes.';
  const social=metrics.social||[],snap=social.length?social[social.length-1]:null;
  const history=social.length>1?social[0]:null;
  const delta=history&&snap?Number(snap.followers)-Number(history.followers):null;
@@ -178,6 +183,7 @@ function init(){
   if(action==='show-result')showResult();
   if(action==='help')await update('request_help',{message:'Preciso de ajuda com a próxima missão: '+proposedTasks[missionState().findIndex(x=>!x)]?.title},'A agência recebeu seu pedido no painel.');
  });
+ $('openOfferButton').addEventListener('click',openOffer);
  $('copyPublicLink').addEventListener('click',async()=>{
   const url='https://www.futtalento.com.br/apoiadores/lucas/?utm_source=parceiro&utm_medium=perfil&utm_campaign=rede-de-apoio&utm_content='+encodeURIComponent(partner);
   try{await navigator.clipboard.writeText(url);message('Link copiado! Pode compartilhar com seus clientes.');}catch{message('Não conseguimos copiar automaticamente. Peça o link à agência.',true)}

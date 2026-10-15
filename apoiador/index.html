@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="pt-BR"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#f1faef">
+<meta name="color-scheme" content="light"><meta name="referrer" content="no-referrer">
+<meta name="description" content="Área privada dos apoiadores do Lucas no FutTalento: campanhas, missões e resultados acompanhados com transparência.">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Meu Apoio FutTalento">
+<link rel="manifest" href="/apoiador/manifest.webmanifest"><link rel="icon" href="/favicon.png"><link rel="apple-touch-icon" href="/futtalentologo.png">
+<link rel="stylesheet" href="/sponsor/lucas/jornada.css"><link rel="stylesheet" href="/apoiador/painel.css">
+<title>Meu Apoio — FutTalento</title>
+</head><body>
+<a href="#principal" class="skip">Pular para o conteúdo</a>
+<header class="topbar"><div class="wrap topinner">
+<a class="logo" href="/" aria-label="FutTalento página principal"><img src="/futtalentologo.png" width="37" height="37" alt=""><span>FUTTALENTO</span></a>
+<a class="toplink" href="/apoiadores/lucas/">⚽ Parceiros do Lucas</a>
+</div></header>
+<main class="wrap" id="principal">
+<section id="loginScreen" class="loginbox" aria-labelledby="loginTitle">
+<div class="panel">
+<div class="login-icon" aria-hidden="true">🤝</div>
+<p class="eyebrow" style="text-align:center">FutTalento · Parceiros</p>
+<h1 id="loginTitle" style="text-align:center;margin:12px 0">Seu apoio faz a diferença!</h1>
+<p class="muted" style="text-align:center">Veja suas entregas e resultados de forma simples. Leva menos de um minuto para entrar.</p>
+<form id="partnerLogin" class="loginform">
+<label class="field-label" for="partnerSelect">Qual é sua empresa ou projeto?</label>
+<select id="partnerSelect" class="field" required>
+<option value="oze">💈 Barbearia do Oze</option>
+<option value="didi">🎂 Bolos da Didi</option>
+<option value="guimaraes">🤝 Guimarães Brasil</option>
+<option value="realgaucho">⚽ Real Gaúcho Futsal</option>
+</select>
+<label class="field-label" for="partnerPassword">Senha do apoiador</label>
+<input class="field" id="partnerPassword" type="password" autocomplete="current-password" minlength="18" maxlength="128" placeholder="Digite sua senha exclusiva" required>
+<button class="action full" id="partnerLoginButton" type="submit">Entrar no Meu Apoio →</button>
+<p id="loginError" class="error" role="status" aria-live="polite"></p>
+</form>
+<p class="small muted" style="text-align:center;margin-top:10px">🔒 Cada apoiador visualiza apenas sua parceria.</p>
+<details class="login-alt"><summary>Sou da equipe FutTalento</summary><p class="small muted">A agência utiliza a conta administrativa autorizada.</p><a class="action secondary" href="/api/sponsor-login">Entrar como administrador</a></details>
+</div>
+</section>
+
+<section id="partnerApp" hidden aria-label="Meu apoio ao Lucas">
+<div class="sessionbar">
+<span class="chip">🌱 Meu Apoio FutTalento</span>
+<div class="sponsortop">
+<button id="installApp" type="button" class="agencyLink" hidden>📲 Adicionar ao celular</button>
+<a id="agencyDashboard" href="/sponsor/lucas/gestao/" class="agencyLink" hidden>⚙️ Agência</a>
+<a href="/api/partner-logout" class="toplink">Sair</a>
+</div></div>
+<div class="hero">
+<div class="partner-avatar" id="partnerIcon" aria-hidden="true">🤝</div>
+<div class="headcopy"><h1 id="greeting">Olá, parceiro! 👋</h1><p class="muted">Olha o impacto do seu apoio ao Lucas.</p></div>
+</div>
+<div id="view-hoje" class="view active">
+<div class="panel weekhero">
+<p class="eyebrow" style="color:#d7fad2">💚 Nosso time</p>
+<h2>Seu apoio ajuda uma história a continuar.</h2>
+<p class="muted small">Sem planilhas complicadas: uma tarefa de cada vez.</p>
+<div class="progress-info"><span>Primeiros passos</span><span id="progressNumber">0 de 3</span></div>
+<div class="progress" role="progressbar" id="progressBar" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0" aria-label="Progresso da parceria"><div class="progress-fill" id="progressValue"></div></div>
+</div>
+<div class="sectionTitle"><h2>🎯 Seu próximo passo</h2><small id="taskEstimate">1 minuto</small></div>
+<article class="mission" id="nextMission" aria-live="polite"></article>
+<div class="sectionTitle"><h2>O que já conquistamos</h2><small>Dados confirmados</small></div>
+<div id="quickNumbers" class="smallNumbers"></div>
+<div class="panel supportLink"><p class="eyebrow">⚽ Nossa campanha</p><h3 style="margin:8px 0">Conheça a trajetória do Lucas</h3><p class="small muted">Compartilhe a página pública dos apoiadores com quem desejar. Nós cuidamos do rastreamento quando autorizado.</p>
+<button id="copyPublicLink" type="button" class="action secondary full" style="margin-top:13px">🔗 Copiar link da campanha</button></div>
+</div>
+<div id="view-entregas" class="view" aria-labelledby="deliveriesTitle">
+<div class="panel" style="margin-bottom:14px;background:#eaf6ff">
+<p class="eyebrow">Conteúdo feito pela agência</p><h2 id="deliveriesTitle" style="margin:8px 0">📅 Suas entregas</h2>
+<p class="small muted">Quando publicarmos um Story ou Reel ligado à sua marca, ele aparece aqui. A família aprova as peças antes da publicação.</p>
+</div>
+<div id="deliveriesList" class="itemlist"></div>
+<div class="panel" style="margin-top:15px">
+<h3>💬 Quer sugerir um conteúdo?</h3>
+<p class="small muted" style="margin:7px 0 13px">Pode ser uma promoção, novidade da sua empresa ou ideia de vídeo.</p>
+<button type="button" class="action soft full" data-help="Gostaria de sugerir um conteúdo para nossa parceria.">Falar com a agência →</button>
+</div>
+</div>
+<div id="view-resultados" class="view" aria-labelledby="resultsTitle">
+<div class="panel" style="margin-bottom:14px;background:#fff7e4">
+<p class="eyebrow">Transparência é nosso compromisso</p><h2 id="resultsTitle" style="margin:8px 0">📊 Seus resultados</h2><p class="small muted">Aqui mostramos apenas o que conseguimos medir ou confirmar — sem inventar seguidores ou vendas.</p>
+</div>
+<div class="smallNumbers" id="resultNumbers"></div>
+<div class="panel" style="margin-top:14px"><h3>📈 Instagram e audiência</h3><div id="socialNumbers" class="simpleRows"></div><p class="small muted" style="margin-top:12px">O crescimento total do perfil não prova que os novos seguidores vieram de um Story específico. Cliques e cupons identificados são medidas mais diretas.</p></div>
+<div class="panel" style="margin-top:14px"><h3>🧾 Registros enviados por você</h3><p class="small muted" style="margin:7px 0 11px">Você informa uma venda ou um cupom; a agência confere a comprovação antes de contabilizar.</p><div id="myReports" class="itemlist"></div>
+<button class="action secondary full" type="button" id="newReportButton" style="margin-top:15px">+ Informar venda, cupom ou apoio</button>
+<form id="resultForm" class="formarea" hidden>
+<label class="field-label" for="resultType">O que aconteceu?</label>
+<select id="resultType" class="field" required>
+<option value="cupom">🎟️ Alguém usou um cupom</option>
+<option value="compra">🛍️ Fiz uma venda</option>
+<option value="permuta">🎁 Entreguei um apoio ao Lucas</option>
+</select>
+<label class="field-label" for="resultDate">Qual dia?</label><input id="resultDate" type="date" class="field" required>
+<label class="field-label" for="resultQty">Quantas vezes?</label><input id="resultQty" class="field" type="number" min="1" max="1000" step="1" value="1" required>
+<div id="amountContainer" hidden><label class="field-label" for="resultAmount">Total das vendas (R$)</label><input class="field" type="number" id="resultAmount" min="0.01" step="0.01" value="0"></div>
+<label class="field-label" for="resultReference">Número do pedido ou referência de comprovação</label><input class="field" id="resultReference" maxlength="100" placeholder="Ex.: Pedido 123 — sem dados de clientes" required>
+<button class="action full" type="submit" id="saveReportButton">Enviar para conferência</button>
+<p class="error" id="reportFeedback" role="status"></p>
+</form>
+</div>
+</div>
+<div class="panel" id="offerPanel" hidden style="margin-top:15px">
+<h2>🎁 Sua oferta exclusiva</h2><p class="small muted" style="margin:8px 0">A agência vai conferir antes de divulgar. Nada é publicado automaticamente.</p>
+<div id="offerSummary" class="offerSummary"></div>
+<form id="offerForm" class="formarea" hidden>
+<label class="field-label" for="supportDescription">Como sua empresa apoia o Lucas?</label><input id="supportDescription" class="field" maxlength="220" placeholder="Ex.: Um corte de cabelo por mês" required>
+<label class="field-label" for="offerDescription">Que benefício quer oferecer ao público?</label><textarea id="offerDescription" class="field" maxlength="400" minlength="8" required placeholder="Ex.: 10% de desconto em um serviço selecionado"></textarea>
+<label class="field-label" for="offerValidity">Até quando e quais são as regras?</label><textarea class="field" id="offerValidity" maxlength="160" minlength="5" required placeholder="Ex.: Válido até 30/11 em horários específicos"></textarea>
+<label class="field-label" for="couponCode">Código do cupom (opcional)</label><input class="field" id="couponCode" maxlength="60" placeholder="Ex.: APOIO10">
+<button id="saveOffer" class="action full" type="submit">Enviar oferta para a agência →</button>
+<p id="offerMessage" class="error" role="status"></p>
+</form>
+</div>
+<p id="appFeedback" class="footnotes" role="status" aria-live="polite"></p>
+</section>
+</main>
+<nav id="partnerTabs" class="bottomnav" hidden aria-label="Navegação do meu apoio">
+<button type="button" data-tab="hoje" aria-current="page"><span aria-hidden="true">🏠</span><span>Hoje</span></button>
+<button type="button" data-tab="entregas" aria-current="false"><span aria-hidden="true">📅</span><span>Entregas</span></button>
+<button type="button" data-tab="resultados" aria-current="false"><span aria-hidden="true">📊</span><span>Resultados</span></button>
+</nav>
+<script defer src="/apoiador/painel.js"></script>
+</body></html>

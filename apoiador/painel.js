@@ -154,7 +154,9 @@ function renderOffer(){
   summaryHtml='<span class="statusFlag verified">✓ Apoio registrado pela agência</span><p><b>Oferta:</b> '+esc(agreement.offer||'Verificar com a agência')+'</p><p><b>Cupom:</b> '+esc(agreement.coupon||'A definir')+'</p>';
  }else summaryHtml='<p>Você ainda não enviou uma oferta. Isso é normal! Podemos construir uma vantagem simples para clientes adultos.</p>';
  $('offerSummary').innerHTML=summaryHtml;
- $('offerForm').hidden=!!offer&&offer.status==='approved'||ownerView();
+ $('offerForm').hidden=ownerView()||!!offer;
+ $('newOfferButton').hidden=ownerView()||!offer;
+ $('newOfferButton').textContent=offer?.status==='approved'?'✏️ Propor nova promoção':'✏️ Atualizar minha proposta';
  if(!ownerView()){
  $('supportDescription').value=offer?.support||'';
  $('offerDescription').value=offer?.offer||'';
@@ -184,6 +186,10 @@ function init(){
   if(action==='help')await update('request_help',{message:'Preciso de ajuda com a próxima missão: '+proposedTasks[missionState().findIndex(x=>!x)]?.title},'A agência recebeu seu pedido no painel.');
  });
  $('openOfferButton').addEventListener('click',openOffer);
+ $('newOfferButton').addEventListener('click',()=>{
+  $('offerForm').hidden=!$('offerForm').hidden;
+  if(!$('offerForm').hidden)$('supportDescription').focus();
+ });
  $('copyPublicLink').addEventListener('click',async()=>{
   const url='https://www.futtalento.com.br/apoiadores/lucas/?utm_source=parceiro&utm_medium=perfil&utm_campaign=rede-de-apoio&utm_content='+encodeURIComponent(partner);
   try{await navigator.clipboard.writeText(url);message('Link copiado! Pode compartilhar com seus clientes.');}catch{message('Não conseguimos copiar automaticamente. Peça o link à agência.',true)}

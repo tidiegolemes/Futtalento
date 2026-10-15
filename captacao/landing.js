@@ -30,6 +30,23 @@ function sendEvent(){
    lead_medium:clean(urlParams.get('utm_medium')||'organic')
  });
 }
+const rail=document.getElementById('athleteRail');
+if(rail){
+  const slides=[...rail.querySelectorAll('.athlete-tile')],counter=document.getElementById('athleteCounter');
+  function currentIndex(){let best=0,distance=Infinity;slides.forEach((s,i)=>{const x=Math.abs(s.offsetLeft-rail.scrollLeft-rail.offsetLeft);if(x<distance){distance=x;best=i;}});return best;}
+  function updateCounter(){if(counter)counter.textContent=(currentIndex()+1)+' de '+slides.length;}
+  rail.addEventListener('scroll',updateCounter,{passive:true});
+  document.querySelectorAll('[data-slide]').forEach(button=>button.addEventListener('click',()=>{const delta=Number(button.dataset.slide)||0;const idx=Math.max(0,Math.min(slides.length-1,currentIndex()+delta));slides[idx]?.scrollIntoView({behavior:'smooth',inline:'start',block:'nearest'});}));
+  rail.querySelectorAll('[data-select-athlete]').forEach(button=>button.addEventListener('click',()=>{
+    const id=button.dataset.selectAthlete,select=document.getElementById('atleta');
+    if(!select||!['lucas','ryan','thalles'].includes(id))return;
+    select.value=id;
+    document.getElementById('inscricao')?.scrollIntoView({behavior:'smooth',block:'start'});
+    document.getElementById('nome')?.focus({preventScroll:true});
+  }));
+  rail.addEventListener('keydown',e=>{if(e.key!=='ArrowLeft'&&e.key!=='ArrowRight')return;e.preventDefault();const idx=Math.max(0,Math.min(slides.length-1,currentIndex()+(e.key==='ArrowRight'?1:-1)));slides[idx]?.scrollIntoView({behavior:'smooth',inline:'start',block:'nearest'});});
+  updateCounter();
+}
 form.addEventListener('submit',async e=>{
  e.preventDefault();
  feedback.textContent='';
@@ -38,7 +55,7 @@ form.addEventListener('submit',async e=>{
  const fields=new FormData(form);
  const data={persona,nome:fields.get('nome'),whatsapp:digits,
    cidade:fields.get('cidade')||'',empresa:fields.get('empresa')||'',
-   interesse:fields.get('interesse'),website:fields.get('website')||'',
+   interesse:fields.get('interesse'),atleta:persona==='empresa'?(fields.get('atleta')||''):'',website:fields.get('website')||'',
    consent:fields.has('consent'),responsavel:persona==='familia'?fields.has('responsavel'):false};
  for(const key of allowedFields)data[key]=clean(urlParams.get(key));
  submit.disabled=true;

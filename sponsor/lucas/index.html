@@ -1,28 +1,123 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#08111f"><title>Painel Lucas | FutTalento Sponsor</title><link rel="icon" href="../../favicon.png"><link rel="stylesheet" href="../../futtalento-2.css">
-<style>
-.dashboard{padding:32px 0 90px}.dashhead{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}.dashhead h1{font-size:clamp(2rem,4vw,3rem);margin:8px 0}.notice{border:1px solid #426078;background:#13253b;padding:17px;border-radius:13px;color:#ccd9e9;margin:20px 0}.notice strong{color:#fff}.mini{font-size:.82rem;color:#c3cedd}.navtabs{display:flex;gap:7px;overflow-x:auto;padding:12px 0 21px}.navtabs button{border:1px solid #546982;color:#e8f0fa;border-radius:99px;background:#13243b;padding:10px 16px;white-space:nowrap}.navtabs button[aria-selected=true]{color:#0d1b26;background:#c9fc54;border-color:#c9fc54;font-weight:800}.sectionpanel{display:none}.sectionpanel.active{display:block}.panels{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.metricbox{padding:19px;border:1px solid #38516c;border-radius:15px;background:#11233a}.metricbox small{display:block;color:#bed0e2;font-size:.78rem}.metricbox strong{font-size:1.7rem}.sponsors{display:grid;grid-template-columns:repeat(2,1fr);gap:17px;margin:20px 0}.sponsor{padding:22px;border-radius:17px;border:1px solid #34506a;background:#101f34}.sponsor h3{margin-bottom:5px}.sponsor p{color:#c3cedd;font-size:.87rem}.sponsor label,.record label{display:block;color:#c3cedd;font-size:.83rem;margin:13px 0 4px}.sponsor input,.sponsor select,.sponsor textarea,.record input,.record select,.record textarea{width:100%;background:#071421;border:1px solid #4e6881;border-radius:9px;padding:10px 12px;color:#fff;font:inherit}.sponsor textarea,.record textarea{min-height:70px}.sponsor input[type=checkbox]{width:auto}.sponsor .link{color:#c9fc54;text-decoration:underline}.task{display:flex;align-items:flex-start;gap:12px;padding:15px;border-bottom:1px solid #31445a}.task input{width:22px;height:22px;flex:none;accent-color:#c9fc54}.task small{color:#adc0d3;display:block}.task b{display:block}.tablewrap{overflow-x:auto}table.records{width:100%;border-collapse:collapse;min-width:650px;text-align:left}table.records th,table.records td{padding:12px;border-bottom:1px solid #30475d;font-size:.84rem}table.records th{color:#c9fc54}.record{padding:20px;border-radius:16px;border:1px solid #38556e;background:#12233a;margin:17px 0}.formgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.dangertext{color:#ffc7a1}.msg{min-height:20px;font-size:.87rem}.logout{color:#cad9e7}.mutedline{color:#afc1d2;font-size:.78rem}.btn[disabled]{opacity:.4;cursor:not-allowed}.signedout{padding:45px 0;max-width:680px}.hidden{display:none!important}@media(max-width:880px){.panels{grid-template-columns:repeat(2,1fr)}.sponsors{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr 1fr}}@media(max-width:530px){.formgrid{grid-template-columns:1fr}.dashhead{align-items:flex-start}.panels{gap:7px}.metricbox{padding:13px}.metricbox strong{font-size:1.3rem}}
-</style></head><body><a class="skip" href="#principal">Ir ao conteúdo</a><header class="top"><div class="wrap top-row"><a class="brand" href="../../index.html"><img src="../../futtalentologo.png" width="42" height="42" alt=""><span>FUT<b>TALENTO</b></span></a><nav class="nav" aria-label="Menu"><a href="../../atletas/#lucas">Perfil do Lucas</a><a class="nav-cta" href="../../index.html">Página inicial</a></nav></div></header>
-<main class="wrap dashboard" id="principal">
-<div class="dashhead"><div><span class="eyebrow">Área de operações · acesso restrito</span><h1>Lucas <em style="color:#c9fc54;font-style:normal">Sponsor</em></h1><p class="lead">Missões da família, entregas da agência e resultados dos parceiros em um só lugar.</p></div><a class="logout hidden" id="logout" href="/api/sponsor-logout">Sair do painel ↗</a></div>
-<div id="login" class="signedout">
-<div class="notice"><strong>Painel privado do Lucas</strong><p>Entre com a senha temporária da FutTalento. Não é necessário ter conta no GitHub. Este acesso é provisório e será substituído por contas individuais.</p></div>
-<form id="password-login-form" class="record" autocomplete="on">
-<h2 style="font-size:1.45rem">Acesso por senha</h2>
-<label for="temporary-password">Senha temporária</label>
-<input id="temporary-password" name="password" type="password" autocomplete="current-password" minlength="12" maxlength="128" required style="width:100%;max-width:440px" placeholder="Digite sua senha de acesso">
-<div class="actions"><button class="btn btn-primary" id="temporary-login-button" type="submit">Entrar no painel →</button></div>
-<p class="msg" id="password-feedback" role="status" aria-live="polite"></p>
-<p class="mini">Senha válida até 22/10/2026. Por segurança, cada sessão dura no máximo 8 horas.</p>
-</form>
-<details><summary>Sou administrador: acesso pelo GitHub</summary><p class="mini">O acesso técnico por GitHub continua disponível, apenas para usuários autorizados.</p><a class="btn btn-outline" href="/api/sponsor-login">Entrar com GitHub autorizado →</a></details>
-</div>
-<div id="app" class="hidden"><div class="notice">As ações registradas neste painel são internas. Parceiros e ofertas encontrados publicamente não significam contrato confirmado. <strong>Somente dados e resultados comprovados entram no relatório.</strong></div>
-<div class="dashhead"><p class="mini" id="session"></p><div><button class="btn btn-primary" id="save">Salvar atualizações</button><p class="msg" id="saveStatus" role="status"></p></div></div>
-<div class="navtabs" role="tablist" aria-label="Seções do painel"><button role="tab" aria-selected="true" data-tab="visao">Visão geral</button><button role="tab" aria-selected="false" data-tab="missoes">Missões da Juliana</button><button role="tab" aria-selected="false" data-tab="parceiros">Patrocinadores</button><button role="tab" aria-selected="false" data-tab="entregas">Entregas e vendas</button><button role="tab" aria-selected="false" data-tab="social">Instagram e alcance</button><button role="tab" aria-selected="false" data-tab="relatorios">Relatório por parceiro</button></div>
-<section id="tab-visao" class="sectionpanel active"><h2>Operação e resultados</h2><div class="panels"><div class="metricbox"><small>Entregas publicadas</small><strong id="met-deliveries">0</strong></div><div class="metricbox"><small>Cupons resgatados validados</small><strong id="met-coupons">0</strong></div><div class="metricbox"><small>Compras confirmadas</small><strong id="met-sales">0</strong></div><div class="metricbox"><small>Faturamento registrado</small><strong id="met-revenue">R$ 0</strong></div></div><p class="mutedline">Contagens começam vazias. Não representam valores futuros, simulados ou estimados. Seguidores e alcance dependem de registros de origem autorizada.</p><h3>Próximas missões</h3><div id="nextTasks"></div><h3>Calendário editorial sugerido (14 ações)</h3><p class="mini">Todas as peças estão em planejamento. Nenhuma postagem foi efetuada automaticamente.</p><div class="tablewrap"><table class="records"><thead><tr><th>Data</th><th>Parceiro</th><th>Formato</th><th>Pauta</th></tr></thead><tbody id="calendarRows"></tbody></table></div><div class="actions"><button class="btn btn-outline" id="adoptCalendar">Adicionar o calendário às entregas planejadas</button></div><div class="record"><h3>Link de campanha rastreável</h3><p class="mini">Use este link em Stories, Reels, destaques e QR Codes. Os cliques nas marcas podem ser registrados no GA4 somente após o consentimento do visitante e configuração do evento.</p><label for="linkMedium">Formato da postagem</label><select id="linkMedium"><option value="story">Story</option><option value="reel">Reel</option><option value="bio">Link da bio</option><option value="qr">QR Code</option></select><label for="linkCampaign">Identificação da campanha (sem nome de criança nos parâmetros)</label><input id="linkCampaign" value="apoio-base-out-nov-2026" maxlength="60" style="width:100%;padding:12px;border-radius:9px;color:#fff;background:#071421;border:1px solid #526780"><div class="actions"><button class="btn btn-outline" id="copyCampaign">Copiar link</button></div><p class="mini" id="campaignLink">https://www.futtalento.com.br/apoiadores/lucas/</p></div><div class="notice">Cronograma piloto: <strong>1 Reel por semana no total</strong>, <strong>2 Stories por semana</strong> e <strong>1 carrossel a cada duas semanas</strong>, distribuídos entre os parceiros. Publicações comerciais devem ter aprovação da família e identificação adequada de publicidade.</div></section>
-<section id="tab-missoes" class="sectionpanel"><h2>Missões da Juliana e da agência</h2><p class="mini">Missões não dependem de Lucas interagir com anúncios nem de crianças seguir perfis comerciais. Responsáveis e agência aprovam as ações.</p><div id="tasks"></div></section>
-<section id="tab-parceiros" class="sectionpanel"><h2>Parceiros conhecidos</h2><p class="mini">Confirme modalidade, oferta, cupom e frequência antes de ativar qualquer campanha. O Real Gaúcho é classificado inicialmente como formação esportiva.</p><div id="partners" class="sponsors"></div></section>
-<section id="tab-entregas" class="sectionpanel"><h2>Posts, Stories, Reels, cupons e vendas</h2><div class="record"><h3>Registrar entrega ou resultado</h3><div class="formgrid"><div><label for="acDate">Data</label><input id="acDate" type="date"></div><div><label for="acPartner">Parceiro</label><select id="acPartner"></select></div><div><label for="acType">Tipo</label><select id="acType"><option value="story">Story</option><option value="reel">Reel</option><option value="post">Post/carrossel</option><option value="entrega">Permuta entregue</option><option value="cupom">Cupom resgatado</option><option value="resgate">Resgate comprovado</option><option value="venda">Compra confirmada</option></select></div><div><label for="acStatus">Estado</label><select id="acStatus"><option value="planejado">Planejado</option><option value="publicado">Publicado</option><option value="confirmado">Confirmado</option></select></div><div><label for="acQty">Quantidade</label><input id="acQty" type="number" min="0" step="1" value="1"></div><div><label for="acRevenue">Faturamento confirmado (R$)</label><input id="acRevenue" type="number" min="0" step=".01" value="0"></div></div><label for="acSource">Comprovação (URL, pedido ou código sem dados do comprador)</label><input id="acSource" placeholder="Ex.: publicação ou ID da venda"><label for="acNote">Observações</label><textarea id="acNote" placeholder="Ex.: entrega confirmada pelo responsável do estabelecimento"></textarea><div class="actions"><button class="btn btn-primary" id="addActivity">Adicionar registro</button></div></div><div class="tablewrap"><table class="records"><thead><tr><th>Data</th><th>Parceiro</th><th>Tipo</th><th>Status</th><th>Qtde.</th><th>Valor</th><th>Fonte</th><th></th></tr></thead><tbody id="activityRows"></tbody></table></div></section>
-<section id="tab-social" class="sectionpanel"><h2>Indicadores das redes sociais</h2><p class="mini">Cadastre somente dados extraídos de Insights de contas profissionais autorizadas. O crescimento total não é prova de causalidade de um post.</p><div class="record"><h3>Registrar fotografia dos Insights</h3><div class="formgrid"><div><label for="soDate">Data</label><input id="soDate" type="date"></div><div><label for="soPartner">Conta analisada</label><select id="soPartner"></select></div><div><label for="soFollowers">Seguidores</label><input id="soFollowers" type="number" min="0" placeholder="Total real"></div><div><label for="soReach">Alcance informado</label><input id="soReach" type="number" min="0" placeholder="Mesmo período"></div><div><label for="soVisits">Visitas ao perfil</label><input id="soVisits" type="number" min="0" placeholder="Mesmo período"></div><div><label for="soSource">Fonte</label><input id="soSource" placeholder="Ex.: Insights, relatório 01–15/11"></div></div><div class="actions"><button class="btn btn-primary" id="addSocial">Adicionar indicador</button></div></div><div class="tablewrap"><table class="records"><thead><tr><th>Data</th><th>Conta</th><th>Seguidores</th><th>Alcance</th><th>Visitas</th><th>Fonte</th><th></th></tr></thead><tbody id="socialRows"></tbody></table></div></section>
-<section id="tab-relatorios" class="sectionpanel"><h2>Relatório de patrocínio</h2><p class="mini">Resumo com registros reais cadastrados, origem de cada dado e limitações de atribuição. Uso interno até aprovação da família e do parceiro.</p><div class="record"><label for="reportPartner">Selecionar parceiro</label><select id="reportPartner"></select><div class="actions"><button class="btn btn-outline" id="printReport">Imprimir / salvar como PDF pelo navegador</button></div></div><div id="reportContent"></div></section>
-</div></main><footer class="footer"><div class="wrap"><p>FutTalento — Operações comerciais. Dados privados e resultados documentados.</p><p><a href="../../privacidade.html">Privacidade</a> · <a href="../../metodologia.html">Metodologia</a></p></div></footer><script defer src="calendario.js"></script><script defer src="painel.js"></script></body></html>
+<!doctype html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#f1faef">
+<meta name="color-scheme" content="light"><meta name="referrer" content="no-referrer">
+<meta name="description" content="Jornada privada do Lucas no FutTalento: missões simples, conteúdos para aprovar e conquistas.">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Jornada Lucas">
+<meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="/sponsor/lucas/manifest.webmanifest">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/futtalentologo.png">
+<link rel="stylesheet" href="jornada.css">
+<title>Minha Jornada — Lucas | FutTalento</title>
+</head><body>
+<a class="skip" href="#principal">Ir para o conteúdo</a>
+<header class="topbar"><div class="wrap topinner">
+  <a class="logo" href="/" aria-label="FutTalento, página inicial"><img src="/futtalentologo.png" width="37" height="37" alt=""><span>FUTTALENTO</span></a>
+  <a class="toplink" href="/atletas/#lucas">⚽ Perfil do Lucas</a>
+</div></header>
+<main class="wrap" id="principal">
+<section id="loginSection" class="loginbox" aria-label="Entrar na jornada do Lucas">
+  <div class="panel">
+    <div style="text-align:center;font-size:3.1rem" aria-hidden="true">⚽</div>
+    <p class="eyebrow" style="text-align:center">Sua família. Sua jornada.</p>
+    <h1 style="text-align:center">Bem-vinda à jornada do Lucas!</h1>
+    <p style="text-align:center;margin:12px 0 4px">Aqui você vê suas missões, aprova publicações e acompanha os apoios recebidos. Tudo bem simples!</p>
+    <form id="loginForm" class="loginform">
+      <label for="loginPassword" class="field-label">Digite sua senha de acesso</label>
+      <input id="loginPassword" class="field" type="password" autocomplete="current-password" maxlength="128" minlength="12" required placeholder="Sua senha temporária">
+      <button id="loginButton" class="action full" type="submit">Entrar na minha jornada <span aria-hidden="true">→</span></button>
+      <p id="loginMessage" class="error" role="status" aria-live="polite"></p>
+    </form>
+    <p class="small" style="text-align:center;margin-top:9px">Acesso privado. Não precisa ter conta no GitHub.</p>
+    <details class="login-alt"><summary>Sou da equipe FutTalento</summary><p class="small">Administradores podem usar o login técnico.</p><a class="action secondary" href="/api/sponsor-login">Entrar como administrador</a></details>
+  </div>
+  <p class="footnotes">🔒 Seus registros ficam protegidos. Nenhuma missão publica conteúdos automaticamente.</p>
+</section>
+<section id="appSection" hidden aria-label="Minha Jornada do Lucas">
+  <div class="sessionbar">
+    <span class="chip">🌱 Minha Jornada FutTalento</span>
+    <div style="display:flex;align-items:center;gap:9px">
+      <button class="agencyLink" type="button" id="installApp" hidden>📲 Adicionar ao celular</button><a id="agencyLink" class="agencyLink" href="/sponsor/lucas/gestao/" hidden>⚙️ Agência</a>
+      <a class="toplink" href="/api/sponsor-logout" aria-label="Sair da área privada">Sair</a>
+    </div>
+  </div>
+  <section class="hero" aria-label="Boas-vindas">
+    <img class="avatar" src="/perfillukinhas10.jpg" alt="Lucas Azambuja, atleta" width="72" height="72">
+    <div class="headcopy">
+      <h1>Olá, Juliana! 👋</h1>
+      <p class="muted">Um passo de cada vez na jornada do Lucas.</p>
+    </div>
+  </section>
+  <section id="view-hoje" class="view active" aria-labelledby="todayTitle">
+    <div class="panel weekhero">
+      <p class="eyebrow" style="color:#d7fad2">🌟 Jornada em família</p>
+      <h2 id="todayTitle">Cada pequena ação ajuda o Lucas a avançar.</h2>
+      <p class="muted small">Você não precisa entender de marketing. A agência cuida da parte técnica.</p>
+      <div class="progress-info"><span>Suas missões iniciais</span><span id="progressCount" aria-live="polite">0 de 3</span></div>
+      <div class="progress" role="progressbar" aria-label="Progresso das missões iniciais" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0" id="progressBox"><div id="progressFill" class="progress-fill"></div></div>
+    </div>
+    <div id="approvalArea" aria-live="polite"></div>
+    <div class="sectionTitle"><h2>🎯 Sua próxima missão</h2><small id="missionEstimate">1 ou 2 minutos</small></div>
+    <article id="primaryMission" class="mission" aria-live="polite"></article>
+    <div class="sectionTitle"><h2>Próximos passos</h2><small>Sem pressa 😊</small></div>
+    <div id="smallMissions" class="next-grid"></div>
+    <div class="panel" style="margin-top:19px;background:#ecf8ff;border-color:#cde3f2">
+      <h3>💬 Precisa de ajuda?</h3><p class="small muted" style="margin:7px 0 13px">É só falar com a equipe. Você não precisa resolver tudo sozinha.</p>
+      <a id="whatsappHelp" class="action soft full" href="https://wa.me/554832200260?text=Ol%C3%A1%21%20Preciso%20de%20ajuda%20com%20a%20jornada%20FutTalento%20do%20Lucas." target="_blank" rel="noopener noreferrer">Conversar com a equipe no WhatsApp →</a>
+    </div>
+  </section>
+  <section id="view-agenda" class="view" aria-labelledby="agendaTitle">
+    <div class="panel" style="margin-bottom:15px;background:#ecf8ff">
+      <p class="eyebrow">Tudo organizado pela agência</p><h2 id="agendaTitle" style="margin:8px 0">📅 O que vem por aí?</h2>
+      <p class="small muted">Você só participa quando tiver algo para enviar ou aprovar. As datas abaixo são sugestões, não publicações confirmadas.</p>
+    </div>
+    <div id="agendaList" class="itemlist"></div>
+    <p class="footnotes">A programação pode mudar conforme a autorização da família, o treino e as condições combinadas com cada apoiador.</p>
+  </section>
+  <section id="view-conquistas" class="view" aria-labelledby="conquistasTitle">
+    <div class="panel" style="background:#fff7e3;margin-bottom:14px;border-color:#efddae">
+      <p class="eyebrow">Cada passo importa</p><h2 id="conquistasTitle" style="margin:8px 0">🏆 Nossas conquistas</h2>
+      <p class="small muted">Aqui ficam as pequenas vitórias da jornada — não são pontos competitivos e não existe punição por ficar sem acessar.</p>
+    </div>
+    <div id="achievementGrid" class="badgelist"></div>
+    <div class="sectionTitle"><h2>🤝 Quem apoia o Lucas?</h2></div>
+    <div id="partnerCards" class="partnerGrid"></div>
+    <div class="sectionTitle"><h2>🎁 Apoios recebidos</h2></div>
+    <div class="panel">
+      <p class="small muted">Quando o Lucas receber um produto ou serviço de um parceiro, basta registrar. A equipe depois confirma os dados para o relatório.</p>
+      <div id="benefitList" class="itemlist" style="margin-top:13px"></div>
+      <button id="benefitToggle" class="action secondary full" style="margin-top:14px" type="button" aria-expanded="false">+ Registrar apoio recebido</button>
+      <form id="benefitForm" class="benefitForm" hidden>
+        <label for="benefitPartner" class="field-label">Quem ajudou?</label>
+        <select class="field" id="benefitPartner" required>
+          <option value="oze">Barbearia do Oze</option><option value="didi">Bolos da Didi</option>
+          <option value="guimaraes">Guimarães Brasil</option><option value="realgaucho">Real Gaúcho Futsal</option>
+        </select>
+        <label for="benefitDescription" class="field-label">O que o Lucas recebeu?</label>
+        <input class="field" id="benefitDescription" maxlength="220" minlength="3" required placeholder="Ex.: Corte de cabelo">
+        <label for="benefitDate" class="field-label">Qual dia?</label>
+        <input class="field" id="benefitDate" type="date" required>
+        <button type="submit" id="benefitSubmit" class="action full">Registrar apoio recebido</button>
+        <p class="error" id="benefitMessage" aria-live="polite"></p>
+      </form>
+    </div>
+    <div class="panel" style="margin-top:15px">
+      <h3>💛 Nossa rede de apoio</h3>
+      <p class="small muted" style="margin:8px 0 14px">As marcas abaixo aparecem no site oficial do Lucas. Os benefícios comerciais de cada uma só são divulgados após aprovação.</p>
+      <a class="action secondary full" href="/apoiadores/lucas/">Conhecer os apoiadores →</a>
+    </div>
+  </section>
+  <p id="appFeedback" class="footnotes" role="status" aria-live="polite"></p>
+</section>
+</main>
+<nav id="bottomNav" class="bottomnav" aria-label="Navegação da jornada" hidden>
+  <button type="button" data-view="hoje" aria-current="page"><span aria-hidden="true">🏠</span><span>Hoje</span></button>
+  <button type="button" data-view="agenda" aria-current="false"><span aria-hidden="true">📅</span><span>Agenda</span></button>
+  <button type="button" data-view="conquistas" aria-current="false"><span aria-hidden="true">🏆</span><span>Conquistas</span></button>
+</nav>
+<script defer src="calendario.js"></script>
+<script defer src="jornada.js"></script>
+</body></html>

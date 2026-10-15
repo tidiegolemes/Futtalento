@@ -18,7 +18,7 @@ export default async function handler(req,res) {
      if(!allowed.includes(login))return res.status(403).send('Usuário sem permissão para este painel');
      res.setHeader('Set-Cookie',[cookie('ft_session',signed({kind:'sponsor',login,exp:Date.now()+86400000}),86400),cookie('ft_oauth_nonce','',0)]);
      res.setHeader('Cache-Control','no-store');
-     return res.redirect(302,'/sponsor/lucas/');
+     return res.redirect(302,'/sponsor/lucas/gestao/');
    }catch(err){console.error('Sponsor login error',err?.message);return res.status(502).send('Não foi possível concluir o login');}
  }
 

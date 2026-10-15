@@ -1,0 +1,26 @@
+{
+  "name": "Minha Jornada FutTalento — Lucas",
+  "short_name": "Jornada Lucas",
+  "description": "Missões simples, calendário e conquistas da jornada esportiva do Lucas.",
+  "id": "/sponsor/lucas/",
+  "start_url": "/sponsor/lucas/",
+  "scope": "/sponsor/lucas/",
+  "display": "standalone",
+  "background_color": "#f1faef",
+  "theme_color": "#f1faef",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/futtalentologo.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

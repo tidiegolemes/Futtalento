@@ -13,7 +13,7 @@ const result=await get(PATH,{access:'private'});return result?.stream?JSON.parse
 export default async function handler(req,res){
 res.setHeader('Cache-Control','private, no-store');
 const user=authenticate(req);
-if(!user)return res.status(401).json({error:'Acesso restrito'});
+if(!user||user.kind!=='sponsor')return res.status(403).json({error:'Área exclusiva da agência. A conta familiar não acessa registros comerciais administrativos.'});
 if(req.method==='GET'){try{return res.status(200).json({data:await load(),user:user.login})}catch(e){console.error('sponsor store read',e?.message);return res.status(503).json({error:'Dados temporariamente indisponíveis'})}}
 if(req.method!=='POST')return res.status(405).end();
 const origin=req.headers.origin;

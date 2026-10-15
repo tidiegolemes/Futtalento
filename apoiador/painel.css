@@ -29,3 +29,5 @@
 .inlineBtns{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:13px}
 .action-link{color:#246a62;text-decoration:underline;font-weight:800}
 @media(max-width:460px){.partner-avatar{width:63px;height:63px;border-radius:20px;font-size:2rem}.smallNumbers{gap:8px}.numberCard{padding:13px}.numberCard strong{font-size:1.3rem}.inlineBtns{grid-template-columns:1fr}}
+
+.partnerGreeting{font-size:clamp(1.85rem,5.5vw,2.8rem);letter-spacing:-.05em;line-height:1.1}

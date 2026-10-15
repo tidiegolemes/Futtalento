@@ -26,7 +26,7 @@
  <div class="hero-grid">
   <div class="hero-copy">
    <span class="hero-icon" aria-hidden="true">⚽</span>
-   <span class="eyebrow">Para empresas, comércios e projetos</span>
+   <span class="eyebrow">Para empresas, comércios e projetos</span><p><a class="featured-jump" href="#atletas-para-apoiar">🎞️ Conhecer atletas para apoiar ↓</a></p>
    <h1>Seu negócio pode <em>apoiar talentos.</em></h1>
    <p class="lead">Apoie o futebol de base com produtos, serviços ou patrocínio. Escolha uma trajetória, converse com a agência e acompanhe entregas combinadas e resultados verificáveis.</p>
    <ul class="benefits"><li><span class="symbol" aria-hidden="true">🎁</span><span>Parcerias por permuta, produtos, serviços ou patrocínio</span></li><li><span class="symbol" aria-hidden="true">📱</span><span>Publicações combinadas com a família e a agência</span></li><li><span class="symbol" aria-hidden="true">📊</span><span>Acompanhamento de entregas, cupons e vendas confirmadas</span></li></ul>
@@ -44,7 +44,9 @@
      <input class="field" type="tel" id="whatsapp" name="whatsapp" inputmode="tel" autocomplete="tel" maxlength="30" required placeholder="(48) 99999-9999"><span class="field-help">Só entraremos em contato sobre seu interesse.</span></div>
     <div class="form-row"><label class="field-label" for="cidade">Cidade / estado <span style="font-weight:500">(opcional)</span></label>
      <input class="field" type="text" id="cidade" name="cidade" autocomplete="address-level2" maxlength="70" placeholder="Ex.: Florianópolis, SC"></div>
-    <div class="form-row"><label for="interesse" class="field-label">Como gostaria de apoiar?</label>
+    <div class="form-row"><label for="atleta" class="field-label">Qual atleta gostaria de apoiar? <span style="font-weight:500">(opcional)</span></label>
+ <select id="atleta" class="field" name="atleta"><option value="">Quero conhecer as opções</option><option value="lucas">Lucas Azambuja</option><option value="ryan">Ryan Coelho</option><option value="thalles">Thalles Silvino</option></select></div>
+ <div class="form-row"><label for="interesse" class="field-label">Como gostaria de apoiar?</label>
      <select id="interesse" class="field" name="interesse"><option value="conhecer">Quero conhecer o projeto</option><option value="permuta">Oferecer produtos ou serviços</option><option value="patrocinio">Patrocínio financeiro</option><option value="visibilidade">Quero conhecer as contrapartidas</option></select></div>
     <label class="consent"><input type="checkbox" name="consent" required><span>Autorizo o FutTalento a usar esses dados para responder meu pedido pelo WhatsApp, conforme a <a href="/privacidade.html" target="_blank" rel="noopener noreferrer">Política de Privacidade</a>. *</span></label>
     <label class="consent"><input type="checkbox" id="metricsConsent"><span>Permito métricas opcionais de navegação, sem informações pessoais. (Opcional)</span></label>
@@ -62,6 +64,37 @@
   </aside>
  </div>
 </div></div>
+<section class="wrap athlete-showcase" id="atletas-para-apoiar" aria-labelledby="athlete-carousel-title">
+ <div class="athlete-heading"><div><span class="eyebrow">Conheça as trajetórias</span>
+  <h2 id="athlete-carousel-title">Qual história sua empresa quer apoiar?</h2>
+  <p>Deslize como nos Reels e conheça os atletas com histórico público. Cada contato é intermediado pela equipe FutTalento e pelos responsáveis.</p></div>
+  <div class="athlete-controls" aria-label="Navegação entre atletas">
+   <button type="button" data-slide="-1" aria-label="Atleta anterior">←</button>
+   <span id="athleteCounter" aria-live="polite">1 de 3</span>
+   <button type="button" data-slide="1" aria-label="Próximo atleta">→</button>
+  </div></div>
+ <div id="athleteRail" class="athlete-rail" role="region" tabindex="0" aria-roledescription="carrossel" aria-label="Trajetórias públicas para apoiar">
+  <article class="athlete-tile" data-athlete="lucas" role="group" aria-roledescription="slide" aria-label="1 de 3: Lucas Azambuja">
+   <img src="/atletas/lukas/campeao-lukas.jpg" alt="Lucas Azambuja em registro esportivo do seu acervo" loading="lazy" decoding="async" width="360" height="640">
+   <div class="athlete-shade"></div><div class="athlete-content"><span class="verify-sticker" title="Histórico publicado no FutTalento; não é certificação de identidade nem selo oficial das redes sociais"><span aria-hidden="true">✓</span> Perfil publicado</span>
+    <span class="athlete-reel-label">⚽ FUTEBOL DE BASE</span><h3>Lucas Azambuja</h3><p>Futebol e futsal · Registros de conquistas no Gre-Nal de base</p>
+    <div class="athlete-actions"><button type="button" data-select-athlete="lucas">🤝 Quero apoiar</button><a href="/atletas/#lucas" aria-label="Conhecer a trajetória de Lucas">Ver história ↗</a></div></div>
+  </article>
+  <article class="athlete-tile" data-athlete="ryan" role="group" aria-roledescription="slide" aria-label="2 de 3: Ryan Coelho">
+   <img src="/atletas/ryan/perfilryan.jpg" alt="Ryan Coelho em fotografia esportiva publicada no FutTalento" loading="lazy" decoding="async" width="360" height="640">
+   <div class="athlete-shade"></div><div class="athlete-content"><span class="verify-sticker" title="Histórico publicado no FutTalento; não é certificação de identidade nem selo oficial das redes sociais"><span aria-hidden="true">✓</span> Perfil publicado</span>
+    <span class="athlete-reel-label">⚽ FUTEBOL DE BASE</span><h3>Ryan Coelho</h3><p>Meio-campo · Histórico esportivo com Cruzeiro-RS e Copa Maravilha</p>
+    <div class="athlete-actions"><button type="button" data-select-athlete="ryan">🤝 Quero apoiar</button><a href="/atletas/ryan/" aria-label="Conhecer a trajetória de Ryan">Ver história ↗</a></div></div>
+  </article>
+  <article class="athlete-tile" data-athlete="thalles" role="group" aria-roledescription="slide" aria-label="3 de 3: Thalles Silvino">
+   <img src="/thalles-perfil.jpg" alt="Thalles Silvino em fotografia esportiva do seu acervo público" loading="lazy" decoding="async" width="360" height="640">
+   <div class="athlete-shade"></div><div class="athlete-content"><span class="verify-sticker" title="Histórico publicado no FutTalento; não é certificação de identidade nem selo oficial das redes sociais"><span aria-hidden="true">✓</span> Perfil publicado</span>
+    <span class="athlete-reel-label">⚽ FUTEBOL DE BASE</span><h3>Thalles Silvino</h3><p>Lateral e meia · Trajetória publicada com São José e Juventude</p>
+    <div class="athlete-actions"><button type="button" data-select-athlete="thalles">🤝 Quero apoiar</button><a href="/atletas/#thalles" aria-label="Conhecer a trajetória de Thalles">Ver história ↗</a></div></div>
+  </article>
+ </div>
+ <div class="athlete-foot"><span><span aria-hidden="true">ⓘ</span> O selo indica apenas histórico público na plataforma. Não é verificação documental ou selo oficial do Instagram/TikTok.</span><a href="/atletas/">Ver o catálogo completo de atletas ↗</a></div>
+</section>
 <section class="steps-section"><div class="wrap">
  <span class="eyebrow">Como funciona</span><h2>Simples como 1, 2, 3.</h2>
  <div class="step-grid"><article class="step"><span class="icon" aria-hidden="true">💬</span><h3>Escolha uma trajetória</h3><p>Conheça os atletas e diga quem sua empresa gostaria de apoiar.</p></article><article class="step"><span class="icon" aria-hidden="true">👋</span><h3>Planejamos juntos</h3><p>Combinamos um apoio possível, as entregas e os critérios de prestação de contas.</p></article><article class="step"><span class="icon" aria-hidden="true">🌱</span><h3>Acompanhe os resultados</h3><p>Visualize entregas e dados verificados nos painéis disponíveis.</p></article></div>

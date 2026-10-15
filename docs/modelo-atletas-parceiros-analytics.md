@@ -2,7 +2,7 @@
 
 ## Perfis públicos apresentados
 - Lucas Azambuja — site `lucasazambuja.com.br`, Instagram `@lucasazambujaoficial`; quatro referências públicas no site: `guimaraes.brasil`, `bolos_da_didi`, `barbeariadooze`, `realgauchofutsal`. A última é formação esportiva. Não presumir patrocínio comercial ativo nem contrapartida sem confirmação.
-- Ryan — acervo interno `/atletas/ryan/`, Instagram `@ryanzinho_8`; sobrenome aparece de formas divergentes no acervo antigo (da Silva/Coelho). **Confirmar grafia preferida com responsáveis antes de atualizar identidade oficial.** Sem patrocinadores ou números sociais verificados.
+- Ryan Coelho — acervo interno `/atletas/ryan/`, Instagram `@ryanzinho_8`. Nome público confirmado em 15/10/2026 como **Ryan Coelho**; divergências antigas no acervo foram corrigidas. Sem patrocinadores ou números sociais verificados.
 - Thalles Silvino — site `thallessilvino.com.br`, Instagram `@thalles_silvino`. Sem patrocinadores ou números sociais verificados.
 
 ## Produto futuro: sponsor analytics (não implementado no backend)
@@ -27,7 +27,7 @@
 - Não afirmar rankings no Google, retorno em vendas ou dados de Instagram não verificados.
 
 ## Itens a aprovar para a operação real
-- Autorizações por atleta e por parceria; confirmar grafia do nome de Ryan.
+- Autorizações por atleta e por parceria; utilizar sempre Ryan Coelho como nome público.
 - Lista contratual de patrocinadores, natureza do apoio e permutas.
 - Contas Instagram profissionais e permissões Meta para Insights.
 - IDs GA4/GTM corretos, consentimento e sinais de conversão.

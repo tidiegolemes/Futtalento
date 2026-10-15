@@ -1,0 +1,60 @@
+/* FutTalento — vitrine de atletas e patrocinadores; sobrepõe apenas componentes do diretório. */
+.athlete-hero{padding:78px 0 40px}
+.athlete-hero .intro{max-width:800px}
+.athlete-hero h1{font-size:clamp(2.4rem,5.8vw,4.8rem)}
+.athlete-hero p{max-width:750px}
+.mini-nav{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.mini-nav a{border:1px solid var(--line);background:var(--surface);padding:9px 15px;border-radius:100px;font-size:.84rem;font-weight:750}
+.mini-nav a:hover{border-color:var(--brand);color:var(--brand);text-decoration:none}
+.athlete-tabs{display:flex;flex-wrap:wrap;gap:12px;margin:12px 0 40px}
+.athlete-tabs a{border:1px solid var(--line);background:var(--surface);border-radius:100px;padding:10px 17px;font-weight:700;font-size:.87rem}
+.athlete-tabs a:hover{text-decoration:none;color:var(--brand)}
+.athlete-card{border:1px solid var(--line);border-radius:24px;background:linear-gradient(155deg,#10243b,#0c182a);margin-bottom:25px;overflow:hidden;scroll-margin-top:95px}
+.athlete-profile{display:grid;grid-template-columns:minmax(175px,275px) minmax(0,1fr);gap:30px;padding:30px}
+.athlete-photo{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:16px;display:block;background:#1b3042}
+.athlete-profile h2{font-size:clamp(1.8rem,3.4vw,2.8rem);margin:13px 0}
+.role{display:inline-block;color:var(--brand);font-size:.74rem;text-transform:uppercase;letter-spacing:.08em;font-weight:850}
+.athlete-profile p{color:var(--muted);font-size:.96rem}
+.role-chips{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
+.role-chips span{font-size:.75rem;border-radius:99px;background:#20344d;padding:6px 11px}
+.linkrow{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}
+.linkrow a{border:1px solid #58738b;border-radius:8px;padding:10px 13px;font-size:.81rem;font-weight:750}
+.linkrow a:hover{text-decoration:none;border-color:var(--brand);color:var(--brand)}
+.athlete-more{border-top:1px solid var(--line);padding:30px}
+.athlete-more h3{font-size:1.2rem;margin:0 0 7px}
+.athlete-more .hint{color:var(--muted);font-size:.85rem;margin:0 0 18px}
+.journey{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;list-style:none;margin:0;padding:0}
+.journey li{border-left:2px solid var(--cyan);background:rgba(255,255,255,.04);border-radius:0 10px 10px 0;padding:12px}
+.journey time,.journey small{display:block;color:var(--muted);font-size:.75rem}
+.journey b{font-size:.91rem}
+.section-line{border-top:1px solid var(--line);padding-top:26px;margin-top:26px}
+.partner-row{display:flex;align-items:center;justify-content:space-between;gap:15px}
+.carousel-controls{display:flex;gap:6px}
+.carousel-controls button{width:38px;height:38px;border:1px solid #546e86;border-radius:100%;background:#20354c;color:#fff}
+.carousel-controls button:hover{background:#385774}
+.partner-rail{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(184px,220px);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:2px;padding:6px 0 16px;scrollbar-color:#5d7892 transparent}
+.partner{scroll-snap-align:start;min-height:158px;padding:17px;border:1px solid var(--line);border-radius:15px;background:#132942;display:flex;flex-direction:column}
+.partner .partner-monogram{font-weight:900;color:var(--brand);font-size:1.3rem;letter-spacing:-.04em;line-height:1.2}
+.partner small{color:var(--muted);font-size:.77rem}
+.partner b{font-size:.91rem;margin:8px 0 3px}
+.partner a{margin-top:auto;font-size:.8rem;color:var(--brand);font-weight:750}
+.empty-partners{color:var(--muted);background:#14263a;border:1px dashed #456078;padding:20px;border-radius:12px;font-size:.91rem}
+.metrics-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.metric-cell{background:#182d43;border-radius:12px;padding:16px 13px}
+.metric-cell b{display:block;font-size:1.16rem;color:#fff;letter-spacing:-.03em}
+.metric-cell small{display:block;color:var(--muted);font-size:.72rem}
+.analytics-note{color:var(--muted);font-size:.8rem;margin:14px 0 0}
+.analytics-note a{color:var(--brand);text-decoration:underline}
+.funnel{display:flex;align-items:stretch;gap:6px;margin:15px 0 0}
+.funnel-step{background:#20354c;flex:1;padding:14px 10px;border-radius:9px;min-width:0}
+.funnel-step b{display:block;color:var(--brand);font-size:.7rem}
+.funnel-step span{display:block;color:#f9fafb;font-size:.89rem}
+.dash{font-size:.68rem;color:var(--muted)}
+.focus-note{border-left:3px solid var(--brand);padding:13px 18px;background:#11283c;border-radius:0 12px 12px 0;font-size:.89rem;color:var(--muted)}
+.community{background:#0f2135;border-radius:22px;padding:32px;margin-bottom:65px}
+.community h2{margin-bottom:12px}
+.mobile-note{font-size:.78rem;color:#bbcbd8}
+@media(max-width:850px){.athlete-profile{grid-template-columns:210px 1fr;gap:20px}.metrics-row{grid-template-columns:repeat(2,1fr)}.journey{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.athlete-hero{padding:55px 0 26px}.athlete-profile{grid-template-columns:1fr;padding:18px}.athlete-photo{max-height:330px;object-position:center 28%;aspect-ratio:5/4}.athlete-more{padding:20px}.journey{grid-template-columns:1fr}.metrics-row{grid-template-columns:repeat(2,1fr)}.funnel{display:grid;grid-template-columns:repeat(2,1fr)}.partner-rail{grid-auto-columns:minmax(172px,78%)}.community{padding:22px}.carousel-controls button{width:36px;height:36px}}
+
+.athlete-disclosure{margin-top:22px}.athlete-disclosure>summary{cursor:pointer;color:var(--brand);font-weight:800;list-style-position:inside;border:1px solid rgba(201,252,84,.42);background:#142a3b;padding:12px 17px;border-radius:11px}.athlete-disclosure[open]>summary{border-radius:11px 11px 0 0}.athlete-disclosure>summary:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}.athlete-disclosure .section-line:first-of-type{margin-top:0}

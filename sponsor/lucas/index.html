@@ -4,7 +4,18 @@
 </style></head><body><a class="skip" href="#principal">Ir ao conteúdo</a><header class="top"><div class="wrap top-row"><a class="brand" href="../../index.html"><img src="../../futtalentologo.png" width="42" height="42" alt=""><span>FUT<b>TALENTO</b></span></a><nav class="nav" aria-label="Menu"><a href="../../atletas/#lucas">Perfil do Lucas</a><a class="nav-cta" href="../../index.html">Página inicial</a></nav></div></header>
 <main class="wrap dashboard" id="principal">
 <div class="dashhead"><div><span class="eyebrow">Área de operações · acesso restrito</span><h1>Lucas <em style="color:#c9fc54;font-style:normal">Sponsor</em></h1><p class="lead">Missões da família, entregas da agência e resultados dos parceiros em um só lugar.</p></div><a class="logout hidden" id="logout" href="/api/sponsor-logout">Sair do painel ↗</a></div>
-<div id="login" class="signedout"><div class="notice"><strong>Painel privado</strong><p>Faça login com uma conta previamente autorizada pela equipe FutTalento. O acesso da família e dos patrocinadores será concedido individualmente, sem compartilhar senhas.</p></div><a class="btn btn-primary" href="/api/sponsor-login">Entrar com GitHub autorizado →</a><p class="mini">O acesso inicial é administrativo. Perfis de responsáveis e patrocinadores serão habilitados após confirmação de titularidade.</p></div>
+<div id="login" class="signedout">
+<div class="notice"><strong>Painel privado do Lucas</strong><p>Entre com a senha temporária da FutTalento. Não é necessário ter conta no GitHub. Este acesso é provisório e será substituído por contas individuais.</p></div>
+<form id="password-login-form" class="record" autocomplete="on">
+<h2 style="font-size:1.45rem">Acesso por senha</h2>
+<label for="temporary-password">Senha temporária</label>
+<input id="temporary-password" name="password" type="password" autocomplete="current-password" minlength="12" maxlength="128" required style="width:100%;max-width:440px" placeholder="Digite sua senha de acesso">
+<div class="actions"><button class="btn btn-primary" id="temporary-login-button" type="submit">Entrar no painel →</button></div>
+<p class="msg" id="password-feedback" role="status" aria-live="polite"></p>
+<p class="mini">Senha válida até 22/10/2026. Por segurança, cada sessão dura no máximo 8 horas.</p>
+</form>
+<details><summary>Sou administrador: acesso pelo GitHub</summary><p class="mini">O acesso técnico por GitHub continua disponível, apenas para usuários autorizados.</p><a class="btn btn-outline" href="/api/sponsor-login">Entrar com GitHub autorizado →</a></details>
+</div>
 <div id="app" class="hidden"><div class="notice">As ações registradas neste painel são internas. Parceiros e ofertas encontrados publicamente não significam contrato confirmado. <strong>Somente dados e resultados comprovados entram no relatório.</strong></div>
 <div class="dashhead"><p class="mini" id="session"></p><div><button class="btn btn-primary" id="save">Salvar atualizações</button><p class="msg" id="saveStatus" role="status"></p></div></div>
 <div class="navtabs" role="tablist" aria-label="Seções do painel"><button role="tab" aria-selected="true" data-tab="visao">Visão geral</button><button role="tab" aria-selected="false" data-tab="missoes">Missões da Juliana</button><button role="tab" aria-selected="false" data-tab="parceiros">Patrocinadores</button><button role="tab" aria-selected="false" data-tab="entregas">Entregas e vendas</button><button role="tab" aria-selected="false" data-tab="social">Instagram e alcance</button><button role="tab" aria-selected="false" data-tab="relatorios">Relatório por parceiro</button></div>

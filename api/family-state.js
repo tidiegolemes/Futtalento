@@ -52,6 +52,7 @@ export default async function handler(req,res){
       if(isStaff(user))return reject(res,403,'A aprovação da publicação cabe à família.');
       const draft=data.drafts.find(x=>x.id===body.draftId);
       if(!draft||draft.status!=='awaiting_review')return reject(res,409,'Publicação não disponível para aprovação.');
+      if(body.decision==='approved'&&!draft.previewUrl)return reject(res,409,'A agência precisa anexar a prévia antes da aprovação.');
       if(!['approved','needs_changes'].includes(body.decision))return reject(res,400,'Escolha aprovar ou pedir ajuste.');
       draft.status=body.decision;
       draft.familyNote=clip(body.note,450);
@@ -74,9 +75,19 @@ export default async function handler(req,res){
       const format=clip(body.format,25),date=isoDate(body.date);
       if(title.length<4||caption.length<8||!PARTNERS.includes(partner)||!['story','reel','carrossel'].includes(format)||!date)return reject(res,400,'Preencha o título, texto, parceiro, formato e data.');
       const preview=clip(body.previewUrl,500);
-      if(preview){try{const url=new URL(preview);if(url.protocol!=='https:')throw Error('protocol');}catch{return reject(res,400,'Informe um link de prévia HTTPS válido.');}}
+      if(!preview)return reject(res,400,'Inclua uma prévia visual antes de enviar para a família.');
+      try{const url=new URL(preview);if(url.protocol!=='https:')throw Error('protocol');}catch{return reject(res,400,'Informe um link de prévia HTTPS válido.');}
       if(data.drafts.length>=100)return reject(res,409,'Limite de publicações atingido.');
       data.drafts.push({id:crypto.randomUUID(),title,caption,partner,format,date,previewUrl:preview,status:'awaiting_review',createdAt:now,familyNote:'',reviewedAt:null});
+    }else if(action==='staff_edit_draft'){
+      if(!isStaff(user))return reject(res,403,'Somente a agência pode alterar uma peça.');
+      const draft=data.drafts.find(x=>x.id===body.draftId);
+      if(!draft)return reject(res,404,'Publicação não encontrada.');
+      const caption=clip(body.caption,1200),previewUrl=clip(body.previewUrl,500);
+      if(caption.length<8||!previewUrl)return reject(res,400,'Informe legenda e link de prévia.');
+      try{const url=new URL(previewUrl);if(url.protocol!=='https:')throw Error('protocol');}catch{return reject(res,400,'A prévia precisa usar HTTPS.');}
+      draft.caption=caption;draft.previewUrl=previewUrl;
+      draft.status='awaiting_review';draft.familyNote='';draft.reviewedAt=null;draft.updatedAt=now;
     }else if(action==='staff_reopen'){
       if(!isStaff(user))return reject(res,403,'Somente a agência pode editar esta etapa.');
       const draft=data.drafts.find(x=>x.id===body.draftId);

@@ -23,7 +23,7 @@
 <div><label for="fdFormat">Formato</label><select id="fdFormat"><option value="story">Story</option><option value="reel">Reel</option><option value="carrossel">Carrossel</option></select></div>
 <div><label for="fdDate">Data planejada</label><input id="fdDate" type="date"></div>
 <div style="grid-column:1/-1"><label for="fdCaption">Legenda para aprovação</label><textarea id="fdCaption" placeholder="Texto da publicação a ser revisado pela família..."></textarea></div>
-<div style="grid-column:1/-1"><label for="fdPreview">Link HTTPS da prévia (opcional)</label><input id="fdPreview" type="url" placeholder="https://..."></div>
+<div style="grid-column:1/-1"><label for="fdPreview">Link HTTPS da prévia visual (obrigatório para aprovação)</label><input id="fdPreview" type="url" placeholder="https://..." required></div>
 </div><div class="actions"><button class="btn btn-primary" id="fdCreate">Enviar para aprovação</button></div><p class="msg" id="fdMessage" role="status"></p></div>
 <h3>Peças enviadas e respostas</h3><div id="fdDrafts" class="sponsors"></div>
 <h3>Benefícios informados pela família</h3><div id="fdBenefits"></div>

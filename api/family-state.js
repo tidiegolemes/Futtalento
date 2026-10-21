@@ -21,6 +21,21 @@ async function saveState(data){
   const {put}=await import('@vercel/blob');
   await put(PATH,JSON.stringify(data),{access:'private',allowOverwrite:true,addRandomSuffix:false,contentType:'application/json'});
 }
+async function readEditorialSchedule(){
+  const path='lucas/sponsor-operations-v1.json';
+  try{
+    const {list,get}=await import('@vercel/blob');
+    const listing=await list({prefix:path,limit:10});
+    if(!listing.blobs?.some(x=>x.pathname===path))return [];
+    const file=await get(path,{access:'private'});
+    if(!file?.stream)return [];
+    const record=JSON.parse(await new Response(file.stream).text());
+    return (Array.isArray(record.activities)?record.activities:[])
+      .filter(x=>['story','reel','post'].includes(x.type)&&PARTNERS.includes(x.partner)&&/^20\d{2}-\d{2}-\d{2}$/.test(x.date||''))
+      .map(x=>({date:x.date,partner:x.partner,type:x.type,status:x.status||'planejado',collab:x.collab===true}))
+      .sort((a,b)=>a.date.localeCompare(b.date)).slice(-180);
+  }catch(err){console.error('Schedule unavailable',err?.message);return [];}
+}
 function reject(res,status,message){return res.status(status).json({error:message})}
 function verifyOrigin(req){
   const origin=req.headers.origin,host=req.headers.host;
@@ -38,7 +53,7 @@ export default async function handler(req,res){
   if(req.method==='POST'&&JSON.stringify(req.body||{}).length>12000)return reject(res,413,'Registro muito grande.');
   try{
     const data=await readState();
-    if(req.method==='GET')return res.status(200).json({role:isStaff(user)?'agency':'family',user:user.login,data});
+    if(req.method==='GET')return res.status(200).json({role:isStaff(user)?'agency':'family',user:user.login,data:{...data,schedule:await readEditorialSchedule()}});
     const body=req.body||{};
     if(!Number.isInteger(body.revision)||body.revision!==data.revision)return reject(res,409,'A jornada foi atualizada em outro dispositivo. Recarregue antes de continuar.');
     const action=clip(body.action,50);
@@ -93,6 +108,12 @@ export default async function handler(req,res){
       const draft=data.drafts.find(x=>x.id===body.draftId);
       if(!draft)return reject(res,404,'Publicação não encontrada.');
       draft.status='awaiting_review';draft.familyNote='';draft.reviewedAt=null;
+    }else if(action==='staff_record_benefit'){
+      if(!isStaff(user))return reject(res,403,'Somente a agência registra os apoios nesta etapa.');
+      const partner=clip(body.partner,60),description=clip(body.description,220),day=isoDate(body.date);
+      if(!PARTNERS.includes(partner)||description.length<3||!day)return reject(res,400,'Confira o apoiador, a descrição e a data.');
+      if(data.benefits.length>=150)return reject(res,409,'Limite de registros atingido.');
+      data.benefits.push({id:crypto.randomUUID(),partner,description,date:day,reportedAt:now,verification:'verified_by_agency',source:'agency_documented'});
     }else if(action==='staff_verify_benefit'){
       if(!isStaff(user))return reject(res,403,'A validação é exclusiva da agência.');
       const benefit=data.benefits.find(x=>x.id===body.benefitId);

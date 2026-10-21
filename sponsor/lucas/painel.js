@@ -7,22 +7,19 @@ const partnerCatalog=[
 {id:'realgaucho',name:'Real Gaúcho Futsal',type:'Formação complementar · não presumir patrocínio comercial',link:'https://www.instagram.com/realgauchofutsal/'}
 ];
 const tasks=[
-['family_consent','Juliana','Revisar autorizações para imagens e comunicações publicitárias envolvendo o Lucas','Antes da 1ª entrega'],
-['confirm_brands','Juliana','Confirmar contratos, nomes oficiais e natureza de cada parceiro','Semana 1'],
-['follow_partners','Juliana','Seguir as contas dos parceiros na conta adulta responsável, se desejar','Semana 1'],
-['confirm_permutas','Agência + Juliana','Documentar produtos, serviços, quantidades e custos econômicos de cada permuta','Semana 1'],
-['create_coupons','Agência + Comércio','Definir um cupom exclusivo por parceiro, condicionado à aprovação do estabelecimento','Semana 1'],
-['offers','Comércio','Aprovar oferta exclusiva, condições, elegibilidade e data de validade','Semana 1'],
-['baseline','Agência','Registrar seguidores, alcance e visitas das contas profissionais autorizadas antes das ações','Semana 1'],
-['briefing','Agência','Preparar roteiros e pedir aprovação das peças antes da publicação','Toda semana'],
-['reel1','Agência','Publicar 1 Reel semanal de projeto/parceiros, com identificação de publicidade quando necessário','Semanal'],
-['story1','Agência','Publicar 2 Stories semanais no total, distribuindo os parceiros','Semanal'],
-['carousel','Agência','Publicar 1 carrossel quinzenal de jornada ou reconhecimento de parceiros','Quinzenal'],
-['proof','Comércio','Validar resgates, pedidos e vendas com código sem dados pessoais do consumidor','Quinzenal'],
-['insights','Agência','Capturar métricas de Instagram pelo mesmo intervalo de datas','Quinzenal'],
-['report','Agência','Fechar relatório de 30 dias com desempenho, entregas e limitações','Mensal'],
-['renewals','Agência','Solicitar feedback e proposta de renovação de cada parceria','Mensal'],
-['giveaways','Agência','Submeter qualquer ideia de sorteio a análise jurídica e regulamento antes de anunciar','Antes de qualquer sorteio']
+ ['permissions','Agência','Solicitar e arquivar autorizações de uso de imagem e comunicação publicitária, somente quando aplicáveis','Antes de veicular'],
+ ['contracts','Agência','Confirmar contratos, pacotes e contrapartidas de cada apoiador','Início de mês'],
+ ['materials','Agência','Solicitar por WhatsApp imagens e vídeos à família e aos parceiros, sem tarefas no painel familiar','Início de mês'],
+ ['calendar','Agência','Fechar calendário editorial do mês seguinte no Instagram FutTalento','Mensal'],
+ ['creative','Agência','Redigir legendas, criar artes, Stories, Reels e carrosséis do mês','Mensal'],
+ ['approval','Agência','Organizar revisões pontuais de imagem e publicidade antes da veiculação','Quando necessário'],
+ ['partnercolab','Agência + parceiro','Convidar perfis de apoiadores para Collab em Reels/posts elegíveis','Conforme cronograma'],
+ ['schedule','Agência','Programar publicações nas ferramentas do Instagram e registrar confirmação no painel','Mensal'],
+ ['check','Agência','Conferir se as publicações programadas saíram conforme combinado','Semanal'],
+ ['coupon','Agência + comércio','Validar cupons e condições comerciais com os estabelecimentos','Mensal'],
+ ['insights','Agência','Coletar insights reais dos conteúdos e perfis autorizados','Mensal'],
+ ['report','Agência','Enviar relatório das entregas e resultados comprovados aos apoiadores','Mensal'],
+ ['renewal','Agência','Organizar a renovação dos pacotes e reajustes de cronograma','Mensal']
 ];
 const defaults=()=>({partners:{},missions:{},activities:[],social:[],updatedAt:null});
 let state=defaults(),ready=false;
@@ -34,7 +31,7 @@ const number=v=>Number(v||0).toLocaleString('pt-BR');
 const partnerOptions=()=>partnerCatalog.map(p=>'<option value="'+p.id+'">'+safe(p.name)+'</option>').join('');
 function status(message,bad=false){$('saveStatus').textContent=message;$('saveStatus').style.color=bad?'#ffb9a1':'#c9fc54';}
 function setTab(id){document.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===id)));document.querySelectorAll('.sectionpanel').forEach(s=>s.classList.toggle('active',s.id==='tab-'+id));}
-function setToday(){const t=new Date(),d=new Date(t.getTime()-t.getTimezoneOffset()*60000).toISOString().slice(0,10);$('acDate').value=d;$('soDate').value=d;}
+function setToday(){const t=new Date(),d=new Date(t.getTime()-t.getTimezoneOffset()*60000).toISOString().slice(0,10);$('acDate').value=d;$('soDate').value=d;$('calendarMonth').value=d.slice(0,7);}
 function renderPartners(){
 $('partners').innerHTML=partnerCatalog.map(p=>{const x=state.partners[p.id]||{};return '<article class="sponsor" data-partner="'+p.id+'"><span class="eyebrow">Parceiro cadastrado</span><h3>'+safe(p.name)+'</h3><p>'+safe(p.type)+' · <a class="link" href="'+p.link+'" target="_blank" rel="noopener noreferrer">Perfil público ↗</a></p><label>Natureza do apoio</label><select data-key="kind"><option value="">A confirmar</option><option value="permuta">Permuta</option><option value="financeiro">Patrocínio financeiro</option><option value="institucional">Apoio institucional</option><option value="formacao">Formação esportiva</option></select><label>Oferta exclusiva / benefício</label><textarea data-key="offer" placeholder="Somente oferta aprovada pelo parceiro">'+safe(x.offer||'')+'</textarea><label>Cupom definido com a empresa</label><input data-key="coupon" maxlength="60" value="'+safe(x.coupon||'')+'" placeholder="Sem cupom aprovado"><label>Validade e regras</label><input data-key="validity" value="'+safe(x.validity||'')+'" placeholder="Período, lojas participantes, limites"><label>Frequência de posts acordada</label><input data-key="frequency" value="'+safe(x.frequency||'')+'" placeholder="Ex.: 1 Story/mês"><label>Observações e comprovações</label><textarea data-key="notes" placeholder="Tipo de permuta, responsável pela validação...">'+safe(x.notes||'')+'</textarea><label><input data-key="approved" type="checkbox" '+(x.approved?'checked':'')+'> Condições aprovadas pelo parceiro/responsável</label></article>'}).join('');
 document.querySelectorAll('[data-partner]').forEach(card=>{const id=card.dataset.partner,select=card.querySelector('[data-key=kind]');select.value=state.partners?.[id]?.kind||'';});
@@ -42,7 +39,7 @@ document.querySelectorAll('[data-partner]').forEach(card=>{const id=card.dataset
 function pullPartners(){document.querySelectorAll('[data-partner]').forEach(card=>{const obj={};card.querySelectorAll('[data-key]').forEach(f=>obj[f.dataset.key]=f.type==='checkbox'?f.checked:f.value);state.partners[card.dataset.partner]=obj;});}
 function renderMissions(){
 $('tasks').innerHTML=tasks.map(([id,who,desc,when])=>'<label class="task"><input type="checkbox" data-mission="'+id+'" '+(state.missions?.[id]?.done?'checked':'')+'><span><b>'+safe(desc)+'</b><small>Responsável: '+safe(who)+' · '+safe(when)+'</small></span></label>').join('');
-$('nextTasks').innerHTML=tasks.filter(t=>!state.missions?.[t[0]]?.done).slice(0,5).map(t=>'<div class="task"><span>○</span><span><b>'+safe(t[2])+'</b><small>'+safe(t[1])+' · '+safe(t[3])+'</small></span></div>').join('')||'<p class="mini">Todas as missões iniciais foram marcadas como concluídas.</p>';
+$('nextTasks').innerHTML=tasks.filter(t=>!state.missions?.[t[0]]?.done).slice(0,5).map(t=>'<div class="task"><span>○</span><span><b>'+safe(t[2])+'</b><small>'+safe(t[1])+' · '+safe(t[3])+'</small></span></div>').join('')||'<p class="mini">Todas as atividades da agência foram concluídas.</p>';
 }
 function pullMissions(){document.querySelectorAll('[data-mission]').forEach(el=>state.missions[el.dataset.mission]={done:el.checked});}
 function renderMetrics(){
@@ -51,12 +48,40 @@ for(const a of state.activities||[]){if(['post','reel','story'].includes(a.type)
 $('met-deliveries').textContent=number(delivered);$('met-coupons').textContent=number(coupons);$('met-sales').textContent=number(sales);$('met-revenue').textContent=money(revenue);
 }
 function renderActivities(){
-$('activityRows').innerHTML=(state.activities||[]).slice().reverse().map(a=>'<tr><td>'+safe(a.date)+'</td><td>'+safe(label(a.partner))+'</td><td>'+safe(a.type)+'</td><td>'+safe(a.status)+'</td><td>'+number(a.qty)+'</td><td>'+money(a.revenue)+'</td><td>'+safe(a.source||'—')+'</td><td><button type="button" data-rm-activity="'+safe(a.id)+'" aria-label="Excluir registro">Excluir</button></td></tr>').join('');
+$('activityRows').innerHTML=(state.activities||[]).slice().sort((a,b)=>b.date.localeCompare(a.date)).map(a=>{
+ const opts={planejado:'Planejado',em_producao:'Em produção',aguardando_autorizacao:'Aguardando autorização',pronto:'Pronto',agendado:'Agendado (manual)',publicado:'Publicado',confirmado:'Confirmado'};
+ const select='<select aria-label="Etapa da publicação" data-status-activity="'+safe(a.id)+'">'+Object.entries(opts).map(([v,t])=>'<option value="'+v+'"'+(a.status===v?' selected':'')+'>'+t+'</option>').join('')+'</select>';
+ const material='<select aria-label="Estado do material" data-material-activity="'+safe(a.id)+'">'+Object.entries({pendente:'A solicitar',solicitado:'Solicitado',recebido:'Recebido',aprovado:'Autorizado'}).map(([v,t])=>'<option value="'+v+'"'+(a.material===v?' selected':'')+'>'+t+'</option>').join('')+'</select>';
+ return '<tr><td>'+safe(a.date)+'</td><td>'+safe(label(a.partner))+'</td><td>'+safe(a.type)+'</td><td>'+select+'</td><td>'+material+'</td><td><input aria-label="Collab previsto" type="checkbox" data-collab-activity="'+safe(a.id)+'"'+(a.collab?' checked':'')+(a.type==='story'?' disabled':'')+'></td><td>'+number(a.qty)+'</td><td>'+money(a.revenue)+'</td><td>'+safe(a.source||'—')+'</td><td><button type="button" data-rm-activity="'+safe(a.id)+'" aria-label="Excluir registro">Excluir</button></td></tr>';
+ }).join('');
 renderMetrics();
 }
 function renderSocial(){$('socialRows').innerHTML=(state.social||[]).slice().reverse().map((a,i)=>'<tr><td>'+safe(a.date)+'</td><td>'+safe(label(a.partner))+'</td><td>'+number(a.followers)+'</td><td>'+number(a.reach)+'</td><td>'+number(a.visits)+'</td><td>'+safe(a.source||'—')+'</td><td><button type="button" data-rm-social="'+(state.social.length-1-i)+'">Excluir</button></td></tr>').join('');}
 function render(){renderPartners();renderMissions();renderActivities();renderSocial();renderCalendar();renderReport();}
-function renderCalendar(){const rows=window.FUTTALENTO_SCHEDULE||[];$('calendarRows').innerHTML=rows.map(x=>'<tr><td>'+safe(x.date)+'</td><td>'+safe(label(x.partner))+'</td><td>'+safe(x.type)+'</td><td>'+safe(x.note)+'</td></tr>').join('');}
+function renderCalendar(){
+ const month=$('calendarMonth').value;
+ const contents=(state.activities||[]).filter(x=>['story','reel','post'].includes(x.type)&&x.date?.startsWith(month)).sort((a,b)=>a.date.localeCompare(b.date));
+ const labels={planejado:'Planejado',em_producao:'Produção',aguardando_autorizacao:'Autorização',pronto:'Pronto',agendado:'Agendado (manual)',publicado:'Publicado',confirmado:'Confirmado'};
+ $('calendarRows').innerHTML=contents.map(x=>'<tr><td>'+safe(x.date)+'</td><td>'+safe(label(x.partner))+'</td><td>'+safe(x.type)+'</td><td>'+safe(labels[x.status]||'Planejado')+'</td><td>'+safe(x.collab?'Previsto · confirmar aceite':'Não')+'</td><td>'+safe(({pendente:'A solicitar',solicitado:'Solicitado',recebido:'Recebido',aprovado:'Autorizado'}[x.material])||'A solicitar')+'</td></tr>').join('');
+ if(!contents.length)$('calendarRows').innerHTML='<tr><td colspan="6">Nenhum conteúdo registrado para este mês. Use o botão de rascunho editorial ou registre uma publicação em Entregas e vendas.</td></tr>';
+ $('calendarTotal').textContent=contents.length+' conteúdo(s) · '+contents.filter(x=>x.status==='agendado').length+' registrado(s) como agendado(s) · '+contents.filter(x=>['publicado','confirmado'].includes(x.status)).length+' publicado(s).';
+}
+function generateMonthlyDraft(){
+ const month=$('calendarMonth').value;if(!/^20\d{2}-\d{2}$/.test(month))return status('Selecione um mês válido.',true);
+ const days=[2,4,6,9,11,13,16,18,20,23,25,27,28,29];
+ const base=window.FUTTALENTO_SCHEDULE||[];
+ let added=0;
+ days.forEach((day,i)=>{
+  const item=base[i%base.length];if(!item)return;
+  const maxDay=new Date(Number(month.slice(0,4)),Number(month.slice(5,7)),0).getDate();
+  const date=month+'-'+String(Math.min(day,maxDay)).padStart(2,'0');
+  if(state.activities.some(x=>x.date===date&&x.partner===item.partner&&x.type===item.type))return;
+  state.activities.push({id:'editorial-'+date+'-'+item.partner+'-'+item.type,date,partner:item.partner,type:item.type,status:'planejado',channel:'instagram-futtalento',collab:item.type!=='story',material:'pendente',source:'',qty:1,revenue:0,note:item.note||'Pauta a produzir pela agência'});
+  added++;
+ });
+ renderActivities();renderCalendar();status(added+' pauta(s) incluída(s) no mês como rascunho interno. Revise pacotes e autorizações e clique Salvar atualizações.');
+}
+
 async function fetchData(){
 try{const response=await fetch('/api/sponsor-state',{credentials:'same-origin',cache:'no-store'});if(response.status===401){$('login').classList.remove('hidden');$('app').classList.add('hidden');return}
 const raw=await response.json();if(!response.ok)throw Error(raw.error||'Falha ao carregar');
@@ -119,14 +144,16 @@ document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()
 $('save').addEventListener('click',save);
 const syncLink=()=>$('campaignLink').textContent=campaignUrl();$('linkMedium').addEventListener('change',syncLink);$('linkCampaign').addEventListener('input',syncLink);syncLink();
 $('copyCampaign').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(campaignUrl());status('Link da campanha copiado.')}catch(e){status('Não foi possível copiar. Selecione o link exibido.',true)}});
-$('adoptCalendar').addEventListener('click',()=>{const list=window.FUTTALENTO_SCHEDULE||[];const current=new Set(state.activities.map(x=>x.id));let added=0;for(const x of list){const id='calendar-'+x.date+'-'+x.partner+'-'+x.type;if(current.has(id))continue;state.activities.push({...x,id,status:'planejado',source:'',qty:1,revenue:0});added++;}renderActivities();status(added+' ações planejadas adicionadas. Clique em Salvar atualizações.');});
+$('adoptCalendar').addEventListener('click',generateMonthlyDraft);
+$('calendarMonth').addEventListener('change',renderCalendar);
 $('acPartner').innerHTML=partnerOptions();$('soPartner').innerHTML=partnerOptions();$('reportPartner').innerHTML=partnerOptions();$('reportPartner').addEventListener('change',()=>{pullPartners();renderReport()});$('printReport').addEventListener('click',()=>window.print());setToday();
 $('addActivity').addEventListener('click',()=>{pullPartners();pullMissions();const type=$('acType').value,statusVal=$('acStatus').value,qty=Number($('acQty').value||0),revenue=Number($('acRevenue').value||0),source=$('acSource').value.trim();
 if(!$('acDate').value||qty<0||revenue<0)return alert('Verifique data, quantidade e valor.');
 if(['cupom','resgate','venda'].includes(type)&&statusVal==='confirmado'&&!source)return alert('Para confirmar venda ou cupom, inclua a fonte da comprovação.');
-state.activities.push({id:'a-'+Date.now()+'-'+Math.random().toString(36).slice(2,8),date:$('acDate').value,partner:$('acPartner').value,type,status:statusVal,qty,revenue,source,note:$('acNote').value.trim()});
-$('acSource').value='';$('acNote').value='';renderActivities();renderReport();status('Registro adicionado; clique Salvar atualizações para persistir.')});
-$('activityRows').addEventListener('click',e=>{const id=e.target.dataset.rmActivity;if(!id)return;state.activities=state.activities.filter(x=>x.id!==id);renderActivities();renderReport();status('Exclusão pendente de salvar.')});
+state.activities.push({id:'a-'+Date.now()+'-'+Math.random().toString(36).slice(2,8),date:$('acDate').value,partner:$('acPartner').value,type,status:statusVal,qty,revenue,source,note:$('acNote').value.trim(),channel:'instagram-futtalento',collab:($('acCollab').checked&&['post','reel'].includes(type)),material:$('acMaterial').value});
+$('acSource').value='';$('acNote').value='';renderActivities();renderCalendar();renderReport();status('Registro adicionado; clique Salvar atualizações para persistir.')});
+$('activityRows').addEventListener('click',e=>{const id=e.target.dataset.rmActivity;if(!id)return;state.activities=state.activities.filter(x=>x.id!==id);renderActivities();renderCalendar();renderReport();status('Exclusão pendente de salvar.')});
+$('activityRows').addEventListener('change',e=>{const id=e.target.dataset.statusActivity||e.target.dataset.materialActivity||e.target.dataset.collabActivity;if(!id)return;const item=state.activities.find(x=>x.id===id);if(!item)return;if(e.target.dataset.statusActivity)item.status=e.target.value;if(e.target.dataset.materialActivity)item.material=e.target.value;if(e.target.dataset.collabActivity)item.collab=e.target.checked&&['post','reel'].includes(item.type);renderCalendar();renderMetrics();status('Etapa atualizada; clique Salvar atualizações para persistir.');});
 $('addSocial').addEventListener('click',()=>{const s={date:$('soDate').value,partner:$('soPartner').value,followers:Number($('soFollowers').value),reach:Number($('soReach').value),visits:Number($('soVisits').value),source:$('soSource').value.trim()};
 if(!s.date||!s.source||!Number.isFinite(s.followers)||s.followers<0)return alert('Informe data, dados válidos e a fonte real.');
 state.social.push(s);renderSocial();renderReport();status('Insight adicionado; clique Salvar.')});

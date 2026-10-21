@@ -33,6 +33,22 @@ function sendEvent(){
 const athleteSelect=document.getElementById('atleta');
 const preset=urlParams.get('atleta');
 if(athleteSelect&&['lucas','ryan','thalles'].includes(preset))athleteSelect.value=preset;
+const planNames={'primeiro-passe':'Primeiro Passe - R$ 99/mês','time-titular':'Time Titular - R$ 249/mês','camisa-10':'Camisa 10 - R$ 499/mês'};
+const athleteNames={lucas:'Lucas Azambuja',ryan:'Ryan Coelho',thalles:'Thalles Silvino'};
+const planInput=document.getElementById('plano');
+const planNote=document.getElementById('chosenPlanNote');
+function syncAthlete(){const node=document.getElementById('selectedAthleteName');if(node)node.textContent=athleteNames[athleteSelect?.value]||'um atleta do FutTalento';}
+athleteSelect?.addEventListener('change',syncAthlete);
+syncAthlete();
+document.querySelectorAll('[data-plan]').forEach(button=>button.addEventListener('click',()=>{
+ const plan=button.dataset.plan;
+ if(!planInput||!planNames[plan])return;
+ planInput.value=plan;
+ document.querySelectorAll('[data-plan]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
+ if(planNote)planNote.textContent='Pacote escolhido: '+planNames[plan]+'. Solicite a proposta sem cobrança.';
+ document.getElementById('inscricao')?.scrollIntoView({behavior:'smooth',block:'start'});
+ document.getElementById('nome')?.focus({preventScroll:true});
+}));
 const rail=document.getElementById('athleteRail');
 if(rail){
   const slides=[...rail.querySelectorAll('.athlete-tile')],counter=document.getElementById('athleteCounter');
@@ -44,8 +60,8 @@ if(rail){
     const id=button.dataset.selectAthlete,select=document.getElementById('atleta');
     if(!select||!['lucas','ryan','thalles'].includes(id))return;
     select.value=id;
-    document.getElementById('inscricao')?.scrollIntoView({behavior:'smooth',block:'start'});
-    document.getElementById('nome')?.focus({preventScroll:true});
+    syncAthlete();
+    document.getElementById('planos')?.scrollIntoView({behavior:'smooth',block:'start'});
   }));
   rail.addEventListener('keydown',e=>{if(e.key!=='ArrowLeft'&&e.key!=='ArrowRight')return;e.preventDefault();const idx=Math.max(0,Math.min(slides.length-1,currentIndex()+(e.key==='ArrowRight'?1:-1)));slides[idx]?.scrollIntoView({behavior:'smooth',inline:'start',block:'nearest'});});
   updateCounter();
@@ -56,7 +72,13 @@ form.addEventListener('submit',async e=>{
  const digits=(phoneField.value||'').replace(/\D/g,'');
  if(digits.length<10||digits.length>13){feedback.textContent='Confira seu WhatsApp com DDD.';phoneField.focus();return;}
  const fields=new FormData(form);
+ if(persona==='empresa'&&!planNames[fields.get('plano')||'']){
+  feedback.textContent='Escolha um pacote antes de solicitar a proposta.';
+  document.getElementById('planos')?.scrollIntoView({behavior:'smooth'});
+  return;
+ }
  const data={persona,nome:fields.get('nome'),whatsapp:digits,
+   plano:persona==='empresa'?(fields.get('plano')||''):'',
    cidade:fields.get('cidade')||'',empresa:fields.get('empresa')||'',
    interesse:fields.get('interesse'),atleta:persona==='empresa'?(fields.get('atleta')||''):'',website:fields.get('website')||'',
    consent:fields.has('consent'),responsavel:persona==='familia'?fields.has('responsavel'):false};

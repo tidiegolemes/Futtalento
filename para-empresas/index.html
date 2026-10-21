@@ -18,7 +18,7 @@
  <a class="navlink" href="#inscricao">Quero participar ↗</a>
 </div></header>
 <main id="conteudo">
-<div class="hero"><div class="wrap">
+<div class="hero business-hero"><div class="wrap">
  <nav class="audience-nav" aria-label="Escolha seu perfil">
   <a href="/para-familias/">👨‍👩‍👧 Famílias</a>
   <a href="/para-empresas/" aria-current="page">🤝 Empresas</a>
@@ -32,36 +32,7 @@
    <ul class="benefits"><li><span class="symbol" aria-hidden="true">🎁</span><span>Parcerias por permuta, produtos, serviços ou patrocínio</span></li><li><span class="symbol" aria-hidden="true">📱</span><span>Publicações combinadas com a família e a agência</span></li><li><span class="symbol" aria-hidden="true">📊</span><span>Acompanhamento de entregas, cupons e vendas confirmadas</span></li></ul>
    <div class="soft-note"><strong>Transparência:</strong> Sem garantia de seguidores ou vendas. Métricas dependem de registros confirmados e integrações autorizadas.</div>
   </div>
-  <aside class="formcard" id="inscricao" aria-labelledby="form-title">
-   <span class="eyebrow">Um primeiro passo simples</span>
-   <h2 id="form-title">Vamos conversar sobre uma parceria?</h2>
-   <p>Informe o contato do responsável pela empresa. Você não precisa definir um valor ou cupom neste momento.</p>
-   <form id="leadForm" data-persona="empresa">
-    <div class="form-row"><label class="field-label" for="nome">Seu nome *</label>
-     <input class="field" id="nome" name="nome" type="text" autocomplete="name" required minlength="3" maxlength="90" placeholder="Como podemos chamar você?"></div>
-    
-    <div class="form-row"><label class="field-label" for="empresa">Nome da empresa *</label><input class="field" id="empresa" name="empresa" type="text" autocomplete="organization" minlength="2" maxlength="90" required placeholder="Ex.: Barbearia do Bairro"></div><div class="form-row"><label class="field-label" for="whatsapp">Seu WhatsApp com DDD *</label>
-     <input class="field" type="tel" id="whatsapp" name="whatsapp" inputmode="tel" autocomplete="tel" maxlength="30" required placeholder="(48) 99999-9999"><span class="field-help">Só entraremos em contato sobre seu interesse.</span></div>
-    <div class="form-row"><label class="field-label" for="cidade">Cidade / estado <span style="font-weight:500">(opcional)</span></label>
-     <input class="field" type="text" id="cidade" name="cidade" autocomplete="address-level2" maxlength="70" placeholder="Ex.: Florianópolis, SC"></div>
-    <div class="form-row"><label for="atleta" class="field-label">Qual atleta gostaria de apoiar? <span style="font-weight:500">(opcional)</span></label>
- <select id="atleta" class="field" name="atleta"><option value="">Quero conhecer as opções</option><option value="lucas">Lucas Azambuja</option><option value="ryan">Ryan Coelho</option><option value="thalles">Thalles Silvino</option></select></div>
- <div class="form-row"><label for="interesse" class="field-label">Como gostaria de apoiar?</label>
-     <select id="interesse" class="field" name="interesse"><option value="conhecer">Quero conhecer o projeto</option><option value="permuta">Oferecer produtos ou serviços</option><option value="patrocinio">Patrocínio financeiro</option><option value="visibilidade">Quero conhecer as contrapartidas</option></select></div>
-    <label class="consent"><input type="checkbox" name="consent" required><span>Autorizo o FutTalento a usar esses dados para responder meu pedido pelo WhatsApp, conforme a <a href="/privacidade.html" target="_blank" rel="noopener noreferrer">Política de Privacidade</a>. *</span></label>
-    <label class="consent"><input type="checkbox" id="metricsConsent"><span>Permito métricas opcionais de navegação, sem informações pessoais. (Opcional)</span></label>
-    <div class="honeypot" aria-hidden="true"><label for="website">Site da empresa</label><input type="text" id="website" name="website" tabindex="-1" autocomplete="off"></div>
-    <button id="submitLead" class="formbutton" type="submit">Quero ser um apoiador <span aria-hidden="true">→</span></button>
-    <p id="formFeedback" class="error" role="alert" aria-live="polite"></p>
-    <p class="form-foot">🔒 Seus dados não aparecem nos perfis públicos.</p>
-   </form>
-   <div id="leadSuccess" class="success" hidden>
-    <div class="big" aria-hidden="true">🎉</div><h3>Pronto! Recebemos seu interesse.</h3>
-    <p>Seu contato foi registrado. Nossa equipe poderá conversar pelo WhatsApp informado para explicar os próximos passos.</p>
-    <a href="https://wa.me/554832200260?text=Ol%C3%A1%21%20Enviei%20meu%20interesse%20pelo%20site%20FutTalento%20e%20gostaria%20de%20conversar." target="_blank" rel="noopener noreferrer">Prefere falar agora? Abrir WhatsApp →</a>
-   </div>
-   <a class="call-alt" href="https://wa.me/554832200260?text=Ol%C3%A1%21%20Quero%20saber%20mais%20sobre%20o%20FutTalento." target="_blank" rel="noopener noreferrer">Prefere falar diretamente com a equipe? WhatsApp ↗</a>
-  </aside>
+
  </div>
 </div></div>
 <section class="wrap athlete-showcase" id="atletas-para-apoiar" aria-labelledby="athlete-carousel-title">
@@ -94,6 +65,80 @@
   </article>
  </div>
  <div class="athlete-foot"><span><span aria-hidden="true">ⓘ</span> O selo indica apenas histórico público na plataforma. Não é verificação documental ou selo oficial do Instagram/TikTok.</span><a href="/atletas/">Ver o catálogo completo de atletas ↗</a></div>
+</section>
+<section class="wrap sponsor-offers" id="planos" aria-labelledby="planos-title">
+  <div class="offer-head">
+   <div><span class="eyebrow">Propostas mensais · FutTalento</span>
+    <h2 id="planos-title">Escolha como sua marca vai apoiar <span id="selectedAthleteName">Lucas Azambuja</span>.</h2>
+    <p>Pacotes de mídia e presença de marca para análise. Valores e entregas abaixo são <strong>propostas-piloto</strong>, sujeitos à validação da família, do atleta e da agência antes de qualquer contratação.</p></div>
+   <a href="/atletas/" class="offer-outline">Conhecer trajetórias ↗</a>
+  </div>
+  <div class="offer-grid" role="group" aria-label="Três propostas mensais de apoio">
+    <article class="offer-card">
+      <span class="offer-overline">Entrada</span><h3>Primeiro Passe</h3>
+      <div class="offer-price">R$ 99 <span>/mês</span></div>
+      <p>Para o comércio local começar uma parceria.</p>
+      <ul><li>2 Stories mensais com menção à marca</li><li>Identificação na rede de apoiadores</li><li>1 cupom ou chamada promocional definida em conjunto</li><li>Resumo mensal das entregas executadas</li></ul>
+      <button class="offer-btn" type="button" data-plan="primeiro-passe" aria-pressed="false">Escolher Primeiro Passe →</button>
+    </article>
+    <article class="offer-card recommended">
+      <span class="offer-overline">Mais visibilidade · proposta</span><h3>Time Titular</h3>
+      <div class="offer-price">R$ 249 <span>/mês</span></div>
+      <p>Para marcas que querem participação recorrente.</p>
+      <ul><li>4 Stories mensais com menção à marca</li><li>1 publicação de feed por mês</li><li>Campanha com cupom ou link identificado</li><li>Página de apoiador e relatório mensal de entregas</li></ul>
+      <button class="offer-btn" type="button" data-plan="time-titular" aria-pressed="false">Escolher Time Titular →</button>
+    </article>
+    <article class="offer-card">
+      <span class="offer-overline">Presença ampliada</span><h3>Camisa 10</h3>
+      <div class="offer-price">R$ 499 <span>/mês</span></div>
+      <p>Para campanhas de conteúdo mais completas.</p>
+      <ul><li>8 Stories mensais com menção à marca</li><li>2 publicações de feed por mês</li><li>1 Reel mensal sujeito à aprovação familiar</li><li>Campanha de cupom e relatório de métricas verificadas</li></ul>
+      <button class="offer-btn" type="button" data-plan="camisa-10" aria-pressed="false">Escolher Camisa 10 →</button>
+    </article>
+  </div>
+  <p class="offer-terms">O envio é somente uma <strong>solicitação de proposta</strong>; não gera assinatura, cobrança ou reserva de espaço. Entregas, período, canais, direitos de imagem e regras de publicidade serão definidos em instrumento próprio. Seguidores, alcance, cliques e vendas não são garantidos.</p>
+  <div class="proposal-grid">
+   <div class="media-kit"><span class="eyebrow">Mídia kit resumido</span>
+    <h3>O que a empresa poderá receber?</h3>
+    <p>Apresentação do atleta selecionado, histórico esportivo público, formatos de conteúdo, canais disponíveis e contrapartidas proporcionais ao pacote.</p>
+    <div class="kit-fact"><b>Trajetórias disponíveis</b><span>Lucas Azambuja · Ryan Coelho · Thalles Silvino</span></div>
+    <div class="kit-fact"><b>Formato</b><span>Stories, feed, Reels e campanhas de cupom conforme pacote e aprovação.</span></div>
+    <div class="kit-fact"><b>Métricas</b><span>Alcance e audiência somente mediante autorização e dados reais; sem números estimados.</span></div>
+    <a class="offer-outline" href="/atletas/">Ver mídia kit público dos atletas ↗</a>
+   </div>
+     <aside class="formcard" id="inscricao" aria-labelledby="form-title">
+   <span class="eyebrow">Etapa 2 · Solicitar proposta</span>
+   <h2 id="form-title">Solicite o pacote escolhido</h2>
+   <p>Escolha primeiro seu pacote mensal. Depois deixe o contato do responsável pela empresa para receber a proposta comercial.</p>
+   <div class="chosen-plan" id="chosenPlanNote" aria-live="polite">Selecione um dos pacotes acima para continuar.</div>
+   <form id="leadForm" data-persona="empresa">
+    <input type="hidden" name="plano" id="plano" value="">
+    <div class="form-row"><label class="field-label" for="nome">Seu nome *</label>
+     <input class="field" id="nome" name="nome" type="text" autocomplete="name" required minlength="3" maxlength="90" placeholder="Como podemos chamar você?"></div>
+    
+    <div class="form-row"><label class="field-label" for="empresa">Nome da empresa *</label><input class="field" id="empresa" name="empresa" type="text" autocomplete="organization" minlength="2" maxlength="90" required placeholder="Ex.: Barbearia do Bairro"></div><div class="form-row"><label class="field-label" for="whatsapp">Seu WhatsApp com DDD *</label>
+     <input class="field" type="tel" id="whatsapp" name="whatsapp" inputmode="tel" autocomplete="tel" maxlength="30" required placeholder="(48) 99999-9999"><span class="field-help">Só entraremos em contato sobre seu interesse.</span></div>
+    <div class="form-row"><label class="field-label" for="cidade">Cidade / estado <span style="font-weight:500">(opcional)</span></label>
+     <input class="field" type="text" id="cidade" name="cidade" autocomplete="address-level2" maxlength="70" placeholder="Ex.: Florianópolis, SC"></div>
+    <div class="form-row"><label for="atleta" class="field-label">Qual atleta gostaria de apoiar? <span style="font-weight:500">(opcional)</span></label>
+ <select id="atleta" class="field" name="atleta"><option value="">Quero conhecer as opções</option><option value="lucas">Lucas Azambuja</option><option value="ryan">Ryan Coelho</option><option value="thalles">Thalles Silvino</option></select></div>
+ <div class="form-row"><label for="interesse" class="field-label">Como gostaria de apoiar?</label>
+     <select id="interesse" class="field" name="interesse"><option value="conhecer">Quero conhecer o projeto</option><option value="permuta">Oferecer produtos ou serviços</option><option value="patrocinio">Patrocínio financeiro</option><option value="visibilidade">Quero conhecer as contrapartidas</option></select></div>
+    <label class="consent"><input type="checkbox" name="consent" required><span>Autorizo o FutTalento a usar esses dados para responder meu pedido pelo WhatsApp, conforme a <a href="/privacidade.html" target="_blank" rel="noopener noreferrer">Política de Privacidade</a>. *</span></label>
+    <label class="consent"><input type="checkbox" id="metricsConsent"><span>Permito métricas opcionais de navegação, sem informações pessoais. (Opcional)</span></label>
+    <div class="honeypot" aria-hidden="true"><label for="website">Site da empresa</label><input type="text" id="website" name="website" tabindex="-1" autocomplete="off"></div>
+    <button id="submitLead" class="formbutton" type="submit">Solicitar proposta deste pacote <span aria-hidden="true">→</span></button>
+    <p id="formFeedback" class="error" role="alert" aria-live="polite"></p>
+    <p class="form-foot">🔒 Seus dados não aparecem nos perfis públicos. O envio não ativa assinatura nem cobrança; condições sujeitas a confirmação com os responsáveis.</p>
+   </form>
+   <div id="leadSuccess" class="success" hidden>
+    <div class="big" aria-hidden="true">🎉</div><h3>Recebemos seu pedido de proposta!</h3>
+    <p>Seu contato foi registrado. Nossa equipe poderá conversar pelo WhatsApp informado para explicar os próximos passos.</p>
+    <a href="https://wa.me/554832200260?text=Ol%C3%A1%21%20Enviei%20meu%20interesse%20pelo%20site%20FutTalento%20e%20gostaria%20de%20conversar." target="_blank" rel="noopener noreferrer">Prefere falar agora? Abrir WhatsApp →</a>
+   </div>
+   <a class="call-alt" href="https://wa.me/554832200260?text=Ol%C3%A1%21%20Quero%20saber%20mais%20sobre%20o%20FutTalento." target="_blank" rel="noopener noreferrer">Prefere falar diretamente com a equipe? WhatsApp ↗</a>
+  </aside>
+  </div>
 </section>
 <section class="steps-section"><div class="wrap">
  <span class="eyebrow">Como funciona</span><h2>Simples como 1, 2, 3.</h2>

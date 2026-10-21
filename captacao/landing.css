@@ -106,3 +106,32 @@ h3{font-size:1.13rem;margin-bottom:7px;line-height:1.24}
 .athlete-foot a{color:#23715a;font-weight:800}
 .featured-jump{display:inline-block;margin:2px 0 8px;font-weight:850;color:#255f49;border-bottom:2px solid #75b884;text-decoration:none}
 @media(max-width:650px){.athlete-showcase{padding:40px 0}.athlete-heading{align-items:start;flex-direction:column;gap:13px}.athlete-controls{align-self:flex-end}.athlete-tile{flex-basis:min(77vw,310px)}.athlete-rail{gap:12px}.athlete-content{padding:17px}.athlete-content h3{font-size:1.7rem}}
+
+.business-hero .hero-grid{grid-template-columns:1fr}
+.business-hero .hero-copy{max-width:820px}
+.sponsor-offers{padding:32px 0 65px;scroll-margin-top:90px}
+.offer-head{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-bottom:22px}
+.offer-head p{max-width:750px;color:var(--muted)}
+.offer-outline{display:inline-block;background:#e5f4df;border:1px solid #c7dfbd;border-radius:12px;padding:11px 14px;text-decoration:none;color:#20593d;font-size:.84rem;font-weight:850}
+.offer-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.offer-card{background:#fff;border:1px solid #d0e5d6;border-radius:22px;padding:25px;display:flex;flex-direction:column}
+.offer-card.recommended{border:2px solid #287545;box-shadow:0 10px 32px #126b2518}
+.offer-overline{font-size:.73rem;font-weight:800;color:#2d6b44;text-transform:uppercase}
+.offer-card h3{font-size:1.5rem;margin:11px 0}
+.offer-price{font-size:2.25rem;font-weight:950;color:#1b4e34}
+.offer-price span{font-size:.92rem;color:#64776b;font-weight:600}
+.offer-card p,.offer-card ul{color:var(--muted);font-size:.88rem}
+.offer-card ul{padding-left:22px;line-height:1.6;flex:1}
+.offer-card li{margin-bottom:8px}
+.offer-btn{background:var(--lime);padding:13px;border:2px solid #276239;border-radius:12px;color:#153b27;font-weight:900}
+.offer-btn[aria-pressed=true]{background:#24764a;color:white}
+.offer-terms{background:#edf8ec;border:1px solid #d0e8d0;padding:14px;border-radius:13px;margin:17px 0 24px;color:#4a6151;font-size:.82rem}
+.proposal-grid{display:grid;grid-template-columns:1fr 1fr;gap:25px}
+.proposal-grid .formcard{scroll-margin-top:85px}
+.media-kit{background:#183a34;color:white;border-radius:22px;padding:27px}
+.media-kit p,.kit-fact span{color:#d7e6dd}
+.kit-fact{padding:12px 0;border-top:1px solid #496b59;display:grid;gap:4px}
+.kit-fact b{color:#d1faa3}
+.chosen-plan{background:#e9f7e7;border:1px solid #c7e6bd;padding:12px;border-radius:12px;margin-bottom:15px;font-weight:800}
+@media(max-width:900px){.offer-grid{grid-template-columns:1fr 1fr}.proposal-grid{grid-template-columns:1fr}}
+@media(max-width:600px){.offer-grid{grid-template-columns:1fr}.offer-head{display:block}}

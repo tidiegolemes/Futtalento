@@ -48,12 +48,39 @@ for(const a of state.activities||[]){if(['post','reel','story'].includes(a.type)
 $('met-deliveries').textContent=number(delivered);$('met-coupons').textContent=number(coupons);$('met-sales').textContent=number(sales);$('met-revenue').textContent=money(revenue);
 }
 function renderActivities(){
-$('activityRows').innerHTML=(state.activities||[]).slice().reverse().map(a=>'<tr><td>'+safe(a.date)+'</td><td>'+safe(label(a.partner))+'</td><td>'+safe(a.type)+'</td><td>'+safe(a.status)+'</td><td>'+number(a.qty)+'</td><td>'+money(a.revenue)+'</td><td>'+safe(a.source||'—')+'</td><td><button type="button" data-rm-activity="'+safe(a.id)+'" aria-label="Excluir registro">Excluir</button></td></tr>').join('');
+$('activityRows').innerHTML=(state.activities||[]).slice().sort((a,b)=>b.date.localeCompare(a.date)).map(a=>{
+ const opts={planejado:'Planejado',em_producao:'Em produção',aguardando_autorizacao:'Aguardando autorização',pronto:'Pronto',agendado:'Agendado (manual)',publicado:'Publicado',confirmado:'Confirmado'};
+ const select='<select aria-label="Etapa da publicação" data-status-activity="'+safe(a.id)+'">'+Object.entries(opts).map(([v,t])=>'<option value="'+v+'"'+(a.status===v?' selected':'')+'>'+t+'</option>').join('')+'</select>';
+ return '<tr><td>'+safe(a.date)+'</td><td>'+safe(label(a.partner))+'</td><td>'+safe(a.type)+(a.collab?' · Collab':'')+'</td><td>'+select+'</td><td>'+number(a.qty)+'</td><td>'+money(a.revenue)+'</td><td>'+safe(a.source||'—')+'</td><td><button type="button" data-rm-activity="'+safe(a.id)+'" aria-label="Excluir registro">Excluir</button></td></tr>';
+ }).join('');
 renderMetrics();
 }
 function renderSocial(){$('socialRows').innerHTML=(state.social||[]).slice().reverse().map((a,i)=>'<tr><td>'+safe(a.date)+'</td><td>'+safe(label(a.partner))+'</td><td>'+number(a.followers)+'</td><td>'+number(a.reach)+'</td><td>'+number(a.visits)+'</td><td>'+safe(a.source||'—')+'</td><td><button type="button" data-rm-social="'+(state.social.length-1-i)+'">Excluir</button></td></tr>').join('');}
 function render(){renderPartners();renderMissions();renderActivities();renderSocial();renderCalendar();renderReport();}
-function renderCalendar(){const rows=window.FUTTALENTO_SCHEDULE||[];$('calendarRows').innerHTML=rows.map(x=>'<tr><td>'+safe(x.date)+'</td><td>'+safe(label(x.partner))+'</td><td>'+safe(x.type)+'</td><td>'+safe(x.note)+'</td></tr>').join('');}
+function renderCalendar(){
+ const month=$('calendarMonth').value;
+ const contents=(state.activities||[]).filter(x=>['story','reel','post'].includes(x.type)&&x.date?.startsWith(month)).sort((a,b)=>a.date.localeCompare(b.date));
+ const labels={planejado:'Planejado',em_producao:'Produção',aguardando_autorizacao:'Autorização',pronto:'Pronto',agendado:'Agendado (manual)',publicado:'Publicado',confirmado:'Confirmado'};
+ $('calendarRows').innerHTML=contents.map(x=>'<tr><td>'+safe(x.date)+'</td><td>'+safe(label(x.partner))+'</td><td>'+safe(x.type)+'</td><td>'+safe(labels[x.status]||'Planejado')+'</td><td>'+safe(x.collab?'Previsto · confirmar aceite':'Não')+'</td><td>'+safe(({pendente:'A solicitar',solicitado:'Solicitado',recebido:'Recebido',aprovado:'Autorizado'}[x.material])||'A solicitar')+'</td></tr>').join('');
+ if(!contents.length)$('calendarRows').innerHTML='<tr><td colspan="6">Nenhum conteúdo registrado para este mês. Use o botão de rascunho editorial ou registre uma publicação em Entregas e vendas.</td></tr>';
+ $('calendarTotal').textContent=contents.length+' conteúdo(s) · '+contents.filter(x=>x.status==='agendado').length+' registrado(s) como agendado(s) · '+contents.filter(x=>['publicado','confirmado'].includes(x.status)).length+' publicado(s).';
+}
+function generateMonthlyDraft(){
+ const month=$('calendarMonth').value;if(!/^20\\d{2}-\\d{2}$/.test(month))return status('Selecione um mês válido.',true);
+ const days=[2,4,6,9,11,13,16,18,20,23,25,27,28,29];
+ const base=window.FUTTALENTO_SCHEDULE||[];
+ let added=0;
+ days.forEach((day,i)=>{
+  const item=base[i%base.length];if(!item)return;
+  const maxDay=new Date(Number(month.slice(0,4)),Number(month.slice(5,7)),0).getDate();
+  const date=month+'-'+String(Math.min(day,maxDay)).padStart(2,'0');
+  if(state.activities.some(x=>x.date===date&&x.partner===item.partner&&x.type===item.type))return;
+  state.activities.push({id:'editorial-'+date+'-'+item.partner+'-'+item.type,date,partner:item.partner,type:item.type,status:'planejado',channel:'instagram-futtalento',collab:item.type!=='story',material:'pendente',source:'',qty:1,revenue:0,note:item.note||'Pauta a produzir pela agência'});
+  added++;
+ });
+ renderActivities();renderCalendar();status(added+' pauta(s) incluída(s) no mês como rascunho interno. Revise pacotes e autorizações e clique Salvar atualizações.');
+}
+
 async function fetchData(){
 try{const response=await fetch('/api/sponsor-state',{credentials:'same-origin',cache:'no-store'});if(response.status===401){$('login').classList.remove('hidden');$('app').classList.add('hidden');return}
 const raw=await response.json();if(!response.ok)throw Error(raw.error||'Falha ao carregar');

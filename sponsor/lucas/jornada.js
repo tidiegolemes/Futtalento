@@ -104,13 +104,6 @@ if(note.length<4){feedback('Conte rapidamente qual ajuste deseja.',true);return;
 await act('review_draft',{draftId:form.dataset.changesForm,decision:'needs_changes',note},'Pedido enviado para a agência. Vamos ajustar a peça.');
 });
 
-});
-$('benefitForm').addEventListener('submit',async e=>{
-e.preventDefault();const description=$('benefitDescription').value.trim(),partnerId=$('benefitPartner').value,date=$('benefitDate').value;
-if(description.length<3||!date){$('benefitMessage').textContent='Preencha o benefício e a data.';return;}
-await act('confirm_benefit',{partner:partnerId,description,date},'Apoio registrado! A agência poderá confirmar as informações.');
-$('benefitDescription').value='';$('benefitForm').hidden=true;$('benefitToggle').setAttribute('aria-expanded','false');$('benefitMessage').textContent='';
-});
 }
 function preparePWA(){
 if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('/sponsor/lucas/sw.js',{scope:'/sponsor/lucas/'}).catch(()=>{}));

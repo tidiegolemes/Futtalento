@@ -36,7 +36,7 @@ export default async function handler(req,res){
   if(persona==='empresa'&&business.length<2)return error(res,400,'Informe o nome da empresa.');
   if(phone.length<10||phone.length>13)return error(res,400,'Informe um WhatsApp válido com DDD.');
   if(!purposes[persona].includes(goal))return error(res,400,'Selecione seu interesse.');
-  const plano=persona==='empresa'?sponsorPlans[raw.plano]:null;
+  const plano=persona==='empresa'&&typeof raw.plano==='string'&&['primeiro-passe','time-titular','camisa-10'].includes(raw.plano)?sponsorPlans[raw.plano]:null;
   if(persona==='empresa'&&!plano)return error(res,400,'Selecione uma proposta de apoio válida.');
   if(raw.consent!==true)return error(res,400,'Precisamos da sua autorização para responder ao contato.');
   if(persona==='familia'&&raw.responsavel!==true)return error(res,400,'O cadastro é exclusivo para pais ou responsáveis adultos.');

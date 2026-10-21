@@ -26,7 +26,12 @@
 <div style="grid-column:1/-1"><label for="fdPreview">Link HTTPS da prévia visual (obrigatório para aprovação)</label><input id="fdPreview" type="url" placeholder="https://..." required></div>
 </div><div class="actions"><button class="btn btn-primary" id="fdCreate">Enviar para aprovação</button></div><p class="msg" id="fdMessage" role="status"></p></div>
 <h3>Peças enviadas e respostas</h3><div id="fdDrafts" class="sponsors"></div>
-<h3>Benefícios informados pela família</h3><div id="fdBenefits"></div>
+<h3>Apoios recebidos · registro da agência</h3>
+<div class="record"><p class="mini">Quando um apoiador entregar um produto ou serviço, a equipe registra a confirmação aqui; a família não precisa preencher formulários.</p>
+<div class="formgrid"><div><label for="benefitAgencyPartner">Apoiador</label><select id="benefitAgencyPartner"><option value="oze">Barbearia do Oze</option><option value="didi">Bolos da Didi</option><option value="guimaraes">Guimarães Brasil</option><option value="realgaucho">Real Gaúcho Futsal</option></select></div><div><label for="benefitAgencyDate">Data da entrega</label><input id="benefitAgencyDate" type="date"></div></div>
+<label for="benefitAgencyDescription">Benefício comprovado</label><input id="benefitAgencyDescription" maxlength="220" placeholder="Ex.: material esportivo recebido, confirmado pela equipe">
+<button class="btn btn-primary" type="button" id="benefitAgencySubmit">Registrar apoio recebido</button><p class="msg" id="benefitAgencyStatus"></p></div>
+<div id="fdBenefits"></div>
 <h3>Pedidos de ajuda</h3><div id="fdHelp"></div>
 </section>
 <section id="tab-apoiadores" class="sectionpanel">

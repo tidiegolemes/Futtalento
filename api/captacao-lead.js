@@ -8,6 +8,7 @@ const purposes={
   familia:['apoio','historico','conhecer'],
   empresa:['permuta','patrocinio','visibilidade','conhecer']
 };
+const sponsorPlans={'primeiro-passe':{nome:'Primeiro Passe',mensalBRL:99},'time-titular':{nome:'Time Titular',mensalBRL:249},'camisa-10':{nome:'Camisa 10',mensalBRL:499}};
 function error(res,status,message){return res.status(status).json({ok:false,error:message})}
 
 export default async function handler(req,res){
@@ -35,6 +36,8 @@ export default async function handler(req,res){
   if(persona==='empresa'&&business.length<2)return error(res,400,'Informe o nome da empresa.');
   if(phone.length<10||phone.length>13)return error(res,400,'Informe um WhatsApp válido com DDD.');
   if(!purposes[persona].includes(goal))return error(res,400,'Selecione seu interesse.');
+  const plano=persona==='empresa'?sponsorPlans[raw.plano]:null;
+  if(persona==='empresa'&&!plano)return error(res,400,'Selecione uma proposta de apoio válida.');
   if(raw.consent!==true)return error(res,400,'Precisamos da sua autorização para responder ao contato.');
   if(persona==='familia'&&raw.responsavel!==true)return error(res,400,'O cadastro é exclusivo para pais ou responsáveis adultos.');
   // Limite simples por navegador, sem armazenamento de endereço IP ou dados de menores.
@@ -50,6 +53,7 @@ export default async function handler(req,res){
     id,createdAt:now,updatedAt:now,status:'novo',persona,
     nome:name,whatsapp:phone,cidade:city,
     empresa:persona==='empresa'?business:null,interesse:goal,atletaInteresse:athlete,
+    pacoteSolicitado:plano?{id:raw.plano,nome:plano.nome,valorReferenciaMensalBRL:plano.mensalBRL,contratado:false}:null,
     origem:{
       utm_source:tracking(raw.utm_source),
       utm_medium:tracking(raw.utm_medium),

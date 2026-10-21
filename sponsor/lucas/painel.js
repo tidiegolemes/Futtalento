@@ -7,22 +7,19 @@ const partnerCatalog=[
 {id:'realgaucho',name:'Real Gaúcho Futsal',type:'Formação complementar · não presumir patrocínio comercial',link:'https://www.instagram.com/realgauchofutsal/'}
 ];
 const tasks=[
-['family_consent','Juliana','Revisar autorizações para imagens e comunicações publicitárias envolvendo o Lucas','Antes da 1ª entrega'],
-['confirm_brands','Juliana','Confirmar contratos, nomes oficiais e natureza de cada parceiro','Semana 1'],
-['follow_partners','Juliana','Seguir as contas dos parceiros na conta adulta responsável, se desejar','Semana 1'],
-['confirm_permutas','Agência + Juliana','Documentar produtos, serviços, quantidades e custos econômicos de cada permuta','Semana 1'],
-['create_coupons','Agência + Comércio','Definir um cupom exclusivo por parceiro, condicionado à aprovação do estabelecimento','Semana 1'],
-['offers','Comércio','Aprovar oferta exclusiva, condições, elegibilidade e data de validade','Semana 1'],
-['baseline','Agência','Registrar seguidores, alcance e visitas das contas profissionais autorizadas antes das ações','Semana 1'],
-['briefing','Agência','Preparar roteiros e pedir aprovação das peças antes da publicação','Toda semana'],
-['reel1','Agência','Publicar 1 Reel semanal de projeto/parceiros, com identificação de publicidade quando necessário','Semanal'],
-['story1','Agência','Publicar 2 Stories semanais no total, distribuindo os parceiros','Semanal'],
-['carousel','Agência','Publicar 1 carrossel quinzenal de jornada ou reconhecimento de parceiros','Quinzenal'],
-['proof','Comércio','Validar resgates, pedidos e vendas com código sem dados pessoais do consumidor','Quinzenal'],
-['insights','Agência','Capturar métricas de Instagram pelo mesmo intervalo de datas','Quinzenal'],
-['report','Agência','Fechar relatório de 30 dias com desempenho, entregas e limitações','Mensal'],
-['renewals','Agência','Solicitar feedback e proposta de renovação de cada parceria','Mensal'],
-['giveaways','Agência','Submeter qualquer ideia de sorteio a análise jurídica e regulamento antes de anunciar','Antes de qualquer sorteio']
+ ['permissions','Agência','Solicitar e arquivar autorizações de uso de imagem e comunicação publicitária, somente quando aplicáveis','Antes de veicular'],
+ ['contracts','Agência','Confirmar contratos, pacotes e contrapartidas de cada apoiador','Início de mês'],
+ ['materials','Agência','Solicitar por WhatsApp imagens e vídeos à família e aos parceiros, sem tarefas no painel familiar','Início de mês'],
+ ['calendar','Agência','Fechar calendário editorial do mês seguinte no Instagram FutTalento','Mensal'],
+ ['creative','Agência','Redigir legendas, criar artes, Stories, Reels e carrosséis do mês','Mensal'],
+ ['approval','Agência','Organizar revisões pontuais de imagem e publicidade antes da veiculação','Quando necessário'],
+ ['partnercolab','Agência + parceiro','Convidar perfis de apoiadores para Collab em Reels/posts elegíveis','Conforme cronograma'],
+ ['schedule','Agência','Programar publicações nas ferramentas do Instagram e registrar confirmação no painel','Mensal'],
+ ['check','Agência','Conferir se as publicações programadas saíram conforme combinado','Semanal'],
+ ['coupon','Agência + comércio','Validar cupons e condições comerciais com os estabelecimentos','Mensal'],
+ ['insights','Agência','Coletar insights reais dos conteúdos e perfis autorizados','Mensal'],
+ ['report','Agência','Enviar relatório das entregas e resultados comprovados aos apoiadores','Mensal'],
+ ['renewal','Agência','Organizar a renovação dos pacotes e reajustes de cronograma','Mensal']
 ];
 const defaults=()=>({partners:{},missions:{},activities:[],social:[],updatedAt:null});
 let state=defaults(),ready=false;

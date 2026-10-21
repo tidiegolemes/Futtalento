@@ -108,6 +108,12 @@ export default async function handler(req,res){
       const draft=data.drafts.find(x=>x.id===body.draftId);
       if(!draft)return reject(res,404,'Publicação não encontrada.');
       draft.status='awaiting_review';draft.familyNote='';draft.reviewedAt=null;
+    }else if(action==='staff_record_benefit'){
+      if(!isStaff(user))return reject(res,403,'Somente a agência registra os apoios nesta etapa.');
+      const partner=clip(body.partner,60),description=clip(body.description,220),day=isoDate(body.date);
+      if(!PARTNERS.includes(partner)||description.length<3||!day)return reject(res,400,'Confira o apoiador, a descrição e a data.');
+      if(data.benefits.length>=150)return reject(res,409,'Limite de registros atingido.');
+      data.benefits.push({id:crypto.randomUUID(),partner,description,date:day,reportedAt:now,verification:'verified_by_agency',source:'agency_documented'});
     }else if(action==='staff_verify_benefit'){
       if(!isStaff(user))return reject(res,403,'A validação é exclusiva da agência.');
       const benefit=data.benefits.find(x=>x.id===body.benefitId);

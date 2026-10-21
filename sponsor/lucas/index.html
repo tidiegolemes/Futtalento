@@ -3,7 +3,7 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#f1faef">
 <meta name="color-scheme" content="light"><meta name="referrer" content="no-referrer">
-<meta name="description" content="Jornada privada do Lucas no FutTalento: missões simples, conteúdos para aprovar e conquistas.">
+<meta name="description" content="Área da família do Lucas: calendário de conteúdos e apoios organizados pela agência.">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Jornada Lucas">
 <meta name="format-detection" content="telephone=no">
@@ -23,8 +23,8 @@
   <div class="panel">
     <div style="text-align:center;font-size:3.1rem" aria-hidden="true">⚽</div>
     <p class="eyebrow" style="text-align:center">Sua família. Sua jornada.</p>
-    <h1 style="text-align:center">Bem-vinda à jornada do Lucas!</h1>
-    <p style="text-align:center;margin:12px 0 4px">Aqui você vê suas missões, aprova publicações e acompanha os apoios recebidos. Tudo bem simples!</p>
+    <h1 style="text-align:center">Bem-vinda ao espaço da família!</h1>
+    <p style="text-align:center;margin:12px 0 4px">A equipe FutTalento organiza o conteúdo e as parcerias. Aqui você acompanha o calendário, as publicações e os apoios sem tarefas para cumprir.</p>
     <form id="loginForm" class="loginform">
       <label for="loginPassword" class="field-label">Digite sua senha de acesso</label>
       <input id="loginPassword" class="field" type="password" autocomplete="current-password" maxlength="128" minlength="12" required placeholder="Sua senha temporária">
@@ -34,11 +34,11 @@
     <p class="small" style="text-align:center;margin-top:9px">Acesso privado. Não precisa ter conta no GitHub.</p>
     <details class="login-alt"><summary>Sou da equipe FutTalento</summary><p class="small">Administradores podem usar o login técnico.</p><a class="action secondary" href="/api/sponsor-login">Entrar como administrador</a></details>
   </div>
-  <p class="footnotes">🔒 Seus registros ficam protegidos. Nenhuma missão publica conteúdos automaticamente.</p>
+  <p class="footnotes">🔒 Seus registros são privados. A equipe assume todo o planejamento e nenhuma publicação é realizada automaticamente por este painel.</p>
 </section>
 <section id="appSection" hidden aria-label="Minha Jornada do Lucas">
   <div class="sessionbar">
-    <span class="chip">🌱 Minha Jornada FutTalento</span>
+    <span class="chip">💚 Família FutTalento</span>
     <div style="display:flex;align-items:center;gap:9px">
       <button class="agencyLink" type="button" id="installApp" hidden>📲 Adicionar ao celular</button><a id="agencyLink" class="agencyLink" href="/sponsor/lucas/gestao/" hidden>⚙️ Agência</a>
       <a class="toplink" href="/api/sponsor-logout" aria-label="Sair da área privada">Sair</a>
@@ -48,22 +48,26 @@
     <img class="avatar" src="/perfillukinhas10.jpg" alt="Lucas Azambuja, atleta" width="72" height="72">
     <div class="headcopy">
       <h1>Olá, Juliana! 👋</h1>
-      <p class="muted">Um passo de cada vez na jornada do Lucas.</p>
+      <p class="muted">A agência cuida da programação para você acompanhar com tranquilidade.</p>
     </div>
   </section>
   <section id="view-hoje" class="view active" aria-labelledby="todayTitle">
     <div class="panel weekhero">
-      <p class="eyebrow" style="color:#d7fad2">🌟 Jornada em família</p>
-      <h2 id="todayTitle">Cada pequena ação ajuda o Lucas a avançar.</h2>
-      <p class="muted small">Você não precisa entender de marketing. A agência cuida da parte técnica.</p>
-      <div class="progress-info"><span>Suas missões iniciais</span><span id="progressCount" aria-live="polite">0 de 3</span></div>
-      <div class="progress" role="progressbar" aria-label="Progresso das missões iniciais" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0" id="progressBox"><div id="progressFill" class="progress-fill"></div></div>
+      <p class="eyebrow" style="color:#d7fad2">🌟 Tudo sob responsabilidade da equipe</p>
+      <h2 id="todayTitle">Você cuida do Lucas. Nós cuidamos do planejamento.</h2>
+      <p class="muted small">A agência solicita os materiais quando precisar, prepara as peças, combina as campanhas com os apoiadores e organiza o mês inteiro. Não há missões, metas nem postagens para você fazer.</p>
+    </div>
+    <div class="panel" style="margin-top:16px">
+      <h2>📅 Calendário do mês</h2>
+      <p class="small muted">Veja abaixo as publicações planejadas pela equipe. Uma data planejada não significa que a postagem já esteja programada no Instagram.</p>
+      <div id="monthPreview" class="itemlist"></div>
+      <button class="action secondary full" type="button" id="seeCalendar" style="margin-top:13px">Ver calendário completo →</button>
     </div>
     <div id="approvalArea" aria-live="polite"></div>
-    <div class="sectionTitle"><h2>🎯 Sua próxima missão</h2><small id="missionEstimate">1 ou 2 minutos</small></div>
-    <article id="primaryMission" class="mission" aria-live="polite"></article>
-    <div class="sectionTitle"><h2>Próximos passos</h2><small>Sem pressa 😊</small></div>
-    <div id="smallMissions" class="next-grid"></div>
+    <div class="panel" style="margin-top:16px;background:#ecf8ff;border-color:#cde3f2">
+      <h3>💛 Sem tarefas para a família</h3>
+      <p class="small muted" style="margin-top:8px">Somente quando o uso de uma imagem ou uma campanha exigir autorização específica, a equipe apresentará o material para sua análise. Nenhuma aprovação é presumida.</p>
+    </div>
     <div class="panel" style="margin-top:19px;background:#ecf8ff;border-color:#cde3f2">
       <h3>💬 Precisa de ajuda?</h3><p class="small muted" style="margin:7px 0 13px">É só falar com a equipe. Você não precisa resolver tudo sozinha.</p>
       <a id="whatsappHelp" class="action soft full" href="https://wa.me/554832200260?text=Ol%C3%A1%21%20Preciso%20de%20ajuda%20com%20a%20jornada%20FutTalento%20do%20Lucas." target="_blank" rel="noopener noreferrer">Conversar com a equipe no WhatsApp →</a>
@@ -72,37 +76,23 @@
   <section id="view-agenda" class="view" aria-labelledby="agendaTitle">
     <div class="panel" style="margin-bottom:15px;background:#ecf8ff">
       <p class="eyebrow">Tudo organizado pela agência</p><h2 id="agendaTitle" style="margin:8px 0">📅 O que vem por aí?</h2>
-      <p class="small muted">Você só participa quando tiver algo para enviar ou aprovar. As datas abaixo são sugestões, não publicações confirmadas.</p>
+      <p class="small muted">Calendário mensal preparado pela agência. Colaborações e agendamentos só aparecem como confirmados depois de serem registrados pela equipe.</p>
     </div>
     <div id="agendaList" class="itemlist"></div>
-    <p class="footnotes">A programação pode mudar conforme a autorização da família, o treino e as condições combinadas com cada apoiador.</p>
+    <p class="footnotes">A programação pode mudar conforme direitos de imagem, disponibilidade de conteúdo e acordos com apoiadores.</p>
   </section>
   <section id="view-conquistas" class="view" aria-labelledby="conquistasTitle">
     <div class="panel" style="background:#fff7e3;margin-bottom:14px;border-color:#efddae">
-      <p class="eyebrow">Cada passo importa</p><h2 id="conquistasTitle" style="margin:8px 0">🏆 Nossas conquistas</h2>
-      <p class="small muted">Aqui ficam as pequenas vitórias da jornada — não são pontos competitivos e não existe punição por ficar sem acessar.</p>
+      <p class="eyebrow">Acompanhamento transparente</p><h2 id="conquistasTitle" style="margin:8px 0">🤝 Apoios e parceiros</h2>
+      <p class="small muted">Consulte os parceiros e apoios registrados pela equipe. Não há gamificação nem obrigações para a família.</p>
     </div>
-    <div id="achievementGrid" class="badgelist"></div>
+
     <div class="sectionTitle"><h2>🤝 Quem apoia o Lucas?</h2></div>
     <div id="partnerCards" class="partnerGrid"></div>
     <div class="sectionTitle"><h2>🎁 Apoios recebidos</h2></div>
     <div class="panel">
-      <p class="small muted">Quando o Lucas receber um produto ou serviço de um parceiro, basta registrar. A equipe depois confirma os dados para o relatório.</p>
+      <p class="small muted">Os apoios recebidos e confirmados aparecem aqui. A equipe FutTalento cuida dos registros e pode entrar em contato para confirmar alguma informação.</p>
       <div id="benefitList" class="itemlist" style="margin-top:13px"></div>
-      <button id="benefitToggle" class="action secondary full" style="margin-top:14px" type="button" aria-expanded="false">+ Registrar apoio recebido</button>
-      <form id="benefitForm" class="benefitForm" hidden>
-        <label for="benefitPartner" class="field-label">Quem ajudou?</label>
-        <select class="field" id="benefitPartner" required>
-          <option value="oze">Barbearia do Oze</option><option value="didi">Bolos da Didi</option>
-          <option value="guimaraes">Guimarães Brasil</option><option value="realgaucho">Real Gaúcho Futsal</option>
-        </select>
-        <label for="benefitDescription" class="field-label">O que o Lucas recebeu?</label>
-        <input class="field" id="benefitDescription" maxlength="220" minlength="3" required placeholder="Ex.: Corte de cabelo">
-        <label for="benefitDate" class="field-label">Qual dia?</label>
-        <input class="field" id="benefitDate" type="date" required>
-        <button type="submit" id="benefitSubmit" class="action full">Registrar apoio recebido</button>
-        <p class="error" id="benefitMessage" aria-live="polite"></p>
-      </form>
     </div>
     <div class="panel" style="margin-top:15px">
       <h3>💛 Nossa rede de apoio</h3>
@@ -114,9 +104,9 @@
 </section>
 </main>
 <nav id="bottomNav" class="bottomnav" aria-label="Navegação da jornada" hidden>
-  <button type="button" data-view="hoje" aria-current="page"><span aria-hidden="true">🏠</span><span>Hoje</span></button>
+  <button type="button" data-view="hoje" aria-current="page"><span aria-hidden="true">🏠</span><span>Resumo</span></button>
   <button type="button" data-view="agenda" aria-current="false"><span aria-hidden="true">📅</span><span>Agenda</span></button>
-  <button type="button" data-view="conquistas" aria-current="false"><span aria-hidden="true">🏆</span><span>Conquistas</span></button>
+  <button type="button" data-view="conquistas" aria-current="false"><span aria-hidden="true">🏆</span><span>Apoios</span></button>
 </nav>
 <script defer src="calendario.js"></script>
 <script defer src="jornada.js"></script>

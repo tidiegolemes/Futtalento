@@ -1,5 +1,5 @@
-const CACHE='ft-jornada-shell-v1';
-const SHELL=['/sponsor/lucas/','/sponsor/lucas/jornada.css','/sponsor/lucas/jornada.js','/sponsor/lucas/calendario.js','/futtalentologo.png','/favicon.png'];
+const CACHE='ft-jornada-shell-v2';
+const SHELL=['/sponsor/lucas/','/sponsor/lucas/jornada.css','/sponsor/lucas/jornada.js','/futtalentologo.png','/favicon.png'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)).catch(()=>{}));self.skipWaiting();});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('ft-jornada-shell-')&&k!==CACHE).map(k=>caches.delete(k)))));self.clients.claim();});
 self.addEventListener('fetch',event=>{

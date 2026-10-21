@@ -39,7 +39,7 @@ document.querySelectorAll('[data-partner]').forEach(card=>{const id=card.dataset
 function pullPartners(){document.querySelectorAll('[data-partner]').forEach(card=>{const obj={};card.querySelectorAll('[data-key]').forEach(f=>obj[f.dataset.key]=f.type==='checkbox'?f.checked:f.value);state.partners[card.dataset.partner]=obj;});}
 function renderMissions(){
 $('tasks').innerHTML=tasks.map(([id,who,desc,when])=>'<label class="task"><input type="checkbox" data-mission="'+id+'" '+(state.missions?.[id]?.done?'checked':'')+'><span><b>'+safe(desc)+'</b><small>Responsável: '+safe(who)+' · '+safe(when)+'</small></span></label>').join('');
-$('nextTasks').innerHTML=tasks.filter(t=>!state.missions?.[t[0]]?.done).slice(0,5).map(t=>'<div class="task"><span>○</span><span><b>'+safe(t[2])+'</b><small>'+safe(t[1])+' · '+safe(t[3])+'</small></span></div>').join('')||'<p class="mini">Todas as missões iniciais foram marcadas como concluídas.</p>';
+$('nextTasks').innerHTML=tasks.filter(t=>!state.missions?.[t[0]]?.done).slice(0,5).map(t=>'<div class="task"><span>○</span><span><b>'+safe(t[2])+'</b><small>'+safe(t[1])+' · '+safe(t[3])+'</small></span></div>').join('')||'<p class="mini">Todas as atividades da agência foram concluídas.</p>';
 }
 function pullMissions(){document.querySelectorAll('[data-mission]').forEach(el=>state.missions[el.dataset.mission]={done:el.checked});}
 function renderMetrics(){

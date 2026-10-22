@@ -28,7 +28,7 @@ if(containers.length){
    const signals=e('div','ft-score-signals');
    const records=[['Audiência digital',v.components?.audience,'55'],['Jornada esportiva',v.components?.sports,'25'],['Parcerias e entregas',v.components?.partnership,'20']];
    records.forEach(([label,part,weight])=>{
-    const item=e('div','ft-score-signal');item.append(e('span','',label),e('strong','',part?part.score+' / '+weight:'A integrar'));signals.append(item);
+    const item=e('div','ft-score-signal');item.append(e('span','',label),e('strong','',part?.complete?part.score+' / '+weight:'A integrar'));signals.append(item);
    });
    main.append(signals);
    const counts=e('div','ft-score-facts');

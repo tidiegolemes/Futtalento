@@ -1,0 +1,58 @@
+<!doctype html><html lang="pt-BR"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer">
+<title>Índice FutTalento — Painel da EyAgência</title><link rel="stylesheet" href="/indice/widget.css">
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#0a1925;color:#eff8f0;margin:0}
+main{max-width:1050px;padding:32px 18px 70px;margin:auto}
+header{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;align-items:center}
+h1{font-size:clamp(1.9rem,5vw,2.7rem);letter-spacing:-.05em;margin:10px 0}p{color:#b7ccbd;line-height:1.6;font-size:.88rem}
+a{color:#c9fc54}a:focus-visible,button:focus-visible{outline:3px solid #c9fc54;outline-offset:3px}
+.panel{background:#132a3a;border:1px solid #386077;border-radius:17px;padding:23px;margin-top:17px}
+.eyebrow{font-size:.7rem;font-weight:900;letter-spacing:.1em;color:#c9fc54;text-transform:uppercase}
+.formgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:18px 0}
+.formgrid label{display:flex;flex-direction:column;gap:6px;font-size:.78rem;color:#d7e7d9;font-weight:800}
+.formgrid input,.formgrid select{width:100%;border:1px solid #56778b;border-radius:9px;min-height:44px;background:#071923;color:white;padding:11px;font:inherit}
+small{font-size:.7rem;color:#a8c2b4;line-height:1.45}
+.rules{border-left:3px solid #c9fc54;padding:12px 15px;background:#173343;border-radius:9px}
+.rules strong{color:#effed8}
+button{cursor:pointer;background:#c9fc54;color:#193c28;border:0;padding:13px 18px;border-radius:11px;font-size:.88rem;font-weight:950}
+button:disabled{opacity:.6}
+.check{display:flex;gap:10px;align-items:start;font-size:.77rem;line-height:1.5;margin-top:12px}
+.check input{flex:0 0 18px;height:18px;accent-color:#c9fc54;margin-top:2px}
+#status{color:#c9fc54;min-height:24px}
+#preview{padding:15px;border:1px solid #466b5b;border-radius:11px;margin:18px 0;background:#0c2230}
+.formhead{display:flex;align-items:center;justify-content:space-between;gap:13px;flex-wrap:wrap}
+@media(max-width:760px){.formgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.panel{padding:17px}}
+@media(max-width:480px){.formgrid{grid-template-columns:1fr}main{padding:22px 13px}}
+</style></head><body>
+<main>
+<header><div><span class="eyebrow">Área privada · EyAgência</span><h1>Índice FutTalento</h1><p>Atualize métricas agregadas e documentadas. O público vê apenas informações aprovadas.</p></div><a href="/sponsor/lucas/gestao/">← Gestão da agência</a></header>
+<div class="panel"><div class="rules"><strong>Como a nota é liberada</strong><p>55% audiência (alcance, seguidores, interações e crescimento); 25% trajetória (títulos, competições e tempo de clube); 20% parcerias (apoiadores e entregas). A nota só aparece com dados recentes de audiência e no mínimo 70% de cobertura. Campos não medidos devem ficar vazios, nunca preenchidos com zero.</p></div>
+<form id="scoreForm"><div class="formhead"><h2>Indicadores do atleta</h2><button type="button" id="loadCurrent">Consultar dados publicados</button></div>
+<div class="formgrid">
+<label>Atleta<select id="athlete" required><option value="lucas">Lucas Azambuja</option><option value="ryan">Ryan Coelho</option><option value="thalles">Thalles Silvino</option></select></label>
+<label>Referência dos dados<input type="date" id="observedAt" required></label>
+<label>Origem<select id="source" required><option value="relatorio_autorizado">Relatório autorizado pela família</option><option value="instagram_insights">Insights oficial do Instagram</option><option value="gestao_interna">Registros auditados EyAgência</option></select></label>
+<label style="grid-column:1/-1">Referência verificável (relatório interno ou URL, sem dados sensíveis)<input type="text" id="reference" minlength="8" maxlength="160" required placeholder="Ex.: Instagram Insights 01–28/10, export autorizado; planilha interna YYY"></label>
+</div>
+<h3>Audiência digital <small>55 pontos</small></h3><div class="formgrid">
+<label>Seguidores<input data-score-field="followers" type="number" min="0" max="500000000" step="1" placeholder="Sem medição"></label>
+<label>Contas alcançadas em 28 dias<input data-score-field="reach28d" type="number" min="0" max="500000000" step="1" placeholder="Sem medição"></label>
+<label>Interações em 28 dias<input data-score-field="interactions28d" type="number" min="0" max="500000000" step="1" placeholder="Sem medição"></label>
+<label>Crescimento em 28 dias (%)<input data-score-field="growth28dPct" type="number" min="-100" max="500" step="0.1" placeholder="Ex.: 3.5"></label>
+</div><h3>Trajetória esportiva <small>25 pontos</small></h3><div class="formgrid">
+<label>Títulos documentados<input data-score-field="titlesVerified" type="number" min="0" max="100" step="1" placeholder="Ainda não informado"></label>
+<label>Competições documentadas<input data-score-field="competitionsVerified" type="number" min="0" max="200" step="1" placeholder="Ainda não informado"></label>
+<label>Meses no clube informado<input data-score-field="clubMonths" type="number" min="0" max="300" step="1" placeholder="Ainda não informado"></label>
+</div><h3>Histórico de parcerias <small>20 pontos</small></h3><div class="formgrid">
+<label>Empresas apoiadoras ativas<input data-score-field="partnersActive" type="number" min="0" max="500" step="1" placeholder="Sem confirmação"></label>
+<label>Entregas comerciais concluídas<input data-score-field="deliveriesCompleted" type="number" min="0" max="50000" step="1" placeholder="Sem confirmação"></label>
+</div>
+<label class="check"><input type="checkbox" id="guardian" required><span>Confirmo que a família ou o responsável autorizou o uso dessas estatísticas agregadas e que não há dados sensíveis de menores.</span></label>
+<label class="check"><input type="checkbox" id="approved" required><span>Revisei a fonte e autorizo a publicação dos indicadores agregados e da pontuação calculada, quando houver base suficiente.</span></label>
+<div id="preview" role="status" aria-live="polite">Prévia: preencha os indicadores para calcular a cobertura.</div>
+<button type="submit" id="saveIndex">Salvar indicadores e recalcular</button>
+<p id="status" role="status" aria-live="polite"></p>
+</form></div>
+<p>Uma mudança no Instagram pode exigir conectar uma conta Business/Creator e as permissões específicas de Insights. Nenhuma integração de leitura de Instagram ou atualização automática está sendo presumida neste estágio.</p>
+</main><script type="module" src="gestao.js"></script></body></html>

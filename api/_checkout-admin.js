@@ -1,5 +1,6 @@
 import {authenticate} from './_sponsor-auth.js';
 import {prefix,PLANS,ATHLETES,enabled,refresh} from './_futtalento-efi.js';
+import {visiblePaymentStatus} from './_futtalento-payment.js';
 export default async function handler(req,res){
  res.setHeader('Cache-Control','private,no-store');res.setHeader('X-Content-Type-Options','nosniff');
  const user=authenticate(req);
@@ -12,7 +13,7 @@ export default async function handler(req,res){
    try{const obj=await get(entry.pathname,{access:'private'});if(!obj?.stream)return null;
     const x=JSON.parse(await new Response(obj.stream).text());
     if(x.status==='pending'&&enabled()&&Date.now()-Date.parse(x.createdAt)<36*3600000){try{await refresh(x)}catch(e){console.error('Efí agency reconciliation:',e.message)}}
-    return {id:x.id,name:x.name,company:x.company,phone:x.phone,athlete:ATHLETES[x.athlete],plan:PLANS[x.plan]?.title,amount:PLANS[x.plan]?.cents/100,status:x.status,createdAt:x.createdAt,paidAt:x.paidAt||null,activeUntil:x.activeUntil||null};
+    return {id:x.id,name:x.name,company:x.company,phone:x.phone,athlete:ATHLETES[x.athlete],plan:PLANS[x.plan]?.title,amount:PLANS[x.plan]?.cents/100,status:visiblePaymentStatus(x),createdAt:x.createdAt,paidAt:x.paidAt||null,activeUntil:x.activeUntil||null};
    }catch{return null}
   }));
   return res.status(200).json({orders:records.filter(Boolean).sort((a,b)=>b.createdAt.localeCompare(a.createdAt)),hasMore:!!files.cursor});

@@ -13,6 +13,26 @@ body{background:#f0f7f1;color:#162e27;font-family:system-ui,-apple-system,BlinkM
 .pay-pix code{font-size:.8rem;word-break:break-all;color:#154533}.pay-pix a{color:#176a47;font-weight:850}
 .pay-state{display:inline-block;border-radius:40px;padding:6px 13px;background:#e0f5df;color:#255e38;font-weight:800;font-size:.83rem}.pay-muted{color:#5b7263;font-size:.84rem}.pay-note{border:1px solid #cfe2cf;background:#f5fbf3;border-radius:13px;padding:13px;margin-top:23px;color:#526a55;font-size:.83rem}
 @media(max-width:780px){.pay-layout{grid-template-columns:1fr}.pay-wrap{margin-top:24px}.pay-card{padding:20px}}
+
+/* Same-origin embedded checkout. Standalone /checkout/ retains its normal presentation. */
+body.embedded-pay{background:#f0f7f1}
+body.embedded-pay .topbar-pay{display:none}
+body.embedded-pay .pay-wrap{width:calc(100% - 24px);max-width:900px;margin:15px auto 45px}
+body.embedded-pay .pay-wrap>.pay-over,body.embedded-pay .pay-wrap>h1,body.embedded-pay .pay-wrap>.pay-lead,body.embedded-pay .pay-wrap>.pay-note{display:none}
+body.embedded-pay .pay-layout{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:12px}
+body.embedded-pay .pay-card{border-radius:14px;padding:16px;box-shadow:none}
+body.embedded-pay .pay-card h2{font-size:1.18rem;margin:0 0 10px}
+body.embedded-pay .pay-label{margin:10px 0 5px;font-size:.79rem}
+body.embedded-pay .pay-price{font-size:1.75rem;margin:12px 0 6px}
+body.embedded-pay .pay-card:first-child>.pay-note{display:none}
+body.embedded-pay .pay-card:first-child>.pay-muted{font-size:.75rem;line-height:1.52}
+body.embedded-pay .pay-check{font-size:.76rem}
+body.embedded-pay .pay-btn{margin-top:13px}
+.pay-recovery{margin-top:14px;border-top:1px solid #d1e6d5;padding:12px 0}
+.pay-recovery button{background:#f7fbf6;border:1px solid #91b99f;border-radius:10px;padding:10px 12px;color:#235b3d;font-weight:850;cursor:pointer;margin:5px 0 8px;min-height:42px;width:100%}
+.pay-recovery a{color:#215c3f;font-weight:850;font-size:.83rem}
+.pay-recovery p{font-size:.73rem;color:#698474;margin:6px 0}
+@media(max-width:690px){body.embedded-pay .pay-layout{grid-template-columns:1fr}body.embedded-pay .pay-wrap{width:calc(100% - 20px);margin:10px auto 45px}body.embedded-pay .pay-card{padding:14px}body.embedded-pay .pay-price{margin:8px 0}body.embedded-pay .pay-card:first-child>.pay-muted{display:none}}
 </style></head><body>
 <header class="topbar-pay"><div class="pay-wrap" style="margin:0 auto"><a href="/" class="pay-brand">FUT<span>TALENTO</span></a></div></header>
 <main class="pay-wrap"><p class="pay-over">Contratação de apoio · FutTalento</p><h1>Seu apoio começa aqui.</h1><p class="pay-lead">Selecione o atleta e o pacote. O acesso ao plano será liberado somente após confirmação do Pix pelo Efí Bank.</p><div class="pay-note" role="note"><b>Fase de testes bancários:</b> somente a agência autenticada consegue gerar um Pix. Para conferir a emissão, não é necessário pagar. Um Pix só movimenta dinheiro quando você autoriza a operação no seu banco.</div>
@@ -28,9 +48,10 @@ body{background:#f0f7f1;color:#162e27;font-family:system-ui,-apple-system,BlinkM
 <form id="form"><label class="pay-label" for="name">Nome do responsável</label><input class="pay-field" id="name" minlength="3" maxlength="90" required autocomplete="name" placeholder="Nome e sobrenome">
 <label class="pay-label" for="company">Empresa apoiadora</label><input class="pay-field" id="company" minlength="2" maxlength="100" required autocomplete="organization" placeholder="Razão social ou nome fantasia">
 <label class="pay-label" for="phone">WhatsApp da empresa</label><input class="pay-field" id="phone" type="tel" minlength="10" maxlength="25" required autocomplete="tel" placeholder="(48) 99999-9999">
-<label class="pay-check"><input id="consent" type="checkbox" required> Concordo em receber o contato relativo ao apoio, li a <a href="/privacidade.html">Política de Privacidade</a> e compreendo que o Pix é avulso, sem recorrência automática.</label>
+<label class="pay-check"><input id="consent" type="checkbox" required> Concordo em receber o contato relativo ao apoio, li a <a href="/privacidade.html" target="_blank" rel="noopener noreferrer">Política de Privacidade</a> e compreendo que o Pix é avulso, sem recorrência automática.</label>
 <button class="pay-btn" id="pay" type="submit">Gerar Pix para o plano</button><p id="message" class="pay-message" role="alert"></p></form></div>
 <div id="pixPanel" hidden><h2>Pagamento Pix</h2><p class="pay-muted">Efetue o pagamento no seu banco. A confirmação é feita automaticamente pela consulta autenticada ao Efí.</p><span class="pay-state" id="state">Aguardando pagamento</span><div class="pay-pix" id="pixDetails"><p><b>Pix Copia e Cola</b></p><code id="copyValue"></code><button id="copyButton" type="button" class="pay-btn">Copiar Pix</button><a id="payLink" target="_blank" rel="noopener noreferrer" hidden>Abrir cobrança no Efí ↗</a><p class="pay-muted" id="expires"></p></div>
-<button id="refresh" type="button" class="pay-btn">Verificar pagamento</button><p class="pay-message" id="paidMessage" role="status"></p><p id="retryPanel" hidden><a class="pay-btn" id="retryLink" href="#" style="display:block;text-decoration:none;text-align:center">Gerar um novo Pix para este plano →</a><small class="pay-muted">O código anterior não deve mais ser utilizado. Uma nova cobrança exige autenticação da agência enquanto os testes estiverem restritos.</small></p>
+<button id="refresh" type="button" class="pay-btn">Verificar pagamento</button><p class="pay-message" id="paidMessage" role="status"></p>
+<div id="payRecovery" class="pay-recovery" hidden><button type="button" id="copyRecovery">Copiar link privado para acompanhar o Pix</button><a id="resumeLink" href="#" target="_top">Abrir esta cobrança em página própria ↗</a><p>Guarde o link privativamente para voltar à mesma cobrança sem gerar outro Pix.</p></div><p id="retryPanel" hidden><a class="pay-btn" id="retryLink" href="#" style="display:block;text-decoration:none;text-align:center">Gerar um novo Pix para este plano →</a><small class="pay-muted">O código anterior não deve mais ser utilizado. Uma nova cobrança exige autenticação da agência enquanto os testes estiverem restritos.</small></p>
 <div id="active" class="pay-pix" hidden><h3>Plano ativado!</h3><p id="activeText"></p><p>Seu painel privativo é liberado automaticamente após a confirmação bancária.</p><a class="pay-btn" id="supporterLink" href="#" style="text-align:center;text-decoration:none">Abrir meu painel de apoiador →</a><p class="pay-muted">Salve seu link de acesso privado; a renovação mensal ainda é manual.</p></div></div>
 </section></div><p class="pay-note">Ativação comercial apenas após pagamento confirmado e validação das condições da parceria. Conteúdo com menores exige autorizações e identificação de publicidade quando aplicável.</p></main><script defer src="/checkout/checkout.js"></script></body></html>

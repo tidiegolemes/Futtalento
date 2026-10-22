@@ -21,6 +21,7 @@ function show(data){
  $('expires').textContent=o.pix?.expiresAt?'Pix vence em: '+new Date(o.pix.expiresAt).toLocaleString('pt-BR'):'';
  if(o.status==='active'||o.status==='expired'){
   $('state').textContent=o.status==='active'?'Pagamento confirmado · Ativo':'Plano vencido · renovar com novo Pix';$('pixDetails').hidden=true;$('refresh').hidden=true;
+  $('supporterLink').href='/apoiador/assinatura/?pedido='+encodeURIComponent(id)+'&acesso='+encodeURIComponent(token);$('supporterLink').hidden=o.status!=='active';
   $('active').hidden=false;$('activeText').textContent='Plano '+o.planTitle+' para '+o.athlete+(o.status==='active'?' ativo até ':' encerrado em ')+new Date(o.activeUntil).toLocaleDateString('pt-BR')+'.';
   $('paidMessage').textContent='A confirmação foi verificada diretamente no Efí Bank.';
   if(poll){clearInterval(poll);poll=null;}

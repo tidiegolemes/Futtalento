@@ -30,6 +30,17 @@
       rail.scrollBy({left:(Number(button.dataset.scroll)||1)*Math.min(250,rail.clientWidth*.84),behavior:"smooth"});
     });
   });
+  // Recent photos remain on athletes' official sites. Fall back to our existing copy if an asset goes missing.
+  document.querySelectorAll('img[data-fallback]').forEach(image=>{
+    const fallback=()=>{
+      const src=image.getAttribute('data-fallback');
+      if(!src||image.getAttribute('src')===src)return;
+      image.removeAttribute('data-fallback');
+      image.src=src;
+    };
+    image.addEventListener('error',fallback,{once:true});
+    if(image.complete&&image.naturalWidth===0)fallback();
+  });
   // Marketplace FutTalento: busca sem dependência de backend e filtros somente por dados documentados.
   const rail=document.getElementById('talentRail');
   const search=document.getElementById('athleteSearch');
@@ -61,7 +72,7 @@
       if(text)text.textContent=selectedClub==='internacional'?
         'O Internacional está preparado como filtro, mas não há vínculo esportivo documentado com esse clube nos três perfis cadastrados. Mais atletas poderão entrar na vitrine.':
         selectedCategory!=='todos'&&selectedCategory!=='pendente'?
-        'As categorias de base ainda estão sendo confirmadas documentalmente. Evitamos classificar atletas menores por suposição.':
+        'Nenhum perfil deste recorte está cadastrado na categoria selecionada. Só exibimos categorias documentadas.':
         'Experimente outro clube ou termo de busca. Exibimos apenas vínculos esportivos e informações publicadas.';
     }
     chips.forEach(chip=>{const active=chip.dataset.club===selectedClub;chip.classList.toggle('is-active',active);chip.setAttribute('aria-pressed',String(active));});

@@ -36,10 +36,10 @@ export default async function handler(req,res){
  const plan=PLANS[d.plan],athlete=ATHLETES[d.athlete],name=text(d.name,90),company=text(d.company,100),phone=text(d.phone,20).replace(/\D/g,'');
  if(!plan||!athlete||name.length<3||company.length<2||phone.length<10||phone.length>13||d.consent!==true)return res.status(400).json({error:'Confira plano, atleta, dados de contato e autorização de atendimento'});
  const id=crypto.randomBytes(16).toString('hex'),token=crypto.randomBytes(32).toString('hex');
- const order={id,txid:id,plan:d.plan,athlete:d.athlete,name,company,phone,cents:plan.cents,status:'pending',createdAt:new Date().toISOString(),tokenHash:secretDigest(token),pix:null,activeUntil:null};
+ const order={id,txid:id,project:'FutTalento',operator:'EyAgencia',plan:d.plan,athlete:d.athlete,name,company,phone,cents:plan.cents,status:'pending',createdAt:new Date().toISOString(),tokenHash:secretDigest(token),pix:null,activeUntil:null};
  try{
   await save(order);
-  const charge=await efi('/v2/cob/'+id,'PUT',{calendario:{expiracao:1800},valor:{original:formatAmount(plan.cents)},chave:process.env.FUTTALENTO_EFI_PIX_KEY,solicitacaoPagador:'FutTalento - '+plan.title+' - 30 dias'});
+  const charge=await efi('/v2/cob/'+id,'PUT',{calendario:{expiracao:1800},valor:{original:formatAmount(plan.cents)},chave:process.env.FUTTALENTO_EFI_PIX_KEY,solicitacaoPagador:'FutTalento - '+plan.title+' - 30 dias',infoAdicionais:[{nome:'Projeto',valor:'FutTalento'},{nome:'Operacao',valor:'EyAgencia'}]});
   if(charge.txid!==id||!Number.isSafeInteger(Number(charge.loc?.id)))throw new Error('Efí não retornou localização válida');
   const qr=await efi('/v2/loc/'+charge.loc.id+'/qrcode');
   if(typeof qr.qrcode!=='string'||qr.qrcode.length<50)throw new Error('Efí não retornou QR Code');

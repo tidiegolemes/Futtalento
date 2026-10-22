@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {parseLucasEvidence} from '../api/_indice-lucas-public.js';
+import {parseLucasEvidence} from '../indice/lucas-public.js';
 
 const asOf='2026-10-22T15:00:00.000Z';
 test('Lucas documents a sports partial, never a made-up /100 audience rating',()=>{

@@ -1,9 +1,20 @@
 import checkoutAdmin from './_checkout-admin.js';
 import checkoutWebhook from './_checkout-efi-webhook.js';
 import crypto from 'node:crypto';
-import {signed,verify,cookie} from './_sponsor-auth.js';
-import {PLANS,ATHLETES,originOK,registered,text,enabled,efi,save,load,refresh,publicOrder,secretDigest,safeEqual,formatAmount} from './_futtalento-efi.js';
+import {signed,verify,cookie,authenticate} from './_sponsor-auth.js';
+import {PLANS,ATHLETES,originOK,registered,text,enabled,efi,checkEfiConnectivity,save,load,refresh,publicOrder,secretDigest,safeEqual,formatAmount} from './_futtalento-efi.js';
 export default async function handler(req,res){
+ if(req.query.mode==='health'){
+  res.setHeader('Cache-Control','private,no-store');
+  res.setHeader('X-Content-Type-Options','nosniff');
+  if(req.method!=='GET')return res.status(405).json({ok:false,error:'Método não permitido'});
+  if(!registered(req))return res.status(403).json({ok:false,error:'Domínio não autorizado'});
+  const user=authenticate(req);
+  if(!user||user.kind!=='sponsor')return res.status(403).json({ok:false,error:'Acesso reservado à agência'});
+  const result=await checkEfiConnectivity();
+  return res.status(result.ok?200:503).json(result);
+ }
+
  if(req.query.mode==='admin')return checkoutAdmin(req,res);
  if(req.query.mode==='webhook')return checkoutWebhook(req,res);
  res.setHeader('Cache-Control','private,no-store');

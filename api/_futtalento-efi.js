@@ -7,13 +7,16 @@ export const PLANS=Object.freeze({
 });
 export const ATHLETES=Object.freeze({lucas:'Lucas Azambuja',ryan:'Ryan Coelho',thalles:'Thalles Silvino'});
 export const prefix='futtalento/pix-checkout/v1/';
+export const operator='EyAgência';
+export const paymentTenant='FutTalento';
 export const registered=(req)=>['futtalento.com.br','www.futtalento.com.br'].includes(req.headers.host);
 export const originOK=(req)=>registered(req)&&req.headers.origin==='https://'+req.headers.host;
 export const text=(v,n)=>typeof v==='string'?v.trim().replace(/\s+/g,' ').slice(0,n):'';
 export const secretDigest=(token)=>crypto.createHash('sha256').update(String(token)).digest('hex');
 export const safeEqual=(a,b)=>typeof a==='string'&&typeof b==='string'&&a.length===b.length&&crypto.timingSafeEqual(Buffer.from(a),Buffer.from(b));
 export function enabled(){
-  return process.env.FUTTALENTO_PIX_ENABLED==='true'
+  return ['production','homologation'].includes(process.env.FUTTALENTO_EFI_ENV)
+    &&process.env.FUTTALENTO_PIX_ENABLED==='true'
     &&!!process.env.FUTTALENTO_EFI_CLIENT_ID
     &&!!process.env.FUTTALENTO_EFI_CLIENT_SECRET
     &&!!process.env.FUTTALENTO_EFI_PIX_KEY

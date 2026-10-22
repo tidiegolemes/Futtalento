@@ -1,5 +1,6 @@
 import https from 'node:https';
 import crypto from 'node:crypto';
+import tls from 'node:tls';
 export const PLANS=Object.freeze({
   'primeiro-passe':{title:'Primeiro Passe',cents:9900,monthly:true},
   'time-titular':{title:'Time Titular',cents:24900,monthly:true},
@@ -46,6 +47,35 @@ function requestRaw(path,method,token,body){
   });req.on('error',reject);req.on('timeout',()=>req.destroy(new Error('Timeout Efí')));if(bytes)req.write(bytes);req.end();
  });
 }
+export async function checkEfiConnectivity(){
+ const present=key=>typeof process.env[key]==='string'&&process.env[key].trim().length>0;
+ const needed=['FUTTALENTO_EFI_ENV','FUTTALENTO_EFI_CLIENT_ID','FUTTALENTO_EFI_CLIENT_SECRET','FUTTALENTO_EFI_PIX_KEY','FUTTALENTO_EFI_P12_BASE64'];
+ const missing=needed.filter(key=>!present(key));
+ if(missing.length)return {ok:false,step:'configuration',message:'Variáveis necessárias ausentes',missing};
+ const env=process.env.FUTTALENTO_EFI_ENV;
+ if(!['production','homologation'].includes(env))return {ok:false,step:'configuration',message:'Ambiente Efí inválido'};
+ const base64=process.env.FUTTALENTO_EFI_P12_BASE64.replace(/\\s/g,'');
+ if(base64.length<500||!(/^[A-Za-z0-9+/]+={0,2}$/).test(base64)||base64.length%4!==0)
+  return {ok:false,step:'certificate',message:'Conteúdo Base64 do certificado parece incompleto ou inválido'};
+ const binary=Buffer.from(base64,'base64');
+ try{
+  tls.createSecureContext({pfx:binary,passphrase:process.env.FUTTALENTO_EFI_P12_PASSWORD||''});
+ }catch(e){
+  return {ok:false,step:'certificate',message:'O certificado P12 não pôde ser aberto; confira o arquivo e eventual senha'};
+ }
+ const basic='Basic '+Buffer.from(process.env.FUTTALENTO_EFI_CLIENT_ID+':'+process.env.FUTTALENTO_EFI_CLIENT_SECRET).toString('base64');
+ try{
+  const grant=await requestRaw('/oauth/token','POST',basic,{grant_type:'client_credentials'});
+  if(!grant.access_token)return {ok:false,step:'oauth',message:'Efí não retornou uma autorização válida'};
+  const scopes=typeof grant.scope==='string'?grant.scope.split(/\\s+/).filter(Boolean):[];
+  return {ok:true,step:'oauth',environment:env,certificate:'valid',authentication:'successful',requiredScopes:['cob.read','cob.write','payloadlocation.read'],availableScopes:scopes,chargesEnabled:process.env.FUTTALENTO_PIX_ENABLED==='true'};
+ }catch(e){
+  const message=String(e?.message||'').slice(0,180);
+  const network=/(timeout|ETIMEDOUT|ECONN|ENOTFOUND|certificate|cert|pkcs12|mac verify|unsupported)/i.test(message);
+  return {ok:false,step:'oauth',environment:env,certificate:'valid',message:network?'Falha na comunicação mTLS ou validação do certificado':'Efí não aceitou a autenticação OAuth',providerStatus:(message.match(/HTTP (\\d{3})/)||[])[1]||null};
+ }
+}
+
 export async function efi(path,method='GET',payload){
  if(!enabled())throw new Error('Pix ainda não está habilitado para esta loja');
  const auth='Basic '+Buffer.from(process.env.FUTTALENTO_EFI_CLIENT_ID+':'+process.env.FUTTALENTO_EFI_CLIENT_SECRET).toString('base64');

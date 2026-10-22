@@ -21,6 +21,7 @@ function render(){
  '<p><b>Contato:</b> '+esc(l.whatsapp)+' · <b>Cidade:</b> '+esc(l.cidade||'Não informada')+'</p>'+
  (l.persona==='empresa'?'<p><b>Empresa:</b> '+esc(l.empresa||'—')+' · <b>Atleta de interesse:</b> '+esc(athlete[l.atletaInteresse]||'Aberto a conhecer')+'</p>':'')+
  (l.pacoteSolicitado?'<p><b>Proposta:</b> '+esc(l.pacoteSolicitado.nome)+' / R$ '+esc(l.pacoteSolicitado.valorReferenciaMensalBRL)+' mensais; pendente de acordo</p>':'')+
+ (l.propostaPermuta?'<p><b>Permuta proposta:</b> '+esc(l.propostaPermuta.tipo)+' — '+esc(l.propostaPermuta.descricao)+' · <b>Situação:</b> Em avaliação; sem Pix ou contrato automático</p>':'')+
  '<p><b>Interesse:</b> '+esc(l.interesse||'—')+' · <b>Origem:</b> '+origin+'</p>'+
  '<div class="actions"><a href="'+url+'" target="_blank" rel="noopener noreferrer">Conversar pelo WhatsApp ↗</a>'+
  '<label>Situação <select data-key="'+esc(l.key)+'">'+options+'</select></label><button type="button" data-save="'+esc(l.key)+'">Salvar etapa</button></div></article>';

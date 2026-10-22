@@ -3,7 +3,10 @@
 const $=id=>document.getElementById(id);
 const plans={'primeiro-passe':9900,'time-titular':24900,'camisa-10':49900};
 const params=new URLSearchParams(location.search);
+const embedded=params.get('embed')==='1'&&window.parent!==window;
+if(embedded)document.body.classList.add('embedded-pay');
 const athlete=String(params.get('atleta')||'lucas'),plan=String(params.get('plano')||'primeiro-passe');
+const notifyParent=status=>{if(embedded)window.parent.postMessage({type:'futtalento.checkout.status',status},location.origin);};
 if(['lucas','ryan','thalles'].includes(athlete))$('athlete').value=athlete;
 if(plans[plan])$('plan').value=plan;
 let id=params.get('pedido'),token=params.get('acesso'),poll=null;
@@ -11,8 +14,23 @@ const money=n=>(n/100).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})
 function price(){$('price').innerHTML=money(plans[$('plan').value])+' <span>primeiros 30 dias</span>';}
 $('plan').addEventListener('change',price);price();
 function err(msg){$('message').textContent=msg||'';}
+function privateRecoveryUrl(){
+ if(!/^[a-f0-9]{32}$/.test(id||'')||!/^[a-f0-9]{64}$/.test(token||''))return '';
+ return location.origin+'/checkout/?'+new URLSearchParams({pedido:id,acesso:token}).toString();
+}
+function syncRecovery(){
+ const url=privateRecoveryUrl();
+ $('payRecovery').hidden=!url;
+ if(url){$('resumeLink').href=url;$('supporterLink').target=embedded?'_top':'_self';}
+}
+$('copyRecovery').addEventListener('click',async()=>{
+ const url=privateRecoveryUrl();if(!url)return;
+ try{await navigator.clipboard.writeText(url);$('paidMessage').textContent='Link privado copiado. Guarde-o com segurança e não compartilhe publicamente.';}
+ catch(e){$('paidMessage').textContent='Use o link “Abrir esta cobrança em página própria” para guardá-la.';}
+});
 function show(data){
  const o=data.order;
+ syncRecovery();
  $('intro').hidden=true;$('pixPanel').hidden=false;
  $('plan').value=o.plan;$('athlete').value=Object.keys({lucas:1,ryan:1,thalles:1}).find(k=>({lucas:'Lucas Azambuja',ryan:'Ryan Coelho',thalles:'Thalles Silvino'}[k])===o.athlete)||'lucas';
  $('plan').disabled=true;$('athlete').disabled=true;price();
@@ -20,6 +38,7 @@ function show(data){
  $('copyValue').textContent=o.pix?.copyPaste||'';
  const link=$('payLink');link.hidden=!o.pix?.link;if(o.pix?.link)link.href=o.pix.link;
  $('expires').textContent=o.pix?.expiresAt?'Pix vence em: '+new Date(o.pix.expiresAt).toLocaleString('pt-BR'):'';
+ if(o.status==='active'){notifyParent('active');}
  if(o.status==='active'||o.status==='expired'){
   $('state').textContent=o.status==='active'?'Pagamento confirmado · Ativo':'Plano vencido · renovar com novo Pix';$('pixDetails').hidden=true;$('refresh').hidden=true;
   $('supporterLink').href='/apoiador/assinatura/?pedido='+encodeURIComponent(id)+'&acesso='+encodeURIComponent(token);$('supporterLink').hidden=o.status!=='active';
@@ -59,7 +78,8 @@ $('form').addEventListener('submit',async event=>{
   throw Error((data.error||'Falha ao preparar Pix')+detail);
  }
  id=data.order.id;token=data.token;
- history.replaceState(null,'','/checkout/?pedido='+id+'&acesso='+token);
+ history.replaceState(null,'','/checkout/?pedido='+encodeURIComponent(id)+'&acesso='+encodeURIComponent(token)+(embedded?'&embed=1':''));
+ notifyParent('issued');
  show(data);
  }catch(e){err(e.message||'Não foi possível emitir a cobrança.')}finally{button.disabled=false;button.textContent='Gerar Pix para o plano'}
 });

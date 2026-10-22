@@ -22,6 +22,10 @@ test('Ryan: competition with no fabricated winner',()=>{
  const x=extractSports('ryan','<main>Ryan pela equipe Cruzeiro na Copa Maravilha 2026.</main>');
  assert.equal(x.metrics.competitionsVerified,1);assert.equal(x.metrics.titlesVerified,null);
 });
+test('Thalles: 2023-atual yields conservative lower bound, not invented start date',()=>{
+ const x=extractSports('thalles','<main>TRAJETÓRIA 2023 - ATUAL E.C. Juventude</main>','2026-10-22');
+ assert.equal(x.metrics.clubMonths,24);
+});
 test('unknown athlete rejected',()=>assert.throws(()=>extractSports('unknown','')));
 test('missing results are unknown and not zero',()=>{
  const x=extractSports('thalles','<main>Futebol de base sem conquistas informadas.</main>');

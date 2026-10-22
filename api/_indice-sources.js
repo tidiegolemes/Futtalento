@@ -66,12 +66,43 @@ export async function fetchAuthorizedInstagram(athlete){
   return {status:'falha_permissao_ou_api',metrics:{},source:null};
  }
 }
+async function internalCommercialEvidence(athlete){
+ // Only Lucas currently has a validated agency ledger. No inference from logos or Pix pilots.
+ if(athlete!=='lucas')return {status:'sem_registros_integrados',metrics:{}};
+ try{
+  const {get}=await import('@vercel/blob');
+  const record=await get('lucas/sponsor-operations-v1.json',{access:'private'}).catch(()=>null);
+  if(!record?.stream)return {status:'nao_cadastrado',metrics:{}};
+  const data=JSON.parse(await new Response(record.stream).text());
+  if(!data?.updatedAt||!data?.partners)return {status:'pendente_validacao',metrics:{}};
+  const verified=new Set();
+  for(const [id,item] of Object.entries(data.partners||{})){
+   if(['guimaraes','didi','oze','realgaucho'].includes(id)&&item?.approved===true&&['financeiro','permuta','institucional'].includes(item?.kind))
+    verified.add(id);
+  }
+  const uniqueEvents=new Set();
+  let deliveries=0;
+  for(const item of data.activities||[]){
+   if(!verified.has(item?.partner)||!['publicado','confirmado'].includes(item?.status)||!['story','reel','post','entrega'].includes(item?.type)||!String(item.source||'').trim())continue;
+   const id=String(item.id||'');
+   if(!id||uniqueEvents.has(id))continue;
+   uniqueEvents.add(id);
+   const qty=Number(item.qty);
+   deliveries+=Number.isSafeInteger(qty)&&qty>0?Math.min(qty,100):1;
+  }
+  return {status:'registros_agencia_aprovados',metrics:{partnersActive:verified.size,deliveriesCompleted:Math.min(deliveries,50000)},documentedEvents:uniqueEvents.size,
+   source:'Painel comercial EyAgência — apenas aprovações e entregas com origem documentada',checkedAt:new Date().toISOString()};
+ }catch{
+  return {status:'indisponivel',metrics:{}};
+ }
+}
+
 export async function buildAutoSuggestions(athlete){
  const cfg=ATHLETE_SOURCES[athlete];
  if(!cfg)throw Error('Atleta inválido');
- const [site,ig]=await Promise.allSettled([getPage(cfg.url),fetchAuthorizedInstagram(athlete)]);
+ const [site,ig,commercial]=await Promise.allSettled([getPage(cfg.url),fetchAuthorizedInstagram(athlete),internalCommercialEvidence(athlete)]);
  const report={athlete,checkedAt:new Date().toISOString(),source:cfg.url,sourceLabel:cfg.label,
-  sports:null,instagram:null,metrics:{},provenance:{},warnings:[]};
+  sports:null,instagram:null,commercial:null,metrics:{},provenance:{},warnings:[]};
  if(site.status==='fulfilled'){
   const parsed=extractSports(athlete,site.value,report.checkedAt.slice(0,10));
   report.sports=parsed;
@@ -85,5 +116,14 @@ export async function buildAutoSuggestions(athlete){
    if(v!==null&&Number.isFinite(v)){report.metrics[k]=v;report.provenance[k]={label:ig.value.source,checkedAt:report.checkedAt,method:'Meta Graph API autorizada'};}
   }
  }else{report.instagram={status:'nao_configurado',metrics:{}};}
+ if(commercial.status==='fulfilled'){
+  report.commercial=commercial.value;
+  for(const [k,v] of Object.entries(commercial.value.metrics||{})){
+   if(v!==null&&Number.isFinite(v)){
+    report.metrics[k]=v;
+    report.provenance[k]={label:commercial.value.source,checkedAt:report.checkedAt,method:'Registro operacional autenticado da agência'};
+   }
+  }
+ }else{report.commercial={status:'indisponivel',metrics:{}};}
  return report;
 }

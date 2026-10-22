@@ -24,7 +24,7 @@ export function extractSports(athlete,html,asOf=new Date().toISOString().slice(0
  // The Thalles profile says "2023 - ATUAL". Without a start month, use only a
  // conservative lower bound of complete years between 2023 and now.
  const currentYear=Number(String(asOf).slice(0,4));
- const clubDocumented=athlete==='thalles'&&/2023\\s*[-–—]\\s*atual/i.test(text)&&text.includes('juventude');
+ const clubDocumented=athlete==='thalles'&&/2023\s*[-–—]\s*atual/i.test(text)&&text.includes('juventude');
  if(clubDocumented&&Number.isInteger(currentYear)&&currentYear>=2024)
   metrics.clubMonths=Math.max(0,(currentYear-2023-1)*12);
  return {athlete,source:cfg.url,sourceLabel:cfg.label,checkedAt:asOf,metrics,

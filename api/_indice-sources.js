@@ -15,6 +15,7 @@ async function getPage(url){
  }finally{clearTimeout(timeout);}
 }
 const names={lucas:'LUCAS',ryan:'RYAN',thalles:'THALLES'};
+const expectedHandles={lucas:'lucasazambujaoficial',ryan:'ryanzinho_8',thalles:'thalles_silvino'};
 const GRAPH_HOSTS=new Set(['graph.facebook.com','graph.instagram.com']);
 async function graphRequest(host,path,token,query){
  const url=new URL('https://'+host+'/v24.0/'+path);
@@ -43,6 +44,7 @@ export async function fetchAuthorizedInstagram(athlete){
  const host=GRAPH_HOSTS.has(process.env.FUTTALENTO_IG_GRAPH_HOST)?process.env.FUTTALENTO_IG_GRAPH_HOST:'graph.facebook.com';
  try{
   const account=await graphRequest(host,user,token,{fields:'id,username,followers_count'});
+  if(String(account?.username||'').toLowerCase()!==expectedHandles[athlete])return {status:'conta_nao_corresponde',metrics:{},source:null};
   const followers=Number.isSafeInteger(account.followers_count)&&account.followers_count>=0?account.followers_count:null;
   const metrics={followers};
   // Account-level Insights must be from the connected professional account, not a public scrape.

@@ -2,7 +2,7 @@
 'use strict';
 const $=id=>document.getElementById(id),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const date=x=>x?new Date(x).toLocaleDateString('pt-BR'):'—';
-const status=o=>o.status==='active'&&Date.parse(o.activeUntil)>Date.now()?'Ativo':o.status==='active'?'Expirado':'Aguardando Pix';
+const status=o=>({active:'Ativo',expired:'Plano vencido',pending:'Aguardando Pix',pix_expired:'Pix vencido',removed:'Cobrança removida'})[o.status]||'Em verificação';
 async function load(){
  $('refresh').disabled=true;$('notice').textContent='Consultando registros...';
  try{

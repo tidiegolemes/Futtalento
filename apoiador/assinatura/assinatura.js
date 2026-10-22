@@ -4,7 +4,7 @@ const date=v=>new Date(v).toLocaleDateString('pt-BR');
 const currency=v=>Number(v).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
 function error(message){$('feedback').className='error';$('feedback').textContent=message;}
 async function load(){
-if(!/^[a-f0-9]{32}$/.test(id||'')||!/^[a-f0-9]{64}$/.test(token||'')){error('Seu link de acesso é inválido. Abra seu checkout e aguarde a confirmação do Pix.');return;}
+if(!/^[a-f0-9]{32}$/.test(id||'')||!/^[a-f0-9]{64}$/.test(token||'')){error('Este endereço não contém um acesso privado válido. Abra o painel pelo botão do checkout pago ou solicite à EyAgência um novo link. Não é necessário pagar novamente.');return;}
 try{
 const url='/api/captacao-lead?pixCheckout=1&mode=supporter&id='+encodeURIComponent(id)+'&token='+encodeURIComponent(token);
 const r=await fetch(url,{cache:'no-store',credentials:'same-origin'}),a=await r.json();

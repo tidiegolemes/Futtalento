@@ -1,4 +1,5 @@
 import checkout from './_checkout-futtalento.js';
+import indiceAtletas from './_indice-atletas.js';
 import crypto from 'node:crypto';
 import {signed,verify,cookie} from './_sponsor-auth.js';
 
@@ -14,6 +15,7 @@ function error(res,status,message){return res.status(status).json({ok:false,erro
 
 export default async function handler(req,res){
   if(req.query?.pixCheckout==='1')return checkout(req,res);
+  if(req.query?.indice==='1')return indiceAtletas(req,res);
   res.setHeader('Cache-Control','private, no-store, max-age=0');
   res.setHeader('X-Content-Type-Options','nosniff');
   res.setHeader('Referrer-Policy','no-referrer');

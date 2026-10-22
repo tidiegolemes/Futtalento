@@ -1,0 +1,27 @@
+/* FutTalento Index v1: neutral, accessible visual language without fabricated scores */
+[data-ft-index]{display:block;min-width:0}
+.ft-score-compact{border:1px solid #d7e9d6;background:#f0f7ee;border-radius:11px;padding:10px 12px;color:#2a6345}
+.ft-score-widget{border:1px solid #d6e7d7;background:white;border-radius:17px;padding:21px;box-shadow:0 4px 22px #092a1510;max-width:640px;color:#234c36}
+.ft-score-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.ft-score-heading h3,.ft-score-heading>span:first-child{margin:0;font-size:1rem;color:#224c34;font-weight:900}
+.ft-score-compact .ft-score-heading>span:first-child{font-size:.75rem}
+.ft-score-state{display:inline-flex;align-items:center;background:#e5f1e3;border:1px solid #c6e2c9;border-radius:99px;padding:5px 9px;color:#397252;font-size:.71rem;font-weight:800;white-space:nowrap}
+.ft-score-empty{font-size:.84rem;line-height:1.5;margin:12px 0 2px;color:#647a69}
+.ft-score-compact .ft-score-empty{font-size:.7rem;line-height:1.4;margin:5px 0 0}
+.ft-score-meter{display:flex;align-items:center;gap:15px;margin-top:16px}
+.ft-score-number{font-size:2.1rem;font-weight:950;letter-spacing:-.05em;white-space:nowrap;color:#1e6540}
+.ft-score-compact .ft-score-number{font-size:1.25rem}
+.ft-score-number small{font-size:.7rem;font-weight:700;letter-spacing:0;color:#72927a}
+.ft-score-progress{height:9px;flex:1;background:#deecdd;border-radius:99px;overflow:hidden}
+.ft-score-fill{height:100%;background:linear-gradient(90deg,#50a76d,#bbec58);border-radius:99px}
+.ft-score-signals{margin-top:20px;display:grid;gap:7px}
+.ft-score-signal{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e8eee7;padding:8px 0;gap:10px;font-size:.8rem;color:#5a7964}
+.ft-score-signal strong{color:#2d6946;font-size:.8rem}
+.ft-score-facts{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}
+.ft-score-fact{display:flex;flex-direction:column;gap:4px;padding:10px;border-radius:10px;background:#eef7ea;min-width:110px}
+.ft-score-fact strong{font-size:1.04rem;color:#27653e}.ft-score-fact small{font-size:.68rem;color:#61806a}
+.ft-score-foot{margin:15px 0 0;color:#76907b;font-size:.7rem;line-height:1.55}
+.ft-score-coverage{display:block;font-size:.65rem;color:#70917a;margin-top:5px}
+.ft-score-unavailable{color:#647d6b;font-size:.78rem}
+.talent-audience{margin:5px 0 10px}
+@media(max-width:550px){.ft-score-widget{padding:15px}.ft-score-heading h3{font-size:.88rem}.ft-score-signal{font-size:.73rem}}

@@ -253,3 +253,33 @@ body{background:var(--mp-dark);color:var(--mp-ink)}
 @media(max-width:600px){.athlete-hero{padding:55px 0 26px}.athlete-profile{grid-template-columns:1fr;padding:18px}.athlete-photo{max-height:330px;object-position:center 28%;aspect-ratio:5/4}.athlete-more{padding:20px}.journey{grid-template-columns:1fr}.metrics-row{grid-template-columns:repeat(2,1fr)}.funnel{display:grid;grid-template-columns:repeat(2,1fr)}.partner-rail{grid-auto-columns:minmax(172px,78%)}.community{padding:22px}.carousel-controls button{width:36px;height:36px}}
 
 .athlete-disclosure{margin-top:22px}.athlete-disclosure>summary{cursor:pointer;color:var(--brand);font-weight:800;list-style-position:inside;border:1px solid rgba(201,252,84,.42);background:#142a3b;padding:12px 17px;border-radius:11px}.athlete-disclosure[open]>summary{border-radius:11px 11px 0 0}.athlete-disclosure>summary:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}.athlete-disclosure .section-line:first-of-type{margin-top:0}
+
+/* Marketplace 2026: club crests and photographic identity; keep after legacy Ryan styles. */
+.market-hero .montage-shot{isolation:isolate}
+.montage-club-crest{position:absolute;z-index:2;top:10px;right:10px;display:grid;place-items:center;border-radius:12px;background:rgba(255,255,255,.94);width:38px;height:38px;padding:5px;box-shadow:0 4px 15px #0006}
+.montage-club-crest img{display:block;width:100%;height:100%;object-fit:contain;filter:none}
+.quick-filters .quick-chip{display:inline-flex;align-items:center;justify-content:center;gap:8px;line-height:1.1;min-height:46px;padding:6px 14px;transition:transform .15s ease,background .15s ease;border-color:#36586c}
+.quick-filters .quick-chip:hover{transform:translateY(-2px)}
+.quick-filters .club-crest{width:27px;height:27px;min-width:27px;padding:3px;object-fit:contain;background:#fff;border-radius:50%;filter:drop-shadow(0 1px 1px #0002);box-sizing:border-box}
+.quick-filters .filter-all-icon{font-size:1.25rem}
+.talent-card .talent-poster{isolation:isolate;background:#1a3833}
+.talent-card .talent-poster>img{transition:transform .45s ease;object-fit:cover}
+.talent-card:hover .talent-poster>img{transform:scale(1.025)}
+.talent-card .talent-shade{pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.60),rgba(0,0,0,.06) 36%,rgba(0,0,0,.15) 53%,rgba(0,0,0,.90) 100%);z-index:0}
+.talent-card .talent-photo-top{z-index:2}
+.talent-photo-flags{position:absolute;z-index:2;top:65px;right:13px;display:flex;align-items:flex-end;flex-direction:column;gap:7px;max-width:min(226px,calc(100% - 26px));pointer-events:none}
+.talent-club-flag{display:flex;align-items:center;gap:9px;max-width:100%;padding:6px 12px 6px 6px;border:1px solid #ffffff75;border-radius:13px;background:rgba(8,23,32,.86);color:white;backdrop-filter:blur(11px);-webkit-backdrop-filter:blur(11px);box-shadow:0 7px 20px #0005}
+.talent-club-flag .club-crest{display:block;object-fit:contain;box-sizing:border-box;background:#fff;padding:4px;border-radius:9px;width:39px;height:39px;min-width:39px}
+.talent-club-flag small{display:block;color:#c6f58d;font-size:.60rem;font-weight:850;letter-spacing:.04em;text-transform:uppercase;line-height:1.3}
+.talent-club-flag strong{display:block;font-weight:900;font-size:.84rem;line-height:1.3;white-space:normal}
+.talent-position-flag{display:inline-flex;align-items:center;gap:7px;min-height:30px;background:#c9fc54;color:#153d2b;border:1px solid #e6ffbd;border-radius:9px;padding:6px 11px;font-size:.71rem;font-weight:950;box-shadow:0 6px 15px #0004}
+.talent-position-flag svg{flex-shrink:0}
+.talent-photo-bottom{z-index:2}
+.talent-photo-bottom .poster-club{font-size:.67rem}
+.talent-socials{align-items:center}
+.talent-socials a{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:9px 10px;background:#edf6ef;color:#1a5c40;border-color:#c5d9c9;line-height:1.2}
+.talent-socials a:hover{background:#d4f2d9}
+.talent-socials .social-icon{width:17px;height:17px;min-width:17px}
+.talent-socials .social-arrow{opacity:.75;margin-left:1px}
+@media(max-width:400px){.talent-photo-flags{top:62px;right:11px}.talent-club-flag strong{font-size:.72rem}.talent-club-flag .club-crest{width:34px;height:34px;min-width:34px}.talent-position-flag{font-size:.67rem}.quick-filters .quick-chip{padding:6px 11px}}
+@media(prefers-reduced-motion:reduce){.talent-card .talent-poster>img,.quick-filters .quick-chip{transition:none}}

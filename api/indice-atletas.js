@@ -56,7 +56,7 @@ export default async function handler(req,res){
  for(const key of FIELDS){
   const v=raw[key];
   if(v===null||v===undefined||v===''){metrics[key]=null;continue}
-  if(typeof v!=='number'||!Number.isFinite(v)||v<0||v>max[key]||(!['growth28dPct'].includes(key)&&!Number.isSafeInteger(v)))return error(res,400,'Valor inválido para '+key);
+  if(typeof v!=='number'||!Number.isFinite(v)||(key==='growth28dPct'?v< -100:v<0)||v>max[key]||(key!=='growth28dPct'&&!Number.isSafeInteger(v)))return error(res,400,'Valor inválido para '+key);
   metrics[key]=v;
  }
  if(FIELDS.every(key=>metrics[key]===null))return error(res,400,'Preencha pelo menos um indicador');

@@ -46,15 +46,19 @@ export async function fetchAuthorizedInstagram(athlete){
   const followers=Number.isSafeInteger(account.followers_count)&&account.followers_count>=0?account.followers_count:null;
   const metrics={followers};
   // Account-level Insights must be from the connected professional account, not a public scrape.
+  const to=Math.floor(Date.now()/1000),from=to-28*86400;
+  const requested=['reach','total_interactions'];
+  const readings=await Promise.allSettled(requested.map(key=>
+   graphRequest(host,user+'/insights',token,{metric:key,period:'day',metric_type:'total_value',since:String(from),until:String(to)})
+  ));
   const errors=[];
-  for(const key of ['reach','total_interactions']){
-   try{
-    const to=Math.floor(Date.now()/1000),from=to-28*86400;
-    const result=await graphRequest(host,user+'/insights',token,{metric:key,period:'day',metric_type:'total_value',since:String(from),until:String(to)});
-    const v=metricValue(result,key);
-    if(v!==null)metrics[key==='reach'?'reach28d':'interactions28d']=v;
-   }catch{errors.push(key);}
-  }
+  readings.forEach((reading,i)=>{
+   const key=requested[i];
+   if(reading.status!=='fulfilled'){errors.push(key);return;}
+   const value=metricValue(reading.value,key);
+   if(value===null){errors.push(key);return;}
+   metrics[key==='reach'?'reach28d':'interactions28d']=value;
+  });
   return {status:errors.length?'conectado_parcial':'conectado',metrics,
    source:'Instagram Insights API · '+String(account.username||'conta autorizada').slice(0,45),
    checkedAt:new Date().toISOString(),unavailable:errors};

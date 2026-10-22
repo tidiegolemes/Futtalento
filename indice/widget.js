@@ -44,7 +44,7 @@ if(containers.length){
  }
  async function load(){
   try{
-   const data=await fetch('/api/indice-atletas?atleta=todos',{credentials:'omit',cache:'no-store'}).then(r=>{if(!r.ok)throw Error('offline');return r.json()});
+   const data=await fetch('/api/captacao-lead?indice=1&atleta=todos',{credentials:'omit',cache:'no-store'}).then(r=>{if(!r.ok)throw Error('offline');return r.json()});
    for(const node of containers){
     const id=node.dataset.ftIndex;
     const athlete=data.athletes?.find(x=>x.athlete===id);

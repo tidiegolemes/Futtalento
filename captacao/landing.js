@@ -42,12 +42,10 @@ athleteSelect?.addEventListener('change',syncAthlete);
 syncAthlete();
 document.querySelectorAll('[data-plan]').forEach(button=>button.addEventListener('click',()=>{
  const plan=button.dataset.plan;
- if(!planInput||!planNames[plan])return;
- planInput.value=plan;
- document.querySelectorAll('[data-plan]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
- if(planNote)planNote.textContent='Pacote escolhido: '+planNames[plan]+'. Solicite a proposta sem cobrança.';
- document.getElementById('inscricao')?.scrollIntoView({behavior:'smooth',block:'start'});
- document.getElementById('nome')?.focus({preventScroll:true});
+ if(!planNames[plan])return;
+ const selected=athleteSelect?.value||'lucas';
+ const query=new URLSearchParams({plano:plan,atleta:['lucas','ryan','thalles'].includes(selected)?selected:'lucas'});
+ location.assign('/checkout/?'+query.toString());
 }));
 const rail=document.getElementById('athleteRail');
 if(rail){

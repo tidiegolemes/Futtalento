@@ -54,7 +54,7 @@ export async function checkEfiConnectivity(){
  if(missing.length)return {ok:false,step:'configuration',message:'Variáveis necessárias ausentes',missing};
  const env=process.env.FUTTALENTO_EFI_ENV;
  if(!['production','homologation'].includes(env))return {ok:false,step:'configuration',message:'Ambiente Efí inválido'};
- const base64=process.env.FUTTALENTO_EFI_P12_BASE64.replace(/\\s/g,'');
+ const base64=process.env.FUTTALENTO_EFI_P12_BASE64.replace(/\s/g,'');
  if(base64.length<500||!(/^[A-Za-z0-9+/]+={0,2}$/).test(base64)||base64.length%4!==0)
   return {ok:false,step:'certificate',message:'Conteúdo Base64 do certificado parece incompleto ou inválido'};
  const binary=Buffer.from(base64,'base64');
@@ -67,12 +67,12 @@ export async function checkEfiConnectivity(){
  try{
   const grant=await requestRaw('/oauth/token','POST',basic,{grant_type:'client_credentials'});
   if(!grant.access_token)return {ok:false,step:'oauth',message:'Efí não retornou uma autorização válida'};
-  const scopes=typeof grant.scope==='string'?grant.scope.split(/\\s+/).filter(Boolean):[];
+  const scopes=typeof grant.scope==='string'?grant.scope.split(/\s+/).filter(Boolean):[];
   return {ok:true,step:'oauth',environment:env,certificate:'valid',authentication:'successful',requiredScopes:['cob.read','cob.write','payloadlocation.read'],availableScopes:scopes,chargesEnabled:process.env.FUTTALENTO_PIX_ENABLED==='true'};
  }catch(e){
   const message=String(e?.message||'').slice(0,180);
   const network=/(timeout|ETIMEDOUT|ECONN|ENOTFOUND|certificate|cert|pkcs12|mac verify|unsupported)/i.test(message);
-  return {ok:false,step:'oauth',environment:env,certificate:'valid',message:network?'Falha na comunicação mTLS ou validação do certificado':'Efí não aceitou a autenticação OAuth',providerStatus:(message.match(/HTTP (\\d{3})/)||[])[1]||null};
+  return {ok:false,step:'oauth',environment:env,certificate:'valid',message:network?'Falha na comunicação mTLS ou validação do certificado':'Efí não aceitou a autenticação OAuth',providerStatus:(message.match(/HTTP (\d{3})/)||[])[1]||null};
  }
 }
 

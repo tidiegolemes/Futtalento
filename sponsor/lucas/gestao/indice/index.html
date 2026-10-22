@@ -24,11 +24,33 @@ button:disabled{opacity:.6}
 .formhead{display:flex;align-items:center;justify-content:space-between;gap:13px;flex-wrap:wrap}
 @media(max-width:760px){.formgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.panel{padding:17px}}
 @media(max-width:480px){.formgrid{grid-template-columns:1fr}main{padding:22px 13px}}
+
+.auto-panel{background:#0b2732;border:1px solid #547f68;border-radius:15px;padding:20px;margin:19px 0 25px}
+.auto-header{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.auto-header h2{font-size:1.28rem;margin:9px 0 5px}
+.auto-header p{max-width:610px;margin:4px 0 8px;font-size:.78rem}
+.auto-header button{flex:0 0 auto}
+#autoStatus{font-weight:850;color:#c9fc54;font-size:.82rem;margin:12px 0 9px}
+.auto-findings{display:grid;gap:8px;margin-top:14px}
+.auto-source{padding:12px;background:#143741;border:1px solid #3b6868;border-radius:10px;font-size:.78rem}
+.auto-source strong{color:white;display:block;margin-bottom:5px}
+.auto-source p{margin:4px 0;font-size:.74rem}
+.auto-source a{color:#c9fc54}
+.auto-source small{display:block;font-size:.68rem;color:#b1cbbb}
+.auto-small{color:#a2bdab;font-size:.71rem;margin:13px 0 0}
+@media(max-width:600px){.auto-header{align-items:stretch;flex-direction:column}.auto-header button{width:100%}}
 </style></head><body>
 <main>
 <header><div><span class="eyebrow">Área privada · EyAgência</span><h1>Índice FutTalento</h1><p>Atualize métricas agregadas e documentadas. O público vê apenas informações aprovadas.</p></div><a href="/sponsor/lucas/gestao/">← Gestão da agência</a></header>
 <div class="panel"><div class="rules"><strong>Como a nota é liberada</strong><p>55% audiência (alcance, seguidores, interações e crescimento); 25% trajetória (títulos, competições e tempo de clube); 20% parcerias (apoiadores e entregas). A nota só aparece com dados recentes de audiência e no mínimo 70% de cobertura. Campos não medidos devem ficar vazios, nunca preenchidos com zero.</p></div>
-<form id="scoreForm"><div class="formhead"><h2>Indicadores do atleta</h2><button type="button" id="loadCurrent">Consultar dados publicados</button></div>
+<form id="scoreForm">
+<div class="auto-panel">
+ <div class="auto-header"><div><span class="eyebrow">CONEXÕES E VALIDAÇÃO</span><h2>Buscar e preencher automaticamente</h2><p>Consultamos as páginas oficiais dos atletas e, quando a conta tiver acesso autorizado à API da Meta, importamos as estatísticas do Instagram. Não criamos seguidores nem alcance estimado.</p></div><button type="button" id="autoSync">Atualizar fontes <span aria-hidden="true">↻</span></button></div>
+ <p id="autoStatus" aria-live="polite">Consultando fontes documentadas...</p>
+ <div id="autoFindings" class="auto-findings" aria-label="Resultados das fontes" hidden></div>
+ <p class="auto-small">As fontes são conferidas antes de publicar. Preenchimento automático não equivale à confirmação de um patrocinador nem à autorização de divulgar métricas de crianças.</p>
+</div>
+<div class="formhead"><h2>Indicadores do atleta</h2><button type="button" id="loadCurrent">Consultar dados publicados</button></div>
 <div class="formgrid">
 <label>Atleta<select id="athlete" required><option value="lucas">Lucas Azambuja</option><option value="ryan">Ryan Coelho</option><option value="thalles">Thalles Silvino</option></select></label>
 <label>Referência dos dados<input type="date" id="observedAt" required></label>

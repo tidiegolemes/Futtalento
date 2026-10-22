@@ -26,9 +26,9 @@
       <div class="trust-points"><span><b>03</b><small>trajetórias publicadas</small></span><span><b>03</b><small>faixas de apoio propostas</small></span><span><b>01</b><small>gestão centralizada</small></span></div>
     </div>
     <div class="hero-montage" aria-label="Atletas presentes na vitrine FutTalento">
-      <div class="montage-shot shot-one"><img src="/atletas/lukas/campeao-lukas.jpg" alt="Lucas Azambuja durante sua trajetória esportiva" width="230" height="340" decoding="async"><span>Lucas <small>Histórias de campo e futsal</small></span></div>
-      <div class="montage-shot shot-two"><img src="/atletas/ryan/perfilryan.jpg" alt="Ryan Coelho, atleta de futebol de base" width="230" height="340" decoding="async"><span>Ryan <small>Cruzeiro-RS, 2026</small></span></div>
-      <div class="montage-shot shot-three"><img src="/thalles-perfil.jpg" alt="Thalles Silvino, atleta de futebol de base" width="230" height="340" decoding="async"><span>Thalles <small>São José e Juventude</small></span></div>
+      <div class="montage-shot shot-one"><img src="https://www.lucasazambuja.com.br/lucas-azambuja-grenal-acao.jpg" data-fallback="/atletas/lukas/campeao-lukas.jpg" alt="Lucas Azambuja em ação na base do Grêmio, 2026" width="230" height="340" decoding="async"><span class="montage-club-crest"><img src="https://www.lucasazambuja.com.br/gremio-logo.png" alt="Grêmio" width="30" height="30"></span><span>Lucas <small>Grêmio FBPA · Sub-8</small></span></div>
+      <div class="montage-shot shot-two"><img src="/atletas/ryan/perfilryan.jpg" alt="Ryan Coelho, atleta de futebol de base" width="230" height="340" decoding="async"><span class="montage-club-crest"><img src="/atletas/ryan/cruzeiro-logo.png" alt="Cruzeiro-RS" width="30" height="30"></span><span>Ryan <small>Cruzeiro-RS · registros 2026</small></span></div>
+      <div class="montage-shot shot-three"><img src="https://thallessilvino.com.br/thalles-temp-2026-juventude.jpeg" data-fallback="/thalles-perfil.jpg" alt="Thalles Silvino em campo pelo Juventude, temporada 2026" width="230" height="340" decoding="async"><span class="montage-club-crest"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Esporte_Clube_Juventude_logo.svg" alt="Juventude" width="30" height="30"></span><span>Thalles <small>Juventude · Geração 2012</small></span></div>
       <div class="montage-caption">ATLETAS REAIS. TRAJETÓRIAS PUBLICADAS. <b>FUTTALENTO / 2026</b></div>
     </div>
   </div>
@@ -39,35 +39,39 @@
  <div class="wrap"><div class="section-heading"><div><span class="eyebrow">Vitrine de talentos</span><h2 id="discovery-title">A próxima história pode ter a sua marca.</h2><p>Filtre trajetórias esportivas publicadas, conheça cada perfil e escolha como apoiar.</p></div><span class="section-index">01 / ENCONTRE</span></div>
  <div class="market-filters" role="search" aria-label="Buscar e filtrar atletas">
   <label class="market-search"><span class="search-symbol" aria-hidden="true">⌕</span><span class="sr-only">Buscar atleta ou clube</span><input id="athleteSearch" type="search" placeholder="Buscar atleta, clube ou competição…" autocomplete="off" aria-controls="talentRail"></label>
-  <div class="filter-select"><label for="clubFilter">Clube na trajetória</label><select id="clubFilter" aria-controls="talentRail"><option value="todos">Todos os clubes</option><option value="internacional">Internacional · Porto Alegre</option><option value="gremio">Grêmio</option><option value="cruzeiro-rs">Cruzeiro-RS</option><option value="sao-jose">São José-RS</option><option value="juventude">Juventude</option></select></div>
-  <div class="filter-select"><label for="categoryFilter">Categoria</label><select id="categoryFilter" aria-controls="talentRail"><option value="todos">Todas as categorias</option><option value="sub-11">Sub-11</option><option value="sub-13">Sub-13</option><option value="sub-15">Sub-15</option><option value="sub-17">Sub-17</option><option value="pendente">Ainda não confirmada</option></select></div>
+  <div class="filter-select"><label for="clubFilter">Clube atual ou na trajetória</label><select id="clubFilter" aria-controls="talentRail"><option value="todos">Todos os clubes</option><option value="internacional">Internacional · Porto Alegre</option><option value="gremio">Grêmio</option><option value="cruzeiro-rs">Cruzeiro-RS</option><option value="sao-jose">São José-RS</option><option value="juventude">Juventude</option></select></div>
+  <div class="filter-select"><label for="categoryFilter">Categoria</label><select id="categoryFilter" aria-controls="talentRail"><option value="todos">Todas as categorias</option><option value="sub-8">Sub-8 (2018)</option><option value="geracao-2012">Geração 2012</option><option value="sub-11">Sub-11</option><option value="sub-13">Sub-13</option><option value="sub-15">Sub-15</option><option value="sub-17">Sub-17</option><option value="pendente">Ainda não confirmada</option></select></div>
   <button type="button" id="resetFilters" class="reset-filters">Limpar filtros ↺</button>
  </div>
  <div class="quick-filters" role="group" aria-label="Filtro rápido por clube">
-  <button type="button" class="quick-chip is-active" data-club="todos" aria-pressed="true">Todos</button>
-  <button type="button" class="quick-chip" data-club="internacional" aria-pressed="false">Internacional</button>
-  <button type="button" class="quick-chip" data-club="gremio" aria-pressed="false">Grêmio</button>
-  <button type="button" class="quick-chip" data-club="cruzeiro-rs" aria-pressed="false">Cruzeiro-RS</button>
-  <button type="button" class="quick-chip" data-club="juventude" aria-pressed="false">Juventude</button>
+  <button type="button" class="quick-chip is-active" data-club="todos" aria-pressed="true"><span aria-hidden="true" class="filter-all-icon">✦</span>Todos</button>
+  <button type="button" class="quick-chip" data-club="internacional" aria-pressed="false"><img class="club-crest" src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Escudo_do_Sport_Club_Internacional.svg" alt="" width="26" height="26" loading="lazy" decoding="async"><span>Internacional</span></button>
+  <button type="button" class="quick-chip" data-club="gremio" aria-pressed="false"><img class="club-crest" src="https://www.lucasazambuja.com.br/gremio-logo.png" alt="" width="26" height="26" loading="lazy" decoding="async"><span>Grêmio</span></button>
+  <button type="button" class="quick-chip" data-club="cruzeiro-rs" aria-pressed="false"><img class="club-crest" src="/atletas/ryan/cruzeiro-logo.png" alt="" width="26" height="26" loading="lazy" decoding="async"><span>Cruzeiro-RS</span></button>
+  <button type="button" class="quick-chip" data-club="juventude" aria-pressed="false"><img class="club-crest" src="https://commons.wikimedia.org/wiki/Special:FilePath/Esporte_Clube_Juventude_logo.svg" alt="" width="26" height="26" loading="lazy" decoding="async"><span>Juventude</span></button>
  </div>
  <div class="listing-toolbar"><p id="resultCount" aria-live="polite">3 atletas com trajetória publicada</p><div class="rail-controls"><button type="button" id="railPrev" aria-label="Ver atleta anterior">←</button><button type="button" id="railNext" aria-label="Ver próximo atleta">→</button></div></div>
  <div class="talent-rail" id="talentRail" role="region" aria-label="Cards de atletas — deslize horizontalmente para navegar" tabindex="0">
- <article class="talent-card talent-lucas" data-athlete="lucas" data-clubs="gremio" data-category="pendente" data-keywords="lucas azambuja lukinhas10 meio-campo · futebol e futsal grêmio · trajetória publicada grêmio (histórico) · futsal copa base baby · 2026 do treino aos clássicos: registros públicos de futebol e futsal, com gol e assistência no gre-nal de base da copa base baby 2026." id="lucas" aria-labelledby="athlete-title-lucas">
+ <article class="talent-card talent-lucas" data-athlete="lucas" data-clubs="gremio" data-category="sub-8" data-keywords="lucas azambuja lukinhas10 meio-campo · futebol e futsal grêmio · trajetória publicada grêmio (histórico) · futsal copa base baby · 2026 do treino aos clássicos: registros públicos de futebol e futsal, com gol e assistência no gre-nal de base da copa base baby 2026." id="lucas" aria-labelledby="athlete-title-lucas">
   <div class="talent-poster">
-    <img src="/atletas/lukas/campeao-lukas.jpg" alt="Registro esportivo publicado de Lucas Azambuja" loading="lazy" decoding="async" width="540" height="720" style="object-position:center 22%">
+    <img src="https://www.lucasazambuja.com.br/lucas-azambuja-grenal-acao.jpg" data-fallback="/atletas/lukas/campeao-lukas.jpg" alt="Lucas Azambuja em jogo da temporada 2026 do Grêmio" loading="lazy" decoding="async" width="540" height="720" style="object-position:center 22%">
     <div class="talent-shade"></div>
     <div class="talent-photo-top"><span class="talent-verified"><span aria-hidden="true">●</span> Perfil com trajetória publicada</span><span class="talent-number">FT / 01</span></div>
-    <div class="talent-photo-bottom"><span class="athlete-nickname">Lukinhas10</span><h3 id="athlete-title-lucas">Lucas Azambuja</h3><span class="poster-club">Grêmio · trajetória publicada</span></div>
+    <div class="talent-photo-flags" title="Clube atual · perfil oficial 2026">
+      <span class="talent-club-flag"><img class="club-crest" src="https://www.lucasazambuja.com.br/gremio-logo.png" alt="" width="26" height="26" loading="lazy" decoding="async"><span><small>Clube atual</small><strong>Grêmio FBPA</strong></span></span>
+      <span class="talent-position-flag"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="m12 7 4 3-1.5 5h-5L8 10Z"/></svg> Meia canhoto</span>
+    </div>
+    <div class="talent-photo-bottom"><span class="athlete-nickname">Lukinhas10</span><h3 id="athlete-title-lucas">Lucas Azambuja</h3><span class="poster-club">Grêmio FBPA · clube atual</span></div>
   </div>
   <div class="talent-details">
-    <div class="talent-specs"><span><small>Posição</small><b>Meio-campo · futebol e futsal</b></span><span><small>Categoria</small><b>A confirmar</b></span></div>
+    <div class="talent-specs"><span><small>Posição</small><b>Meia canhoto · campo e futsal</b></span><span><small>Categoria</small><b>Sub-8 (2018)</b></span></div>
     <div class="talent-story"><span class="field-label">A trajetória</span><p>Do treino aos clássicos: registros públicos de futebol e futsal, com gol e assistência no Gre-Nal de base da Copa Base Baby 2026.</p></div>
     <div class="talent-performance"><span class="field-label">Destaque esportivo</span><b>Copa Base Baby · 2026</b><small>Gol e assistência na final do Gre-Nal</small></div>
     <div class="talent-presence"><span class="field-label">Audiência e impacto</span><b>Dados em validação</b><small>Seguidores e alcance só serão exibidos após acesso autorizado e aferição.</small></div>
-    <div class="talent-clubs"><span class="field-label">Clubes na trajetória publicada</span><p>Grêmio (histórico) · Futsal</p></div>
+    <div class="talent-clubs"><span class="field-label">Clubes na trajetória publicada</span><p>Grêmio (atual) · Real Gaúcho (futsal)</p></div>
     <nav class="talent-socials" aria-label="Redes e trajetória de Lucas Azambuja">
-      <a href="https://www.instagram.com/lucasazambujaoficial/" target="_blank" rel="noopener noreferrer" aria-label="Instagram de Lucas Azambuja">Instagram ↗</a>
-      <a href="https://www.tiktok.com/@lukinhas10_oficial" target="_blank" rel="noopener noreferrer" aria-label="TikTok de Lucas Azambuja">TikTok ↗</a>
+      <a href="https://www.instagram.com/lucasazambujaoficial/" target="_blank" rel="noopener noreferrer" aria-label="Instagram de Lucas Azambuja"><svg class="social-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.6" cy="6.4" r="1" fill="currentColor" stroke="none"/></svg><span>Instagram</span><span aria-hidden="true" class="social-arrow">↗</span></a>
+      <a href="https://www.tiktok.com/@lukinhas10_oficial" target="_blank" rel="noopener noreferrer" aria-label="TikTok de Lucas Azambuja"><svg class="social-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="currentColor"><path d="M14.5 2h3.2c.1 2.4 1.5 3.9 4.3 4.2v3.3c-1.9 0-3.4-.5-4.7-1.5v7.4c0 4-3.1 6.6-7 6.6-4 0-7-2.9-7-6.6s3-6.5 7-6.5c.5 0 1 0 1.4.1v3.6c-.4-.1-.8-.2-1.4-.2-1.7 0-3.3 1.2-3.3 3s1.6 3 3.3 3 3.1-1.2 3.1-3.1V2h1.1z"/></svg><span>TikTok</span><span aria-hidden="true" class="social-arrow">↗</span></a>
       <a href="https://www.lucasazambuja.com.br/" target="_blank" rel="noopener noreferrer">Acervo oficial do atleta ↗</a>
     </nav>
     <a class="talent-cta tracked" data-action="sponsor_interest" data-context="marketplace" href="/para-empresas/?atleta=lucas&amp;utm_source=marketplace-atletas&amp;utm_medium=organic&amp;utm_campaign=vitrine-2026#planos"><span>Quero apoiar Lucas</span><span aria-hidden="true">↗</span></a>
@@ -78,38 +82,46 @@
     <img src="/atletas/ryan/perfilryan.jpg" alt="Registro esportivo publicado de Ryan Coelho" loading="lazy" decoding="async" width="540" height="720" style="object-position:center 22%">
     <div class="talent-shade"></div>
     <div class="talent-photo-top"><span class="talent-verified"><span aria-hidden="true">●</span> Perfil com trajetória publicada</span><span class="talent-number">FT / 02</span></div>
-    <div class="talent-photo-bottom"><span class="athlete-nickname">Ryanzinho</span><h3 id="athlete-title-ryan">Ryan Coelho</h3><span class="poster-club">Cruzeiro-RS · temporada 2026</span></div>
+    <div class="talent-photo-flags" title="Equipe nos registros da temporada 2026">
+      <span class="talent-club-flag"><img class="club-crest" src="/atletas/ryan/cruzeiro-logo.png" alt="" width="26" height="26" loading="lazy" decoding="async"><span><small>Registros de 2026</small><strong>Cruzeiro-RS</strong></span></span>
+      <span class="talent-position-flag"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="m12 7 4 3-1.5 5h-5L8 10Z"/></svg> Meio-campo</span>
+    </div>
+    <div class="talent-photo-bottom"><span class="athlete-nickname">Ryanzinho</span><h3 id="athlete-title-ryan">Ryan Coelho</h3><span class="poster-club">Cruzeiro-RS · registros de 2026</span></div>
   </div>
   <div class="talent-details">
     <div class="talent-specs"><span><small>Posição</small><b>Meio-campo</b></span><span><small>Categoria</small><b>A confirmar</b></span></div>
     <div class="talent-story"><span class="field-label">A trajetória</span><p>Uma jornada construída entre diferentes escolas de formação: registros de Grêmio, São José e Cruzeiro-RS, incluindo a Copa Maravilha 2026.</p></div>
     <div class="talent-performance"><span class="field-label">Destaque esportivo</span><b>Copa Maravilha · 2026</b><small>Participação esportiva documentada</small></div>
     <div class="talent-presence"><span class="field-label">Audiência e impacto</span><b>Dados em validação</b><small>Seguidores e alcance só serão exibidos após acesso autorizado e aferição.</small></div>
-    <div class="talent-clubs"><span class="field-label">Clubes na trajetória publicada</span><p>Grêmio · São José · Cruzeiro-RS (histórico)</p></div>
+    <div class="talent-clubs"><span class="field-label">Clubes na trajetória publicada</span><p>Grêmio · São José (histórico) · Cruzeiro-RS (2026)</p></div>
     <nav class="talent-socials" aria-label="Redes e trajetória de Ryan Coelho">
-      <a href="https://www.instagram.com/ryanzinho_8/" target="_blank" rel="noopener noreferrer" aria-label="Instagram de Ryan Coelho">Instagram ↗</a>
-      <a href="https://www.tiktok.com/@ryanzinho_8" target="_blank" rel="noopener noreferrer" aria-label="TikTok de Ryan Coelho">TikTok ↗</a>
+      <a href="https://www.instagram.com/ryanzinho_8/" target="_blank" rel="noopener noreferrer" aria-label="Instagram de Ryan Coelho"><svg class="social-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.6" cy="6.4" r="1" fill="currentColor" stroke="none"/></svg><span>Instagram</span><span aria-hidden="true" class="social-arrow">↗</span></a>
+      <a href="https://www.tiktok.com/@ryanzinho_8" target="_blank" rel="noopener noreferrer" aria-label="TikTok de Ryan Coelho"><svg class="social-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="currentColor"><path d="M14.5 2h3.2c.1 2.4 1.5 3.9 4.3 4.2v3.3c-1.9 0-3.4-.5-4.7-1.5v7.4c0 4-3.1 6.6-7 6.6-4 0-7-2.9-7-6.6s3-6.5 7-6.5c.5 0 1 0 1.4.1v3.6c-.4-.1-.8-.2-1.4-.2-1.7 0-3.3 1.2-3.3 3s1.6 3 3.3 3 3.1-1.2 3.1-3.1V2h1.1z"/></svg><span>TikTok</span><span aria-hidden="true" class="social-arrow">↗</span></a>
       <a href="/atletas/ryan/" >Ver trajetória completa ↗</a>
     </nav>
     <a class="talent-cta tracked" data-action="sponsor_interest" data-context="marketplace" href="/para-empresas/?atleta=ryan&amp;utm_source=marketplace-atletas&amp;utm_medium=organic&amp;utm_campaign=vitrine-2026#planos"><span>Quero apoiar Ryan</span><span aria-hidden="true">↗</span></a>
   </div>
 </article>
-<article class="talent-card talent-thalles" data-athlete="thalles" data-clubs="sao-jose juventude" data-category="pendente" data-keywords="thalles silvino thalles lateral e meia juventude · trajetória publicada são josé · juventude (histórico) temporadas · 2023–2026 a constância de quem constrói sua história competição após competição: trajetória pública de formação pelo são josé e juventude." id="thalles" aria-labelledby="athlete-title-thalles">
+<article class="talent-card talent-thalles" data-athlete="thalles" data-clubs="sao-jose juventude" data-category="geracao-2012" data-keywords="thalles silvino thalles lateral e meia juventude · trajetória publicada são josé · juventude (histórico) temporadas · 2023–2026 a constância de quem constrói sua história competição após competição: trajetória pública de formação pelo são josé e juventude." id="thalles" aria-labelledby="athlete-title-thalles">
   <div class="talent-poster">
-    <img src="/thalles-perfil.jpg" alt="Registro esportivo publicado de Thalles Silvino" loading="lazy" decoding="async" width="540" height="720" style="object-position:center 25%">
+    <img src="https://thallessilvino.com.br/thalles-temp-2026-juventude.jpeg" data-fallback="/thalles-perfil.jpg" alt="Thalles Silvino em jogo pelo Juventude, temporada 2026" loading="lazy" decoding="async" width="540" height="720" style="object-position:center 25%">
     <div class="talent-shade"></div>
     <div class="talent-photo-top"><span class="talent-verified"><span aria-hidden="true">●</span> Perfil com trajetória publicada</span><span class="talent-number">FT / 03</span></div>
-    <div class="talent-photo-bottom"><span class="athlete-nickname">Thalles</span><h3 id="athlete-title-thalles">Thalles Silvino</h3><span class="poster-club">Juventude · trajetória publicada</span></div>
+    <div class="talent-photo-flags" title="Clube atual · perfil oficial 2026">
+      <span class="talent-club-flag"><img class="club-crest" src="https://commons.wikimedia.org/wiki/Special:FilePath/Esporte_Clube_Juventude_logo.svg" alt="" width="26" height="26" loading="lazy" decoding="async"><span><small>Clube atual</small><strong>E.C. Juventude</strong></span></span>
+      <span class="talent-position-flag"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="m12 7 4 3-1.5 5h-5L8 10Z"/></svg> Lateral / meia</span>
+    </div>
+    <div class="talent-photo-bottom"><span class="athlete-nickname">Thalles</span><h3 id="athlete-title-thalles">Thalles Silvino</h3><span class="poster-club">E.C. Juventude · clube atual</span></div>
   </div>
   <div class="talent-details">
-    <div class="talent-specs"><span><small>Posição</small><b>Lateral e meia</b></span><span><small>Categoria</small><b>A confirmar</b></span></div>
+    <div class="talent-specs"><span><small>Posição</small><b>Lateral e meia</b></span><span><small>Categoria</small><b>Geração 2012</b></span></div>
     <div class="talent-story"><span class="field-label">A trajetória</span><p>A constância de quem constrói sua história competição após competição: trajetória pública de formação pelo São José e Juventude.</p></div>
-    <div class="talent-performance"><span class="field-label">Destaque esportivo</span><b>Temporadas · 2023–2026</b><small>Histórico de torneios e participações</small></div>
+    <div class="talent-performance"><span class="field-label">Destaque esportivo</span><b>Copa Encantado / SAFERGS · 2025</b><small>Campeão pelo Juventude · trajetória publicada</small></div>
     <div class="talent-presence"><span class="field-label">Audiência e impacto</span><b>Dados em validação</b><small>Seguidores e alcance só serão exibidos após acesso autorizado e aferição.</small></div>
-    <div class="talent-clubs"><span class="field-label">Clubes na trajetória publicada</span><p>São José · Juventude (histórico)</p></div>
+    <div class="talent-clubs"><span class="field-label">Clubes na trajetória publicada</span><p>Juventude (atual) · São José (histórico)</p></div>
     <nav class="talent-socials" aria-label="Redes e trajetória de Thalles Silvino">
-      <a href="https://www.instagram.com/thalles_silvino/" target="_blank" rel="noopener noreferrer" aria-label="Instagram de Thalles Silvino">Instagram ↗</a>
-      <a href="https://www.tiktok.com/@thallessilvinooficial" target="_blank" rel="noopener noreferrer" aria-label="TikTok de Thalles Silvino">TikTok ↗</a>
+      <a href="https://www.instagram.com/thalles_silvino/" target="_blank" rel="noopener noreferrer" aria-label="Instagram de Thalles Silvino"><svg class="social-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.6" cy="6.4" r="1" fill="currentColor" stroke="none"/></svg><span>Instagram</span><span aria-hidden="true" class="social-arrow">↗</span></a>
+      <a href="https://www.tiktok.com/@thallessilvinooficial" target="_blank" rel="noopener noreferrer" aria-label="TikTok de Thalles Silvino"><svg class="social-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="currentColor"><path d="M14.5 2h3.2c.1 2.4 1.5 3.9 4.3 4.2v3.3c-1.9 0-3.4-.5-4.7-1.5v7.4c0 4-3.1 6.6-7 6.6-4 0-7-2.9-7-6.6s3-6.5 7-6.5c.5 0 1 0 1.4.1v3.6c-.4-.1-.8-.2-1.4-.2-1.7 0-3.3 1.2-3.3 3s1.6 3 3.3 3 3.1-1.2 3.1-3.1V2h1.1z"/></svg><span>TikTok</span><span aria-hidden="true" class="social-arrow">↗</span></a>
       <a href="https://thallessilvino.com.br/" target="_blank" rel="noopener noreferrer">Acervo oficial do atleta ↗</a>
     </nav>
     <a class="talent-cta tracked" data-action="sponsor_interest" data-context="marketplace" href="/para-empresas/?atleta=thalles&amp;utm_source=marketplace-atletas&amp;utm_medium=organic&amp;utm_campaign=vitrine-2026#planos"><span>Quero apoiar Thalles</span><span aria-hidden="true">↗</span></a>
@@ -117,7 +129,7 @@
 </article>
  </div>
  <div id="emptyResults" class="empty-results" hidden><span aria-hidden="true">⌕</span><h3>Nenhum atleta encontrado nesse filtro, ainda.</h3><p>Exibimos somente vínculos e categorias documentados. O Internacional já está disponível como filtro para futuros perfis, mas não temos um vínculo comprovado publicado nesta vitrine.</p><button type="button" id="emptyReset" class="market-btn primary">Ver todos os atletas ↗</button></div>
- <div class="listing-footnote"><span>● Dados responsáveis</span> Clube indica <strong>passagem ou trajetória publicada</strong>, não necessariamente contrato atual. Categorias e números de audiência permanecem em validação. Filtro por Internacional não implica vínculo de um atleta com esse clube.</div>
+ <div class="listing-footnote"><span>● Dados responsáveis</span> Os escudos identificam os clubes citados, com <strong>vínculo atual</strong> indicado somente quando consta no perfil oficial. A presença dos escudos não implica parceria institucional com os clubes. Categorias são identificadas quando publicadas nos perfis dos atletas; audiência permanece em validação. O Internacional está preparado para futuros perfis; nenhuma associação de atleta com esse clube foi indicada.</div>
  </div>
 </section>
 

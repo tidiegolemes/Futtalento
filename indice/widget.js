@@ -6,7 +6,7 @@ if(containers.length){
  const labels={followers:'Seguidores',reach28d:'Alcance · 28 dias',interactions28d:'Interações · 28 dias',growth28dPct:'Crescimento · 28 dias',titlesVerified:'Títulos documentados',competitionsVerified:'Competições documentadas',clubMonths:'Meses de clube',partnersActive:'Apoiadores ativos',deliveriesCompleted:'Entregas realizadas'};
  const e=(tag,cl,text)=>{const n=document.createElement(tag);if(cl)n.className=cl;if(text!==undefined)n.textContent=text;return n};
  function render(node,data){
-  const v=data.index||{},m=data.metrics||{};
+  const v=data.index||{},m=data.metrics||{},evidence=data.evidence;
   node.replaceChildren();
   const compact=node.dataset.ftIndexStyle==='compact';
   const main=e('div',compact?'ft-score-compact':'ft-score-widget');
@@ -23,6 +23,26 @@ if(containers.length){
    meter.append(score,bar);main.append(meter);
   }else{
    main.append(e('p','ft-score-empty',compact?'Coletando audiência e resultados verificados.':'O perfil ainda não possui métricas suficientes para um índice confiável.'));
+  }
+  if(evidence?.source==='https://www.lucasazambuja.com.br/'&&
+     Number.isInteger(evidence.sports?.points)&&evidence.sports.points>=0&&evidence.sports.points<=25){
+    const partial=e('div',compact?'ft-evidence-partial ft-evidence-mini':'ft-evidence-partial');
+    const points=e('strong','ft-evidence-score','Parcial esportiva: '+evidence.sports.points+' / 25 pontos');
+    const counts=e('span','ft-evidence-counts',
+      [Number.isInteger(evidence.sports.titlesDocumented)?evidence.sports.titlesDocumented+' título(s) documentado(s)':null,
+       Number.isInteger(evidence.sports.competitionsDocumented)?evidence.sports.competitionsDocumented+' competição(ões) documentada(s)':null].filter(Boolean).join(' · '));
+    const attribution=e('small','ft-evidence-note','Fonte: site do atleta · ainda sem confirmação independente'+
+      (evidence.stale?' · atualização pendente':''));
+    partial.append(points);
+    if(counts.textContent)partial.append(counts);
+    partial.append(attribution);
+    if(!compact){
+      const link=e('a','ft-evidence-link','Consultar fonte ↗');
+      link.href='https://www.lucasazambuja.com.br/#conquistas';
+      link.target='_blank';link.rel='noopener noreferrer';
+      partial.append(link);
+    }
+    main.append(partial);
   }
   if(!compact){
    const signals=e('div','ft-score-signals');

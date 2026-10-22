@@ -1,6 +1,10 @@
+import checkoutAdmin from './_checkout-admin.js';
+import checkoutWebhook from './_checkout-efi-webhook.js';
 import crypto from 'node:crypto';
 import {PLANS,ATHLETES,originOK,registered,text,enabled,efi,save,load,refresh,publicOrder,secretDigest,safeEqual,formatAmount} from './_futtalento-efi.js';
 export default async function handler(req,res){
+ if(req.query.mode==='admin')return checkoutAdmin(req,res);
+ if(req.query.mode==='webhook')return checkoutWebhook(req,res);
  res.setHeader('Cache-Control','private,no-store');
  res.setHeader('X-Content-Type-Options','nosniff');
  res.setHeader('Referrer-Policy','no-referrer');

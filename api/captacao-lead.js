@@ -1,5 +1,6 @@
 import checkout from './_checkout-futtalento.js';
 import indiceAtletas from './_indice-atletas.js';
+import {storeLucasEvidence} from '../indice/lucas-public.js';
 import crypto from 'node:crypto';
 import {signed,verify,cookie} from './_sponsor-auth.js';
 
@@ -14,6 +15,19 @@ const sponsorPlans={'primeiro-passe':{nome:'Primeiro Passe',mensalBRL:99},'time-
 function error(res,status,message){return res.status(status).json({ok:false,error:message})}
 
 export default async function handler(req,res){
+  // Reuse the existing function for scheduled refresh to stay below Hobby function limits.
+  // The private CRON_SECRET is attached by Vercel only to scheduled requests.
+  if(req.method==='GET'&&process.env.CRON_SECRET&&
+     req.headers.authorization==='Bearer '+process.env.CRON_SECRET){
+    res.setHeader('Cache-Control','private,no-store,max-age=0');
+    try{
+      const result=await storeLucasEvidence();
+      return res.status(200).json({ok:true,athlete:'lucas',checkedAt:result.checkedAt,sports:result.sports,eventsCaptured:result.events.length});
+    }catch(e){
+      console.error('Lucas evidence refresh failed',e?.name||'Error');
+      return res.status(503).json({ok:false,error:'Sincronização não concluída'});
+    }
+  }
   if(req.query?.pixCheckout==='1')return checkout(req,res);
   if(req.query?.indice==='1')return indiceAtletas(req,res);
   res.setHeader('Cache-Control','private, no-store, max-age=0');

@@ -1,6 +1,6 @@
 import {ATHLETE_SOURCES,extractSports} from '../indice/auto-sources.js';
 const waitMs=6500;
-async function getPage(url){
+export async function getPage(url){
  const controller=new AbortController();
  const timeout=setTimeout(()=>controller.abort(),waitMs);
  try{

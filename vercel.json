@@ -38,5 +38,11 @@
         }
       ]
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/captacao-lead",
+      "schedule": "0 9 * * *"
+    }
   ]
 }

@@ -1,7 +1,7 @@
 import {authenticate} from './_sponsor-auth.js';
 import {ATHLETES,FIELDS,calculateIndex} from '../indice/score.js';
 import {buildAutoSuggestions} from './_indice-sources.js';
-import {getLucasEvidence} from './_indice-lucas-public.js';
+import {getLucasEvidence} from '../indice/lucas-public.js';
 const PREFIX='futtalento/indice/v1/';
 const SOURCES=['instagram_insights','relatorio_autorizado','gestao_interna'];
 const error=(res,code,msg)=>res.status(code).json({ok:false,error:msg});

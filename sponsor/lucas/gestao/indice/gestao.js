@@ -1,6 +1,88 @@
 import {ATHLETES,FIELDS,calculateIndex} from '/indice/score.js';
 const $=id=>document.getElementById(id);
 let loading=false;
+let autoSeq=0;
+let pendingAuto=null;
+const safeNode=(tag,text,cls)=>{
+ const node=document.createElement(tag);
+ if(cls)node.className=cls;
+ if(text!==undefined)node.textContent=String(text);
+ return node;
+};
+const autoButton=$('autoSync');
+async function autoSync(){
+ const athlete=$('athlete').value;
+ if(!ATHLETES.includes(athlete))return;
+ const seq=++autoSeq;
+ autoButton.disabled=true;
+ $('autoStatus').textContent='Consultando sites oficiais e conexões autorizadas...';
+ $('autoFindings').replaceChildren();
+ $('autoFindings').hidden=true;
+ try{
+  const url='/api/captacao-lead?indice=1&mode=autofill&atleta='+encodeURIComponent(athlete);
+  const response=await fetch(url,{credentials:'same-origin',cache:'no-store'});
+  const data=await response.json();
+  if(!response.ok||!data.ok)throw Error(data.error||'Não foi possível consultar as fontes');
+  if(seq!==autoSeq||athlete!==$('athlete').value)return;
+  pendingAuto=data.suggestions;
+  const source=data.suggestions;
+  let filled=0,changed=0;
+  for(const input of document.querySelectorAll('[data-score-field]')){
+   const key=input.dataset.scoreField,value=source.metrics?.[key];
+   if(value===undefined||value===null||!Number.isFinite(value))continue;
+   if(input.value.trim()===''){
+    input.value=String(value);
+    filled++;
+   }else if(Number(input.value)!==value){changed++;}
+  }
+  // Do not silently replace approved historical measurements.
+  const srcNames=[];
+  const findings=$('autoFindings');
+  const sports=safeNode('div',undefined,'auto-source');
+  sports.append(safeNode('strong','Histórico esportivo · '+(source.sports?'fonte consultada':'indisponível')));
+  if(source.sports?.events?.length){
+   for(const evt of source.sports.events){
+    sports.append(safeNode('p','✓ '+evt.label+' ('+evt.year+')'));
+   }
+   const sourceLink=safeNode('a','Abrir fonte oficial ↗');
+   sourceLink.href=source.sports.source;sourceLink.target='_blank';sourceLink.rel='noopener noreferrer';
+   sports.append(sourceLink);
+   srcNames.push(source.sourceLabel);
+  }else{
+   sports.append(safeNode('p','Nenhum marco correspondente encontrado nesta consulta. Sem estimativas.'));
+  }
+  findings.append(sports);
+  const social=safeNode('div',undefined,'auto-source');
+  const state=source.instagram?.status||'nao_configurado';
+  social.append(safeNode('strong','Instagram · '+({
+   conectado:'conectado à Meta',conectado_parcial:'conexão parcial',nao_configurado:'conexão não autorizada',falha_permissao_ou_api:'acesso indisponível'
+  }[state]||'dados pendentes')));
+  if(state.startsWith('conectado')){
+   for(const k of ['followers','reach28d','interactions28d']){
+    const val=source.instagram.metrics?.[k];
+    social.append(safeNode('p',val===undefined||val===null?(labels[k]+' — não disponível na API'):(labels[k]+': '+val.toLocaleString('pt-BR'))));
+   }
+   srcNames.push('Instagram Insights autorizado');
+  }else{
+   social.append(safeNode('p','A leitura de seguidores e alcance exige uma conta profissional autorizada com acesso aos Insights pela API oficial. Nenhum valor será estimado pela aparência do perfil.'));
+  }
+  findings.append(social);
+  for(const warning of source.warnings||[])findings.append(safeNode('small',warning));
+  findings.hidden=false;
+  if(filled>0&&!$('reference').value.trim()){
+   $('reference').value=('Sincronização de fontes oficiais: '+srcNames.join(' + ')).slice(0,150);
+   $('source').value='gestao_interna';
+  }
+  $('autoStatus').textContent=filled+' indicador(es) preenchido(s) automaticamente. '+(changed?changed+' valor(es) já informado(s) divergentes foram preservados; revise-os antes de salvar.':'Nenhum dado existente foi sobrescrito.');
+  preview();
+ }catch(e){
+  if(seq!==autoSeq)return;
+  $('autoStatus').textContent=e.message||'Erro ao consultar fontes';
+ }finally{
+  if(seq===autoSeq)autoButton.disabled=false;
+ }
+}
+autoButton.addEventListener('click',autoSync);
 const labels={followers:'seguidores',reach28d:'contas alcançadas',interactions28d:'interações',growth28dPct:'crescimento',titlesVerified:'títulos',competitionsVerified:'competições',clubMonths:'meses de clube',partnersActive:'apoiadores',deliveriesCompleted:'entregas'};
 const fromForm=()=>Object.fromEntries([...document.querySelectorAll('[data-score-field]')].map(input=>[input.dataset.scoreField,input.value.trim()===''?null:Number(input.value)]));
 function preview(){
@@ -25,7 +107,8 @@ async function load(){
  }
  $('status').textContent=obj.metrics?'Indicadores publicados carregados. Confira a referência antes de salvar.':'Nenhuma medição aprovada cadastrada para este atleta.';
  preview();
- }catch(e){$('status').textContent=e.message||'Falha na consulta'}
+ await autoSync();
+ }catch(e){$('status').textContent=e.message||'Falha na consulta';await autoSync();}
 }
 $('athlete').addEventListener('change',load);
 $('loadCurrent').addEventListener('click',load);

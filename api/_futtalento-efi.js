@@ -21,7 +21,7 @@ export function enabled(){
     &&!!process.env.BLOB_READ_WRITE_TOKEN;
 }
 export function formatAmount(cents){return (cents/100).toFixed(2);}
-export function publicOrder(data){return {id:data.id,plan:data.plan,planTitle:PLANS[data.plan]?.title,athlete:ATHLETES[data.athlete],amount:formatAmount(data.cents),status:data.status,createdAt:data.createdAt,activeUntil:data.activeUntil||null,pix:data.pix||null,company:data.company};}
+export function publicOrder(data){return {id:data.id,plan:data.plan,planTitle:PLANS[data.plan]?.title,athlete:ATHLETES[data.athlete],amount:formatAmount(data.cents),status:(data.status==='active'&&Date.parse(data.activeUntil)<=Date.now()?'expired':data.status),createdAt:data.createdAt,activeUntil:data.activeUntil||null,pix:data.pix||null,company:data.company};}
 export async function load(id){
  const {get}=await import('@vercel/blob');
  const obj=await get(prefix+id+'.json',{access:'private'}).catch(()=>null);
@@ -59,9 +59,12 @@ export async function refresh(order){
   &&pix.some(x=>x.txid===order.txid&&x.valor===formatAmount(order.cents)&&typeof x.endToEndId==='string');
  if(verified){
   order.status='active';
-  order.paidAt=new Date().toISOString();
-  order.activeUntil=new Date(Date.now()+30*86400000).toISOString();
-  order.paymentId=pix.find(x=>x.txid===order.txid)?.endToEndId||null;
+  const payment=pix.find(x=>x.txid===order.txid&&x.valor===formatAmount(order.cents));
+  const paidTime=Date.parse(payment?.horario||'');
+  if(!Number.isFinite(paidTime))throw new Error('Efí não forneceu horário válido');
+  order.paidAt=new Date(paidTime).toISOString();
+  order.activeUntil=new Date(paidTime+30*86400000).toISOString();
+  order.paymentId=payment.endToEndId;
   await save(order);
  }
  return order;

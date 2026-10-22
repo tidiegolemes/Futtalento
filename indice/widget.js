@@ -24,21 +24,28 @@ if(containers.length){
   }else{
    main.append(e('p','ft-score-empty',compact?'Coletando audiência e resultados verificados.':'O perfil ainda não possui métricas suficientes para um índice confiável.'));
   }
-  if(evidence?.source==='https://www.lucasazambuja.com.br/'&&
+  const sportsSources={
+    lucas:'https://www.lucasazambuja.com.br/',
+    ryan:'https://www.futtalento.com.br/atletas/ryan/',
+    thalles:'https://thallessilvino.com.br/'
+  };
+  if(evidence?.athlete===data.athlete&&evidence?.source===sportsSources[data.athlete]&&
      Number.isInteger(evidence.sports?.points)&&evidence.sports.points>=0&&evidence.sports.points<=25){
     const partial=e('div',compact?'ft-evidence-partial ft-evidence-mini':'ft-evidence-partial');
     const points=e('strong','ft-evidence-score','Parcial esportiva: '+evidence.sports.points+' / 25 pontos');
     const counts=e('span','ft-evidence-counts',
       [Number.isInteger(evidence.sports.titlesDocumented)?evidence.sports.titlesDocumented+' título(s) documentado(s)':null,
-       Number.isInteger(evidence.sports.competitionsDocumented)?evidence.sports.competitionsDocumented+' competição(ões) documentada(s)':null].filter(Boolean).join(' · '));
-    const attribution=e('small','ft-evidence-note','Fonte: site do atleta · ainda sem confirmação independente'+
+       Number.isInteger(evidence.sports.competitionsDocumented)?evidence.sports.competitionsDocumented+' competição(ões) documentada(s)':null,
+       Number.isInteger(evidence.sports.clubMonthsDocumented)?evidence.sports.clubMonthsDocumented+' meses de clube (mínimo documentado)':null].filter(Boolean).join(' · '));
+    const sourceLabel=data.athlete==='ryan'?'acervo FutTalento':'site do atleta';
+    const attribution=e('small','ft-evidence-note','Fonte: '+sourceLabel+' · sem validação independente da competição'+
       (evidence.stale?' · atualização pendente':''));
     partial.append(points);
     if(counts.textContent)partial.append(counts);
     partial.append(attribution);
     if(!compact){
       const link=e('a','ft-evidence-link','Consultar fonte ↗');
-      link.href='https://www.lucasazambuja.com.br/#conquistas';
+      link.href=data.athlete==='ryan'?sportsSources.ryan+'#jornada':sportsSources[data.athlete]+'#conquistas';
       link.target='_blank';link.rel='noopener noreferrer';
       partial.append(link);
     }

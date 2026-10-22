@@ -16,7 +16,17 @@ export default async function handler(req,res){
    const order=await load(id);
    if(!order||!safeEqual(order.tokenHash,secretDigest(token)))return res.status(404).json({error:'Pedido não encontrado'});
    if(order.status!=='active'&&enabled()){try{await refresh(order);}catch(e){console.error('Efí status:',e.message);}}
-   return res.status(200).json({ok:true,order:publicOrder(order)});
+   const summary=publicOrder(order);
+   if(req.query.mode==='supporter'){
+    if(summary.status!=='active')return res.status(402).json({ok:false,status:summary.status,error:summary.status==='expired'?'Seu plano venceu; renove o apoio para continuar.':'O painel só será liberado após a confirmação do Pix.'});
+    const details={
+      'primeiro-passe':['2 Stories mensais','Identificação como apoiador','Uma ação de cupom ou chamada promocional','Resumo mensal das entregas'],
+      'time-titular':['4 Stories mensais','1 publicação no feed','Campanha de cupom/link identificado','Relatório mensal de entregas'],
+      'camisa-10':['8 Stories mensais','2 publicações no feed','1 Reel mensal sujeito à aprovação de imagem','Campanha de cupom e relatório mensal']
+    };
+    return res.status(200).json({ok:true,plan:{name:summary.planTitle,athlete:summary.athlete,company:order.company,amount:summary.amount,startedAt:order.paidAt,activeUntil:order.activeUntil,operator:'EyAgência',deliverables:details[order.plan]||[],status:'active',isPublic:false}});
+   }
+   return res.status(200).json({ok:true,order:summary});
   }catch(e){console.error('checkout read',e.message);return res.status(503).json({error:'Não foi possível consultar o pedido'});}
  }
  if(req.method!=='POST')return res.status(405).json({error:'Método não permitido'});

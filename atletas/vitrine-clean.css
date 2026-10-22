@@ -168,3 +168,34 @@ html.ft-dialog-is-open{overflow:hidden}
  .ft-dialog-head p{max-width:285px;font-size:.72rem}
 }
 @media(prefers-reduced-motion:reduce){.ft-plan-option{transition:none}}
+
+
+/* Restore the full athlete page, add an easy barter choice without complicating directory cards. */
+.talent-more{display:inline-flex;align-items:center;min-height:40px;text-decoration:underline;text-underline-offset:4px}
+.barter-small{border:0;background:none;color:#286d44;font-size:.75rem;font-weight:900;text-decoration:underline;text-underline-offset:3px;white-space:nowrap;padding:6px 3px}
+.barter-small:hover{color:#164f30}
+.barter-small:focus-visible{outline:3px solid #217d4a;outline-offset:3px}
+.ft-plan-permuta{border:2px dashed #7baf80;background:#f7fdf2}
+.ft-plan-permuta .ft-plan-top b small{font-size:.7rem;color:#42744e}
+.ft-dialog-barter{overflow-y:auto;overscroll-behavior:contain;flex:1 1 auto;min-height:0;padding:18px 22px 36px;background:#f5faf5;color:#17472e}
+.ft-dialog-barter[hidden]{display:none!important}
+.ft-dialog-barter h3{font-size:1.38rem;letter-spacing:-.04em;color:#15492d;margin:13px 0 7px}
+.ft-dialog-barter .ft-barter-lead{font-size:.81rem;color:#607e6b;line-height:1.6;margin:0 0 19px}
+.ft-dialog-barter form{display:grid;gap:8px}
+.ft-dialog-barter form>label:not(.ft-barter-consent){color:#2a5840;font-size:.75rem;font-weight:850;margin-top:4px}
+.ft-dialog-barter input:not([type=checkbox]),.ft-dialog-barter select,.ft-dialog-barter textarea{width:100%;min-height:45px;border:1px solid #bdd4c3;background:white;color:#19442e;border-radius:10px;padding:11px 12px;font-size:.85rem}
+.ft-dialog-barter textarea{min-height:95px;resize:vertical}
+.ft-dialog-barter input:focus,.ft-dialog-barter select:focus,.ft-dialog-barter textarea:focus{outline:2px solid #64ad79;outline-offset:1px}
+.ft-dialog-barter .ft-honeypot{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;opacity:0}
+.ft-barter-consent{display:flex;gap:9px;align-items:flex-start;font-size:.73rem;line-height:1.5;color:#51715b;margin:9px 0}
+.ft-barter-consent input{width:18px;height:18px;flex-shrink:0;accent-color:#438a56;margin-top:2px}
+.ft-barter-consent a{color:#236944}
+.ft-barter-send{background:#c9fc54;color:#16452e;border:1px solid #93cc46;border-radius:12px;min-height:50px;font-size:.88rem;font-weight:950;padding:12px}
+.ft-barter-send:disabled{opacity:.6;cursor:wait}
+#ftBarterStatus{font-size:.78rem;color:#9a3232;min-height:19px;margin:4px 0}
+.ft-barter-success{padding:25px 18px;border-radius:15px;border:1px solid #9dccac;background:#e4f7e9;text-align:center}
+.ft-barter-success[hidden]{display:none!important}
+.ft-barter-success strong{font-size:1.2rem;color:#1b683b}
+.ft-barter-success p{font-size:.84rem;line-height:1.6;color:#466c50}
+.ft-barter-success button{padding:13px 18px;border:0;border-radius:10px;background:#c9fc54;color:#17442c;font-weight:900}
+@media(max-width:680px){.ft-dialog-barter{padding:15px 14px 26px}.talent-bottomline>span{display:block}.barter-small{font-size:.73rem}}

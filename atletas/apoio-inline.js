@@ -5,6 +5,9 @@ const dialog=document.getElementById('ftInlineCheckout');
 const frame=document.getElementById('ftCheckoutFrame');
 const plans=document.getElementById('ftInlinePlans');
 const payment=document.getElementById('ftInlinePayment');
+const barter=document.getElementById('ftInlineBarter');
+const barterForm=document.getElementById('ftBarterForm');
+const barterStatus=document.getElementById('ftBarterStatus');
 const wait=document.getElementById('ftFrameWait');
 const close=document.getElementById('ftCloseCheckout');
 const back=document.getElementById('ftBackToPlans');
@@ -17,9 +20,13 @@ const safeAthlete=id=>Object.hasOwn(athletes,id)?id:null;
 let activeAthlete=null,activePlan=null,previousFocus=null,issued=false;
 const isOpen=()=>dialog.open;
 const showStep=step=>{
- const paymentActive=step==='payment';
- plans.hidden=paymentActive;payment.hidden=!paymentActive;
- if(paymentActive){back.focus({preventScroll:true})}else{dialog.querySelector('[data-ft-plan]')?.focus({preventScroll:true})}
+ const paymentActive=step==='payment',barterActive=step==='barter';
+ plans.hidden=paymentActive||barterActive;
+ payment.hidden=!paymentActive;
+ barter.hidden=!barterActive;
+ if(barterActive){document.getElementById('ftBarterName')?.focus({preventScroll:true});}
+ else if(paymentActive){back.focus({preventScroll:true})}
+ else{dialog.querySelector('[data-ft-plan]')?.focus({preventScroll:true})}
 };
 const srcFor=(athlete,plan)=>'/checkout/?'+new URLSearchParams({atleta:athlete,plano:plan,embed:'1'}).toString();
 function openWith(athlete,plan=null){
@@ -51,6 +58,12 @@ function openWith(athlete,plan=null){
  }
  if(moneyPlans.has(plan)){
   choose(plan);
+ }else if(plan==='permuta'){
+  document.getElementById('ftBarterAthlete').textContent=athletes[athlete];
+  barterForm.hidden=false;
+  document.getElementById('ftBarterSuccess').hidden=true;
+  barterStatus.textContent='';
+  showStep('barter');
  }else if(issued&&sameAthlete&&activePlan){
   showStep('payment');
  }else{
@@ -77,7 +90,25 @@ function closeDialog(){
  if(isOpen())dialog.close();
 }
 document.addEventListener('click',event=>{
- const action=event.target.closest('[data-inline-athlete], [data-ft-plan]');
+ const action=event.target.closest('[data-inline-athlete], [data-ft-plan], [data-inline-permuta], [data-ft-permuta]');
+ if(action&&action.hasAttribute('data-inline-permuta')){
+  event.preventDefault();
+  openWith(action.dataset.inlinePermuta,'permuta');
+  return;
+ }
+ if(action&&action.hasAttribute('data-ft-permuta')){
+  event.preventDefault();
+  if(!issued){
+   document.getElementById('ftBarterAthlete').textContent=athletes[activeAthlete]||'o atleta';
+   barterForm.hidden=false;
+   document.getElementById('ftBarterSuccess').hidden=true;
+   barterStatus.textContent='';
+   showStep('barter');
+  }else{
+   wait.hidden=false;wait.textContent='Primeiro confira o Pix já emitido antes de iniciar outra proposta nesta sessão.';
+  }
+  return;
+ }
  if(action&&action.hasAttribute('data-inline-athlete')){
   const athlete=action.dataset.inlineAthlete;
   if(!safeAthlete(athlete))return;
@@ -88,6 +119,37 @@ document.addEventListener('click',event=>{
  const plan=action?.dataset.ftPlan;
  if(moneyPlans.has(plan)){event.preventDefault();choose(plan);}
 });
+document.getElementById('ftBackFromBarter')?.addEventListener('click',()=>showStep('plans'));
+document.getElementById('ftBarterDone')?.addEventListener('click',closeDialog);
+barterForm?.addEventListener('submit',async event=>{
+ event.preventDefault();
+ if(!activeAthlete||!barterForm.reportValidity())return;
+ const fd=new FormData(barterForm);
+ const whatsapp=String(fd.get('whatsapp')||'').replace(/\\D/g,'');
+ const descricaoPermuta=String(fd.get('descricaoPermuta')||'').trim();
+ if(whatsapp.length<10||whatsapp.length>13){barterStatus.textContent='Informe um WhatsApp válido com DDD.';return;}
+ if(descricaoPermuta.length<15||descricaoPermuta.length>400){barterStatus.textContent='Descreva sua proposta entre 15 e 400 caracteres.';return;}
+ const button=document.getElementById('ftBarterSend');
+ button.disabled=true;button.textContent='Enviando proposta...';barterStatus.textContent='';
+ try{
+  const data={
+   persona:'empresa',plano:'permuta',interesse:'permuta',atleta:activeAthlete,
+   nome:String(fd.get('nome')||''),empresa:String(fd.get('empresa')||''),
+   whatsapp,tipoPermuta:String(fd.get('tipoPermuta')||''),descricaoPermuta,
+   consent:fd.has('consent'),website:String(fd.get('website')||''),
+   utm_source:'marketplace-atletas',utm_medium:'organic',utm_campaign:'permuta'
+  };
+  const res=await fetch('/api/captacao-lead',{method:'POST',credentials:'same-origin',cache:'no-store',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+  const response=await res.json().catch(()=>({}));
+  if(!res.ok||!response.ok)throw Error(response.error||'Não foi possível registrar sua permuta.');
+  if(response.ignored)throw Error('Não foi possível registrar o pedido. Tente novamente.');
+  barterForm.hidden=true;document.getElementById('ftBarterSuccess').hidden=false;
+  document.getElementById('ftBarterSuccess').focus();
+  barterForm.reset();
+ }catch(e){barterStatus.textContent=e.message||'Falha de conexão. Tente novamente.';}
+ finally{button.disabled=false;button.textContent='Enviar proposta de permuta →';}
+});
+
 close?.addEventListener('click',closeDialog);
 back?.addEventListener('click',()=>{
  if(issued){wait.hidden=false;wait.textContent='Você já gerou um Pix. Consulte esta cobrança antes de tentar outra.';return;}
@@ -110,5 +172,12 @@ window.addEventListener('message',event=>{
  if(event.data.status==='issued'){issued=true;back.hidden=true;wait.hidden=true;}
  if(event.data.status==='active'){issued=true;back.hidden=true;wait.hidden=true;}
 });
+const query=new URLSearchParams(location.search);
+const presetSupport=query.get('apoio'),presetBarter=query.get('permuta');
+if(safeAthlete(presetSupport)){
+ const choice=query.get('plano');
+ openWith(presetSupport,moneyPlans.has(choice)?choice:null);
+}else if(safeAthlete(presetBarter)){openWith(presetBarter,'permuta');}
+
 // Direct one-step checkout links remain valid when JavaScript is unavailable.
 })();

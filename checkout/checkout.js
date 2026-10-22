@@ -45,7 +45,12 @@ $('form').addEventListener('submit',async event=>{
  const body={athlete:$('athlete').value,plan:$('plan').value,name:$('name').value,company:$('company').value,phone:$('phone').value,consent:$('consent').checked};
  try{
  const res=await fetch('/api/captacao-lead?pixCheckout=1',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
- const data=await res.json();if(!res.ok||!data.ok)throw Error(data.error||'Falha ao preparar Pix');
+ const data=await res.json();
+ if(!res.ok||!data.ok){
+  const stages={'save-pending':'registro seguro do pedido','efi-create-charge':'criação da cobrança Efí','efi-generate-qrcode':'obtenção do QR Code','save-pix':'gravação final do Pix'};
+  const detail=data.phase&&stages[data.phase]?' Etapa: '+stages[data.phase]+(data.providerStatus?' (HTTP '+data.providerStatus+')':'')+'.':'';
+  throw Error((data.error||'Falha ao preparar Pix')+detail);
+ }
  id=data.order.id;token=data.token;
  history.replaceState(null,'','/checkout/?pedido='+id+'&acesso='+token);
  show(data);

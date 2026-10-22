@@ -15,7 +15,7 @@ export async function getPage(url){
  }finally{clearTimeout(timeout);}
 }
 const names={lucas:'LUCAS',ryan:'RYAN',thalles:'THALLES'};
-const expectedHandles={lucas:'lucasazambujaoficial',ryan:'ryanzinho_8',thalles:'thalles_silvino'};
+const expectedHandles={lucas:'lucasazambujaoficial',ryan:'ryanzinho_8',thalles:'thalles_silvino012'};
 const GRAPH_HOSTS=new Set(['graph.facebook.com','graph.instagram.com']);
 async function graphRequest(host,path,token,query){
  const url=new URL('https://'+host+'/v24.0/'+path);

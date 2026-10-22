@@ -16,6 +16,7 @@ function show(data){
  $('intro').hidden=true;$('pixPanel').hidden=false;
  $('plan').value=o.plan;$('athlete').value=Object.keys({lucas:1,ryan:1,thalles:1}).find(k=>({lucas:'Lucas Azambuja',ryan:'Ryan Coelho',thalles:'Thalles Silvino'}[k])===o.athlete)||'lucas';
  $('plan').disabled=true;$('athlete').disabled=true;price();
+ $('pixDetails').hidden=false;$('refresh').hidden=false;$('retryPanel').hidden=true;
  $('copyValue').textContent=o.pix?.copyPaste||'';
  const link=$('payLink');link.hidden=!o.pix?.link;if(o.pix?.link)link.href=o.pix.link;
  $('expires').textContent=o.pix?.expiresAt?'Pix vence em: '+new Date(o.pix.expiresAt).toLocaleString('pt-BR'):'';
@@ -24,6 +25,12 @@ function show(data){
   $('supporterLink').href='/apoiador/assinatura/?pedido='+encodeURIComponent(id)+'&acesso='+encodeURIComponent(token);$('supporterLink').hidden=o.status!=='active';
   $('active').hidden=false;$('activeText').textContent='Plano '+o.planTitle+' para '+o.athlete+(o.status==='active'?' ativo até ':' encerrado em ')+new Date(o.activeUntil).toLocaleDateString('pt-BR')+'.';
   $('paidMessage').textContent='A confirmação foi verificada diretamente no Efí Bank.';
+  if(poll){clearInterval(poll);poll=null;}
+ }else if(o.status==='pix_expired'||o.status==='removed'){
+  $('state').textContent=o.status==='pix_expired'?'Este Pix venceu':'Cobrança removida pelo banco';
+  $('pixDetails').hidden=true;$('retryPanel').hidden=false;
+  $('retryLink').href='/checkout/?plano='+encodeURIComponent(o.plan)+'&atleta='+encodeURIComponent($('athlete').value);
+  $('paidMessage').textContent='Esta cobrança não está ativa. Se você chegou a efetuar o pagamento, use Verificar pagamento antes de solicitar outra.';
   if(poll){clearInterval(poll);poll=null;}
  }else{
   $('state').textContent='Aguardando confirmação do Pix';

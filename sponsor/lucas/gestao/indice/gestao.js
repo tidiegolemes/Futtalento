@@ -67,6 +67,17 @@ async function autoSync(){
    social.append(safeNode('p','A leitura de seguidores e alcance exige uma conta profissional autorizada com acesso aos Insights pela API oficial. Nenhum valor será estimado pela aparência do perfil.'));
   }
   findings.append(social);
+  const commercial=safeNode('div',undefined,'auto-source');
+  commercial.append(safeNode('strong','Apoiadores e entregas · '+(source.commercial?.status==='registros_agencia_aprovados'?'registros internos verificados':'em integração')));
+  if(source.commercial?.status==='registros_agencia_aprovados'){
+   commercial.append(safeNode('p',String(source.commercial.metrics.partnersActive)+' apoiador(es) com condições aprovadas pela agência.'));
+   commercial.append(safeNode('p',String(source.commercial.metrics.deliveriesCompleted)+' entregas publicadas/confirmadas com evidência identificada.'));
+   commercial.append(safeNode('small','O Pix piloto e empresas apenas listadas no site não entram na contagem.'));
+   srcNames.push('registros comerciais EyAgência');
+  }else{
+   commercial.append(safeNode('p','Sem contratos comerciais aprovados integráveis para este atleta. Nenhum apoiador é presumido.'));
+  }
+  findings.append(commercial);
   for(const warning of source.warnings||[])findings.append(safeNode('small',warning));
   findings.hidden=false;
   if(filled>0&&!$('reference').value.trim()){

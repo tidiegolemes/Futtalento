@@ -4,6 +4,28 @@ import crypto from 'node:crypto';
 import {signed,verify,cookie,authenticate} from './_sponsor-auth.js';
 import {PLANS,ATHLETES,originOK,registered,text,enabled,efi,checkEfiConnectivity,save,load,refresh,publicOrder,secretDigest,safeEqual,formatAmount} from './_futtalento-efi.js';
 export default async function handler(req,res){
+ if(req.query.mode==='storage-health'){
+  res.setHeader('Cache-Control','private,no-store');
+  if(req.method!=='GET')return res.status(405).json({ok:false,error:'Método não permitido'});
+  if(!registered(req))return res.status(403).json({ok:false,error:'Domínio não autorizado'});
+  const user=authenticate(req);
+  if(!user||user.kind!=='sponsor')return res.status(403).json({ok:false,error:'Acesso restrito à agência'});
+  if(!process.env.BLOB_READ_WRITE_TOKEN)return res.status(503).json({ok:false,stage:'configuration',error:'Armazenamento privado não configurado'});
+  const path='futtalento/health/temporary-'+crypto.randomBytes(12).toString('hex')+'.json';
+  try{
+   const {put,get,del}=await import('@vercel/blob');
+   const expected=crypto.randomBytes(16).toString('hex');
+   await put(path,JSON.stringify({check:expected}),{access:'private',contentType:'application/json',addRandomSuffix:false});
+   const record=await get(path,{access:'private'});
+   const value=record?.stream?JSON.parse(await new Response(record.stream).text()):null;
+   const ok=value?.check===expected;
+   await del(path).catch(()=>{});
+   return res.status(ok?200:503).json(ok?{ok:true,storage:'private',read:'ok',write:'ok'}:{ok:false,stage:'read',error:'Falha na leitura de teste'});
+  }catch(e){
+   console.error('FutTalento private Blob check:',e?.name,e?.message);
+   return res.status(503).json({ok:false,stage:'storage',error:'Armazenamento privado indisponível',category:String(e?.name||'BlobError').slice(0,45)});
+  }
+ }
  if(req.query.mode==='health'){
   res.setHeader('Cache-Control','private,no-store');
   res.setHeader('X-Content-Type-Options','nosniff');

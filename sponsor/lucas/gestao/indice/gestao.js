@@ -55,7 +55,7 @@ async function autoSync(){
   const social=safeNode('div',undefined,'auto-source');
   const state=source.instagram?.status||'nao_configurado';
   social.append(safeNode('strong','Instagram · '+({
-   conectado:'conectado à Meta',conectado_parcial:'conexão parcial',nao_configurado:'conexão não autorizada',falha_permissao_ou_api:'acesso indisponível'
+   conectado:'conectado à Meta',conectado_parcial:'conexão parcial',nao_configurado:'conexão não autorizada',falha_permissao_ou_api:'acesso indisponível',conta_nao_corresponde:'perfil diferente do atleta — integração recusada'
   }[state]||'dados pendentes')));
   if(state.startsWith('conectado')){
    for(const k of ['followers','reach28d','interactions28d']){

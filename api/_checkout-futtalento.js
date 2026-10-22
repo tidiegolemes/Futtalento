@@ -48,7 +48,7 @@ export default async function handler(req,res){
   if(!/^[a-f0-9]{32}$/.test(id)||!/^[a-f0-9]{64}$/.test(token))return res.status(400).json({error:'Pedido inválido'});
   try{
    const order=await load(id);
-   if(!order||!safeEqual(order.tokenHash,secretDigest(token)))return res.status(404).json({error:'Pedido não encontrado'});
+   if(!order||!(safeEqual(order.tokenHash,secretDigest(token))||safeEqual(order.agencyAccessTokenHash,secretDigest(token))))return res.status(404).json({error:'Pedido não encontrado'});
    if(order.status!=='active'&&enabled()){try{await refresh(order);}catch(e){console.error('Efí status:',e.message);}}
    const summary=publicOrder(order);
    if(req.query.mode==='supporter'){

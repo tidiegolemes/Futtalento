@@ -44,6 +44,8 @@ async function autoSync(){
    for(const evt of source.sports.events){
     sports.append(safeNode('p','✓ '+evt.label+' ('+evt.year+')'));
    }
+   if(Number.isFinite(source.sports.metrics?.clubMonths))sports.append(safeNode('p','✓ Tempo no clube: pelo menos '+source.sports.metrics.clubMonths+' meses, conforme intervalo anual publicado.'));
+   if(source.sports.caveat)sports.append(safeNode('small',source.sports.caveat));
    const sourceLink=safeNode('a','Abrir fonte oficial ↗');
    sourceLink.href=source.sports.source;sourceLink.target='_blank';sourceLink.rel='noopener noreferrer';
    sports.append(sourceLink);

@@ -26,5 +26,16 @@ async function testEfi(){
  finally{button.disabled=false}
 }
 $('checkEfi').addEventListener('click',testEfi);
+$('checkStorage').addEventListener('click',async()=>{
+ const btn=$('checkStorage'),label=$('storageStatus');btn.disabled=true;label.textContent='Gravando e conferindo arquivo temporário no armazenamento privado...';
+ try{
+  const response=await fetch('/api/captacao-lead?pixCheckout=1&mode=storage-health',{credentials:'same-origin',cache:'no-store'});
+  const data=await response.json();
+  if(!response.ok||!data.ok){label.textContent='Armazenamento não validado: '+(data.error||'indisponível')+(data.category?' ('+data.category+')':'');return;}
+  label.textContent='Armazenamento privado: escrita e leitura verificadas com sucesso. Nenhuma cobrança foi criada.';
+ }catch(e){label.textContent='Falha na verificação: '+(e.message||'sem resposta')}
+ finally{btn.disabled=false}
+});
+
 $('refresh').addEventListener('click',load);load();
 })();

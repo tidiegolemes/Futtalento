@@ -14,7 +14,7 @@ const metricsNumber=(m,key)=>known(m?.[key])?m[key]:null;
 const ageDays=(iso,now)=>{const t=Date.parse(iso||'');return Number.isFinite(t)?Math.floor((now-t)/86400000):null};
 export function calculateIndex(snapshot,now=Date.now()){
  const m=snapshot?.metrics||{};
- const vals=Object.fromEntries(FIELDS.map(k=>[k,metricsNumber(m,k)]));
+ const vals=Object.fromEntries(FIELDS.map(k=>[k,k==='growth28dPct'&&typeof m?.[k]==='number'&&Number.isFinite(m[k])&&m[k]>=-100?m[k]:metricsNumber(m,k)]));
  const available=FIELDS.filter(k=>vals[k]!==null);
  const coverage=available.reduce((sum,k)=>sum+WEIGHTS[k],0);
  const reach=vals.reach28d,followers=vals.followers,interactions=vals.interactions28d;
@@ -44,9 +44,9 @@ export function calculateIndex(snapshot,now=Date.now()){
   source:snapshot?.source||null,observedAt:snapshot?.observedAt||null,
   status:publishable?'calculado':!fresh&&days!==null?'desatualizado':'dados_em_formacao',
   components:{
-   audience:{score:Math.round([scores.reach28d,scores.followers,scores.interactions28d,scores.growth28dPct].reduce((a,v)=>a+(v||0),0)),maximum:55},
-   sports:{score:Math.round([scores.titlesVerified,scores.competitionsVerified,scores.clubMonths].reduce((a,v)=>a+(v||0),0)),maximum:25},
-   partnership:{score:Math.round([scores.partnersActive,scores.deliveriesCompleted].reduce((a,v)=>a+(v||0),0)),maximum:20}
+   audience:{score:Math.round([scores.reach28d,scores.followers,scores.interactions28d,scores.growth28dPct].reduce((a,v)=>a+(v||0),0)),maximum:55,complete:[scores.reach28d,scores.followers,scores.interactions28d,scores.growth28dPct].every(v=>v!==null)},
+   sports:{score:Math.round([scores.titlesVerified,scores.competitionsVerified,scores.clubMonths].reduce((a,v)=>a+(v||0),0)),maximum:25,complete:[scores.titlesVerified,scores.competitionsVerified,scores.clubMonths].every(v=>v!==null)},
+   partnership:{score:Math.round([scores.partnersActive,scores.deliveriesCompleted].reduce((a,v)=>a+(v||0),0)),maximum:20,complete:[scores.partnersActive,scores.deliveriesCompleted].every(v=>v!==null)}
   },
   metrics:vals
  };

@@ -11,7 +11,16 @@ if(['lucas','ryan','thalles'].includes(athlete))$('athlete').value=athlete;
 if(plans[plan])$('plan').value=plan;
 let id=params.get('pedido'),token=params.get('acesso'),poll=null;
 const money=n=>(n/100).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-function price(){$('price').innerHTML=money(plans[$('plan').value])+' <span>primeiros 30 dias</span>';}
+function price(){
+ const planKey=$('plan').value, athleteKey=$('athlete').value;
+ $('price').innerHTML=money(plans[planKey])+' <span>primeiros 30 dias</span>';
+ if(embedded){
+  $('embeddedSummary').hidden=false;
+  $('embeddedAthleteName').textContent=({lucas:'Lucas Azambuja',ryan:'Ryan Coelho',thalles:'Thalles Silvino'})[athleteKey]||'Atleta FutTalento';
+  $('embeddedPlanName').textContent=({'primeiro-passe':'Primeiro Passe','time-titular':'Time Titular','camisa-10':'Camisa 10'})[planKey]||'Plano escolhido';
+  $('embeddedPrice').textContent=money(plans[planKey])+' / 30 dias';
+ }
+}
 $('plan').addEventListener('change',price);price();
 function err(msg){$('message').textContent=msg||'';}
 function privateRecoveryUrl(){

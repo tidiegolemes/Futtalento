@@ -13,7 +13,7 @@ async function load(){
  if(!ATHLETES.includes(athlete))return;
  clean();$('status').textContent='Carregando medições já publicadas...';
  try{
- const r=await fetch('/api/indice-atletas?atleta='+encodeURIComponent(athlete),{credentials:'same-origin',cache:'no-store'});
+ const r=await fetch('/api/captacao-lead?indice=1&atleta='+encodeURIComponent(athlete),{credentials:'same-origin',cache:'no-store'});
  const obj=await r.json();
  if(!r.ok)throw Error(obj.error||'Consulta indisponível');
  if(obj.metrics){
@@ -40,7 +40,7 @@ $('scoreForm').addEventListener('submit',async e=>{
   metrics,guardianOrAgentAuthorized:$('guardian').checked,publicApproved:$('approved').checked};
  loading=true;$('saveIndex').disabled=true;$('status').textContent='Gravando indicadores na área protegida...';
  try{
- const r=await fetch('/api/indice-atletas',{method:'POST',credentials:'same-origin',cache:'no-store',
+ const r=await fetch('/api/captacao-lead?indice=1',{method:'POST',credentials:'same-origin',cache:'no-store',
  headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
  const obj=await r.json();
  if(!r.ok)throw Error(obj.error||'Não foi possível salvar');

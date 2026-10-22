@@ -39,7 +39,13 @@ export default async function handler(req,res){
   if(phone.length<10||phone.length>13)return error(res,400,'Informe um WhatsApp válido com DDD.');
   if(!purposes[persona].includes(goal))return error(res,400,'Selecione seu interesse.');
   const plano=persona==='empresa'&&typeof raw.plano==='string'&&['primeiro-passe','time-titular','camisa-10'].includes(raw.plano)?sponsorPlans[raw.plano]:null;
-  if(persona==='empresa'&&!plano)return error(res,400,'Selecione uma proposta de apoio válida.');
+  const barter=persona==='empresa'&&raw.plano==='permuta'&&goal==='permuta';
+  const barterTypes=['produto','servico','beneficio','outro'];
+  const barterType=barter?clean(raw.tipoPermuta,30):'';
+  const barterDescription=barter?clean(raw.descricaoPermuta,440):'';
+  if(persona==='empresa'&&!plano&&!barter)return error(res,400,'Selecione uma proposta de apoio válida.');
+  if(barter&&(!athlete||!barterTypes.includes(barterType)||barterDescription.length<15||barterDescription.length>400))
+    return error(res,400,'Informe o atleta, o tipo de permuta e uma descrição de 15 a 400 caracteres.');
   if(raw.consent!==true)return error(res,400,'Precisamos da sua autorização para responder ao contato.');
   if(persona==='familia'&&raw.responsavel!==true)return error(res,400,'O cadastro é exclusivo para pais ou responsáveis adultos.');
   // Limite simples por navegador, sem armazenamento de endereço IP ou dados de menores.
@@ -56,6 +62,7 @@ export default async function handler(req,res){
     nome:name,whatsapp:phone,cidade:city,
     empresa:persona==='empresa'?business:null,interesse:goal,atletaInteresse:athlete,
     pacoteSolicitado:plano?{id:raw.plano,nome:plano.nome,valorReferenciaMensalBRL:plano.mensalBRL,contratado:false}:null,
+    propostaPermuta:barter?{tipo:barterType,descricao:barterDescription,avaliacao:'pendente',aceita:false,contratada:false,geraPix:false}:null,
     origem:{
       utm_source:tracking(raw.utm_source),
       utm_medium:tracking(raw.utm_medium),

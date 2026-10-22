@@ -1,5 +1,6 @@
 import {authenticate} from './_sponsor-auth.js';
 import {ATHLETES,FIELDS,calculateIndex} from '../indice/score.js';
+import {buildAutoSuggestions} from './_indice-sources.js';
 const PREFIX='futtalento/indice/v1/';
 const SOURCES=['instagram_insights','relatorio_autorizado','gestao_interna'];
 const error=(res,code,msg)=>res.status(code).json({ok:false,error:msg});
@@ -26,6 +27,21 @@ export default async function handler(req,res){
  res.setHeader('Referrer-Policy','no-referrer');
  const id=String(req.query?.atleta||'');
  if(req.method==='GET'){
+  if(req.query?.mode==='autofill'){
+   const user=authenticate(req);
+   if(!user||user.kind!=='sponsor')return error(res,401,'Acesso exclusivo da agência');
+   if(!ATHLETES.includes(id))return error(res,400,'Atleta inválido');
+   try{
+    const suggestions=await buildAutoSuggestions(id);
+    const current=await read(id);
+    const currentMetrics=current?.metrics||{};
+    // Merging is preview-only. Existing validated numbers are never overwritten without authorization.
+    const proposed={...currentMetrics};
+    for(const [key,value] of Object.entries(suggestions.metrics))
+     if(FIELDS.includes(key)&&value!==null&&value!==undefined)proposed[key]=value;
+    return res.status(200).json({ok:true,suggestions,current:current?{metrics:current.metrics,observedAt:current.observedAt,source:current.source,reference:current.reference,publicApproved:!!current.publicApproved}:null,preview:calculateIndex({metrics:proposed,observedAt:new Date().toISOString().slice(0,10)})});
+   }catch(e){console.error('Index official source refresh failed',e?.name);return error(res,503,'Falha temporária na busca de fontes');}
+  }
   if(!ATHLETES.includes(id)&&id!=='todos')return error(res,400,'Atleta inválido');
   try{
    if(id==='todos'){

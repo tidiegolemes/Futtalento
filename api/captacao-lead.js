@@ -1,6 +1,7 @@
 import checkout from './_checkout-futtalento.js';
 import indiceAtletas from './_indice-atletas.js';
 import {storeLucasEvidence} from '../indice/lucas-public.js';
+import {storeOtherAthleteEvidence} from '../indice/other-athletes-public.js';
 import crypto from 'node:crypto';
 import {signed,verify,cookie} from './_sponsor-auth.js';
 
@@ -20,13 +21,22 @@ export default async function handler(req,res){
   if(req.method==='GET'&&process.env.CRON_SECRET&&
      req.headers.authorization==='Bearer '+process.env.CRON_SECRET){
     res.setHeader('Cache-Control','private,no-store,max-age=0');
-    try{
-      const result=await storeLucasEvidence();
-      return res.status(200).json({ok:true,athlete:'lucas',checkedAt:result.checkedAt,sports:result.sports,eventsCaptured:result.events.length});
-    }catch(e){
-      console.error('Lucas evidence refresh failed',e?.name||'Error');
-      return res.status(503).json({ok:false,error:'Sincronização não concluída'});
-    }
+    const jobs=[
+      ['lucas',()=>storeLucasEvidence()],
+      ['ryan',()=>storeOtherAthleteEvidence('ryan')],
+      ['thalles',()=>storeOtherAthleteEvidence('thalles')]
+    ];
+    const result=await Promise.allSettled(jobs.map(([,run])=>run()));
+    const athletes=result.map((status,i)=>({
+      athlete:jobs[i][0],
+      status:status.status==='fulfilled'?'atualizado':'fonte_indisponivel',
+      checkedAt:status.status==='fulfilled'?status.value.checkedAt:null
+    }));
+    if(result.some(s=>s.status==='rejected'))
+      console.error('Athlete evidence sync incomplete:',athletes.filter(a=>a.status!=='atualizado').map(a=>a.athlete).join(','));
+    const success=result.some(s=>s.status==='fulfilled');
+    return res.status(success?200:503).json({ok:success,athletes});
+
   }
   if(req.query?.pixCheckout==='1')return checkout(req,res);
   if(req.query?.indice==='1')return indiceAtletas(req,res);

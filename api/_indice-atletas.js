@@ -2,6 +2,7 @@ import {authenticate} from './_sponsor-auth.js';
 import {ATHLETES,FIELDS,calculateIndex} from '../indice/score.js';
 import {buildAutoSuggestions} from './_indice-sources.js';
 import {getLucasEvidence} from '../indice/lucas-public.js';
+import {getOtherAthleteEvidence} from '../indice/other-athletes-public.js';
 const PREFIX='futtalento/indice/v1/';
 const SOURCES=['instagram_insights','relatorio_autorizado','gestao_interna'];
 const error=(res,code,msg)=>res.status(code).json({ok:false,error:msg});
@@ -20,7 +21,7 @@ function publicSnapshot(record,now,evidence=null){
  const score=calculateIndex(record,now);
  // Public metrics are rounded aggregates, never a token, raw source document or guardian data.
  const metrics=record?.publicApproved?score.metrics:null;
- return {athlete:record?.athlete||null,index:{version:score.version,value:record?.publicApproved?score.value:null,level:record?.publicApproved?score.level:'Em formação',coverage:record?.publicApproved?score.coverage:0,status:record?.publicApproved?score.status:'dados_em_formacao',observedAt:record?.publicApproved?score.observedAt:null,components:record?.publicApproved?score.components:null},metrics,evidence:record?.athlete==='lucas'?evidence:null};
+ return {athlete:record?.athlete||null,index:{version:score.version,value:record?.publicApproved?score.value:null,level:record?.publicApproved?score.level:'Em formação',coverage:record?.publicApproved?score.coverage:0,status:record?.publicApproved?score.status:'dados_em_formacao',observedAt:record?.publicApproved?score.observedAt:null,components:record?.publicApproved?score.components:null},metrics,evidence};
 }
 export default async function handler(req,res){
  res.setHeader('Cache-Control','private,no-store,max-age=0');
@@ -46,12 +47,21 @@ export default async function handler(req,res){
   if(!ATHLETES.includes(id)&&id!=='todos')return error(res,400,'Atleta inválido');
   try{
    if(id==='todos'){
-    const evidence=await getLucasEvidence();
-    const data=await Promise.all(ATHLETES.map(async athlete=>publicSnapshot((await read(athlete))||{athlete},Date.now(),athlete==='lucas'?evidence:null)));
+    const snapshots=await Promise.all(ATHLETES.map(async athlete=>{
+      const [record,evidence]=await Promise.all([
+        read(athlete),
+        athlete==='lucas'?getLucasEvidence():getOtherAthleteEvidence(athlete)
+      ]);
+      return publicSnapshot(record||{athlete},Date.now(),evidence);
+    }));
+    const data=snapshots;
     return res.status(200).json({ok:true,athletes:data});
    }
-   const evidence=id==='lucas'?await getLucasEvidence():null;
-   return res.status(200).json({ok:true,...publicSnapshot((await read(id))||{athlete:id},Date.now(),evidence)});
+   const [record,evidence]=await Promise.all([
+     read(id),
+     id==='lucas'?getLucasEvidence():getOtherAthleteEvidence(id)
+   ]);
+   return res.status(200).json({ok:true,...publicSnapshot(record||{athlete:id},Date.now(),evidence)});
   }catch(e){console.error('Indice fetch failed',e?.name);return error(res,503,'Índice temporariamente indisponível');}
  }
  if(req.method!=='POST')return error(res,405,'Método não permitido');

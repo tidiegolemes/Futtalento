@@ -33,10 +33,30 @@ body.embedded-pay .pay-btn{margin-top:13px}
 .pay-recovery a{color:#215c3f;font-weight:850;font-size:.83rem}
 .pay-recovery p{font-size:.73rem;color:#698474;margin:6px 0}
 @media(max-width:690px){body.embedded-pay .pay-layout{grid-template-columns:1fr}body.embedded-pay .pay-wrap{width:calc(100% - 20px);margin:10px auto 45px}body.embedded-pay .pay-card{padding:14px}body.embedded-pay .pay-price{margin:8px 0}body.embedded-pay .pay-card:first-child>.pay-muted{display:none}}
+
+/* Minimal summary when checkout is embedded in the athlete marketplace. */
+.embedded-summary{display:grid;gap:4px;padding:11px 14px;background:#eff8ed;border:1px solid #cde8cb;border-radius:14px;color:#1a4c32}
+.embedded-summary[hidden]{display:none!important}
+.embedded-summary .embed-tag{color:#569369;font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;font-weight:850}
+.embedded-summary strong{font-size:1.18rem;letter-spacing:-.03em;font-weight:950}
+.embedded-summary>span:not(.embed-tag){font-size:.82rem;color:#42684c}
+.embedded-summary b{font-size:1.42rem;color:#225b38;font-weight:900}
+.embedded-summary b small{font-size:.66rem;font-weight:700}
+.embedded-summary>small{font-size:.65rem;color:#6c8471}
+body.embedded-pay .pay-card:first-child>:not(.embedded-summary){display:none!important}
+body.embedded-pay .pay-card:first-child{padding:12px}
+body.embedded-pay .pay-layout{grid-template-columns:1fr;gap:9px}
+body.embedded-pay .pay-card{padding:16px}
+body.embedded-pay .pay-card #intro>p.pay-muted{font-size:.73rem;line-height:1.42;margin-bottom:12px}
+body.embedded-pay .pay-card h2{font-size:1.13rem}
+body.embedded-pay .pay-card .pay-field{min-height:45px}
+body.embedded-pay .pay-card .pay-label{margin:8px 0 5px}
+body.embedded-pay .pay-card .pay-btn{margin-top:13px}
 </style></head><body>
 <header class="topbar-pay"><div class="pay-wrap" style="margin:0 auto"><a href="/" class="pay-brand">FUT<span>TALENTO</span></a></div></header>
 <main class="pay-wrap"><p class="pay-over">Contratação de apoio · FutTalento</p><h1>Seu apoio começa aqui.</h1><p class="pay-lead">Selecione o atleta e o pacote. O acesso ao plano será liberado somente após confirmação do Pix pelo Efí Bank.</p><div class="pay-note" role="note"><b>Fase de testes bancários:</b> somente a agência autenticada consegue gerar um Pix. Para conferir a emissão, não é necessário pagar. Um Pix só movimenta dinheiro quando você autoriza a operação no seu banco.</div>
 <div class="pay-layout"><section class="pay-card"><h2>Resumo do apoio</h2>
+<div id="embeddedSummary" class="embedded-summary" hidden><span class="embed-tag">Seu apoio</span><strong id="embeddedAthleteName">Atleta</strong><span id="embeddedPlanName">Plano</span><b id="embeddedPrice">R$ 99,00 <small>por 30 dias</small></b><small>Pix avulso · confirmação bancária para ativar</small></div>
 <label class="pay-label" for="athlete">Atleta que deseja apoiar</label><select class="pay-select" id="athlete"><option value="lucas">Lucas Azambuja</option><option value="ryan">Ryan Coelho</option><option value="thalles">Thalles Silvino</option></select>
 <label class="pay-label" for="plan">Plano</label><select class="pay-select" id="plan"><option value="primeiro-passe">Primeiro Passe — R$ 99/mês</option><option value="time-titular">Time Titular — R$ 249/mês</option><option value="camisa-10">Camisa 10 — R$ 499/mês</option></select>
 <div class="pay-price" id="price">R$ 99 <span>primeiros 30 dias</span></div>

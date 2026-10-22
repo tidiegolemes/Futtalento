@@ -21,7 +21,13 @@ export function extractSports(athlete,html,asOf=new Date().toISOString().slice(0
  const text=simplify(html);
  const events=cfg.events.filter(e=>e.checks.every(word=>text.includes(cleanWord(word))));
  const metrics={titlesVerified:events.some(e=>e.title)?events.filter(e=>e.title).length:null,competitionsVerified:events.some(e=>e.competition)?events.filter(e=>e.competition).length:null};
+ // The Thalles profile says "2023 - ATUAL". Without a start month, use only a
+ // conservative lower bound of complete years between 2023 and now.
+ const currentYear=Number(String(asOf).slice(0,4));
+ const clubDocumented=athlete==='thalles'&&/2023\\s*[-–—]\\s*atual/i.test(text)&&text.includes('juventude');
+ if(clubDocumented&&Number.isInteger(currentYear)&&currentYear>=2024)
+  metrics.clubMonths=Math.max(0,(currentYear-2023-1)*12);
  return {athlete,source:cfg.url,sourceLabel:cfg.label,checkedAt:asOf,metrics,
   events:events.map(e=>({id:e.id,label:e.name,year:e.year,title:e.title,source:cfg.url})),
-  caveat:'Pré-preenchimento por marcos documentados. Revise o material de origem antes de publicar. Quantidade de eventos não equivale à carreira completa.'};
+  caveat:'Pré-preenchimento por marcos documentados. Tempo de clube, quando disponível, usa apenas um mínimo conservador — não um início contratual exato. Revise a fonte antes de publicar.'};
 }

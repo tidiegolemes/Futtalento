@@ -44,6 +44,12 @@ export default async function handler(req,res){
  if(req.method!=='POST')return res.status(405).json({error:'Método não permitido'});
  if(!originOK(req)||!String(req.headers['content-type']||'').startsWith('application/json'))return res.status(403).json({error:'Origem inválida'});
  if(!enabled())return res.status(503).json({error:'Checkout Pix em configuração. Nenhuma cobrança foi criada.'});
+ // Segurança de lançamento: enquanto o produto é homologado, somente a agência pode gerar cobranças.
+ // A flag do banco sozinha NUNCA libera o checkout publicamente.
+ if(process.env.FUTTALENTO_PIX_ACCESS_MODE!=='public'){
+  const staff=authenticate(req);
+  if(!staff||staff.kind!=='sponsor')return res.status(403).json({error:'Pix em validação. Apenas a agência pode emitir cobranças de teste por enquanto.'});
+ }
  const d=req.body||{};if(JSON.stringify(d).length>4000)return res.status(400).json({error:'Dados inválidos'});
  const plan=PLANS[d.plan],athlete=ATHLETES[d.athlete],name=text(d.name,90),company=text(d.company,100),phone=text(d.phone,20).replace(/\D/g,'');
  if(!plan||!athlete||name.length<3||company.length<2||phone.length<10||phone.length>13||d.consent!==true)return res.status(400).json({error:'Confira plano, atleta, dados de contato e autorização de atendimento'});

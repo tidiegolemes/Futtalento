@@ -13,5 +13,18 @@ async function load(){
  }catch(e){$('notice').textContent=e.message||'Falha na consulta';}
  finally{$('refresh').disabled=false}
 }
+async function testEfi(){
+ const button=$('checkEfi'),out=$('efiStatus');button.disabled=true;out.textContent='Validando certificado e autenticação do Efí, sem criar cobrança...';
+ try{
+  const response=await fetch('/api/captacao-lead?pixCheckout=1&mode=health',{credentials:'same-origin',cache:'no-store'});
+  const result=await response.json();
+  if(response.status===403){out.textContent='Faça login como agência no painel principal e tente novamente.';return;}
+  if(!result.ok){out.textContent='Conexão pendente ('+(result.step||'configuração')+'): '+(result.message||'Confira as variáveis protegidas na Vercel.')+(result.missing?.length?' · Pendências: '+result.missing.join(', '):'');return;}
+  const scopeNotice=result.availableScopes?.length?' Escopos concedidos: '+result.availableScopes.join(', ')+'.':'';
+  out.textContent='Certificado válido e OAuth Efí autenticado em '+(result.environment==='production'?'PRODUÇÃO':'homologação')+'. '+(result.chargesEnabled?'Cobranças habilitadas.':'Cobranças ainda bloqueadas por segurança.')+scopeNotice;
+ }catch(e){out.textContent='Falha ao concluir o teste: '+(e.message||'indisponível')}
+ finally{button.disabled=false}
+}
+$('checkEfi').addEventListener('click',testEfi);
 $('refresh').addEventListener('click',load);load();
 })();

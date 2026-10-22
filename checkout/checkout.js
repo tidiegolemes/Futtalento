@@ -33,7 +33,7 @@ function show(data){
 async function check(){
  if(!id||!token)return;
  $('refresh').disabled=true;
- try{const res=await fetch('/api/checkout-futtalento?id='+encodeURIComponent(id)+'&token='+encodeURIComponent(token),{cache:'no-store'});const data=await res.json();if(!res.ok)throw Error(data.error||'Não foi possível verificar');show(data)}
+ try{const res=await fetch('/api/captacao-lead?pixCheckout=1&id='+encodeURIComponent(id)+'&token='+encodeURIComponent(token),{cache:'no-store'});const data=await res.json();if(!res.ok)throw Error(data.error||'Não foi possível verificar');show(data)}
  catch(e){$('paidMessage').textContent=e.message||'Consulta indisponível, tente novamente.'}
  finally{$('refresh').disabled=false}
 }
@@ -43,7 +43,7 @@ $('form').addEventListener('submit',async event=>{
  event.preventDefault();err('');const button=$('pay');button.disabled=true;button.textContent='Preparando Pix...';
  const body={athlete:$('athlete').value,plan:$('plan').value,name:$('name').value,company:$('company').value,phone:$('phone').value,consent:$('consent').checked};
  try{
- const res=await fetch('/api/checkout-futtalento',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+ const res=await fetch('/api/captacao-lead?pixCheckout=1',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
  const data=await res.json();if(!res.ok||!data.ok)throw Error(data.error||'Falha ao preparar Pix');
  id=data.order.id;token=data.token;
  history.replaceState(null,'','/checkout/?pedido='+id+'&acesso='+token);

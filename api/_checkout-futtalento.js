@@ -4,6 +4,28 @@ import crypto from 'node:crypto';
 import {signed,verify,cookie,authenticate} from './_sponsor-auth.js';
 import {PLANS,ATHLETES,originOK,registered,text,enabled,efi,checkEfiConnectivity,save,load,refresh,publicOrder,secretDigest,safeEqual,formatAmount} from './_futtalento-efi.js';
 export default async function handler(req,res){
+ if(req.query.mode==='storage-health'){
+  res.setHeader('Cache-Control','private,no-store');
+  if(req.method!=='GET')return res.status(405).json({ok:false,error:'Método não permitido'});
+  if(!registered(req))return res.status(403).json({ok:false,error:'Domínio não autorizado'});
+  const user=authenticate(req);
+  if(!user||user.kind!=='sponsor')return res.status(403).json({ok:false,error:'Acesso restrito à agência'});
+  if(!process.env.BLOB_READ_WRITE_TOKEN)return res.status(503).json({ok:false,stage:'configuration',error:'Armazenamento privado não configurado'});
+  const path='futtalento/health/temporary-'+crypto.randomBytes(12).toString('hex')+'.json';
+  try{
+   const {put,get,del}=await import('@vercel/blob');
+   const expected=crypto.randomBytes(16).toString('hex');
+   await put(path,JSON.stringify({check:expected}),{access:'private',contentType:'application/json',addRandomSuffix:false});
+   const record=await get(path,{access:'private'});
+   const value=record?.stream?JSON.parse(await new Response(record.stream).text()):null;
+   const ok=value?.check===expected;
+   await del(path).catch(()=>{});
+   return res.status(ok?200:503).json(ok?{ok:true,storage:'private',read:'ok',write:'ok'}:{ok:false,stage:'read',error:'Falha na leitura de teste'});
+  }catch(e){
+   console.error('FutTalento private Blob check:',e?.name,e?.message);
+   return res.status(503).json({ok:false,stage:'storage',error:'Armazenamento privado indisponível',category:String(e?.name||'BlobError').slice(0,45)});
+  }
+ }
  if(req.query.mode==='health'){
   res.setHeader('Cache-Control','private,no-store');
   res.setHeader('X-Content-Type-Options','nosniff');
@@ -60,15 +82,28 @@ export default async function handler(req,res){
  res.setHeader('Set-Cookie',cookie('ft_support_checkout_cd',signed({kind:'futtalento-checkout',expires:Date.now()+60000}),60));
  const id=crypto.randomBytes(16).toString('hex'),token=crypto.randomBytes(32).toString('hex');
  const order={id,txid:id,project:'FutTalento',operator:'EyAgencia',plan:d.plan,athlete:d.athlete,name,company,phone,cents:plan.cents,status:'pending',createdAt:new Date().toISOString(),tokenHash:secretDigest(token),pix:null,activeUntil:null};
+ let phase='save-pending';
  try{
   await save(order);
+  phase='efi-create-charge';
   const charge=await efi('/v2/cob/'+id,'PUT',{calendario:{expiracao:1800},valor:{original:formatAmount(plan.cents)},chave:process.env.FUTTALENTO_EFI_PIX_KEY,solicitacaoPagador:'FutTalento - '+plan.title+' - 30 dias',infoAdicionais:[{nome:'Projeto',valor:'FutTalento'},{nome:'Operacao',valor:'EyAgencia'}]});
   if(charge.txid!==id||!Number.isSafeInteger(Number(charge.loc?.id)))throw new Error('Efí não retornou localização válida');
+  order.bankChargeLocationId=Number(charge.loc.id);
+  phase='efi-generate-qrcode';
   const qr=await efi('/v2/loc/'+charge.loc.id+'/qrcode');
   if(typeof qr.qrcode!=='string'||qr.qrcode.length<50)throw new Error('Efí não retornou QR Code');
   let link=null;try{const u=new URL(qr.linkVisualizacao);if(u.protocol==='https:'&&u.hostname.endsWith('.sejaefi.com.br'))link=u.href;}catch{}
   order.pix={copyPaste:qr.qrcode,link,expiresAt:new Date(Date.now()+1800000).toISOString()};
+  phase='save-pix';
   await save(order);
   return res.status(201).json({ok:true,token,order:publicOrder(order)});
- }catch(e){console.error('Efí checkout:',e.message);return res.status(503).json({error:'Não foi possível emitir o Pix. Nenhuma assinatura foi ativada.'});}
+ }catch(e){
+  const providerStatus=(String(e?.message||'').match(/\bHTTP ([45]\d{2})\b/)||[])[1]||null;
+  console.error('FutTalento checkout failure',{phase,providerStatus,errorCategory:String(e?.name||'Error').slice(0,60)});
+  if(phase!=='save-pending'){
+   order.lastFailure={phase,providerStatus,at:new Date().toISOString()};
+   await save(order).catch(()=>{});
+  }
+  return res.status(503).json({error:'Não foi possível emitir o Pix. Nenhum plano foi ativado.',phase,providerStatus});
+ }
 }

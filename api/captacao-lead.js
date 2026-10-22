@@ -1,3 +1,4 @@
+import checkout from './_checkout-futtalento.js';
 import crypto from 'node:crypto';
 import {signed,verify,cookie} from './_sponsor-auth.js';
 
@@ -12,6 +13,7 @@ const sponsorPlans={'primeiro-passe':{nome:'Primeiro Passe',mensalBRL:99},'time-
 function error(res,status,message){return res.status(status).json({ok:false,error:message})}
 
 export default async function handler(req,res){
+  if(req.query?.pixCheckout==='1')return checkout(req,res);
   res.setHeader('Cache-Control','private, no-store, max-age=0');
   res.setHeader('X-Content-Type-Options','nosniff');
   res.setHeader('Referrer-Policy','no-referrer');

@@ -40,6 +40,11 @@ async function autoSync(){
   if(!response.ok||!data.ok)throw Error(data.error||'Não foi possível consultar as fontes');
   if(seq!==autoSeq||athlete!==$('athlete').value)return;
   pendingAuto=data.suggestions;
+  const permission=$('autoPermission');
+  if(permission.dataset.loadedFor!==athlete){
+    permission.checked=data.current?.automaticUpdatesAuthorized===true;
+    permission.dataset.loadedFor=athlete;
+  }
   const source=data.suggestions;
   let filled=0,changed=0;
   for(const input of document.querySelectorAll('[data-score-field]')){
@@ -102,7 +107,14 @@ async function autoSync(){
    $('source').value='gestao_interna';
   }
   autoApply.hidden=changed===0;
-  $('autoStatus').textContent=filled+' indicador(es) preenchido(s) automaticamente. '+(changed?changed+' valor(es) divergentes preservados; use "Aplicar novos valores" se desejar atualizar.':'Nenhum dado existente foi sobrescrito.');
+  const latest=data.lastAutomation;
+  const states={atualizado:'índice atualizado',sem_alteracao:'dados confirmados',
+    aguardando_aprovacao_inicial:'aguardando primeira publicação',
+    aguardando_autorizacao_continua:'aguardando autorização para rotina',
+    aguardando_meta_insights:'aguardando conexão oficial do Instagram',
+    inconsistencia_metricas:'métricas precisam de revisão'};
+  const routine=latest?.checkedAt?' Rotina diária '+latest.checkedAt.slice(0,10).split('-').reverse().join('/')+': '+(states[latest.status]||latest.status)+'.':'';
+  $('autoStatus').textContent=filled+' indicador(es) preenchido(s) automaticamente. '+(changed?changed+' valor(es) divergentes preservados; use "Aplicar novos valores" se desejar atualizar.':'Nenhum dado existente foi sobrescrito.')+routine;
   preview();
  }catch(e){
   if(seq!==autoSeq)return;
@@ -118,7 +130,7 @@ function preview(){
  const report=calculateIndex({metrics:fromForm(),observedAt:$('observedAt').value});
  $('preview').textContent='Cobertura atual: '+report.coverage+'/100 pontos possíveis. '+(report.value===null?'Índice não divulgado: faltam dados suficientes ou atualizados.':'Índice calculado: '+report.value+'/100 · '+report.level+'.')+' Os espaços vazios representam dados indisponíveis.';
 }
-const clean=()=>{for(const input of document.querySelectorAll('[data-score-field]'))input.value='';$('reference').value='';$('guardian').checked=false;$('approved').checked=false;$('observedAt').value=new Date().toISOString().slice(0,10);preview();};
+const clean=()=>{for(const input of document.querySelectorAll('[data-score-field]'))input.value='';$('reference').value='';$('guardian').checked=false;$('approved').checked=false;$('autoPermission').checked=false;$('autoPermission').dataset.loadedFor='';$('observedAt').value=new Date().toISOString().slice(0,10);preview();};
 async function load(){
  const athlete=$('athlete').value;
  if(!ATHLETES.includes(athlete))return;
@@ -154,7 +166,8 @@ $('scoreForm').addEventListener('submit',async e=>{
  const metrics=fromForm(),athlete=$('athlete').value;
  if(!ATHLETES.includes(athlete)||FIELDS?.length===0)return;
  const payload={athlete,observedAt:$('observedAt').value,source:$('source').value,reference:$('reference').value.trim(),
-  metrics,guardianOrAgentAuthorized:$('guardian').checked,publicApproved:$('approved').checked};
+  metrics,guardianOrAgentAuthorized:$('guardian').checked,publicApproved:$('approved').checked,
+  automaticUpdatesAuthorized:$('autoPermission').checked};
  loading=true;$('saveIndex').disabled=true;$('status').textContent='Gravando indicadores na área protegida...';
  try{
  const r=await fetch('/api/captacao-lead?indice=1',{method:'POST',credentials:'same-origin',cache:'no-store',

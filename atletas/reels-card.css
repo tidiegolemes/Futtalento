@@ -1,0 +1,159 @@
+/* FutTalento · Reel cards. Scoped to /atletas; checkout and filters remain untouched. */
+.ft-reel-card{
+ --reel-lime:#c9fc54;
+ --reel-ink:#f5fff6;
+ --reel-muted:#c5d8cb;
+ --reel-panel:#08271fcc;
+ background:linear-gradient(160deg,#071d19,#071612 72%);
+ border:1px solid #1e5c46;
+ border-radius:21px;
+ color:var(--reel-ink);
+ overflow:hidden;
+ min-width:0;
+ box-shadow:0 18px 35px #031d1940,0 0 0 1px #baff3422 inset;
+}
+.ft-reel-card .ft-r-stage{width:100%;min-width:0;outline-offset:-5px;position:relative}
+.ft-reel-card .ft-r-stage:focus-visible{outline:3px solid var(--reel-lime)}
+.ft-reel-card .ft-r-track{
+ display:flex;width:100%;aspect-ratio:9/16;overflow-x:auto;overflow-y:hidden;
+ overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scrollbar-width:none;
+ -webkit-overflow-scrolling:touch;
+}
+.ft-reel-card .ft-r-track::-webkit-scrollbar{display:none}
+.ft-reel-card .ft-r-slide{
+ min-width:100%;max-width:100%;height:100%;flex:0 0 100%;scroll-snap-align:start;
+ scroll-snap-stop:always;position:relative;margin:0;overflow:hidden;
+}
+.ft-reel-card .talent-poster{
+ width:100%;border-radius:0;aspect-ratio:auto;background:#081f18;height:100%;
+}
+.ft-reel-card .talent-poster>img{width:100%;height:100%;object-fit:cover;object-position:center 24%;filter:saturate(1.07) contrast(1.06);transition:transform .35s}
+.ft-reel-card:hover .talent-poster>img{transform:scale(1.02)}
+.ft-reel-card .ft-r-shade{
+ position:absolute;inset:0;z-index:0;pointer-events:none;
+ background:linear-gradient(180deg,#03170fc2 0%,#03170f0a 28%,#03170f23 37%,#041d18a8 60%,#041913 84%,#02120e 100%);
+}
+.ft-reel-card .talent-photo-tap{z-index:1}
+.ft-reel-card .talent-crest{
+ top:42px;right:14px;z-index:3;width:42px;height:42px;padding:5px;
+ background:#fffffff2;border:1px solid #fff7;
+}
+.ft-reel-card .talent-image-badge{display:none}
+.ft-reel-card .ft-r-brandline,.ft-reel-card .ft-r-rating,.ft-reel-card .ft-r-hero-details,
+.ft-reel-card .ft-r-highlight,.ft-reel-card .ft-r-hero-facts{position:absolute;z-index:2;pointer-events:none}
+.ft-reel-card .ft-r-brandline{inset:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:17px 17px}
+.ft-reel-card .ft-r-brand{font-size:.78rem;font-weight:950;letter-spacing:.025em;color:#effeea;text-shadow:0 1px 7px #001d0b}
+.ft-reel-card .ft-r-brand::first-letter{color:var(--reel-lime)}
+.ft-reel-card .ft-r-brand-kicker{font-size:.48rem;color:#d8f5e7;letter-spacing:.12em;text-align:right;max-width:85px;font-weight:850;line-height:1.4}
+.ft-reel-card .ft-r-rating{
+ top:98px;right:14px;width:92px;min-height:108px;display:flex;flex-direction:column;
+ justify-content:center;align-items:center;text-align:center;gap:2px;padding:11px 7px;
+ background:linear-gradient(155deg,#123c2de8,#071710f2);
+ clip-path:polygon(50% 0%,94% 17%,94% 78%,50% 100%,6% 78%,6% 17%);
+ filter:drop-shadow(0 4px 13px #0008);
+}
+.ft-reel-card .ft-r-rating:before{content:"";position:absolute;inset:2px;clip-path:inherit;background:linear-gradient(145deg,#c9fc5488,#65b87f25);z-index:-1}
+.ft-reel-card .ft-r-rating-label{font-size:.48rem;max-width:75px;letter-spacing:.055em;font-weight:850;line-height:1.28;color:#ecffe6}
+.ft-reel-card .ft-r-rating-value{font-size:2.05rem;font-weight:950;letter-spacing:-.075em;line-height:1.1;color:var(--reel-lime)}
+.ft-reel-card .ft-r-rating-sub{font-size:.47rem;color:#d3e9d1;line-height:1.2}
+.ft-reel-card .ft-r-hero-details{bottom:187px;left:17px;right:15px;text-shadow:0 3px 12px #0009}
+.ft-reel-card .ft-r-eyebrow{display:block;color:var(--reel-lime);font-size:.62rem;letter-spacing:.09em;text-transform:uppercase;font-weight:950;margin-bottom:5px}
+.ft-reel-card .ft-r-athlete-name{font-size:clamp(1.55rem,3vw,2.5rem);line-height:1.03;font-weight:950;letter-spacing:-.065em;text-transform:uppercase;color:#fff;margin:0 0 6px;max-width:94%;text-wrap:balance}
+.ft-reel-card .ft-r-athlete-meta{margin:0 0 8px;font-size:.71rem;color:#e7f0ea;font-weight:850;letter-spacing:.035em}
+.ft-reel-card .ft-r-position{display:inline-flex;padding:5px 10px;border-radius:99px;background:#0b4232c9;border:1px solid #dcf9d866;color:#efffeb;font-size:.64rem;font-weight:800}
+.ft-reel-card .ft-r-highlight{
+ bottom:94px;left:13px;right:13px;display:flex;align-items:center;gap:10px;
+ min-height:63px;padding:8px 11px;background:#061e19df;border:1px solid #b8f6b255;
+ box-shadow:0 2px 20px #0005;border-radius:12px;backdrop-filter:blur(10px)
+}
+.ft-reel-card .ft-r-highlight-icon{font-size:1.18rem;color:var(--reel-lime);flex:0 0 auto}
+.ft-reel-card .ft-r-highlight p{color:white;margin:0;font-weight:850;font-size:.72rem;line-height:1.35}
+.ft-reel-card .ft-r-hero-facts{bottom:11px;left:13px;right:13px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+.ft-reel-card .ft-r-hero-facts .ft-r-metric{padding:7px 6px;min-height:72px;border-radius:10px}
+.ft-reel-card .ft-r-hero-facts .ft-r-metric-icon{font-size:.88rem}
+.ft-reel-card .ft-r-hero-facts .ft-r-metric small{font-size:.52rem}
+.ft-reel-card .ft-r-hero-facts .ft-r-metric strong{font-size:.79rem}
+.ft-reel-card .ft-r-metric{display:flex;gap:6px;align-items:center;background:#143a2dbf;color:#f7fff5;border:1px solid #a2ee7e42;box-shadow:0 4px 14px #0003;backdrop-filter:blur(7px);min-width:0}
+.ft-reel-card .ft-r-metric-icon{flex:0 0 auto;font-size:1rem;color:var(--reel-lime);line-height:1}
+.ft-reel-card .ft-r-metric-body{display:block;min-width:0}
+.ft-reel-card .ft-r-metric small{display:block;color:#bcdac8;line-height:1.3;font-weight:700}
+.ft-reel-card .ft-r-metric strong{display:block;font-size:.97rem;line-height:1.18;font-weight:950;color:white;overflow-wrap:anywhere;margin-top:3px}
+.ft-reel-card .ft-r-slide-impact{background:linear-gradient(140deg,#06251d,#071a19);isolation:isolate}
+.ft-reel-card .ft-r-slide-impact:after{
+ content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+ background:linear-gradient(180deg,#001a0e8f 0%,#071a199c 30%,#071a19 53%,#041612 100%),
+ radial-gradient(circle at 92% 44%,#a8ec4060,transparent 45%);
+}
+.ft-reel-card .ft-r-impact-photo{position:absolute;inset:0 0 auto;width:100%;height:49%;object-fit:cover;object-position:center 23%;filter:saturate(.98);opacity:.85}
+.ft-reel-card .ft-r-impact-head,.ft-reel-card .ft-r-impact-hero,.ft-reel-card .ft-r-impact-data{position:relative;z-index:1}
+.ft-reel-card .ft-r-impact-head{display:flex;justify-content:space-between;gap:9px;align-items:center;padding:17px 15px}
+.ft-reel-card .ft-r-impact-kicker{font-size:.54rem;font-weight:900;letter-spacing:.09em;color:#d5f0dd;text-align:right}
+.ft-reel-card .ft-r-impact-hero{position:absolute;top:21%;left:16px;right:16px;display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-shadow:0 2px 13px #000}
+.ft-reel-card .ft-r-impact-pre{color:#d0ffa0;font-size:.57rem;font-weight:900;letter-spacing:.11em}
+.ft-reel-card .ft-r-impact-title{font-size:clamp(1.7rem,4vw,2.5rem);text-transform:uppercase;color:var(--reel-lime);font-weight:950;line-height:1;letter-spacing:-.045em}
+.ft-reel-card .ft-r-impact-sub{font-size:.61rem;font-weight:800;color:#f7fff7;max-width:58%}
+.ft-reel-card .ft-r-impact-badge{position:absolute;top:-8px;right:0;border:1px solid #b2fa79;background:#0b2a20dd;border-radius:16px;width:88px;min-height:86px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;box-shadow:0 0 23px #93ea6650}
+.ft-reel-card .ft-r-impact-badge span{font-size:.53rem;letter-spacing:.09em;font-weight:900}
+.ft-reel-card .ft-r-impact-badge strong{color:var(--reel-lime);font-weight:950;font-size:2rem;line-height:1}
+.ft-reel-card .ft-r-impact-badge small{font-size:.52rem;color:#d5e9d8;text-align:center}
+.ft-reel-card .ft-r-impact-data{position:absolute;inset:auto 0 0;display:flex;flex-direction:column;gap:9px;padding:12px 13px 17px;
+ background:linear-gradient(0deg,#041911 68%,#041911e7 85%,transparent)}
+.ft-reel-card .ft-r-data-eyebrow{margin:0;color:var(--reel-lime);font-weight:950;letter-spacing:.12em;font-size:.61rem}
+.ft-reel-card .ft-r-impact-metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.ft-reel-card .ft-r-impact-metrics .ft-r-metric{min-height:55px;padding:9px 10px;border-radius:10px}
+.ft-reel-card .ft-r-impact-metrics .ft-r-metric small{font-size:.61rem}
+.ft-reel-card .ft-r-impact-metrics .ft-r-metric strong{font-size:.94rem}
+.ft-reel-card .ft-r-strengths{border:1px solid #639d7280;border-radius:11px;padding:10px;background:#13352988}
+.ft-reel-card .ft-r-section-title{display:block;color:#fff;font-size:.76rem;font-weight:950;margin-bottom:7px}
+.ft-reel-card .ft-r-strength-tags{display:flex;flex-wrap:wrap;gap:5px}
+.ft-reel-card .ft-r-strength{display:inline-flex;align-items:center;gap:4px;max-width:100%;padding:5px 8px;font-size:.58rem;font-weight:800;line-height:1.35;color:#eef9ec;background:#22583f80;border-radius:99px;border:1px solid #a2d99c55}
+.ft-reel-card .ft-r-strength-icon{color:var(--reel-lime);font-size:.68rem}
+.ft-reel-card .ft-r-sponsor-pitch{border-left:3px solid var(--reel-lime);padding:5px 10px;background:#285a3755}
+.ft-reel-card .ft-r-sponsor-pitch strong{font-size:.72rem;letter-spacing:.07em;color:var(--reel-lime)}
+.ft-reel-card .ft-r-sponsor-pitch p{margin:3px 0 0;font-size:.65rem;line-height:1.35;color:#e3f2e5}
+.ft-reel-card .ft-r-socials{display:flex;gap:8px;flex-wrap:wrap}
+.ft-reel-card .ft-r-social-link{display:inline-flex;align-items:center;padding:6px 10px;min-height:29px;border-radius:8px;font-size:.66rem;font-weight:900;border:1px solid #b7f48a88;color:var(--reel-lime);text-decoration:none}
+.ft-reel-card .ft-r-social-link:hover{background:#1c4830}
+.ft-reel-card .ft-r-evidence-note{font-size:.55rem;color:#a2c3af;line-height:1.4}
+.ft-reel-card .ft-r-navigation{display:flex;align-items:center;justify-content:center;gap:14px;background:#071a15;padding:7px 12px 5px;min-height:44px}
+.ft-reel-card .ft-r-arrow{display:grid;place-items:center;width:34px;height:32px;border-radius:10px;border:1px solid #45765b;background:#173f30;color:var(--reel-lime);font-size:1.4rem;padding:0;line-height:1}
+.ft-reel-card .ft-r-arrow:disabled{color:#738a7e;opacity:.45}
+.ft-reel-card .ft-r-dots{display:flex;gap:8px;align-items:center}
+.ft-reel-card .ft-r-dot{height:11px;width:11px;padding:0;border:1px solid #bddeac66;border-radius:99px;background:#557a66;transition:width .18s}
+.ft-reel-card .ft-r-dot.is-active{width:29px;background:var(--reel-lime);border-color:var(--reel-lime)}
+.ft-reel-card .ft-r-counter{color:#c6dccb;font-size:.68rem;letter-spacing:.09em;font-weight:850}
+.ft-reel-card .ft-r-footer{padding:10px 14px 15px;background:#071a15;color:#e9f9e9;gap:0}
+.ft-reel-card .ft-r-footer .talent-topline,
+.ft-reel-card .ft-r-footer .talent-club-line,
+.ft-reel-card .ft-r-footer .talent-one-fact,
+.ft-reel-card .ft-r-footer .talent-audience{display:none}
+.ft-reel-card .ft-r-footer-note{font-size:.69rem;color:#b6d8bf;margin:0 0 8px;text-align:center}
+.ft-reel-card .talent-bottomline{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:3px 6px;margin:0 0 8px}
+.ft-reel-card .talent-bottomline>span{color:#d9e9dd;font-size:.69rem}
+.ft-reel-card .talent-bottomline b{color:var(--reel-lime);font-size:1.04rem}
+.ft-reel-card .talent-bottomline small{color:#b9ccba}
+.ft-reel-card .barter-small{color:var(--reel-lime);font-size:.7rem;padding:5px 0}
+.ft-reel-card .talent-more{color:#c2e6b1;font-size:.72rem;text-decoration:none;min-height:28px;padding:4px}
+.ft-reel-card .talent-cta{margin-top:4px;border:1px solid #a7e643;border-radius:12px;background:var(--reel-lime);color:#143522;font-size:1rem;min-height:51px;padding:12px 15px;font-weight:950;box-shadow:0 5px 19px #c9fc542e}
+.ft-reel-card .talent-cta span{font-size:1.2rem}
+.ft-reel-card .talent-cta:hover{background:#bbf441}
+.ft-reel-card :is(button,a):focus-visible{outline:3px solid #dcff86;outline-offset:2px}
+@media(max-width:380px){
+ .ft-reel-card .ft-r-rating{width:76px;min-height:95px;top:91px}
+ .ft-reel-card .ft-r-rating-value{font-size:1.75rem}
+ .ft-reel-card .ft-r-hero-details{bottom:166px}
+ .ft-reel-card .ft-r-athlete-name{font-size:1.45rem}
+ .ft-reel-card .ft-r-highlight{bottom:85px;min-height:54px}
+ .ft-reel-card .ft-r-highlight p{font-size:.65rem}
+ .ft-reel-card .ft-r-hero-facts{bottom:7px}
+ .ft-reel-card .ft-r-hero-facts .ft-r-metric{min-height:66px}
+ .ft-reel-card .ft-r-impact-data{gap:6px;padding:8px 9px 10px}
+ .ft-reel-card .ft-r-impact-metrics .ft-r-metric{min-height:47px;padding:5px}
+ .ft-reel-card .ft-r-strengths{padding:7px}
+ .ft-reel-card .ft-r-strength{padding:4px 6px}
+ .ft-reel-card .ft-r-sponsor-pitch p{font-size:.6rem}
+}
+@media(prefers-reduced-motion:reduce){
+ .ft-reel-card .ft-r-dot,.ft-reel-card .talent-poster>img{transition:none}
+ .ft-reel-card .ft-r-track{scroll-behavior:auto}
+}

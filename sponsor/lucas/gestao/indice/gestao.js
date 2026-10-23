@@ -10,10 +10,25 @@ const safeNode=(tag,text,cls)=>{
  return node;
 };
 const autoButton=$('autoSync');
+const autoApply=$('autoApply');
+autoApply.addEventListener('click',()=>{
+ if(!pendingAuto||!ATHLETES.includes($('athlete').value))return;
+ let applied=0;
+ for(const input of document.querySelectorAll('[data-score-field]')){
+  const key=input.dataset.scoreField, value=pendingAuto.metrics?.[key];
+  if(!Number.isFinite(value)||input.value.trim()===String(value))continue;
+  input.value=String(value);applied++;
+ }
+ autoApply.hidden=true;
+ $('autoStatus').textContent=applied+' valor(es) atualizados com base nas fontes apresentadas. Confira o relatório antes de salvar e publicar.';
+ preview();
+});
 async function autoSync(){
  const athlete=$('athlete').value;
  if(!ATHLETES.includes(athlete))return;
  const seq=++autoSeq;
+ pendingAuto=null;
+ autoApply.hidden=true;
  autoButton.disabled=true;
  $('autoStatus').textContent='Consultando sites oficiais e conexões autorizadas...';
  $('autoFindings').replaceChildren();
@@ -86,7 +101,8 @@ async function autoSync(){
    $('reference').value=('Sincronização de fontes oficiais: '+srcNames.join(' + ')).slice(0,150);
    $('source').value='gestao_interna';
   }
-  $('autoStatus').textContent=filled+' indicador(es) preenchido(s) automaticamente. '+(changed?changed+' valor(es) já informado(s) divergentes foram preservados; revise-os antes de salvar.':'Nenhum dado existente foi sobrescrito.');
+  autoApply.hidden=changed===0;
+  $('autoStatus').textContent=filled+' indicador(es) preenchido(s) automaticamente. '+(changed?changed+' valor(es) divergentes preservados; use "Aplicar novos valores" se desejar atualizar.':'Nenhum dado existente foi sobrescrito.');
   preview();
  }catch(e){
   if(seq!==autoSeq)return;
@@ -123,7 +139,12 @@ async function load(){
  await autoSync();
  }catch(e){$('status').textContent=e.message||'Falha na consulta';await autoSync();}
 }
-$('athlete').addEventListener('change',load);
+$('athlete').addEventListener('change',()=>{
+ ++autoSeq;
+ pendingAuto=null;
+ autoApply.hidden=true;
+ load();
+});
 $('loadCurrent').addEventListener('click',load);
 $('observedAt').addEventListener('input',preview);
 document.querySelectorAll('[data-score-field]').forEach(x=>x.addEventListener('input',preview));

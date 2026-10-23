@@ -49,7 +49,7 @@
   const chips=[...document.querySelectorAll('.quick-chip[data-club]')];
   const cards=[...document.querySelectorAll('.talent-card[data-athlete]')];
   const permitted=new Set(chips.map(chip=>chip.dataset.club));
-  const normalize=value=>String(value||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase().trim();
+  const normalize=value=>String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
   const preset=new URLSearchParams(location.search).get('clube');
   let selectedClub=permitted.has(preset)?preset:'todos';
 
@@ -58,7 +58,7 @@
     const term=normalize(search.value);
     let visible=0;
     cards.forEach(card=>{
-      const clubNames=(card.dataset.clubs||'').split(/\\s+/);
+      const clubNames=(card.dataset.clubs||'').split(/\s+/);
       const matchesTerm=!term||normalize(card.dataset.keywords).includes(term);
       const matchesClub=selectedClub==='todos'||clubNames.includes(selectedClub);
       const show=matchesTerm&&matchesClub;

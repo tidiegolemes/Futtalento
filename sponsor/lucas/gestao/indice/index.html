@@ -38,6 +38,7 @@ button:disabled{opacity:.6}
 .auto-source a{color:#c9fc54}
 .auto-source small{display:block;font-size:.68rem;color:#b1cbbb}
 .auto-small{color:#a2bdab;font-size:.71rem;margin:13px 0 0}
+.auto-apply{display:inline-flex;margin:14px 0 0;background:#d4f2bb;border:1px solid #a7d46b;color:#17412b;min-height:44px}.auto-apply[hidden]{display:none!important}
 @media(max-width:600px){.auto-header{align-items:stretch;flex-direction:column}.auto-header button{width:100%}}
 </style></head><body>
 <main>
@@ -48,6 +49,7 @@ button:disabled{opacity:.6}
  <div class="auto-header"><div><span class="eyebrow">CONEXÕES E VALIDAÇÃO</span><h2>Buscar e preencher automaticamente</h2><p>Consultamos as páginas oficiais dos atletas e, quando a conta tiver acesso autorizado à API da Meta, importamos as estatísticas do Instagram. Não criamos seguidores nem alcance estimado.</p></div><button type="button" id="autoSync">Atualizar fontes <span aria-hidden="true">↻</span></button></div>
  <p id="autoStatus" aria-live="polite">Consultando fontes documentadas...</p>
  <div id="autoFindings" class="auto-findings" aria-label="Resultados das fontes" hidden></div>
+ <button type="button" id="autoApply" class="auto-apply" hidden>Aplicar novos valores encontrados aos campos ↻</button>
  <p class="auto-small">As fontes são conferidas antes de publicar. Preenchimento automático não equivale à confirmação de um patrocinador nem à autorização de divulgar métricas de crianças.</p>
 </div>
 <div class="formhead"><h2>Indicadores do atleta</h2><button type="button" id="loadCurrent">Consultar dados publicados</button></div>
@@ -76,5 +78,5 @@ button:disabled{opacity:.6}
 <button type="submit" id="saveIndex">Salvar indicadores e recalcular</button>
 <p id="status" role="status" aria-live="polite"></p>
 </form></div>
-<p>Uma mudança no Instagram pode exigir conectar uma conta Business/Creator e as permissões específicas de Insights. Nenhuma integração de leitura de Instagram ou atualização automática está sendo presumida neste estágio.</p>
+<p>A busca nos sites oficiais acontece automaticamente ao abrir ou trocar de atleta. Indicadores do Instagram só entram quando a conta profissional estiver conectada e autorizada via API Meta. A publicação final continua sujeita à revisão da EyAgência e autorização do responsável.</p>
 </main><script type="module" src="gestao.js"></script></body></html>

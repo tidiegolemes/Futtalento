@@ -67,7 +67,7 @@ test('Internacional filter deliberately returns informative empty state for no r
  assert.match(ui.empty.message.textContent,/Internacional/);
 });
 test('reset clears search and club and hides its own button',()=>{
- const ui=setup('?clube=gremio');
+ const ui=setup('&clube=gremio');
  assert.deepEqual(ui.visible(),['lucas']);
  ui.search.value='thalles';ui.search.listeners.input();
  assert.deepEqual(ui.visible(),[]);
@@ -78,7 +78,7 @@ test('reset clears search and club and hides its own button',()=>{
  assert.match(ui.history.at(-1),/utm_source=test$/);
 });
 test('query parameter pre-selects Cruzeiro RS',()=>{
- const ui=setup('?clube=cruzeiro-rs');
+ const ui=setup('&clube=cruzeiro-rs');
  assert.deepEqual(ui.visible(),['ryan']);
  assert.deepEqual(ui.pressed(),['cruzeiro-rs']);
 });

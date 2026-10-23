@@ -45,6 +45,7 @@
   const rail=document.getElementById('talentRail');
   const search=document.getElementById('athleteSearch');
   const count=document.getElementById('resultCount');
+  const resetButton=document.getElementById('resetFilters');
   const empty=document.getElementById('emptyResults');
   const chips=[...document.querySelectorAll('.quick-chip[data-club]')];
   const cards=[...document.querySelectorAll('.talent-card[data-athlete]')];
@@ -66,6 +67,7 @@
       if(show)visible++;
     });
     if(count)count.textContent=visible===1?'1 talento encontrado':visible+' talentos encontrados';
+    if(resetButton)resetButton.hidden=selectedClub==='todos'&&!term;
     if(empty){
       empty.hidden=visible>0;
       const message=empty.querySelector('p');

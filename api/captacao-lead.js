@@ -2,6 +2,7 @@ import checkout from './_checkout-futtalento.js';
 import indiceAtletas from './_indice-atletas.js';
 import {storeLucasEvidence} from '../indice/lucas-public.js';
 import {storeOtherAthleteEvidence} from '../indice/other-athletes-public.js';
+import {runDailyIndexRefresh} from './_indice-automation.js';
 import crypto from 'node:crypto';
 import {signed,verify,cookie} from './_sponsor-auth.js';
 
@@ -26,15 +27,23 @@ export default async function handler(req,res){
       ['ryan',()=>storeOtherAthleteEvidence('ryan')],
       ['thalles',()=>storeOtherAthleteEvidence('thalles')]
     ];
-    const result=await Promise.allSettled(jobs.map(([,run])=>run()));
-    const athletes=result.map((status,i)=>({
-      athlete:jobs[i][0],
-      status:status.status==='fulfilled'?'atualizado':'fonte_indisponivel',
-      checkedAt:status.status==='fulfilled'?status.value.checkedAt:null
+    // Reusa o unico agendamento diario: a evidencia esportiva publica e o indice
+    // privado sao sincronizados independentemente para que falhas nao bloqueiem o restante.
+    const athletes=await Promise.all(jobs.map(async([athlete,runEvidence])=>{
+      const [sports,index]=await Promise.allSettled([
+        runEvidence(),runDailyIndexRefresh(athlete)
+      ]);
+      return {
+        athlete,
+        evidence:sports.status==='fulfilled'?'atualizado':'fonte_indisponivel',
+        index:index.status==='fulfilled'?index.value.status:'erro_sincronizacao',
+        checkedAt:index.status==='fulfilled'?index.value.checkedAt:
+          sports.status==='fulfilled'?sports.value.checkedAt:null
+      };
     }));
-    if(result.some(s=>s.status==='rejected'))
-      console.error('Athlete evidence sync incomplete:',athletes.filter(a=>a.status!=='atualizado').map(a=>a.athlete).join(','));
-    const success=result.some(s=>s.status==='fulfilled');
+    const failed=athletes.filter(a=>a.evidence!=='atualizado'||a.index==='erro_sincronizacao');
+    if(failed.length)console.error('Daily athlete refresh incomplete:',failed.map(a=>a.athlete).join(','));
+    const success=athletes.some(a=>a.evidence==='atualizado'||a.index!=='erro_sincronizacao');
     return res.status(success?200:503).json({ok:success,athletes});
 
   }

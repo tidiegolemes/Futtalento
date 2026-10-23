@@ -20,11 +20,10 @@ const GRAPH_HOSTS=new Set(['graph.facebook.com','graph.instagram.com']);
 async function graphRequest(host,path,token,query){
  const url=new URL('https://'+host+'/v24.0/'+path);
  for(const [k,v] of Object.entries(query||{}))url.searchParams.set(k,v);
- // Meta accepts access token as a request parameter; never include the token in returned diagnostics.
- url.searchParams.set('access_token',token);
+ // Authenticate through a header so the bearer token is not embedded in URLs or query logs.
  const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),5500);
  try{
-  const r=await fetch(url.toString(),{signal:controller.signal,redirect:'error',headers:{Accept:'application/json'}});
+  const r=await fetch(url.toString(),{signal:controller.signal,redirect:'error',headers:{Accept:'application/json',Authorization:'Bearer '+token}});
   const json=await r.json();
   if(!r.ok||json?.error)throw Error('Graph API indisponível ou autorização insuficiente');
   return json;
@@ -82,6 +81,7 @@ async function internalCommercialEvidence(athlete){
    if(['guimaraes','didi','oze','realgaucho'].includes(id)&&item?.approved===true&&['financeiro','permuta','institucional'].includes(item?.kind))
     verified.add(id);
   }
+  if(verified.size===0)return {status:'sem_aprovacoes_confirmadas',metrics:{}};
   const uniqueEvents=new Set();
   let deliveries=0;
   for(const item of data.activities||[]){
@@ -92,7 +92,7 @@ async function internalCommercialEvidence(athlete){
    const qty=Number(item.qty);
    deliveries+=Number.isSafeInteger(qty)&&qty>0?Math.min(qty,100):1;
   }
-  return {status:'registros_agencia_aprovados',metrics:{partnersActive:verified.size,deliveriesCompleted:Math.min(deliveries,50000)},documentedEvents:uniqueEvents.size,
+  return {status:'registros_agencia_aprovados',metrics:{partnersActive:verified.size,...(uniqueEvents.size?{deliveriesCompleted:Math.min(deliveries,50000)}:{})},documentedEvents:uniqueEvents.size,
    source:'Painel comercial EyAgência — apenas aprovações e entregas com origem documentada',checkedAt:new Date().toISOString()};
  }catch{
   return {status:'indisponivel',metrics:{}};

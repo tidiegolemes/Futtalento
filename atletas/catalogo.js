@@ -44,62 +44,64 @@
   // Marketplace FutTalento: busca sem dependência de backend e filtros somente por dados documentados.
   const rail=document.getElementById('talentRail');
   const search=document.getElementById('athleteSearch');
-  const club=document.getElementById('clubFilter');
-  const category=document.getElementById('categoryFilter');
   const count=document.getElementById('resultCount');
   const empty=document.getElementById('emptyResults');
-  const chips=[...document.querySelectorAll('[data-club]')];
+  const chips=[...document.querySelectorAll('.quick-chip[data-club]')];
   const cards=[...document.querySelectorAll('.talent-card[data-athlete]')];
-  const normalize=value=>String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
-  const reset=()=>{if(search)search.value='';if(club)club.value='todos';if(category)category.value='todos';filter();};
+  const permitted=new Set(chips.map(chip=>chip.dataset.club));
+  const normalize=value=>String(value||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase().trim();
+  const preset=new URLSearchParams(location.search).get('clube');
+  let selectedClub=permitted.has(preset)?preset:'todos';
+
   function filter(){
-    if(!search||!club||!category||!rail)return;
-    const term=normalize(search.value),selectedClub=club.value,selectedCategory=category.value;
+    if(!search||!rail)return;
+    const term=normalize(search.value);
     let visible=0;
     cards.forEach(card=>{
-      const clubNames=(card.dataset.clubs||'').split(' ');
+      const clubNames=(card.dataset.clubs||'').split(/\\s+/);
       const matchesTerm=!term||normalize(card.dataset.keywords).includes(term);
       const matchesClub=selectedClub==='todos'||clubNames.includes(selectedClub);
-      const matchesCategory=selectedCategory==='todos'||card.dataset.category===selectedCategory;
-      const show=matchesTerm&&matchesClub&&matchesCategory;
+      const show=matchesTerm&&matchesClub;
       card.hidden=!show;
       if(show)visible++;
     });
-    if(count)count.textContent=visible+' atleta'+(visible!==1?'s':'')+' com trajetória publicada'+(visible!==1?'s':'');
+    if(count)count.textContent=visible===1?'1 talento encontrado':visible+' talentos encontrados';
     if(empty){
       empty.hidden=visible>0;
-      const text=empty.querySelector('p');
-      if(text)text.textContent=selectedClub==='internacional'?
-        'O Internacional está preparado como filtro, mas não há vínculo esportivo documentado com esse clube nos três perfis cadastrados. Mais atletas poderão entrar na vitrine.':
-        selectedCategory!=='todos'&&selectedCategory!=='pendente'?
-        'Nenhum perfil deste recorte está cadastrado na categoria selecionada. Só exibimos categorias documentadas.':
-        'Experimente outro clube ou termo de busca. Exibimos apenas vínculos esportivos e informações publicadas.';
+      const message=empty.querySelector('p');
+      if(message)message.textContent=selectedClub==='internacional'?
+        'Ainda não há atleta com vínculo documentado ao Internacional nesta vitrine. Escolha outro clube ou veja todos.':
+        'Nenhum atleta encontrado com esses filtros. Experimente outro clube ou faça uma nova busca.';
     }
-    chips.forEach(chip=>{const active=chip.dataset.club===selectedClub;chip.classList.toggle('is-active',active);chip.setAttribute('aria-pressed',String(active));});
-    if(rail)rail.scrollLeft=0;
-    updateArrows();
+    chips.forEach(chip=>{
+      const active=chip.dataset.club===selectedClub;
+      chip.classList.toggle('is-active',active);
+      chip.setAttribute('aria-pressed',String(active));
+    });
+    rail.scrollLeft=0;
   }
-  function updateArrows(){
-    const prev=document.getElementById('railPrev'),next=document.getElementById('railNext');
-    if(!rail||!prev||!next)return;
-    const overflow=rail.scrollWidth-rail.clientWidth>8;
-    prev.disabled=!overflow||rail.scrollLeft<6;
-    next.disabled=!overflow||rail.scrollLeft>rail.scrollWidth-rail.clientWidth-6;
+
+  function updateClubUrl(){
+    // Preserve checkout and marketing parameters while making selected club shareable.
+    try{
+      const url=new URL(location.href);
+      if(selectedClub==='todos')url.searchParams.delete('clube');
+      else url.searchParams.set('clube',selectedClub);
+      window.history.replaceState(null,'',url.pathname+url.search+url.hash);
+    }catch{/* Browsers with restricted history still support local filtering. */}
   }
+  const reset=()=>{
+    if(search)search.value='';
+    selectedClub='todos';updateClubUrl();filter();
+  };
   search?.addEventListener('input',filter);
-  club?.addEventListener('change',filter);
-  category?.addEventListener('change',filter);
-  chips.forEach(chip=>chip.addEventListener('click',()=>{if(club){club.value=chip.dataset.club;filter();}}));
+  chips.forEach(chip=>chip.addEventListener('click',()=>{
+    const club=chip.dataset.club;
+    if(!permitted.has(club))return;
+    selectedClub=club;updateClubUrl();filter();
+  }));
   document.getElementById('resetFilters')?.addEventListener('click',reset);
   document.getElementById('emptyReset')?.addEventListener('click',reset);
-  document.getElementById('railPrev')?.addEventListener('click',()=>rail?.scrollBy({left:-rail.clientWidth*.85,behavior:'smooth'}));
-  document.getElementById('railNext')?.addEventListener('click',()=>rail?.scrollBy({left:rail.clientWidth*.85,behavior:'smooth'}));
-  rail?.addEventListener('scroll',updateArrows,{passive:true});
-  window.addEventListener('resize',updateArrows,{passive:true});
-  if(club){
-    const preset=new URLSearchParams(location.search).get('clube');
-    if(preset&&[...club.options].some(option=>option.value===preset))club.value=preset;
-  }
   filter();
   document.querySelectorAll("a.tracked[data-action]").forEach(link=>{
     link.addEventListener("click",()=>{

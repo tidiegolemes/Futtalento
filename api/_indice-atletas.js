@@ -37,11 +37,22 @@ export default async function handler(req,res){
     const suggestions=await buildAutoSuggestions(id);
     const current=await read(id);
     const currentMetrics=current?.metrics||{};
+    let lastAutomation=null;
+    try{
+      const {get}=await import('@vercel/blob');
+      const stored=await get('futtalento/indice/automation/v1/'+id+'.json',{access:'private'});
+      if(stored?.stream)lastAutomation=JSON.parse(await new Response(stored.stream).text());
+    }catch(e){
+      if(!/not.found|404|does not exist/i.test(String(e?.message||'')))
+       console.error('Index automation status unavailable',e?.name);
+    }
     // Merging is preview-only. Existing validated numbers are never overwritten without authorization.
     const proposed={...currentMetrics};
     for(const [key,value] of Object.entries(suggestions.metrics))
      if(FIELDS.includes(key)&&value!==null&&value!==undefined)proposed[key]=value;
-    return res.status(200).json({ok:true,suggestions,current:current?{metrics:current.metrics,observedAt:current.observedAt,source:current.source,reference:current.reference,publicApproved:!!current.publicApproved}:null,preview:calculateIndex({metrics:proposed,observedAt:new Date().toISOString().slice(0,10)})});
+    return res.status(200).json({ok:true,suggestions,current:current?{metrics:current.metrics,observedAt:current.observedAt,source:current.source,reference:current.reference,publicApproved:!!current.publicApproved,
+     automaticUpdatesAuthorized:current.automaticUpdatesAuthorized===true}:null,
+     lastAutomation,preview:calculateIndex({metrics:proposed,observedAt:new Date().toISOString().slice(0,10)})});
    }catch(e){console.error('Index official source refresh failed',e?.name);return error(res,503,'Falha temporária na busca de fontes');}
   }
   if(!ATHLETES.includes(id)&&id!=='todos')return error(res,400,'Atleta inválido');
@@ -93,7 +104,9 @@ export default async function handler(req,res){
  try{
   const original=await read(body.athlete);
   const snapshot={athlete:body.athlete,metrics,observedAt:new Date(date).toISOString().slice(0,10),source:body.source,
-   reference:body.reference.trim(),publicApproved:true,updatedAt:new Date().toISOString(),updatedBy:user.login,
+   reference:body.reference.trim(),publicApproved:true,
+   automaticUpdatesAuthorized:body.automaticUpdatesAuthorized===true,
+   updatedAt:new Date().toISOString(),updatedBy:user.login,
    history:[...(original?.history||[]),...(original?[{observedAt:original.observedAt,metrics:original.metrics,updatedAt:original.updatedAt}]:[])].slice(-12)};
   const {put}=await import('@vercel/blob');
   await put(PREFIX+body.athlete+'.json',JSON.stringify(snapshot),{access:'private',allowOverwrite:true,addRandomSuffix:false,contentType:'application/json'});

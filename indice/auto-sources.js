@@ -7,10 +7,10 @@ export const ATHLETE_SOURCES=Object.freeze({
   {id:'copa-maravilha-2026',name:'Copa Maravilha 2026',year:2026,competition:true,title:false,anchor:'copa maravilha',radius:145,checks:['copa maravilha','2026','cruzeiro']}
  ]},
  thalles:{url:'https://thallessilvino.com.br/',label:'Site oficial de Thalles Silvino',events:[
-  {id:'encantado-safergs-2025',name:'Título na Copa Encantado / SAFERGS 2025',year:2025,competition:true,title:true,anchor:'encantado',radius:95,pattern:'2025\\s+campeao\\s+copa\\s+encantado\\s+safergs',checks:['2025','campeão','encantado','safergs']},
-  {id:'sarandi-2024',name:'Título na Copa Sarandi 2024',year:2024,competition:true,title:true,anchor:'sarandi',radius:95,pattern:'2024\\s+campeao\\s+copa\\s+sarandi',checks:['2024','campeão','sarandi']},
-  {id:'liga-serrana-conda-2023',name:'Tríplice coroa 2023 (registro)',year:2023,competition:true,title:true,anchor:'ligaserrana',radius:95,pattern:'2023\\s+triplice\\s+coroa\\s+ligaserrana\\s+condacup',checks:['2023','tríplice coroa','ligaserrana','condacup']},
-  {id:'liga-serrana-encosta-2022',name:'Bicampeonato 2022 (registro)',year:2022,competition:true,title:true,anchor:'encosta',radius:95,pattern:'2022\\s+bicampeao\\s+ligaserrana\\s+encosta',checks:['2022','bicampeão','ligaserrana','encosta']}
+  {id:'encantado-safergs-2025',name:'Título na Copa Encantado / SAFERGS 2025',year:2025,competition:true,title:true,anchor:'encantado',radius:95,pattern:'2025\\s+campeao\\W+copa\\s+encantado\\W+safergs',checks:['2025','campeão','encantado','safergs']},
+  {id:'sarandi-2024',name:'Título na Copa Sarandi 2024',year:2024,competition:true,title:true,anchor:'sarandi',radius:95,pattern:'2024\\s+campeao\\W+copa\\s+sarandi',checks:['2024','campeão','sarandi']},
+  {id:'liga-serrana-conda-2023',name:'Tríplice coroa 2023 (registro)',year:2023,competition:true,title:true,anchor:'ligaserrana',radius:95,pattern:'2023\\s+triplice\\s+coroa\\W+ligaserrana\\W+condacup',checks:['2023','tríplice coroa','ligaserrana','condacup']},
+  {id:'liga-serrana-encosta-2022',name:'Bicampeonato 2022 (registro)',year:2022,competition:true,title:true,anchor:'encosta',radius:95,pattern:'2022\\s+bicampeao\\W+ligaserrana\\W+encosta',checks:['2022','bicampeão','ligaserrana','encosta']}
  ]}
 });
 const simplify=html=>String(html||'').replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi,' ').replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi,' ').replace(/<[^>]+>/g,' ').replace(/&(?:amp|nbsp|quot|lt|gt);/gi,' ').normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[@®]/g,'').replace(/\s+/g,' ').toLowerCase();

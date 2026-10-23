@@ -76,10 +76,62 @@
  <div id="emptyResults" class="empty-results" hidden><h2>Não encontramos atletas nesse filtro.</h2><p>Experimente outro clube ou categoria. Novos perfis serão adicionados à vitrine.</p><button id="emptyReset" type="button">Ver todos os atletas</button></div>
  <p class="directory-note">Clubes e conquistas seguem os perfis publicados dos atletas. Alguns vínculos são históricos; não representam parceria institucional com os clubes.</p>
 </section>
-<section class="support-strip" id="duvidas"><div class="market-container support-strip-inner">
- <div><p class="small-eyebrow">Apoio com propósito</p><h2>Você escolhe o atleta. A EyAgência cuida das entregas.</h2><p>Planos a partir de R$ 99 por 30 dias, com conteúdos e acompanhamento.</p></div>
- <details class="support-disclosure"><summary>Como funciona <span aria-hidden="true">+</span></summary><ol><li>Escolha o atleta na vitrine.</li><li>Selecione um dos três pacotes.</li><li>Confirme o Pix e acompanhe suas entregas no painel privado.</li></ol><p>Sem renovação automática. Contratações públicas ainda em validação. As atividades de marketing são geridas pela EyAgência e dependem das autorizações aplicáveis.</p></details>
- </div></section>
+<section class="support-strip" id="duvidas"><div class="market-container support-strip-inner support-strip-journey">
+ <header class="support-journey-head">
+  <div><p class="small-eyebrow">APOIO COM PROPÓSITO</p>
+   <h2>Como funciona? <span>É simples apoiar um talento.</span></h2>
+   <p>Você escolhe o atleta. A EyAgência faz as postagens e campanhas. Sua empresa aparece, e você acompanha o desempenho.</p>
+  </div>
+  <span class="support-journey-tag">4 passos · 1 boa parceria</span>
+ </header>
+ <div class="support-how" id="supportHowCarousel" role="region" aria-roledescription="carrossel" aria-label="Como apoiar um atleta no FutTalento">
+  <div class="support-how-track" id="supportHowTrack" tabindex="0" aria-label="Deslize ou use as setas para explorar os quatro passos">
+   <article class="support-how-slide" aria-roledescription="slide" aria-label="Passo 1 de 4: escolha um atleta">
+    <img src="/atletas/como-funciona/escolha-atleta.svg" width="900" height="560" loading="lazy" decoding="async" alt="Ilustração de uma empresa selecionando o perfil de um jovem atleta no FutTalento">
+    <div class="support-how-content"><span class="support-how-step">01 / 04 · ESCOLHA</span><h3>Escolha <em>um atleta</em></h3>
+     <p>Veja os perfis e escolha um talento que tem tudo a ver com a sua empresa. Você decide quem quer apoiar.</p>
+     <span class="support-how-insight">⚽ Encontre sua próxima parceria</span>
+    </div>
+   </article>
+   <article class="support-how-slide" aria-roledescription="slide" aria-label="Passo 2 de 4: a agência cria a campanha">
+    <img src="/atletas/como-funciona/criacao-campanha.svg" width="900" height="560" loading="lazy" decoding="async" alt="Ilustração do painel da EyAgência preparando posts, stories e uma promoção com cupom">
+    <div class="support-how-content"><span class="support-how-step">02 / 04 · CRIAÇÃO</span><h3>A agência <em>faz a divulgação</em></h3>
+     <p>A EyAgência cuida dos posts, stories, reels e promoções nas redes do atleta, conforme o pacote contratado e as autorizações.</p>
+     <span class="support-how-insight">✦ Você apoia. A gente cria e organiza.</span>
+    </div>
+   </article>
+   <article class="support-how-slide" aria-roledescription="slide" aria-label="Passo 3 de 4: sua marca ganha visibilidade">
+    <img src="/atletas/como-funciona/visibilidade.svg" width="900" height="560" loading="lazy" decoding="async" alt="Ilustração de uma postagem esportiva com curtidas, comentários e um gráfico de alcance crescente">
+    <div class="support-how-content"><span class="support-how-step">03 / 04 · DIVULGAÇÃO</span><h3>Sua marca <em>aparece para mais pessoas</em></h3>
+     <p>A campanha pode atrair visitas, novos seguidores e interações. Cupons e chamadas para ação ajudam a transformar atenção em oportunidades de venda.</p>
+     <span class="support-how-insight">↗ Mais visibilidade. Novas oportunidades.</span>
+    </div>
+   </article>
+   <article class="support-how-slide" aria-roledescription="slide" aria-label="Passo 4 de 4: acompanhe os resultados">
+    <img src="/atletas/como-funciona/resultados.svg" width="900" height="560" loading="lazy" decoding="async" alt="Ilustração de um painel com métricas de alcance, engajamento e oportunidades acompanhadas pela empresa">
+    <div class="support-how-content"><span class="support-how-step">04 / 04 · RESULTADOS</span><h3>Veja <em>o resultado do seu apoio</em></h3>
+     <p>Acompanhe as entregas e, quando houver dados disponíveis, veja alcance, interações, cliques, cupons e vendas atribuídas à campanha.</p>
+     <span class="support-how-insight">◎ Apoio com acompanhamento transparente</span>
+    </div>
+   </article>
+  </div>
+  <nav class="support-how-controls" aria-label="Passos do apoio">
+   <button class="support-how-arrow" type="button" id="supportHowPrev" aria-label="Passo anterior">←</button>
+   <div class="support-how-dots" role="group" aria-label="Escolher etapa">
+    <button type="button" class="is-active" data-how-step="0" aria-label="Mostrar etapa 1: escolher um atleta" aria-current="step"><span></span></button>
+    <button type="button" data-how-step="1" aria-label="Mostrar etapa 2: criação da campanha"><span></span></button>
+    <button type="button" data-how-step="2" aria-label="Mostrar etapa 3: visibilidade"><span></span></button>
+    <button type="button" data-how-step="3" aria-label="Mostrar etapa 4: resultados"><span></span></button>
+   </div>
+   <span id="supportHowCounter" class="support-how-count" aria-live="off">1 / 4</span>
+   <button class="support-how-arrow" type="button" id="supportHowNext" aria-label="Próximo passo">→</button>
+  </nav>
+ </div>
+ <div class="support-how-foot">
+  <p>O crescimento apresentado é ilustrativo. Alcance, seguidores e vendas dependem da campanha e não são garantidos. Sem renovação automática; conteúdos com atletas menores dependem das autorizações aplicáveis.</p>
+  <a class="support-how-cta" href="#explorar">Escolher um atleta <span aria-hidden="true">↗</span></a>
+ </div>
+</div></section>
 </main>
 <footer class="market-footer"><div class="market-container footer-inner"><span>© 2026 FUTTALENTO · Operação EyAgência</span><nav aria-label="Links institucionais"><a href="/privacidade.html">Privacidade</a><a href="/termos.html">Termos</a><a href="/metodologia.html">Metodologia</a><button id="privacy-options" type="button">Preferências de métricas</button></nav></div></footer>
 <div id="privacy-banner" hidden role="region" aria-label="Preferências de métricas" style="position:fixed;bottom:16px;left:16px;right:16px;z-index:100;max-width:620px;border-radius:13px;padding:17px;background:white;color:#142033;box-shadow:0 10px 35px #0007"><p style="margin:0 0 10px;font-size:.86rem">Métricas opcionais de navegação só serão carregadas com seu consentimento. <a href="../privacidade.html" style="color:#142033;text-decoration:underline">Saiba mais.</a></p><button type="button" id="consent-accept" style="border:0;border-radius:8px;background:#142033;color:white;padding:8px 12px">Aceitar</button> <button type="button" id="consent-reject" style="border:0;border-radius:8px;background:#eee;color:#142033;padding:8px 12px">Recusar</button></div>

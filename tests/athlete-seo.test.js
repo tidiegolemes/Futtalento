@@ -6,7 +6,7 @@ const read=p=>readFileSync(new URL('../'+p,import.meta.url),'utf8');
 test('Individual public athlete pages include valid Google ProfilePage, Person and breadcrumbs',()=>{
  for(const slug of ['ryan','lucas','thalles']){
   const html=read('atletas/'+slug+'/index.html');
-  const json=html.match(/<script type="application\\/ld\\+json">([\\s\\S]*?)<\\/script>/);
+  const json=html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
   assert.ok(json,slug+' needs JSON-LD');
   const graph=JSON.parse(json[1])['@graph'];
   const page=graph.find(n=>n['@type']==='ProfilePage');
@@ -29,15 +29,15 @@ test('Static sitemap lists named athlete pages, with a separate dynamic sitemap 
  const robots=read('robots.txt');
  assert.ok(robots.includes('Sitemap: https://www.futtalento.com.br/sitemap-atletas.xml'));
  const api=read('api/_athlete-onboarding.js');
- assert.match(api,/if\\(action==='sitemap'\\)/);
- assert.match(api,/const published=await publishedList\\(\\)/);
- assert.match(api,/guardianConsent===true&&d\\?\\.publicationConsent===true/);
+ assert.match(api,/if\(action==='sitemap'\)/);
+ assert.match(api,/const published=await publishedList\(\)/);
+ assert.match(api,/guardianConsent===true&&d\?\.publicationConsent===true/);
 });
 test('Registered athlete JSON-LD contains only public profile fields',()=>{
  const js=read('atletas/perfil/perfil.js');
  assert.match(js,/ft-athlete-structured-data/);
  assert.match(js,/canonicalNode.href=canonical/);
- assert.match(js,/new URL\\(p.image,location.origin\\)/);
+ assert.match(js,/new URL\(p.image,location.origin\)/);
  const meta=js.slice(js.indexOf('const person={'),js.indexOf('const graph={'));
  for(const secret of ['birthDate','guardianEmail','guardianPhone','guardianName'])
   assert.equal(meta.includes(secret),false,'potential disclosure '+secret);

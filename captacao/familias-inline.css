@@ -77,3 +77,12 @@ body[data-ft-theme="landing"] .formcard.ft-family-onboard .form-title h2{font-si
 .ft-family-onboard .ft-text-link{border:0;background:transparent;color:#c9fc54;font:inherit;font-size:.83rem;font-weight:850;text-decoration:underline;text-underline-offset:4px;cursor:pointer;padding:6px 0;width:max-content}
 .ft-family-onboard .ft-private-hint{font-size:.75rem!important;color:#b5ceb7!important}
 .ft-family-onboard #ftFamilyRegistration button:focus-visible{outline:3px solid #d9ff8c;outline-offset:3px}
+
+
+/* Campos opcionais recolhidos por padrão: menor carga cognitiva em mobile. */
+.ft-optional{padding:12px 13px;border:1px solid #87ac7966;border-radius:13px;background:#123927;min-width:0}
+.ft-optional summary{cursor:pointer;font-size:.85rem;font-weight:850;color:#c9fc54;list-style-position:inside}
+.ft-optional summary small{font-size:.7rem;color:#c1d7c3;font-weight:500}
+.ft-optional[open] summary{margin-bottom:14px}
+.ft-optional .ft-fields{margin-top:2px}
+.ft-optional:focus-within{border-color:#c9fc54}

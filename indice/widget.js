@@ -6,15 +6,15 @@ if(containers.length){
  const labels={followers:'Seguidores',reach28d:'Alcance · 28 dias',interactions28d:'Interações · 28 dias',growth28dPct:'Crescimento · 28 dias',titlesVerified:'Títulos documentados',competitionsVerified:'Competições documentadas',clubMonths:'Meses de clube',partnersActive:'Apoiadores ativos',deliveriesCompleted:'Entregas realizadas'};
  const e=(tag,cl,text)=>{const n=document.createElement(tag);if(cl)n.className=cl;if(text!==undefined)n.textContent=text;return n};
  function render(node,data){
-  const v=data.index||{},m=data.metrics||{},evidence=data.evidence;
+  const v=data.potential||{},m=data.metrics||{},evidence=data.evidence;
   node.replaceChildren();
   const compact=node.dataset.ftIndexStyle==='compact';
   const main=e('div',compact?'ft-score-compact':'ft-score-widget');
   const title=e('div','ft-score-heading');
-  const heading=e(compact?'span':'h3','',compact?'Força FutTalento':'Índice FutTalento');
-  const state=e('span','ft-score-state',v.value===null?'Em formação':v.level);
+  const heading=e(compact?'span':'h3','',compact?'Potencial de Patrocínio':'Potencial de Patrocínio · FutTalento 2.0');
+  const state=e('span','ft-score-state',v.value===null?'Em validação':'Validado');
   title.append(heading,state);main.append(title);
-  if(v.value!==null&&Number.isFinite(v.value)){
+  if(v.status==='validated'&&v.value!==null&&Number.isFinite(v.value)){
    const meter=e('div','ft-score-meter');
    const score=e('strong','ft-score-number',String(v.value));
    score.append(e('small','',' / 100'));
@@ -22,7 +22,7 @@ if(containers.length){
    const fill=e('div','ft-score-fill');fill.style.width=Math.max(0,Math.min(100,v.value))+'%';bar.append(fill);
    meter.append(score,bar);main.append(meter);
   }else{
-   main.append(e('p','ft-score-empty',compact?'Coletando audiência e resultados verificados.':'O perfil ainda não possui métricas suficientes para um índice confiável.'));
+   main.append(e('p','ft-score-empty',compact?'Potencial 2.0 em validação · aguardando dados oficiais.':'Potencial de patrocínio em validação. Ainda precisamos de Insights oficiais, histórico revisado e autorização para comparação.'));
   }
   const sportsSources={
     lucas:'https://www.lucasazambuja.com.br/',
@@ -55,7 +55,7 @@ if(containers.length){
   }
   if(!compact){
    const signals=e('div','ft-score-signals');
-   const records=[['Audiência digital',v.components?.audience,'55'],['Jornada esportiva',v.components?.sports,'25'],['Parcerias e entregas',v.components?.partnership,'20']];
+   const records=[['Audiência e alcance',v.components?.audience,'35'],['Engajamento e qualidade',v.components?.engagement,'30'],['Trajetória esportiva',v.components?.sports,'20'],['Ativação comercial',v.components?.activation,'15']];
    records.forEach(([label,part,weight])=>{
     const item=e('div','ft-score-signal');item.append(e('span','',label),e('strong','',part?.complete?part.score+' / '+weight:'A integrar'));signals.append(item);
    });
@@ -64,9 +64,9 @@ if(containers.length){
    const measured=[['followers',''],['reach28d',''],['partnersActive','']].filter(([k])=>Number.isFinite(m[k]));
    measured.forEach(([k])=>{const n=e('span','ft-score-fact');n.append(e('strong','',fmt.format(m[k])),e('small','',labels[k]));counts.append(n)});
    if(measured.length)main.append(counts);
-   main.append(e('p','ft-score-foot','Pontuação proprietária baseada em registros informados e autorizados. Não equivale a previsão de alcance, valor de mercado ou desempenho esportivo. '+(v.observedAt?'Atualizado em '+v.observedAt.split('-').reverse().join('/')+'.':'')));
+   main.append(e('p','ft-score-foot','Índice 2.0 usa audiência e engajamento autenticados e registros revisados. Não equivale a previsão de vendas, valor de mercado ou habilidade técnica. '+(v.observedAt?'Atualizado em '+v.observedAt.split('-').reverse().join('/')+'.':'')));
   }else{
-   const foot=e('small','ft-score-coverage',v.value===null?'Sem nota até validação da audiência.':'Dados revisados · '+v.coverage+'% da fórmula');
+   const foot=e('small','ft-score-coverage',v.value===null?'Potencial sem nota até validação das fontes.':'Índice 2.0 validado · '+v.coverage+'% de cobertura');
    main.append(foot);
   }
   node.append(main);

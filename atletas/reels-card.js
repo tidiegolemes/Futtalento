@@ -79,11 +79,11 @@ function makeCard(card){
  attach(head,elt('span','ft-r-brand','✦ FUTTALENTO'),
   elt('span','ft-r-impact-kicker','2 / 2  ·  AUDIÊNCIA E POTENCIAL'));
  const hero=elt('div','ft-r-impact-hero');
- attach(hero,elt('span','ft-r-impact-pre','PODER DE AUDIÊNCIA'),
+ attach(hero,elt('span','ft-r-impact-pre','POTENCIAL DE PATROCÍNIO'),
   elt('strong','ft-r-impact-title',shortName(record.name)),
   elt('span','ft-r-impact-sub',record.club+' · '+record.category));
  const impactBadge=elt('div','ft-r-impact-badge');
- attach(impactBadge,elt('span','','FORÇA'),elt('strong','ft-r-impact-value','—'),elt('small','ft-r-impact-note','Em formação'));
+ attach(impactBadge,elt('span','','POTENCIAL'),elt('strong','ft-r-impact-value','—'),elt('small','ft-r-impact-note','Em validação'));
  hero.append(impactBadge);
  const detail=elt('div','ft-r-impact-data');
  const subtitle=elt('p','ft-r-data-eyebrow','NÚMEROS E CANAIS');
@@ -128,8 +128,8 @@ function makeCard(card){
  const spotlight=elt('section','ft-r-score-spotlight');
  spotlight.setAttribute('aria-label','Nota esportiva documentada; não são avaliações de usuários');
  const topLine=elt('div','ft-r-spotlight-head');
- topLine.append(elt('span','ft-r-spotlight-label','✦ NOTA ESPORTIVA'),
-  elt('span','ft-r-spotlight-source','Índice FutTalento · acervo'));
+ topLine.append(elt('span','ft-r-spotlight-label','✦ POTENCIAL DE PATROCÍNIO'),
+  elt('span','ft-r-spotlight-source','Índice FutTalento 2.0'));
  const mainLine=elt('div','ft-r-spotlight-content');
  const starsBox=elt('div','ft-r-spotlight-stars');
  starsBox.setAttribute('aria-hidden','true');
@@ -141,7 +141,7 @@ function makeCard(card){
  scoreNumber.append(elt('strong','ft-r-spotlight-value','—'),
   elt('span','ft-r-spotlight-max','/100'));
  mainLine.append(starsBox,scoreNumber);
- const spotFoot=elt('p','ft-r-spotlight-foot','Estrelas ilustram pontos documentados; não são avaliações de pessoas.');
+ const spotFoot=elt('p','ft-r-spotlight-foot','Aguardando alcance e engajamento da Meta oficial; estrelas são apenas uma escala ilustrativa, não avaliações de pessoas.');
  spotlight.append(topLine,mainLine,spotFoot);
  info.insertBefore(spotlight,scoreNote);
 
@@ -150,6 +150,12 @@ function makeCard(card){
  const scoreBody=elt('div','ft-r-score-body');
  explain.append(scoreBody);
  info.insertBefore(explain,info.querySelector('.talent-bottomline'));
+ const methodology=elt('details','ft-r-score-details ft-r-potential-details');
+ methodology.append(elt('summary','','Como funciona o Potencial 2.0'));
+ const potentialBody=elt('div','ft-r-score-body');
+ methodology.append(potentialBody);
+ info.insertBefore(methodology,explain);
+
 
  let active=0,raf=0;
  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -180,7 +186,7 @@ function makeCard(card){
  track.addEventListener('scroll',()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(sync)},{passive:true});
  window.addEventListener('resize',()=>go(active),{passive:true});
  sync();
- return {athlete,card,badge,impactBadge,note:source,scoreBody,spotlight,starsFill,scoreNumber};
+ return {athlete,card,badge,impactBadge,note:source,scoreBody,spotlight,starsFill,scoreNumber,potentialBody,spotFoot};
 }
 const live=cards.map(makeCard).filter(Boolean);
 function show(record,entry){
@@ -194,21 +200,47 @@ function show(record,entry){
   else if(key==='site')el.textContent='Acervo online';
   else el.textContent=stats.display[key]||'A validar';
  }
- entry.badge.querySelector('.ft-r-rating-label').textContent=stats.badgeLabel;
- entry.badge.querySelector('.ft-r-rating-value').textContent=stats.badgeValue;
- entry.badge.querySelector('.ft-r-rating-sub').textContent=stats.badgeSub;
- const points=stats.sportsScore100;
- entry.badge.classList.toggle('ft-r-rating-sport',stats.rating===null&&points!==null);
- const value=entry.scoreNumber.querySelector('.ft-r-spotlight-value');
- value.textContent=points===null?'—':String(points);
- entry.spotlight.classList.toggle('ft-r-spotlight-unavailable',points===null);
- entry.starsFill.style.width=points===null?'0%':Math.max(0,Math.min(100,points))+'%';
- entry.spotlight.setAttribute('aria-label',points===null?
-  'Nota esportiva indisponível: aguardando registros documentados':
-  'Nota esportiva '+points+' de 100 pontos, representada por '+new Intl.NumberFormat('pt-BR',{maximumFractionDigits:1}).format(points/20)+' de 5 estrelas ilustrativas. Não são avaliações de usuários.');
 
- entry.impactBadge.querySelector('strong').textContent=stats.rating===null?'—':String(stats.rating);
- entry.impactBadge.querySelector('small').textContent=stats.rating===null?'Em formação':'Índice autorizado';
+ const verified=record?.potential?.status==='validated'&&
+   Number.isInteger(record.potential.value)&&record.potential.value>=0&&record.potential.value<=100;
+ const potential=verified?record.potential.value:null;
+ const meta=record?.potential||{};
+ // Never promote the documented sports component to the overall sponsorship index.
+ entry.badge.querySelector('.ft-r-rating-label').textContent='POTENCIAL 2.0';
+ entry.badge.querySelector('.ft-r-rating-value').textContent=potential===null?'—':String(potential);
+ entry.badge.querySelector('.ft-r-rating-sub').textContent=potential===null?'Em validação':'de 100 · validado';
+ entry.badge.classList.toggle('ft-r-rating-sport',false);
+ const value=entry.scoreNumber.querySelector('.ft-r-spotlight-value');
+ value.textContent=potential===null?'—':String(potential);
+ entry.spotlight.classList.toggle('ft-r-spotlight-unavailable',potential===null);
+ entry.starsFill.style.width=potential===null?'0%':potential+'%';
+ entry.spotlight.setAttribute('aria-label',potential===null?
+  'Potencial de patrocínio em validação, sem nota até conectar e autorizar os dados':
+  'Potencial de patrocínio '+potential+' de 100 pontos; estrelas ilustrativas, não avaliações de usuários.');
+ entry.spotFoot.textContent=potential===null?
+  'Em validação · alcance, engajamento e ativação aguardam fontes autorizadas. Não é nota esportiva.':
+  'Índice 2.0 validado · estrelas ilustram pontuação de potencial, não avaliações de usuários.';
+ entry.impactBadge.querySelector('strong').textContent=potential===null?'—':String(potential);
+ entry.impactBadge.querySelector('small').textContent=potential===null?'Em validação':'Potencial validado';
+ const potentialPanel=entry.potentialBody;
+ potentialPanel.replaceChildren();
+ potentialPanel.append(elt('p','ft-r-score-summary','Potencial de Patrocínio · '+(potential===null?'Em validação':potential+' / 100')));
+ for(const [title,points,key] of [
+  ['Audiência e alcance',35,'audience'],
+  ['Engajamento e qualidade',30,'engagement'],
+  ['Trajetória esportiva',20,'sports'],
+  ['Capacidade de ativação',15,'activation']
+ ]){
+  const part=meta.components?.[key];
+  const row=elt('div','ft-r-score-row');
+  row.append(elt('span','',title),
+   elt('strong','',verified&&part?.complete?part.score+' / '+points:'A validar · '+points+' pts'));
+  potentialPanel.append(row);
+ }
+ potentialPanel.append(elt('p','ft-r-score-note',
+  'Comparação comercial somente com Insights Meta autorizados, resultados esportivos revisados, dados atuais e autorização do responsável. Sem dados completos, a nota fica indisponível.'));
+ potentialPanel.append(elt('p','ft-r-score-note',
+  'Não representa valor de mercado, habilidade futebolística, avaliações de usuários ou garantia de vendas.'));
  const label=stats.verifiedSource?
   'Parcial esportiva do '+stats.sourceLabel+'; sem auditoria independente'+(stats.sportsStale?' · atualização pendente':''):
   'Estatísticas aguardando comprovação';
@@ -246,7 +278,7 @@ function show(record,entry){
  panel.append(elt('p','ft-r-score-note','Registros publicados em fonte vinculada ao atleta; não representam avaliação técnica, auditoria independente ou comparação justa de habilidade.'));
  if(entry.athlete==='lucas'&&record?.evidence?.historicalArchiveUsed)
   panel.append(elt('p','ft-r-score-note','Os títulos New Cup, IberLeague RS, Liga Canoense e LINF constavam em versão anterior do site oficial do atleta. São registros históricos atribuídos à fonte do próprio atleta, ainda sem homologação independente.'));
- if(stats.rating===null)panel.append(elt('p','ft-r-score-pending','Índice FutTalento geral / 100: pendente até validar audiência, engajamento, parcerias e cobertura mínima dos indicadores.'));
+ if(potential===null)panel.append(elt('p','ft-r-score-pending','O Potencial de Patrocínio 2.0 ainda não tem pontuação validada. Esta nota esportiva é um dado complementar, não a nota principal.'));
  if(stats.verifiedSource){
   const sourceLink=elt('a','ft-r-score-source','Conferir registros de origem ↗');
   sourceLink.href=stats.verifiedSource;sourceLink.target='_blank';sourceLink.rel='noopener noreferrer';

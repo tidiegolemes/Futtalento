@@ -48,7 +48,7 @@
   const resetButton=document.getElementById('resetFilters');
   const empty=document.getElementById('emptyResults');
   const chips=[...document.querySelectorAll('.quick-chip[data-club]')];
-  const cards=[...document.querySelectorAll('.talent-card[data-athlete]')];
+  let cards=[...document.querySelectorAll('.talent-card[data-athlete]')];
   const permitted=new Set(chips.map(chip=>chip.dataset.club));
   const normalize=value=>String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
   const preset=new URLSearchParams(location.search).get('clube');
@@ -97,6 +97,7 @@
     selectedClub='todos';updateClubUrl();filter();
   };
   search?.addEventListener('input',filter);
+  window.addEventListener('ft:athletes-updated',()=>{cards=[...document.querySelectorAll('.talent-card[data-athlete]')];filter()});
   chips.forEach(chip=>chip.addEventListener('click',()=>{
     const club=chip.dataset.club;
     if(!permitted.has(club))return;

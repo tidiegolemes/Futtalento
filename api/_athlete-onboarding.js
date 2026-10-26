@@ -171,6 +171,10 @@ export default async function handler(req,res){
   }
   if(action==='register'){
    const address=email(body.email),password=String(body.password||'');
+   const repeat=(req.headers.cookie||'').split(';').map(x=>x.trim()).find(x=>x.startsWith('ft_signup_cooldown='));
+   const cooldown=verify(repeat?.slice('ft_signup_cooldown='.length));
+   if(cooldown?.exp>Date.now())return err(res,429,'Aguarde alguns minutos antes de criar outro cadastro');
+
    const checked=validAthlete(body),photo=imageFrom(body);
    if(!address||password.length<12||password.length>128)return err(res,400,'Informe email válido e senha com pelo menos 12 caracteres');
    if(checked.error)return err(res,400,checked.error);
@@ -191,9 +195,29 @@ export default async function handler(req,res){
    await write(pathFor(address),record);
    let sent=false;
    try{sent=await sendVerification(address,code)}catch(e){console.error('guardian email verification',e.name)}
-   res.setHeader('Set-Cookie',sessionCookie({kind:'ft-guardian',id,emailHash:digest(address),exp:Date.now()+7*86400000},7*86400));
+   res.setHeader('Set-Cookie',[
+    sessionCookie({kind:'ft-guardian',id,emailHash:digest(address),exp:Date.now()+7*86400000},7*86400),
+    'ft_signup_cooldown='+signed({exp:Date.now()+120000})+'; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=120'
+   ]);
    return res.status(201).json({ok:true,registered:true,verified:false,emailSent:sent,
     message:sent?'Confira o código enviado ao seu email.':'Cadastro privado criado. A publicação aguarda ativação da verificação por email.'});
+  }
+  if(action==='resend'){
+   const a=await requireAccount(req);
+   if(!a)return err(res,401,'Entre com email e senha para solicitar novo código');
+   if(a.guardianEmailVerified)return res.status(200).json({ok:true,verified:true});
+   if(!process.env.FUTTALENTO_MAIL_API_KEY||!process.env.FUTTALENTO_MAIL_FROM)
+    return err(res,503,'Verificação por email ainda não habilitada pela equipe FutTalento.');
+   if(a.lastVerifySentAt&&Date.now()-a.lastVerifySentAt<120000)
+    return err(res,429,'Aguarde dois minutos antes de solicitar outro código');
+   const code=String(crypto.randomInt(100000,1000000));
+   // Fail closed: only persist the replacement code if delivery succeeds.
+   await sendVerification(a.email,code);
+   a.verifyCodeHash=hmac(a.id+':'+code);
+   a.verifyExpiresAt=Date.now()+15*60000;
+   a.verifyAttempts=0;a.lastVerifySentAt=Date.now();
+   await write(pathFor(a.email),a);
+   return res.status(200).json({ok:true,message:'Enviamos um novo código de seis números ao email cadastrado.'});
   }
   if(action==='login'){
    const address=email(body.email),a=address?await read(pathFor(address)):null;

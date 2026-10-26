@@ -47,19 +47,25 @@
  <div class="ft-fields"><label>Nome do responsável *<input name="guardianName" required autocomplete="name" minlength="3" maxlength="100" placeholder="Nome completo"></label>
  <label>Telefone/WhatsApp com DDD *<input name="guardianPhone" type="tel" inputmode="tel" autocomplete="tel" required placeholder="(48) 99999-9999"></label>
  </div>
- <div class="form-title"><span>2</span><h2>História do atleta</h2></div>
- <div class="ft-fields"><label>Nome do atleta *<input name="athleteName" required minlength="3" maxlength="100" placeholder="Nome completo do atleta"></label>
- <label>Clube atual (opcional)<input name="club" maxlength="100" placeholder="Ex.: Cruzeiro-RS ou Sem clube"></label>
+ <div class="form-title"><span>2</span><h2>Quem é o atleta?</h2></div>
+ <div class="ft-fields"><label class="full">Nome completo do atleta *<input name="athleteName" required minlength="3" maxlength="100" autocomplete="off" placeholder="Nome do atleta"></label></div>
+ <details class="ft-optional"><summary>Adicionar clube, conquistas e posição <small>(opcional)</small></summary>
+ <div class="ft-fields">
+ <label>Clube atual<input name="club" maxlength="100" placeholder="Ex.: Cruzeiro-RS ou Sem clube"></label>
  <label>Data de nascimento (privada)<input name="birthDate" type="date" max="2026-10-26"></label>
- <label>Posição em campo<input name="position" maxlength="60" placeholder="Ex.: meia, atacante, goleiro"></label>
+ <label>Posição em campo<input name="position" maxlength="60" placeholder="Ex.: atacante"></label>
  <label>Categoria<input name="category" maxlength="50" placeholder="Ex.: Sub-12"></label>
- <label class="full">Últimos títulos ou momentos marcantes<textarea name="titles" maxlength="450" rows="3" placeholder="Ex.: campeão da Copa... (descreva somente fatos que possa comprovar)"></textarea></label></div>
+ <label class="full">Últimos títulos ou momentos marcantes<textarea name="titles" maxlength="450" rows="3" placeholder="Ex.: campeão da Copa..."></textarea></label>
+ </div></details>
  <div class="form-title"><span>3</span><h2>Foto e redes sociais</h2></div>
  <label class="ft-upload">Imagem de destaque do atleta *<input name="photoFile" type="file" required accept="image/jpeg,image/png,image/webp"><span>Toque para escolher a imagem · JPG, PNG ou WebP</span><img id="ftPhotoPreview" alt="Prévia da foto escolhida" hidden></label>
+ <details class="ft-optional"><summary>Adicionar redes sociais <small>(opcional)</small></summary>
  <div class="ft-fields"><label>Instagram<input name="instagram" type="url" inputmode="url" placeholder="https://instagram.com/..."></label>
  <label>TikTok<input name="tiktok" type="url" placeholder="https://tiktok.com/@..."></label>
  <label>YouTube<input name="youtube" type="url" placeholder="https://youtube.com/@..."></label>
  <label>Site<input name="website" type="url" placeholder="https://..."></label></div>
+
+ </details>
  <div class="ft-consent"><label><input name="adultGuardian" type="checkbox" required> <span>Confirmo que sou maior de 18 anos e responsável legal pelo atleta.</span></label>
  <label><input name="guardianConsent" type="checkbox" required> <span>Autorizo o tratamento dos dados do cadastro para criar e administrar o perfil.</span></label>
  <label><input name="publicationConsent" type="checkbox" required> <span>Autorizo a divulgação do nome, foto, trajetória e links informados nas páginas públicas do FutTalento após verificação do meu email. Meu nome, telefone, email e a data completa de nascimento não serão publicados.</span></label></div>

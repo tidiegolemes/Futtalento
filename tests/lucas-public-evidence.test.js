@@ -19,3 +19,22 @@ test('Lucas documents a sports partial, never a made-up /100 audience rating',()
 test('No source marker yields no publication rather than misleading zero',()=>{
   assert.throws(()=>parseLucasEvidence('<main>Site indisponível</main>',asOf),/Nenhum marco esportivo/);
 });
+
+test('Historical first-party achievements supplement only an identified current Lucas profile',()=>{
+ const html='<main><h1>Lukinhas10 · Grêmio</h1><p>1 gol + 1 assistência na final da Copa Base Baby 2026; Grêmio venceu. Na final, gol e assistência.</p></main>';
+ const record=parseLucasEvidence(html,asOf);
+ assert.equal(record.evidenceVersion,2);
+ assert.equal(record.sports.titlesDocumented,5);
+ assert.equal(record.sports.competitionsDocumented,5);
+ assert.equal(record.sports.clubMonthsDocumented,12);
+ assert.equal(record.sports.points,21);
+ assert.equal(record.historicalArchiveUsed,true);
+ assert.equal(record.events.filter(e=>e.basis==='versao_anterior_site_oficial').length,4);
+ assert.equal(record.publicSocial.approxFollowers,10700);
+ assert.equal('followers' in record,false);
+});
+test('No invented older championships on unrelated or unidentified pages',()=>{
+ const record=parseLucasEvidence('<main>Na final da Copa Base Baby 2026, Grêmio venceu. Lucas marcou gol e deu assistência.</main>',asOf);
+ assert.equal(record.sports.points,5);
+ assert.equal(record.historicalArchiveUsed,false);
+});

@@ -5,7 +5,7 @@ import {getPage} from '../api/_indice-sources.js';
 
 const PATH='futtalento/indice/public/lucas-sports-v1.json';
 const SOURCE=ATHLETE_SOURCES.lucas.url;
-const EVIDENCE_VERSION=2;
+const EVIDENCE_VERSION=3;
 // Contagem aproximada observada no Instagram público oficial em 26/10/2026.
 // Não representa Meta Insights nem audiência engajada.
 const SOCIAL_PUBLIC=Object.freeze({
@@ -16,15 +16,17 @@ const SOCIAL_PUBLIC=Object.freeze({
 export function parseLucasEvidence(html, checkedAt=new Date().toISOString()){
   const sports=extractSports('lucas',html,checkedAt.slice(0,10));
   if(!sports.events.length)throw new Error('Nenhum marco esportivo identificado na fonte');
-  const index=calculateIndex({metrics:sports.metrics,observedAt:checkedAt.slice(0,10)});
+  const index=calculateIndex({metrics:sports.metrics,observedAt:checkedAt.slice(0,10),cohortYear:sports.cohortYear});
   return {
     athlete:'lucas',evidenceVersion:EVIDENCE_VERSION,checkedAt,source:SOURCE,sourceLabel:ATHLETE_SOURCES.lucas.label,
+    cohortYear:sports.cohortYear,clubTenureReferenceMonths:index.clubTenureReferenceMonths,
     verification:'registro_publicado_pelo_atleta',
     sports:{
       points:index.components.sports.score,maximum:25,
       titlesDocumented:sports.metrics.titlesVerified??null,
       competitionsDocumented:sports.metrics.competitionsVerified??null,
-      clubMonthsDocumented:sports.metrics.clubMonths??null
+      clubMonthsDocumented:sports.metrics.clubMonths??null,
+      clubTenureReferenceMonths:index.clubTenureReferenceMonths
     },
     events:sports.events.map(e=>({id:e.id,label:e.label,year:e.year,title:e.title,basis:e.basis})),historicalArchiveUsed:sports.hasHistoricalArchive,publicSocial:SOCIAL_PUBLIC
   };

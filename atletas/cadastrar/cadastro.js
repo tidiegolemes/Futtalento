@@ -2,7 +2,7 @@
 'use strict';
 const $=id=>document.getElementById(id);
 const register=$('ftRegister'),login=$('ftLogin'),verify=$('ftVerify'),status=$('ftSignupStatus');
-const route='/api/athlete-onboarding';
+const route='/api/captacao-lead?onboarding=1';
 const say=(message,link)=>{
  status.hidden=false;status.textContent=message;
  if(link){const a=document.createElement('a');a.href=link;a.textContent='Abrir página do atleta →';a.style.display='block';a.style.marginTop='12px';status.append(a)}

@@ -16,6 +16,9 @@ test('Individual public athlete pages include valid Google ProfilePage, Person a
   assert.equal(page.mainEntity['@id'],person['@id']);
   assert.ok(person.name&&person.image&&person.jobTitle&&person.affiliation?.name);
   assert.equal(person.url,'https://www.futtalento.com.br/atletas/'+slug+'/');
+  assert.match(page.dateModified,/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/);
+  assert.ok(Number.isFinite(Date.parse(page.dateModified)));
+
   for(const field of ['birthDate','guardianPhone','guardianName','birthPlace'])
    assert.equal(Object.hasOwn(person,field),false,slug+' exposes '+field);
  }

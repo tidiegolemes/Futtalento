@@ -30,7 +30,7 @@ async function write(path,data){await put(path,JSON.stringify(data),{access:'pri
 const toPublic=r=>({
  slug:r.slug,name:r.athleteName,club:r.club,clubKey:r.clubKey,position:r.position||'Atleta de base',
  category:r.category||'Formação',titles:r.titles||'',socials:r.socials||{},
- image:'/api/athlete-onboarding?action=photo&slug='+encodeURIComponent(r.slug),
+ image:'/api/captacao-lead?onboarding=1&action=photo&slug='+encodeURIComponent(r.slug),
  page:'/atletas/perfil/?id='+encodeURIComponent(r.slug),
  joinedAt:r.publishedAt
 });

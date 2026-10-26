@@ -42,3 +42,21 @@ test('Missing club tenure is not reported as zero months or penalized',()=>{
  assert.equal(a.sportsBreakdown.clubMonths.count,null);
  assert.equal(a.sportsBreakdown.clubMonths.score,null);
 });
+
+test('generational club-time explanation matches central /25 sport component',()=>{
+ const lucas=getReelStats({athlete:'lucas',index:{value:null},
+  evidence:{athlete:'lucas',source:source.lucas,cohortYear:2018,checkedAt:'2026-10-26',
+   sports:{points:24,titlesDocumented:5,competitionsDocumented:5,clubMonthsDocumented:12}}
+ },'lucas');
+ const thalles=getReelStats({athlete:'thalles',index:{value:null},
+  evidence:{athlete:'thalles',source:source.thalles,cohortYear:2012,checkedAt:'2026-10-26',
+   sports:{points:24,titlesDocumented:4,competitionsDocumented:4,clubMonthsDocumented:24}}
+ },'thalles');
+ assert.equal(lucas.sportsBreakdown.clubMonths.referenceMonths,14);
+ assert.equal(thalles.sportsBreakdown.clubMonths.referenceMonths,24);
+ assert.equal(lucas.sportsBreakdown.clubMonths.score,6.9);
+ assert.equal(thalles.sportsBreakdown.clubMonths.score,8);
+ assert.equal(lucas.sportsScore100,96);
+ assert.equal(thalles.sportsScore100,96);
+ assert.equal(lucas.rating,null);
+});

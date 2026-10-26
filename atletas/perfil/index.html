@@ -1,0 +1,37 @@
+<!doctype html><html lang="pt-BR"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#061913">
+<title>Perfil do atleta | FutTalento</title><meta name="description" content="Conheça a história esportiva dos atletas de base registrados no FutTalento.">
+<link rel="icon" href="/favicon.png">
+<link rel="stylesheet" href="/atletas/perfil/perfil.css">
+<link rel="stylesheet" href="/assets/futtalento-theme.css">
+</head><body data-ft-theme="profile">
+<header class="athlete-top"><div class="container nav-bar"><a href="/" class="brand"><img src="/futtalentologo.png" width="34" height="34" alt=""> FUT<strong>TALENTO</strong></a><nav><a href="/atletas/">← Todos os atletas</a><a href="/atletas/cadastrar/">Cadastrar atleta</a></nav></div></header>
+<main class="ft-public-wrap" id="conteudo">
+<div id="ftProfileLoading" role="status">Carregando perfil...</div>
+<article id="ftPublicProfile" hidden>
+ <div class="ft-public-hero"><div class="ft-public-photo"><img id="ftAthletePhoto" alt="Foto do atleta" width="720" height="900">
+ <span class="ft-public-club" id="ftClubBadge">FutTalento</span></div>
+ <div class="ft-public-copy"><span class="ft-kicker">✦ PERFIL OFICIAL · FUTTALENTO</span>
+  <h1 id="ftAthleteName">Atleta FutTalento</h1><p class="ft-public-role" id="ftAthleteClub"></p>
+  <div class="ft-pills"><span id="ftAthletePosition"></span><span id="ftAthleteCategory"></span></div>
+  <p id="ftAthleteIntro">Esta é a jornada esportiva do atleta.</p>
+  <div class="ft-public-actions"><a href="#apoio" class="ft-primary">Tenho interesse em apoiar →</a><a href="/atletas/" class="ft-outline">Outros atletas</a></div>
+  <p class="ft-disclaimer">Trajetória declarada pelo responsável, ainda sem avaliação independente. Nenhum resultado esportivo ou comercial é garantido.</p>
+ </div></div>
+ <div class="ft-public-grid"><section><span class="ft-kicker">JORNADA</span><h2>Uma história em construção</h2><p id="ftAthleteHistory">Acompanhe a evolução do atleta.</p>
+ <div class="ft-achievements"><span>🏆</span><p id="ftAthleteTitles">Títulos e conquistas aguardando documentação.</p></div>
+ </section><aside><span class="ft-kicker">CANAIS DO ATLETA</span><h2>Acompanhe nas redes</h2>
+ <div id="ftAthleteSocials" class="ft-socials"></div><p>Alcance, seguidores e engajamento somente serão exibidos quando forem verificados.</p></aside></div>
+ <section class="ft-interest" id="apoio"><span class="ft-kicker">APOIO COM PROPÓSITO</span><h2>Sua empresa pode fazer parte dessa jornada.</h2>
+ <p>A EyAgência organiza parcerias, divulgações e propostas. Deixe seu interesse e entraremos em contato. Nenhuma cobrança é gerada nesta etapa.</p>
+ <form id="ftInterestForm"><label>Seu nome *<input name="contactName" required minlength="3" maxlength="100"></label>
+ <label>Empresa *<input name="company" required minlength="2" maxlength="100"></label>
+ <label>WhatsApp com DDD *<input name="phone" required type="tel" inputmode="tel"></label>
+ <label class="ft-check"><input name="consent" required type="checkbox">Autorizo contato da EyAgência sobre esta proposta.</label>
+ <button type="submit" class="ft-primary">Quero apoiar este atleta →</button></form>
+ <p id="ftInterestStatus" role="status" aria-live="polite"></p></section>
+</article>
+</main><footer class="ft-footer"><a href="/atletas/">Atletas</a><a href="/privacidade.html">Privacidade</a><a href="/para-empresas/">Para empresas</a></footer>
+<script defer src="/atletas/perfil/perfil.js"></script></body></html>

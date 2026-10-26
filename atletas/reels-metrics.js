@@ -29,6 +29,14 @@ export function getReelStats(record,athlete){
   competitions:{count:integer(sports.competitionsDocumented,0,200),score:points(integer(sports.competitionsDocumented,0,200),5,5),maximum:5},
   clubMonths:{count:integer(sports.clubMonthsDocumented,0,300),score:points(integer(sports.clubMonthsDocumented,0,300),8,24),maximum:8}
  };
+ const social=evidence?.publicSocial;
+ const observed=Date.parse(social?.observedAt||'');
+ const publicFollowers=validEvidence&&athlete==='lucas'&&
+  social?.url==='https://www.instagram.com/lucasazambujaoficial/'&&
+  social?.measurement==='contagem_publica_arredondada'&&
+  Number.isSafeInteger(social?.approxFollowers)&&social.approxFollowers>=0&&
+  Number.isFinite(observed)&&Date.now()>=observed&&Date.now()-observed<=30*86400000?
+  social:null;
  const followers=integer(metrics.followers);
  const reach=integer(metrics.reach28d);
  const interactions=integer(metrics.interactions28d);
@@ -38,6 +46,9 @@ export function getReelStats(record,athlete){
   badgeValue:value!==null?String(value):sportsScore100!==null?String(sportsScore100):'—',
   badgeSub:value!==null?'de 100 · geral':sportsScore100!==null?'de 100 · acervo':'Em formação',
   titles,competitions,clubMonths,followers,reach,interactions,sportsPoints,sportsScore100,sportsBreakdown,
+  publicFollowerDisplay:followers===null&&publicFollowers?'≈'+new Intl.NumberFormat('pt-BR',{maximumFractionDigits:1}).format(publicFollowers.approxFollowers/1000)+' mil':null,
+  publicFollowerSource:publicFollowers?.url||null,
+  publicFollowerObservedAt:publicFollowers?.observedAt||null,
   verifiedSource:validEvidence?evidence.source:null,
   sourceLabel:athlete==='ryan'?'Acervo FutTalento':'Site do atleta',
   sportsStale:validEvidence&&evidence.stale===true,

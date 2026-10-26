@@ -1,6 +1,6 @@
-# Índice FutTalento 2.0 — piloto metodológico (26/10/2026)
+# Índice FutTalento 2.0 — produção com validação obrigatória (26/10/2026)
 
-**Status: experimento.** Módulo isolado, **não ligado às páginas públicas** e não substitui a versão 1.0 sem homologação com dados reais e autorização dos responsáveis.
+**Status: em produção.** O potencial comercial é o indicador principal dos cards e perfis. Sem validação completa das métricas pela Meta, histórico revisado e autorização, a vitrine mostra **Em validação**, sem estrelas preenchidas ou pontuação comercial. A nota esportiva é complementar. Os registros históricos v1 permanecem preservados e separados.
 
 ## O que a nota mede
 
@@ -26,7 +26,7 @@ Potencial para patrocínios, não habilidade técnica, valor de mercado ou garan
 ## Resultados de patrocinadores: painel separado
 Após cada campanha, mensurar entregas pactuadas, alcance real do conteúdo, visitas únicas com UTM, cupons únicos, leads, pedidos reconciliados e receita atribuída. Exibir custo por lead e razão receita atribuída/custo com definições explícitas. **Não chamar receita atribuída de ROI incremental ou de lucro.** Deduplicar transações por campanha e evitar PII de menores.
 
-## Homologação antes de ativar
+## Homologação antes de liberar uma nota individual
 1. Ligar contas Meta oficiais autorizadas e confirmar definição de janelas de 28 dias.
 2. Implementar registros de posts/28 dias e auditoria de links/cuponagem (sem inventar valores).
 3. Testar com dados históricos completos e falsificáveis, categorias distintas e amostra maior de atletas.

@@ -1,6 +1,6 @@
-// FutTalento V2 pilot. Do not expose a comparative index without complete, reviewed metrics.
+// FutTalento V2 in production. Do not expose comparative scores without complete, reviewed metrics.
 import {clubTenureReferenceMonths} from './score.js';
-export const POTENTIAL_VERSION='2.0-pilot';
+export const POTENTIAL_VERSION='2.0';
 export const POTENTIAL_WEIGHTS=Object.freeze({
  reach28d:22,followers:8,growth28dPct:5,
  engagementRate:20,posts28d:10,

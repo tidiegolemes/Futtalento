@@ -59,3 +59,21 @@ body[data-ft-theme="landing"] .formcard.ft-family-onboard .form-title h2{font-si
 .ft-family-onboard .ft-signup-status a{color:#c9fc54}
 @media(max-width:720px){.ft-family-onboard .ft-fields{grid-template-columns:1fr}.ft-family-onboard .ft-onboard-panel{padding:0}}
 @media(max-width:390px){.ft-family-onboard .ft-auth-tabs{gap:4px}.ft-family-onboard .ft-auth-tabs button{font-size:.73rem;padding:10px 4px}}
+
+/* Primeira dobra: apenas e-mail e possibilidade de conta Google configurada. */
+.ft-family-onboard .ft-entry{display:grid;gap:13px}
+.ft-family-onboard .ft-entry[hidden]{display:none!important}
+.ft-family-onboard .ft-entry h2{margin:0;color:#f5fff1!important;font-size:clamp(1.42rem,2.3vw,1.85rem);line-height:1.16;letter-spacing:-.045em}
+.ft-family-onboard .ft-entry>p:not(.ft-progress){margin:0;color:#bddac5;font-size:.85rem}
+.ft-family-onboard .ft-progress{margin:0!important;color:#c9fc54!important;font-size:.71rem!important;letter-spacing:.1em;font-weight:900}
+.ft-family-onboard .ft-profile-intro{font-size:.86rem;color:#e2f5df}
+.ft-family-onboard .ft-entry .ft-onboard-form{gap:12px}
+.ft-family-onboard .ft-entry .ft-onboard-form label{font-size:.84rem}
+.ft-family-onboard .ft-entry .ft-onboard-form input{min-height:52px!important;font-size:1rem!important}
+.ft-family-onboard .ft-entry .ft-submit{justify-content:center;gap:10px;min-height:53px}
+.ft-family-onboard .ft-or{display:flex;align-items:center;gap:12px;color:#b2d3bd;font-size:.78rem}
+.ft-family-onboard .ft-or::before,.ft-family-onboard .ft-or::after{content:"";height:1px;background:#98b49a66;flex:1}
+.ft-family-onboard .ft-google-signin{display:flex;justify-content:center}
+.ft-family-onboard .ft-text-link{border:0;background:transparent;color:#c9fc54;font:inherit;font-size:.83rem;font-weight:850;text-decoration:underline;text-underline-offset:4px;cursor:pointer;padding:6px 0;width:max-content}
+.ft-family-onboard .ft-private-hint{font-size:.75rem!important;color:#b5ceb7!important}
+.ft-family-onboard #ftFamilyRegistration button:focus-visible{outline:3px solid #d9ff8c;outline-offset:3px}

@@ -48,7 +48,7 @@
   const resetButton=document.getElementById('resetFilters');
   const empty=document.getElementById('emptyResults');
   const chips=[...document.querySelectorAll('.quick-chip[data-club]')];
-  const cards=[...document.querySelectorAll('.talent-card[data-athlete]')];
+  const cards=()=>[...document.querySelectorAll('.talent-card[data-athlete]')];
   const permitted=new Set(chips.map(chip=>chip.dataset.club));
   const normalize=value=>String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
   const preset=new URLSearchParams(location.search).get('clube');
@@ -58,7 +58,7 @@
     if(!search||!rail)return;
     const term=normalize(search.value);
     let visible=0;
-    cards.forEach(card=>{
+    cards().forEach(card=>{
       const clubNames=(card.dataset.clubs||'').split(/\s+/);
       const matchesTerm=!term||normalize(card.dataset.keywords).includes(term);
       const matchesClub=selectedClub==='todos'||clubNames.includes(selectedClub);
@@ -105,6 +105,7 @@
   document.getElementById('resetFilters')?.addEventListener('click',reset);
   document.getElementById('emptyReset')?.addEventListener('click',reset);
   filter();
+  window.addEventListener('ft-athletes-changed',filter);
   document.querySelectorAll("a.tracked[data-action]").forEach(link=>{
     link.addEventListener("click",()=>{
       if(getConsent()!=="granted")return;

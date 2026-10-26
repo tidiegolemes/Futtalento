@@ -23,11 +23,14 @@ test('No source marker yields no publication rather than misleading zero',()=>{
 test('Historical first-party achievements supplement only an identified current Lucas profile',()=>{
  const html='<main><h1>Lukinhas10 · Grêmio</h1><p>1 gol + 1 assistência na final da Copa Base Baby 2026; Grêmio venceu. Na final, gol e assistência.</p></main>';
  const record=parseLucasEvidence(html,asOf);
- assert.equal(record.evidenceVersion,2);
+ assert.equal(record.evidenceVersion,3);
  assert.equal(record.sports.titlesDocumented,5);
  assert.equal(record.sports.competitionsDocumented,5);
  assert.equal(record.sports.clubMonthsDocumented,12);
- assert.equal(record.sports.points,21);
+ assert.equal(record.sports.points,24);
+ assert.equal(record.cohortYear,2018);
+ assert.equal(record.clubTenureReferenceMonths,14);
+ assert.equal(record.sports.clubTenureReferenceMonths,14);
  assert.equal(record.historicalArchiveUsed,true);
  assert.equal(record.events.filter(e=>e.basis==='versao_anterior_site_oficial').length,4);
  assert.equal(record.publicSocial.approxFollowers,10700);

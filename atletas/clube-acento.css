@@ -59,9 +59,10 @@ body[data-ft-club="cruzeiro-rs"] :is(.athlete-card,.metric-cell,.ryan-gallery fi
  background:linear-gradient(145deg,#10312d,#122c42);border:1px solid #729ee65c;
  box-shadow:0 8px 24px #0003;border-radius:18px;color:#f0fff5;
 }
-body[data-ft-club="cruzeiro-rs"] .ryan-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-body[data-ft-club="cruzeiro-rs"] .ryan-gallery figure{margin:0;overflow:hidden;padding:7px}
-body[data-ft-club="cruzeiro-rs"] .ryan-gallery img{width:100%;aspect-ratio:4/3;object-fit:cover}
+body[data-ft-club="cruzeiro-rs"] .ryan-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+body[data-ft-club="cruzeiro-rs"] .ryan-gallery figure{margin:0;overflow:hidden;padding:8px;min-width:0}
+body[data-ft-club="cruzeiro-rs"] .ryan-gallery .ryan-photo{display:block;background:#081923;border-radius:11px;overflow:hidden}
+body[data-ft-club="cruzeiro-rs"] .ryan-gallery img{display:block;width:100%;height:auto;aspect-ratio:3/4;object-fit:contain;object-position:center;background:#081923}
 body[data-ft-club="cruzeiro-rs"] .ryan-gallery figcaption{font-size:.74rem;color:#c7dae1}
 body[data-ft-club="cruzeiro-rs"] :is(.role,.highlight,.role-text){color:var(--club-accent)}
 body[data-ft-club="cruzeiro-rs"] .metric-cell small{color:#accddd}
@@ -72,7 +73,8 @@ body[data-ft-club="cruzeiro-rs"] :is(.metric-cell b,.athlete-more h3){color:#e9f
  body[data-ft-club="cruzeiro-rs"] .ryan-cover-copy{padding:4px 7px 13px}
  body[data-ft-club="cruzeiro-rs"] .ryan-cover-copy h1{font-size:2.8rem}
  body[data-ft-club="cruzeiro-rs"] .ryan-cover-copy .actions{display:grid;grid-template-columns:1fr}
- body[data-ft-club="cruzeiro-rs"] .ryan-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}
+ body[data-ft-club="cruzeiro-rs"] .ryan-gallery{display:flex;grid-template-columns:none;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-inline:contain;padding:4px 2px 16px}
+ body[data-ft-club="cruzeiro-rs"] .ryan-gallery figure{flex:0 0 min(78vw,360px);scroll-snap-align:start}
  body[data-ft-club="cruzeiro-rs"] .athlete-profile{grid-template-columns:1fr}
  body[data-ft-club="cruzeiro-rs"] .athlete-profile>img{max-width:100%;height:auto;max-height:400px;object-fit:cover}
  body[data-ft-club="cruzeiro-rs"] :is(.athlete-card,.athlete-more){min-width:0}

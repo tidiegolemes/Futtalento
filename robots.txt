@@ -5,3 +5,4 @@ Allow: /api/captacao-lead?onboarding=1&action=photo&slug=
 Disallow: /api/
 
 Sitemap: https://www.futtalento.com.br/sitemap.xml
+Sitemap: https://www.futtalento.com.br/sitemap-atletas.xml

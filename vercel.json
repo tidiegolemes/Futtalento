@@ -44,5 +44,11 @@
       "path": "/api/captacao-lead",
       "schedule": "0 9 * * *"
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/sitemap-atletas.xml",
+      "destination": "/api/captacao-lead?onboarding=1&action=sitemap"
+    }
   ]
 }

@@ -112,10 +112,23 @@ export default async function handler(req,res){
  res.setHeader('X-Content-Type-Options','nosniff');
  res.setHeader('Referrer-Policy','no-referrer');
  const action=String(req.query?.action||'');
- if(req.method==='GET'&&['list','profile','photo'].includes(action)){
+ if(req.method==='GET'&&['list','profile','photo','sitemap'].includes(action)){
   publiclySafe(req,res);
   try{
    if(action==='list')return res.status(200).json({ok:true,athletes:await publishedList()});
+   if(action==='sitemap'){
+     const published=await publishedList();
+     const urls=published.filter(p=>/^[a-z0-9-]{4,90}$/.test(p.slug)).map(p=>{
+       const location='https://www.futtalento.com.br/atletas/perfil/?id='+encodeURIComponent(p.slug);
+       const lastmod=/^\\d{4}-\\d{2}-\\d{2}/.test(String(p.joinedAt||''))?
+         '<lastmod>'+String(p.joinedAt).slice(0,10)+'</lastmod>':'';
+       return '<url><loc>'+location+'</loc>'+lastmod+'</url>';
+     });
+     res.setHeader('Content-Type','application/xml; charset=utf-8');
+     return res.status(200).send('<?xml version="1.0" encoding="UTF-8"?>\\n'+
+       '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+
+       urls.join('')+'</urlset>');
+   }
    const slug=String(req.query.slug||'');
    if(!/^[a-z0-9-]{4,90}$/.test(slug))return err(res,400,'Identificador inválido');
    const record=await read(BASE+'published/'+slug+'.json');

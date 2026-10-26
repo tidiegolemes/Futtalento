@@ -157,3 +157,21 @@
  .ft-reel-card .ft-r-dot,.ft-reel-card .talent-poster>img{transition:none}
  .ft-reel-card .ft-r-track{scroll-behavior:auto}
 }
+
+/* Disclosure explicativo: não confundir a parcela esportiva com o índice geral. */
+.ft-reel-card .ft-r-score-details{background:#0d2b23;border:1px solid #9de17c55;border-radius:12px;margin:2px 0 12px;overflow:hidden}
+.ft-reel-card .ft-r-score-details summary{font-size:.76rem;line-height:1.4;font-weight:800;color:#d5fac2;padding:11px 13px;cursor:pointer;min-height:44px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.ft-reel-card .ft-r-score-details summary::after{content:"+";font-size:1.1rem;color:#c9fc54;font-weight:850}
+.ft-reel-card .ft-r-score-details[open] summary::after{content:"−"}
+.ft-reel-card .ft-r-score-details summary::marker{content:""}
+.ft-reel-card .ft-r-score-details summary::-webkit-details-marker{display:none}
+.ft-reel-card .ft-r-score-details summary:focus-visible{outline:3px solid #dcff86;outline-offset:-3px}
+.ft-reel-card .ft-r-score-body{padding:0 13px 13px;font-size:.73rem;line-height:1.5;color:#d2e7db}
+.ft-reel-card .ft-r-score-summary{font-weight:850;color:#f0ffe5;margin:2px 0 10px}
+.ft-reel-card .ft-r-score-breakdown{margin:0 0 10px}
+.ft-reel-card .ft-r-score-row{display:flex;justify-content:space-between;gap:6px;border-bottom:1px solid #9de17c25;padding:7px 0}
+.ft-reel-card .ft-r-score-row dt{font-size:.72rem;font-weight:750;max-width:49%}
+.ft-reel-card .ft-r-score-row dd{font-size:.7rem;margin:0;text-align:right;overflow-wrap:break-word;max-width:58%}
+.ft-reel-card .ft-r-score-note{color:#bed2c4;font-size:.7rem;margin:9px 0}
+.ft-reel-card .ft-r-score-pending{font-size:.72rem;font-weight:750;color:#c9fc54;margin:11px 0}
+.ft-reel-card .ft-r-score-source{display:inline-block;color:#c9fc54;font-weight:800;font-size:.72rem;text-underline-offset:3px;padding:6px 0;min-height:28px}

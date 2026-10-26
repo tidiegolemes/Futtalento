@@ -6,6 +6,8 @@ const KNOWN=Object.freeze({
 });
 const integer=(n,min=0,max=500000000)=>Number.isSafeInteger(n)&&n>=min&&n<=max?n:null;
 const fmt=n=>n===null?'A validar':new Intl.NumberFormat('pt-BR').format(n);
+const points=(count,max,reference)=>count===null?null:Math.round(max*Math.min(1,count/reference)*10)/10;
+
 
 export function getReelStats(record,athlete){
  const match=record?.athlete===athlete;
@@ -20,6 +22,11 @@ export function getReelStats(record,athlete){
  const titles=integer(sports.titlesDocumented,0,100)??integer(metrics.titlesVerified,0,100);
  const competitions=integer(sports.competitionsDocumented,0,200)??integer(metrics.competitionsVerified,0,200);
  const clubMonths=integer(sports.clubMonthsDocumented,0,300)??integer(metrics.clubMonths,0,300);
+ const sportsBreakdown=sportsPoints===null?null:{
+  titles:{count:integer(sports.titlesDocumented,0,100),score:points(integer(sports.titlesDocumented,0,100),12,3),maximum:12},
+  competitions:{count:integer(sports.competitionsDocumented,0,200),score:points(integer(sports.competitionsDocumented,0,200),5,5),maximum:5},
+  clubMonths:{count:integer(sports.clubMonthsDocumented,0,300),score:points(integer(sports.clubMonthsDocumented,0,300),8,24),maximum:8}
+ };
  const followers=integer(metrics.followers);
  const reach=integer(metrics.reach28d);
  const interactions=integer(metrics.interactions28d);
@@ -27,8 +34,8 @@ export function getReelStats(record,athlete){
   rating:value,
   badgeLabel:value!==null?'FORÇA FUTTALENTO':sportsPoints!==null?'JORNADA ESPORTIVA':'ÍNDICE FUTTALENTO',
   badgeValue:value!==null?String(value):sportsPoints!==null?String(sportsPoints)+'/25':'—',
-  badgeSub:value!==null?'Índice verificado':sportsPoints!==null?'Parcial documentada':'Em formação',
-  titles,competitions,clubMonths,followers,reach,interactions,sportsPoints,
+  badgeSub:value!==null?'Índice verificado':sportsPoints!==null?'Nota parcial · acervo':'Em formação',
+  titles,competitions,clubMonths,followers,reach,interactions,sportsPoints,sportsBreakdown,
   verifiedSource:validEvidence?evidence.source:null,
   sourceLabel:athlete==='ryan'?'Acervo FutTalento':'Site do atleta',
   sportsStale:validEvidence&&evidence.stale===true,

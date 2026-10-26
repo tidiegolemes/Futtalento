@@ -123,6 +123,12 @@ function makeCard(card){
  card.classList.add('ft-reel-card');
  const scoreNote=elt('p','ft-r-footer-note','Arraste para conhecer o potencial deste atleta.');
  info.insertBefore(scoreNote,info.querySelector('.talent-bottomline'));
+ const explain=elt('details','ft-r-score-details');
+ explain.append(elt('summary','','Entenda a pontuação esportiva'));
+ const scoreBody=elt('div','ft-r-score-body');
+ explain.append(scoreBody);
+ info.insertBefore(explain,info.querySelector('.talent-bottomline'));
+
  let active=0,raf=0;
  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
  function sync(){
@@ -152,7 +158,7 @@ function makeCard(card){
  track.addEventListener('scroll',()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(sync)},{passive:true});
  window.addEventListener('resize',()=>go(active),{passive:true});
  sync();
- return {athlete,card,badge,impactBadge,note:source};
+ return {athlete,card,badge,impactBadge,note:source,scoreBody};
 }
 const live=cards.map(makeCard).filter(Boolean);
 function show(record,entry){
@@ -174,6 +180,37 @@ function show(record,entry){
   'Parcial esportiva do '+stats.sourceLabel+'; sem auditoria independente'+(stats.sportsStale?' · atualização pendente':''):
   'Estatísticas aguardando comprovação';
  entry.note.textContent=label+'. Instagram e alcance somente após autorização. Sem previsão de resultados.';
+ const panel=entry.scoreBody;
+ panel.replaceChildren();
+ if(stats.sportsPoints===null||!stats.sportsBreakdown){
+  panel.append(elt('p','ft-r-score-note','Ainda não há registros esportivos suficientes para uma parcial documentada.'));
+  return;
+ }
+ panel.append(elt('p','ft-r-score-summary','Parcial esportiva: '+stats.sportsPoints+' de 25 pontos. Não é a nota geral do atleta.'));
+ const list=elt('dl','ft-r-score-breakdown');
+ const fmtScore=n=>Number.isFinite(n)?new Intl.NumberFormat('pt-BR',{maximumFractionDigits:1}).format(n):'—';
+ const rows=[
+  ['Títulos da trajetória',stats.sportsBreakdown.titles,'registros','12'],
+  ['Competições',stats.sportsBreakdown.competitions,'registros','5'],
+  ['Tempo de clube',stats.sportsBreakdown.clubMonths,'meses mínimos','8']
+ ];
+ for(const [label,part,unit,maximum] of rows){
+  const wrapper=elt('div','ft-r-score-row');
+  const dt=elt('dt','',label);
+  const dd=elt('dd','',part.count===null?'Não documentado':
+   part.count+' '+unit+' · '+fmtScore(part.score)+' / '+maximum+' pts');
+  wrapper.append(dt,dd);list.append(wrapper);
+ }
+ panel.append(list);
+ panel.append(elt('p','ft-r-score-note','Critérios: títulos até 12 pts (teto em 3), competições até 5 pts (teto em 5) e tempo de clube até 8 pts (teto em 24 meses). Datas incompletas geram apenas estimativas mínimas conservadoras.'));
+ panel.append(elt('p','ft-r-score-note','Registros publicados em fonte vinculada ao atleta; não representam avaliação técnica, auditoria independente ou comparação justa de habilidade.'));
+ if(stats.rating===null)panel.append(elt('p','ft-r-score-pending','Índice geral / 100: indisponível até validar audiência, engajamento e cobertura mínima dos indicadores.'));
+ if(stats.verifiedSource){
+  const sourceLink=elt('a','ft-r-score-source','Conferir registros de origem ↗');
+  sourceLink.href=stats.verifiedSource;sourceLink.target='_blank';sourceLink.rel='noopener noreferrer';
+  panel.append(sourceLink);
+ }
+
 }
 async function refresh(){
  try{

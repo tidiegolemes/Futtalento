@@ -2,7 +2,7 @@ const $=id=>document.getElementById(id);
 const status=msg=>{$('status').textContent=msg};
 const auth=$('authForm'),profile=$('profileForm');
 async function api(body,method='POST'){
- const res=await fetch('/api/atletas-cadastro',{method,credentials:'same-origin',headers:{'Content-Type':'application/json'},...(method==='POST'?{body:JSON.stringify(body)}:{})});
+ const res=await fetch('/api/captacao-lead?cadastroAtleta=1',{method,credentials:'same-origin',headers:{'Content-Type':'application/json'},...(method==='POST'?{body:JSON.stringify(body)}:{})});
  const data=await res.json();if(!res.ok)throw Error(data.error||'Falha ao salvar');return data;
 }
 function collect(form){
@@ -24,7 +24,7 @@ function fill(p){
 }
 async function load(){
  try{
-  const response=await fetch('/api/atletas-cadastro',{credentials:'same-origin',cache:'no-store'});
+  const response=await fetch('/api/captacao-lead?cadastroAtleta=1',{credentials:'same-origin',cache:'no-store'});
   if(!response.ok)return;
   const data=await response.json();
   $('authPanel').hidden=true;$('profilePanel').hidden=false;fill(data.profile);

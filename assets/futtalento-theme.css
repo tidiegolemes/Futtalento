@@ -169,6 +169,15 @@ body[data-ft-theme="landing"] .offer-card.recommended{
 }
 body[data-ft-theme="landing"] .athlete-foot,
 body[data-ft-theme="landing"] .media-kit{border-color:var(--ft-outline)}
+body[data-ft-theme="landing"] .offer-head p,
+body[data-ft-theme="landing"] .athlete-foot,
+body[data-ft-theme="landing"] .athlete-foot span{color:#b9d9c3}
+body[data-ft-theme="landing"] .athlete-foot a{color:#d7ff98}
+body[data-ft-theme="landing"] .offer-outline{background:#18452f;border-color:#9fd48385;color:#e6ffbc}
+body[data-ft-theme="landing"] .offer-card :is(h3,.offer-price,.offer-overline){color:#19442e}
+body[data-ft-theme="landing"] .offer-card :is(p,ul){color:#536a59}
+body[data-ft-theme="landing"] .media-kit{background:linear-gradient(135deg,#153e2f,#0b271f);border:1px solid var(--ft-outline)}
+
 body[data-ft-theme="landing"] :is(.formcard,.offer-card,.media-kit) :is(input,textarea,select){
  color:#183d2a;
 }

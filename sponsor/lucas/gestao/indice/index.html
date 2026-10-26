@@ -43,7 +43,41 @@ button:disabled{opacity:.6}
 </style><link rel="stylesheet" href="/assets/futtalento-theme.css"></head><body data-ft-theme="workspace">
 <main>
 <header><div><span class="eyebrow">Área privada · EyAgência</span><h1>Índice FutTalento</h1><p>Atualize métricas agregadas e documentadas. O público vê apenas informações aprovadas.</p></div><a href="/sponsor/lucas/gestao/">← Gestão da agência</a></header>
-<div class="panel"><div class="rules"><strong>Como a nota é liberada</strong><p>55% audiência (alcance, seguidores, interações e crescimento); 25% trajetória (títulos, competições e tempo de clube); 20% parcerias (apoiadores e entregas). A nota só aparece com dados recentes de audiência e no mínimo 70% de cobertura. Campos não medidos devem ficar vazios, nunca preenchidos com zero.</p></div>
+<section class="panel" aria-labelledby="v2Header">
+ <span class="eyebrow">NOVO · PRODUÇÃO</span>
+ <h2 id="v2Header">Potencial de Patrocínio FutTalento 2.0</h2>
+ <p>A nota comercial pública só será liberada com Insights oficiais da Meta, histórico esportivo revisado e autorização do responsável. Sem evidências completas, a vitrine mostra <strong>Em validação</strong>.</p>
+ <div class="rules"><strong>Pontuação /100</strong><p>35 pontos · audiência e alcance; 30 · engajamento; 20 · trajetória esportiva proporcional à geração; 15 · capacidade de ativação. Resultados reais do patrocinador são medidos separadamente.</p></div>
+ <form id="v2Form" class="v2-form">
+  <div class="formgrid">
+   <label>Atleta<select id="v2Athlete" required><option value="lucas">Lucas Azambuja</option><option value="ryan">Ryan Coelho</option><option value="thalles">Thalles Silvino</option></select></label>
+   <label>Data do relatório (até 35 dias)<input id="v2ObservedAt" type="date" required></label>
+   <label style="grid-column:1/-1">Referência dos relatórios revisados<input id="v2Reference" required minlength="12" maxlength="180" placeholder="Ex.: Meta Insights 28 dias, campanha e dossiê esportivo aprovados"></label>
+  </div>
+  <h3>Audiência e engajamento <small>65 pts</small></h3>
+  <div class="formgrid">
+   <label>Contas alcançadas · 28 dias<input type="number" min="0" max="500000000" step="1" data-v2-metric="reach28d" required></label>
+   <label>Seguidores oficiais<input type="number" min="0" max="500000000" step="1" data-v2-metric="followers" required></label>
+   <label>Crescimento em 28 dias (%)<input type="number" min="-100" max="500" step="0.1" data-v2-metric="growth28dPct" required></label>
+   <label>Interações em 28 dias<input type="number" min="0" max="500000000" step="1" data-v2-metric="interactions28d" required></label>
+   <label>Publicações em 28 dias<input type="number" min="0" max="100" step="1" data-v2-metric="posts28d" required></label>
+  </div>
+  <h3>Trajetória esportiva <small>20 pts</small></h3>
+  <div class="formgrid">
+   <label>Títulos documentados<input type="number" min="0" max="100" step="1" data-v2-metric="titlesVerified" required></label>
+   <label>Competições documentadas<input type="number" min="0" max="200" step="1" data-v2-metric="competitionsVerified" required></label>
+   <label>Meses documentados de clube<input type="number" min="0" max="300" step="1" data-v2-metric="clubMonths" required></label>
+  </div>
+  <h3>Prontidão de ativação <small>15 pts</small></h3>
+  <label class="check"><input type="checkbox" id="v2Profile" required><span>Perfil revisado e informações públicas aprovadas pela agência.</span></label>
+  <label class="check"><input type="checkbox" id="v2Consent" required><span>Autorização do responsável legal confirmada para métricas agregadas.</span></label>
+  <label class="check"><input type="checkbox" id="v2Tracking" required><span>UTMs, links ou cupons da campanha revisados e aptos a serem medidos.</span></label>
+  <label class="check"><input type="checkbox" id="v2Approve" required><span>Confirmo a revisão das evidências e autorizo publicar o potencial somente após validação automática da Meta.</span></label>
+  <button type="submit" id="v2Submit">Validar fontes e publicar Índice 2.0</button>
+  <p id="v2Status" role="status" aria-live="polite">A vitrine mantém os dados esportivos separados enquanto aguardamos a verificação das fontes.</p>
+ </form>
+</section>
+<div class="panel"><div class="rules"><strong>Formulário anterior — histórico v1</strong><p>Este formulário mantém os registros operacionais legados de audiência, trajetória e entregas. Ele NÃO publica o Potencial de Patrocínio 2.0; utilize a validação acima para o novo índice. Campos não medidos ficam vazios, nunca zero.</p></div>
 <form id="scoreForm">
 <div class="auto-panel">
  <div class="auto-header"><div><span class="eyebrow">CONEXÕES E VALIDAÇÃO</span><h2>Buscar e preencher automaticamente</h2><p>Consultamos as páginas oficiais dos atletas e, quando a conta tiver acesso autorizado à API da Meta, importamos as estatísticas do Instagram. Não criamos seguidores nem alcance estimado.</p></div><button type="button" id="autoSync">Atualizar fontes <span aria-hidden="true">↻</span></button></div>

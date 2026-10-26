@@ -6,7 +6,7 @@ const set=(id,text)=>$(id).textContent=text||'';
 async function load(){
  if(!valid){set('loading','Perfil inválido.');return}
  try{
-  const r=await fetch('/api/atletas-cadastro?public=1&slug='+encodeURIComponent(slug),{cache:'no-store'});
+  const r=await fetch('/api/captacao-lead?cadastroAtleta=1&public=1&slug='+encodeURIComponent(slug),{cache:'no-store'});
   if(!r.ok)throw Error('Perfil ainda não está disponível publicamente.');
   const {athlete:p}=await r.json();
   document.documentElement.style.setProperty('--team',colorFor(p.club));

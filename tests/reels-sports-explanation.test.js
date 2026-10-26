@@ -19,6 +19,8 @@ test('sports partials explain Lucas, Ryan, and Thalles without fabricating a 100
   const stats=partial(athlete,score,titles,competitions,months);
   assert.equal(stats.rating,null);
   assert.equal(stats.sportsPoints,score);
+  assert.equal(stats.sportsScore100,score*4);
+  assert.equal(stats.badgeValue,String(score*4));
   assert.match(stats.badgeSub,/parcial|Parcial/);
   assert.equal(stats.sportsBreakdown.titles.score,components[0]);
   assert.equal(stats.sportsBreakdown.competitions.score,components[1]);
@@ -29,9 +31,11 @@ test('sports partials explain Lucas, Ryan, and Thalles without fabricating a 100
 test('No evidence is not treated as zero: no sports score without attributed source',()=>{
  const unavailable=getReelStats({athlete:'ryan',index:{value:null},evidence:null},'ryan');
  assert.equal(unavailable.sportsPoints,null);
+ assert.equal(unavailable.sportsScore100,null);
  assert.equal(unavailable.sportsBreakdown,null);
  const spoofed=getReelStats({athlete:'ryan',index:{value:null},evidence:{athlete:'ryan',source:'https://example.com/',sports:{points:25}}},'ryan');
  assert.equal(spoofed.sportsPoints,null);
+ assert.equal(spoofed.sportsScore100,null);
 });
 test('Missing club tenure is not reported as zero months or penalized',()=>{
  const a=partial('lucas',5,1,1,null);

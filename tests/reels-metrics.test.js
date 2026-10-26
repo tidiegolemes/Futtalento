@@ -9,7 +9,10 @@ const sample={
 test('An unapproved athlete gets a truthful sporting partial, never invented FIFA rating',()=>{
  const value=getReelStats(sample,athlete);
  assert.equal(value.rating,null);
- assert.equal(value.badgeValue,'5/25');
+ assert.equal(value.badgeValue,'20');
+ assert.equal(value.sportsScore100,20);
+ assert.equal(value.badgeLabel,'NOTA ESPORTIVA');
+ assert.equal(value.rating,null);
  assert.equal(value.titles,1);
  assert.equal(value.followers,null);
  assert.equal(value.display.followers,'A validar');
@@ -22,6 +25,7 @@ test('Mismatch of athlete identity discards all published scores and evidence',(
 test('Evidence from an unlisted or mismatched source does not award sports points',()=>{
  const value=getReelStats({...sample,evidence:{...sample.evidence,source:'https://example.org/'}},athlete);
  assert.equal(value.sportsPoints,null);
+ assert.equal(value.sportsScore100,null);
  assert.equal(value.badgeValue,'—');
 });
 test('Approved index and numeric audience metrics are formatted, never estimated',()=>{

@@ -19,6 +19,8 @@ export function getReelStats(record,athlete){
  const sports=validEvidence?evidence.sports:{};
  const value=integer(index.value,0,100);
  const sportsPoints=integer(sports.points,0,25);
+ // Display-only normalization. It is NOT the overall FutTalento index.
+ const sportsScore100=sportsPoints===null?null:Math.round(sportsPoints*100/25);
  const titles=integer(sports.titlesDocumented,0,100)??integer(metrics.titlesVerified,0,100);
  const competitions=integer(sports.competitionsDocumented,0,200)??integer(metrics.competitionsVerified,0,200);
  const clubMonths=integer(sports.clubMonthsDocumented,0,300)??integer(metrics.clubMonths,0,300);
@@ -32,10 +34,10 @@ export function getReelStats(record,athlete){
  const interactions=integer(metrics.interactions28d);
  return {
   rating:value,
-  badgeLabel:value!==null?'FORÇA FUTTALENTO':sportsPoints!==null?'JORNADA ESPORTIVA':'ÍNDICE FUTTALENTO',
-  badgeValue:value!==null?String(value):sportsPoints!==null?String(sportsPoints)+'/25':'—',
-  badgeSub:value!==null?'Índice verificado':sportsPoints!==null?'Nota parcial · acervo':'Em formação',
-  titles,competitions,clubMonths,followers,reach,interactions,sportsPoints,sportsBreakdown,
+  badgeLabel:value!==null?'ÍNDICE GERAL':sportsScore100!==null?'NOTA ESPORTIVA':'ÍNDICE FUTTALENTO',
+  badgeValue:value!==null?String(value):sportsScore100!==null?String(sportsScore100):'—',
+  badgeSub:value!==null?'de 100 · geral':sportsScore100!==null?'de 100 · acervo':'Em formação',
+  titles,competitions,clubMonths,followers,reach,interactions,sportsPoints,sportsScore100,sportsBreakdown,
   verifiedSource:validEvidence?evidence.source:null,
   sourceLabel:athlete==='ryan'?'Acervo FutTalento':'Site do atleta',
   sportsStale:validEvidence&&evidence.stale===true,

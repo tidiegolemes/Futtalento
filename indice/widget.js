@@ -32,7 +32,9 @@ if(containers.length){
   if(evidence?.athlete===data.athlete&&evidence?.source===sportsSources[data.athlete]&&
      Number.isInteger(evidence.sports?.points)&&evidence.sports.points>=0&&evidence.sports.points<=25){
     const partial=e('div',compact?'ft-evidence-partial ft-evidence-mini':'ft-evidence-partial');
-    const points=e('strong','ft-evidence-score','Parcial esportiva: '+evidence.sports.points+' / 25 pontos');
+    const normalized=Math.round(evidence.sports.points*100/25);
+    const points=e('strong','ft-evidence-score','Nota esportiva: '+normalized+' / 100');
+    points.title=evidence.sports.points+' de 25 pontos do componente esportivo — não é a nota geral';
     const counts=e('span','ft-evidence-counts',
       [Number.isInteger(evidence.sports.titlesDocumented)?evidence.sports.titlesDocumented+' título(s) documentado(s)':null,
        Number.isInteger(evidence.sports.competitionsDocumented)?evidence.sports.competitionsDocumented+' competição(ões) documentada(s)':null,
@@ -40,7 +42,7 @@ if(containers.length){
     const sourceLabel=data.athlete==='ryan'?'acervo FutTalento':'site do atleta';
     const attribution=e('small','ft-evidence-note','Fonte: '+sourceLabel+' · sem validação independente da competição'+
       (evidence.stale?' · atualização pendente':''));
-    partial.append(points);
+    partial.append(points,e('small','ft-evidence-note','Equivale a '+evidence.sports.points+' / 25 pontos esportivos. Nota geral pendente de outros dados.'));
     if(counts.textContent)partial.append(counts);
     partial.append(attribution);
     if(!compact){

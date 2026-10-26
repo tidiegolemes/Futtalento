@@ -65,7 +65,7 @@ function makeCard(card){
   elt('p','',card.querySelector('.talent-one-fact')?.textContent?.trim()||record.milestones?.[0]?.title||'História em construção'));
  const factsPanel=elt('div','ft-r-hero-facts');
  attach(factsPanel,metric('🏆','Títulos','titles'),metric('✦','Competições','competitions'),
-  metric('⚡','Parcial esportiva','sports','Em formação'));
+  metric('⚡','Nota esportiva','sports','Em formação'));
  photo.append(shade,top,badge,details,highlight,factsPanel);
  // Second slide: real public metrics, with unanswered fields visibly pending.
  const slide=elt('section','ft-r-slide ft-r-slide-impact');
@@ -166,7 +166,7 @@ function show(record,entry){
  const nodes=entry.card.querySelectorAll('[data-ft-reel-metric]');
  for(const el of nodes){
   const key=el.dataset.ftReelMetric;
-  if(key==='sports')el.textContent=stats.sportsPoints===null?'Em formação':stats.sportsPoints+' / 25';
+  if(key==='sports')el.textContent=stats.sportsScore100===null?'Em formação':stats.sportsScore100+' / 100';
   else if(key==='tiktok')el.textContent='Métricas pendentes';
   else if(key==='site')el.textContent='Acervo online';
   else el.textContent=stats.display[key]||'A validar';
@@ -186,7 +186,7 @@ function show(record,entry){
   panel.append(elt('p','ft-r-score-note','Ainda não há registros esportivos suficientes para uma parcial documentada.'));
   return;
  }
- panel.append(elt('p','ft-r-score-summary','Parcial esportiva: '+stats.sportsPoints+' de 25 pontos. Não é a nota geral do atleta.'));
+ panel.append(elt('p','ft-r-score-summary','Nota esportiva: '+stats.sportsScore100+' / 100 ('+stats.sportsPoints+' de 25 pontos da componente esportiva). Não é o Índice FutTalento geral.'));
  const list=elt('dl','ft-r-score-breakdown');
  const fmtScore=n=>Number.isFinite(n)?new Intl.NumberFormat('pt-BR',{maximumFractionDigits:1}).format(n):'—';
  const rows=[
@@ -202,9 +202,9 @@ function show(record,entry){
   wrapper.append(dt,dd);list.append(wrapper);
  }
  panel.append(list);
- panel.append(elt('p','ft-r-score-note','Critérios: títulos até 12 pts (teto em 3), competições até 5 pts (teto em 5) e tempo de clube até 8 pts (teto em 24 meses). Datas incompletas geram apenas estimativas mínimas conservadoras.'));
+ panel.append(elt('p','ft-r-score-note','Nota esportiva = (pontos documentados / 25) × 100. Os 25 pontos originais são divididos em: títulos até 12 (teto em 3), competições até 5 (teto em 5) e tempo de clube até 8 (teto em 24 meses). Datas incompletas geram apenas estimativas mínimas conservadoras.'));
  panel.append(elt('p','ft-r-score-note','Registros publicados em fonte vinculada ao atleta; não representam avaliação técnica, auditoria independente ou comparação justa de habilidade.'));
- if(stats.rating===null)panel.append(elt('p','ft-r-score-pending','Índice geral / 100: indisponível até validar audiência, engajamento e cobertura mínima dos indicadores.'));
+ if(stats.rating===null)panel.append(elt('p','ft-r-score-pending','Índice FutTalento geral / 100: pendente até validar audiência, engajamento, parcerias e cobertura mínima dos indicadores.'));
  if(stats.verifiedSource){
   const sourceLink=elt('a','ft-r-score-source','Conferir registros de origem ↗');
   sourceLink.href=stats.verifiedSource;sourceLink.target='_blank';sourceLink.rel='noopener noreferrer';

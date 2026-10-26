@@ -6,8 +6,8 @@ const root=new URL('../',import.meta.url);
 const ignore=new Set(['admin/index.html','matchday.html','match-result.html']);
 const themed={
  'landing':new Set(['para-familias/index.html','para-empresas/index.html']),
- 'marketplace':new Set(['atletas/index.html']),
- 'profile':new Set(['atletas/lucas/index.html','atletas/thalles/index.html']),
+ 'marketplace':new Set(['atletas/index.html','atletas/cadastrar/index.html']),
+ 'profile':new Set(['atletas/lucas/index.html','atletas/thalles/index.html','atletas/perfil/index.html']),
  'journey':new Set(['sponsor/lucas/index.html','apoiador/index.html']),
  'checkout':new Set(['checkout/index.html']),
  'workspace':new Set([

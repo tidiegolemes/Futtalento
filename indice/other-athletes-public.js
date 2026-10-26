@@ -15,22 +15,24 @@ export function parseOtherAthleteEvidence(athlete,html,checkedAt=new Date().toIS
   const cfg=cfgFor(athlete);
   const sports=extractSports(athlete,html,checkedAt.slice(0,10));
   if(!sports.events.length)throw new Error('Nenhum marco documentado para '+athlete);
-  const index=calculateIndex({metrics:sports.metrics,observedAt:checkedAt.slice(0,10)});
+  const index=calculateIndex({metrics:sports.metrics,observedAt:checkedAt.slice(0,10),cohortYear:sports.cohortYear});
   return {
-    athlete,checkedAt,source:cfg.url,sourceLabel:cfg.label,
+    athlete,evidenceVersion:2,checkedAt,source:cfg.url,sourceLabel:cfg.label,
+    cohortYear:sports.cohortYear,clubTenureReferenceMonths:index.clubTenureReferenceMonths,
     verification:'registro_publicado_em_fonte_vinculada',
     sports:{
       points:index.components.sports.score,maximum:25,
       titlesDocumented:sports.metrics.titlesVerified??null,
       competitionsDocumented:sports.metrics.competitionsVerified??null,
-      clubMonthsDocumented:sports.metrics.clubMonths??null
+      clubMonthsDocumented:sports.metrics.clubMonths??null,
+      clubTenureReferenceMonths:index.clubTenureReferenceMonths
     },
     events:sports.events.map(e=>({id:e.id,label:e.label,year:e.year,title:e.title}))
   };
 }
 function safeEvidence(athlete,evidence){
   const cfg=cfgFor(athlete);
-  if(!evidence||evidence.athlete!==athlete||evidence.source!==cfg.url||
+  if(!evidence||evidence.evidenceVersion!==2||evidence.athlete!==athlete||evidence.source!==cfg.url||
     !Number.isFinite(Date.parse(evidence.checkedAt))||
     !Number.isInteger(evidence.sports?.points)||
     evidence.sports.points<0||evidence.sports.points>25||

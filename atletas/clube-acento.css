@@ -1,0 +1,80 @@
+/* FutTalento — mesma identidade base, com a cor esportiva correspondente ao clube destacado.
+   Não representa patrocínio ou vínculo oficial com os clubes. */
+body[data-ft-club="gremio"]{--club-accent:#78cdfa;--club-soft:#bfe8ff}
+body[data-ft-club="juventude"]{--club-accent:#b8f470;--club-soft:#e7ffc6}
+body[data-ft-club="cruzeiro-rs"]{--club-accent:#79b6ff;--club-soft:#cee6ff}
+body[data-ft-club] :is(.eyebrow,.ft-kicker){color:var(--club-accent)}
+body[data-ft-club] :is(.profile-intro h1,.section-heading h2,.story-gallery h2,.source-section h2){text-shadow:0 3px 23px color-mix(in srgb,var(--club-accent) 13%,transparent)}
+body[data-ft-club] .chips span{border-color:color-mix(in srgb,var(--club-accent) 52%,transparent)}
+body[data-ft-club] .timeline-number,
+body[data-ft-club] .primary,
+body[data-ft-club] .offer-card>a,
+body[data-ft-club] .btn-primary{background:var(--club-accent);color:#0b2630;border-color:var(--club-accent)}
+body[data-ft-club] :is(.offer-card.emphasis,.club-float,.athlete-card){
+ border-color:color-mix(in srgb,var(--club-accent) 60%,transparent)
+}
+body[data-ft-club] .offer-name,
+body[data-ft-club] .offer-value{color:var(--club-soft)}
+body[data-ft-club] .brand strong{color:#c9fc54}
+body[data-ft-club="cruzeiro-rs"] .ryan-mobile-hero{
+ margin:25px 0 28px;display:grid;grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);
+ gap:32px;align-items:center;min-width:0;
+ padding:21px;border:1px solid #74aff077;border-radius:23px;
+ background:radial-gradient(circle at 5% 10%,#235ca947,transparent 62%),
+ linear-gradient(140deg,#081c1b,#12304b);
+ box-shadow:0 19px 42px #0005;
+}
+body[data-ft-club="cruzeiro-rs"] .ryan-cover{
+ position:relative;overflow:hidden;border-radius:19px;aspect-ratio:4/4.6;
+ border:1px solid #77b6f69a;background:#0a2331;
+ box-shadow:0 12px 28px #0007;
+}
+body[data-ft-club="cruzeiro-rs"] .ryan-cover>img{width:100%;height:100%;object-fit:cover;object-position:center 22%;display:block}
+body[data-ft-club="cruzeiro-rs"] .ryan-cover-shade{position:absolute;inset:0;background:linear-gradient(180deg,#0118278a,transparent 25%,transparent 52%,#041524db)}
+body[data-ft-club="cruzeiro-rs"] .ryan-cover-badge{
+ position:absolute;top:13px;left:13px;color:#e7fff5;
+ font-size:.67rem;font-weight:900;letter-spacing:.06em;
+ background:#061c19b8;border:1px solid #a3d9bd77;border-radius:99px;padding:8px 10px;
+}
+body[data-ft-club="cruzeiro-rs"] .ryan-cover-club{
+ position:absolute;left:14px;bottom:15px;display:flex;align-items:center;gap:8px;
+ background:#061822e8;color:#e2f2ff;border:1px solid #7eb6ee91;
+ border-radius:12px;padding:8px 12px;font-size:.76rem;font-weight:900;
+}
+body[data-ft-club="cruzeiro-rs"] .ryan-cover-club img{
+ width:29px;height:29px;object-fit:contain;background:white;border-radius:7px;padding:4px;
+}
+body[data-ft-club="cruzeiro-rs"] .ryan-cover-copy h1{
+ font-weight:950;font-size:clamp(2.3rem,6vw,4.9rem);line-height:1.03;letter-spacing:-.07em;margin:12px 0 15px;
+}
+body[data-ft-club="cruzeiro-rs"] .ryan-cover-copy h1 em{display:block;color:var(--club-accent)!important}
+body[data-ft-club="cruzeiro-rs"] .ryan-cover-copy .lead{color:#c1d7dc;line-height:1.65}
+body[data-ft-club="cruzeiro-rs"] .ryan-cover-copy .actions{display:flex;gap:10px;flex-wrap:wrap}
+body[data-ft-club="cruzeiro-rs"] .ryan-cover-copy .btn{
+ display:inline-flex;align-items:center;justify-content:center;
+ min-height:49px;padding:12px 16px;border-radius:12px;font-weight:900;
+}
+body[data-ft-club="cruzeiro-rs"] .ryan-cover-copy .btn-outline{border-color:#77a9db;background:#193951;color:#e6f2ff}
+body[data-ft-club="cruzeiro-rs"] :is(.athlete-card,.metric-cell,.ryan-gallery figure){
+ background:linear-gradient(145deg,#10312d,#122c42);border:1px solid #729ee65c;
+ box-shadow:0 8px 24px #0003;border-radius:18px;color:#f0fff5;
+}
+body[data-ft-club="cruzeiro-rs"] .ryan-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+body[data-ft-club="cruzeiro-rs"] .ryan-gallery figure{margin:0;overflow:hidden;padding:7px}
+body[data-ft-club="cruzeiro-rs"] .ryan-gallery img{width:100%;aspect-ratio:4/3;object-fit:cover}
+body[data-ft-club="cruzeiro-rs"] .ryan-gallery figcaption{font-size:.74rem;color:#c7dae1}
+body[data-ft-club="cruzeiro-rs"] :is(.role,.highlight,.role-text){color:var(--club-accent)}
+body[data-ft-club="cruzeiro-rs"] .metric-cell small{color:#accddd}
+body[data-ft-club="cruzeiro-rs"] :is(.metric-cell b,.athlete-more h3){color:#e9f5ff}
+@media(max-width:700px){
+ body[data-ft-club="cruzeiro-rs"] .ryan-mobile-hero{grid-template-columns:minmax(0,1fr);gap:16px;margin:13px 0 19px;padding:12px}
+ body[data-ft-club="cruzeiro-rs"] .ryan-cover{aspect-ratio:4/3.7;max-height:420px}
+ body[data-ft-club="cruzeiro-rs"] .ryan-cover-copy{padding:4px 7px 13px}
+ body[data-ft-club="cruzeiro-rs"] .ryan-cover-copy h1{font-size:2.8rem}
+ body[data-ft-club="cruzeiro-rs"] .ryan-cover-copy .actions{display:grid;grid-template-columns:1fr}
+ body[data-ft-club="cruzeiro-rs"] .ryan-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}
+ body[data-ft-club="cruzeiro-rs"] .athlete-profile{grid-template-columns:1fr}
+ body[data-ft-club="cruzeiro-rs"] .athlete-profile>img{max-width:100%;height:auto;max-height:400px;object-fit:cover}
+ body[data-ft-club="cruzeiro-rs"] :is(.athlete-card,.athlete-more){min-width:0}
+}
+@media(max-width:420px){body[data-ft-club="cruzeiro-rs"] .ryan-cover-copy h1{font-size:2.45rem}}

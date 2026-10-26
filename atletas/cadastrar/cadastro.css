@@ -18,3 +18,12 @@
 .ft-text-link{width:max-content;max-width:100%;border:0;background:transparent;color:#c9fc54;cursor:pointer;padding:7px 0;font:inherit;font-size:.83rem;font-weight:800;text-decoration:underline;text-underline-offset:4px}
 .ft-private-hint{font-size:.76rem!important;color:#acc8b8!important;margin-top:0!important}
 @media(max-width:790px){.ft-entry .ft-submit{min-height:54px}.ft-onboard-panel{border-radius:18px}}
+
+
+/* Campos opcionais recolhidos por padrão: menor carga cognitiva em mobile. */
+.ft-optional{padding:12px 13px;border:1px solid #87ac7966;border-radius:13px;background:#123927;min-width:0}
+.ft-optional summary{cursor:pointer;font-size:.85rem;font-weight:850;color:#c9fc54;list-style-position:inside}
+.ft-optional summary small{font-size:.7rem;color:#c1d7c3;font-weight:500}
+.ft-optional[open] summary{margin-bottom:14px}
+.ft-optional .ft-fields{margin-top:2px}
+.ft-optional:focus-within{border-color:#c9fc54}

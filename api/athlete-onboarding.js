@@ -1,6 +1,6 @@
 import crypto from 'node:crypto';
 import {get,put,list} from '@vercel/blob';
-import {signed,verify} from './_sponsor-auth.js';
+import {signed,verify,authenticate} from './_sponsor-auth.js';
 
 const BASE='futtalento/onboarding/v1/';
 const NOT_FOUND=/not.found|404|does not exist/i;
@@ -38,7 +38,7 @@ function validAthlete(body){
  const athleteName=clean(body.athleteName,100),guardianName=clean(body.guardianName,100);
  const guardianPhone=String(body.guardianPhone||'').replace(/\D/g,'');
  const dob=String(body.birthDate||'');
- const club=clean(body.club,100),position=clean(body.position,60),category=clean(body.category,50),titles=clean(body.titles,450);
+ const club=clean(body.club,100)||'Sem clube',position=clean(body.position,60),category=clean(body.category,50),titles=clean(body.titles,450);
  const urls={};
  for(const key of ['instagram','tiktok','youtube','website']){
   const raw=clean(body[key],240);if(!raw)continue;
@@ -59,7 +59,7 @@ function validAthlete(body){
   if(!Number.isFinite(time)||new Date(time).toISOString().slice(0,10)!==dob||time>Date.now()||time<Date.now()-100*365*86400000)
    return {error:'Data de nascimento inválida'};
  }
- if(!club||club.length<2)return {error:'Informe o clube atual ou escreva Sem clube'};
+ if(club&&club.length<2)return {error:'Nome do clube inválido'};
  return {value:{athleteName,guardianName,guardianPhone,birthDate:dob,club,
   clubKey:club.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').slice(0,52),
   position,category,titles,socials:urls}};
@@ -129,6 +129,15 @@ export default async function handler(req,res){
   }catch(e){console.error('athlete public read',e.name);return err(res,503,'Perfis temporariamente indisponíveis');}
  }
  if(!hostOK(req))return err(res,403,'Domínio não permitido');
+ if(req.method==='GET'&&action==='admin-leads'){
+  const staff=authenticate(req);
+  if(!staff||staff.kind!=='sponsor')return err(res,403,'Acesso restrito à agência');
+  try{
+   const data=await list({prefix:BASE+'leads/',limit:100,access:'private'});
+   const leads=await Promise.all((data.blobs||[]).map(x=>read(x.pathname)));
+   return res.status(200).json({ok:true,leads:leads.filter(Boolean)});
+  }catch(e){return err(res,503,'Não foi possível consultar os interessados')}
+ }
  if(req.method==='GET'&&action==='session'){
   try{
    const a=await requireAccount(req);
@@ -143,6 +152,23 @@ export default async function handler(req,res){
  if(!body||typeof body!=='object'||Array.isArray(body)||JSON.stringify(body).length>510000)return err(res,400,'Dados inválidos');
  if(!process.env.BLOB_READ_WRITE_TOKEN||!process.env.SPONSOR_SESSION_SECRET)return err(res,503,'Serviço de cadastro não configurado');
  try{
+  if(action==='interest'){
+   const slug=String(body.slug||'');
+   const target=/^[a-z0-9-]{4,90}$/.test(slug)?await read(BASE+'published/'+slug+'.json'):null;
+   if(!target?.publishedAt)return err(res,404,'Atleta não encontrado');
+   const contactName=clean(body.contactName,100),company=clean(body.company,100),phone=String(body.phone||'').replace(/\\D/g,'');
+   if(!safeName(contactName)||company.length<2||phone.length<10||phone.length>13||body.consent!==true)
+    return err(res,400,'Informe seu nome, empresa, telefone com DDD e autorização');
+   const cd=String(req.headers.cookie||'').split(';').map(s=>s.trim()).find(s=>s.startsWith('ft_athlete_interest='));
+   const previous=verify(cd?.slice('ft_athlete_interest='.length));
+   if(previous?.exp>Date.now())return err(res,429,'Recebemos um contato recente. Aguarde um pouco.');
+   const lead={id:crypto.randomUUID(),slug,athlete:target.athleteName,
+    contactName,company,phone,status:'novo_interesse',createdAt:new Date().toISOString(),
+    consent:true,pixIssued:false};
+   await write(BASE+'leads/'+Date.now()+'-'+lead.id+'.json',lead);
+   res.setHeader('Set-Cookie','ft_athlete_interest='+signed({exp:Date.now()+90000})+'; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=90');
+   return res.status(201).json({ok:true,message:'Interesse encaminhado à EyAgência para avaliar a contratação.'});
+  }
   if(action==='register'){
    const address=email(body.email),password=String(body.password||'');
    const checked=validAthlete(body),photo=imageFrom(body);

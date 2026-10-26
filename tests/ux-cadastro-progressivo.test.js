@@ -13,6 +13,7 @@ test('Página de famílias mostra e-mail primeiro, nunca ficha completa na dobra
  assert.match(signup,/id="ftRegister"[^>]*hidden/);
  assert.match(signup,/id="ftLogin"[^>]*hidden/);
  assert.match(signup,/id="ftGoogleSignIn"[^>]*hidden/);
+ assert.match(signup,/<details class="ft-optional">/);
 });
 test('Criar conta antes de registrar atleta; recuperação de rascunho por login ou cookie',()=>{
  const js=file('atletas/cadastrar/cadastro.js'),api=file('api/_athlete-onboarding.js');
@@ -33,7 +34,8 @@ test('Google opcional só aparece após configuração e ID token validado no ba
  assert.match(js,/script\.src='https:\/\/accounts\.google\.com\/gsi\/client'/);
  assert.match(js,/request\('google',\{credential:response\.credential\}\)/);
  assert.match(api,/FUTTALENTO_GOOGLE_CLIENT_ID/);
- assert.match(api,/googleResponse\.ok/);
+ assert.match(api,/OAuth2Client/);
+ assert.match(api,/verifyIdToken/);
  assert.match(api,/identity\.aud!==clientId/);
  assert.match(api,/identity\.email_verified/);
  assert.match(api,/identity\.sub/);

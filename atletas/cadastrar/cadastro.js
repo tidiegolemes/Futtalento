@@ -9,7 +9,7 @@ const say=(message,link)=>{
  status.scrollIntoView({behavior:'smooth',block:'nearest'});
 };
 const request=async(action,body)=>{
- const response=await fetch(route+'?action='+action,{method:'POST',credentials:'same-origin',cache:'no-store',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+ const response=await fetch(route+'&action='+action,{method:'POST',credentials:'same-origin',cache:'no-store',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
  const data=await response.json();if(!response.ok||!data.ok)throw new Error(data.error||'Não foi possível concluir');
  return data;
 };

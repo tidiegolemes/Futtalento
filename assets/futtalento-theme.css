@@ -1,0 +1,329 @@
+/* FutTalento · identidade de produto 2026
+   Tema compartilhado da vitrine Reels. Declarações segmentadas por família de página
+   para preservar checkout, inputs, consentimento, painéis e conteúdo editorial. */
+:root{
+ --ft-forest-950:#051711;
+ --ft-forest-900:#061b16;
+ --ft-forest-800:#0b291e;
+ --ft-forest-700:#123e2c;
+ --ft-lime:#c9fc54;
+ --ft-lime-soft:#e1ffab;
+ --ft-ink:#f2fff4;
+ --ft-subtle:#b5d3bd;
+ --ft-outline:rgba(178,246,153,.26);
+ --ft-radius:18px;
+}
+body[data-ft-theme]{
+ --ft-shadow:0 14px 36px rgba(0,15,9,.23);
+ -webkit-font-smoothing:antialiased;
+}
+body[data-ft-theme] :is(a,button,input,select,textarea,summary):focus-visible{
+ outline:3px solid #c9fc54;outline-offset:3px;
+}
+body[data-ft-theme] :is(.brand,.market-logo,.logo) img{object-fit:contain}
+body[data-ft-theme] :is(.brand,.market-logo,.logo){text-decoration:none;letter-spacing:-.04em}
+body[data-ft-theme] :is(.brand,.market-logo,.logo) :is(b,strong){color:var(--ft-lime)}
+body[data-ft-theme] :is(.btn-primary,.market-btn.primary,.market-logo-cta,.formbutton,.action:not(.secondary):not(.warning):not(.soft),.nav-cta){
+ box-shadow:0 4px 19px rgba(184,249,91,.13);
+}
+body[data-ft-theme] :is(.section,.hero,.profile-hero,.article){scroll-margin-top:90px}
+@media(prefers-reduced-motion:reduce){
+ body[data-ft-theme] *{scroll-behavior:auto}
+}
+
+/* Home, páginas editoriais, notícias, páginas institucionais,
+   histórico de atleta Ryan e utilitários de estilo original azul-escuro. */
+body[data-ft-theme="core"]{
+ --bg:#061913;--surface:#0f3024;--surface2:#184535;
+ --ink:var(--ft-ink);--muted:var(--ft-subtle);
+ --line:var(--ft-outline);--cyan:#9adf8a;--brand:var(--ft-lime);
+ color:var(--ft-ink);background:
+ radial-gradient(ellipse 780px 420px at 98% 0%,rgba(137,210,86,.08),transparent 70%),
+ linear-gradient(160deg,#061913,#0b251c 65%,#061913);
+}
+body[data-ft-theme="core"] .top{
+ background:rgba(5,23,17,.95);border-bottom:1px solid var(--ft-outline);
+ backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+}
+body[data-ft-theme="core"] .top-row{min-height:71px}
+body[data-ft-theme="core"] .brand{color:#f5fff3}
+body[data-ft-theme="core"] .brand b{color:var(--ft-lime)}
+body[data-ft-theme="core"] .nav a{color:#d1e9d4}
+body[data-ft-theme="core"] .nav .nav-cta{
+ background:var(--ft-lime);border:1px solid #9bd942;border-radius:12px;color:#12351f;
+}
+body[data-ft-theme="core"] :is(.hero,.section,.section-alt,.cta-block,.highlight,.footer){
+ border-color:var(--ft-outline);
+}
+body[data-ft-theme="core"] .hero{
+ background:radial-gradient(circle at 82% 12%,#74b85a22,transparent 52%),
+ linear-gradient(137deg,#061a14,#123d2c 92%);
+}
+body[data-ft-theme="core"] .hero h1 em{color:var(--ft-lime)}
+body[data-ft-theme="core"] :is(.panel,.tile,.step,.track-card,.metric,.sponsorlink,.athlete-card,.metric-cell,.partner){
+ background:linear-gradient(150deg,#12372a,#09251d);
+ border-color:var(--ft-outline);
+ box-shadow:var(--ft-shadow);
+ border-radius:var(--ft-radius);
+}
+body[data-ft-theme="core"] :is(.section-alt,.highlight){
+ background:#0b281f;
+}
+body[data-ft-theme="core"] :is(.lead,.subtle,.hero-note,.tile p,.step p,.metric small,.sponsorlink p,.sponsorlink small,.article p,.article li){
+ color:var(--ft-subtle);
+}
+body[data-ft-theme="core"] :is(.article .notice,.article .cards article){
+ background:#102e24;border-color:#56865a66;
+}
+body[data-ft-theme="core"] .footer{background:#051711}
+body[data-ft-theme="core"] .footer :is(a,p,span){color:#afcbb3}
+body[data-ft-theme="core"] .section h2{color:#f3fff5}
+body[data-ft-theme="core"] .btn-primary{background:var(--ft-lime);color:#10361e;border-color:#a1dc42}
+body[data-ft-theme="core"] .btn-outline{border-color:#79ac8b;color:#e5f7de;background:#16422d}
+body[data-ft-theme="core"] :is(.eyebrow,.kicker,.number,.pill){color:var(--ft-lime)}
+body[data-ft-theme="core"] :is(.top,.panel,.tile,.article,.section){color:var(--ft-ink)}
+body[data-ft-theme="core"] :is(.legal,.article){max-width:min(100%,850px)}
+body[data-ft-theme="core"] .faq details{background:#123c2c;border-color:var(--ft-outline)}
+
+/* Vitrine: já foi redesenhada e aprovada; apenas os tokens e a identidade da marca.
+   Todas as regras anteriores de Reels, busca, escudos e checkout inline continuam prioritárias. */
+body[data-ft-theme="marketplace"]{
+ --ft-lime:#c9fc54;
+}
+
+/* Páginas de captação de famílias e empresas: tema Reels nas áreas de apresentação,
+   mantendo formulários de alta legibilidade em cartão claro. */
+body[data-ft-theme="landing"]{
+ --green:#c9fc54;--lime:#c9fc54;
+ color:var(--ft-ink);
+ background:radial-gradient(circle at 86% 5%,#52885022,transparent 28%),
+ linear-gradient(145deg,#071c16,#0c2a1f);
+}
+body[data-ft-theme="landing"] .navbar{
+ background:rgba(5,23,17,.96);border-bottom:1px solid var(--ft-outline);
+ backdrop-filter:blur(14px);
+}
+body[data-ft-theme="landing"] .navbar .brand span{color:#f2fff1}
+body[data-ft-theme="landing"] .navlink{
+ background:#153c2d;border:1px solid #82bc786f;color:var(--ft-lime);border-radius:12px;
+}
+body[data-ft-theme="landing"] .navlink:hover{background:#22553a}
+body[data-ft-theme="landing"] .hero{
+ background:radial-gradient(circle at 86% 16%,#87da6333,transparent 43%),
+ linear-gradient(140deg,#061b16,#0f392a);
+ border-bottom:1px solid var(--ft-outline);
+}
+body[data-ft-theme="landing"] .hero h1{color:#fff}
+body[data-ft-theme="landing"] .hero h1 em{color:var(--ft-lime)}
+body[data-ft-theme="landing"] :is(.eyebrow,.section-kicker){color:var(--ft-lime)}
+body[data-ft-theme="landing"] .hero :is(.lead,.benefits,.benefits li){color:#d3e6d5}
+body[data-ft-theme="landing"] .audience-nav a{
+ background:#153c2b;border:1px solid #86b17e77;color:#ebfcec;
+}
+body[data-ft-theme="landing"] .audience-nav a[aria-current="page"]{
+ background:#c9fc54;color:#10331f;border-color:#c9fc54;
+}
+body[data-ft-theme="landing"] :is(.soft-note,.offer-terms){
+ background:#173e2d;border-color:#548d60b3;color:#d7ecd7;
+}
+body[data-ft-theme="landing"] .soft-note strong{color:#e8ffcb}
+body[data-ft-theme="landing"] .formcard,
+body[data-ft-theme="landing"] .formcard :is(h1,h2,h3,span,label){color:#173b2a}
+body[data-ft-theme="landing"] .formcard{
+ background:#f8fcf8;border:1px solid #8fc491;border-radius:23px;
+ box-shadow:0 22px 55px #020e0877;color:#173b2a;
+}
+body[data-ft-theme="landing"] .formcard .eyebrow{color:#2f7745}
+body[data-ft-theme="landing"] .formcard .field-label{color:#254b32}
+body[data-ft-theme="landing"] .formcard :is(.field,.consent,.field-help,.form-foot){color:#526a58}
+body[data-ft-theme="landing"] .formcard .field{background:#fff;color:#173a27}
+body[data-ft-theme="landing"] .formcard .formbutton{color:#15371f}
+body[data-ft-theme="landing"] :is(.steps-section,.faq-section,.athlete-showcase,.sponsor-offers){
+ color:#f1fff1;
+}
+body[data-ft-theme="landing"] :is(.athlete-heading h2,.offer-head h2,.steps-section h2,.faq-section h2){color:#f4fff5}
+body[data-ft-theme="landing"] .athlete-heading p{color:#bad8c2}
+body[data-ft-theme="landing"] .step{
+ background:#113529;border:1px solid var(--ft-outline);
+ color:#f6fff1;box-shadow:var(--ft-shadow);
+}
+body[data-ft-theme="landing"] .step :is(h3,p){color:#cfe2d1}
+body[data-ft-theme="landing"] .case{background:linear-gradient(135deg,#184b35,#092b21);border:1px solid var(--ft-outline)}
+body[data-ft-theme="landing"] .faq-section details{
+ background:#12382a;border:1px solid #7dae7666;color:#f1fff1;
+}
+body[data-ft-theme="landing"] .faq-section details p{color:#c7e1cc}
+body[data-ft-theme="landing"] .footer{
+ background:#051711;border-top:1px solid var(--ft-outline);color:#a9cab1;
+}
+body[data-ft-theme="landing"] .footer a{color:#d2ff91}
+body[data-ft-theme="landing"] .featured-jump{
+ background:#133f2b;border:1px solid #8ed36a88;color:#d7ff9a;border-radius:10px;
+}
+body[data-ft-theme="landing"] .athlete-tile{border-color:var(--ft-outline);box-shadow:var(--ft-shadow)}
+body[data-ft-theme="landing"] .offer-card{
+ border-color:#86bd7855;background:#f9fff7;box-shadow:var(--ft-shadow);
+}
+body[data-ft-theme="landing"] .offer-card.recommended{
+ border:2px solid #c9fc54;background:#f4ffec;
+}
+body[data-ft-theme="landing"] .athlete-foot,
+body[data-ft-theme="landing"] .media-kit{border-color:var(--ft-outline)}
+body[data-ft-theme="landing"] :is(.formcard,.offer-card,.media-kit) :is(input,textarea,select){
+ color:#183d2a;
+}
+
+/* Perfis completos: preservar fotos e conteúdo documental; trazer área informativa
+   e planos ao universo visual dos cartões esportivos. */
+body[data-ft-theme="profile"]{
+ --green:#c9fc54;--lime:#c9fc54;--line:var(--ft-outline);--muted:#b5cfb9;
+ background:radial-gradient(circle at 86% 12%,#46774327,transparent 42%),
+ linear-gradient(160deg,#061913,#0c2b20 68%,#061913);
+ color:#eefbed;
+}
+body[data-ft-theme="profile"] .athlete-top{
+ background:rgba(5,23,17,.95);border-bottom:1px solid var(--ft-outline);
+ backdrop-filter:blur(12px);
+}
+body[data-ft-theme="profile"] .nav-bar .brand{color:#f5fff4}
+body[data-ft-theme="profile"] .nav-bar nav a{color:#d0eed5}
+body[data-ft-theme="profile"] .breadcrumb{color:#b1d0b8}
+body[data-ft-theme="profile"] .breadcrumb a{color:#d6ff97}
+body[data-ft-theme="profile"] .portrait{
+ background:#102e24;border:1px solid #9ccf784f;
+ box-shadow:0 18px 45px #0007;
+}
+body[data-ft-theme="profile"] .eyebrow{color:#c9fc54}
+body[data-ft-theme="profile"] .profile-intro h1{color:#f5fff5}
+body[data-ft-theme="profile"] .nickname{color:#d8f7c2}
+body[data-ft-theme="profile"] .chips span{
+ background:#17412e;color:#e7ffd5;border-color:#82c57966;
+}
+body[data-ft-theme="profile"] :is(.lead,.note,.section-heading p,.story-gallery p,.source-section p,.disclaimer){
+ color:#b4d1bb;
+}
+body[data-ft-theme="profile"] :is(.section-heading h2,.story-gallery h2,.source-section h2){color:#f3fff4}
+body[data-ft-theme="profile"] .section-grid{border-color:var(--ft-outline)}
+body[data-ft-theme="profile"] .outline{
+ color:#e4ffd6;background:#17442f;border-color:#8ab77e;
+}
+body[data-ft-theme="profile"] .social-row a{
+ color:#d5f8c7;background:#173d2d;border-color:#71a777;
+}
+body[data-ft-theme="profile"] :is(.milestones li,.metric-grid>div,.offer-card,.story-gallery){
+ background:linear-gradient(150deg,#133d2c,#0a251c);
+ border:1px solid var(--ft-outline);border-radius:17px;
+ box-shadow:var(--ft-shadow);
+ color:#e8fce8;
+}
+body[data-ft-theme="profile"] :is(.milestones h3,.metric-grid strong,.offer-card h3){color:#f2fff1}
+body[data-ft-theme="profile"] :is(.milestones p,.metric-grid small,.offer-card>p:not(.offer-value),.section-heading p){color:#b9d1bd}
+body[data-ft-theme="profile"] .story-gallery a,body[data-ft-theme="profile"] .source-section a{color:#d5fa91}
+body[data-ft-theme="profile"] .offers-section{background:#0a261d;border-top:1px solid var(--ft-outline)}
+body[data-ft-theme="profile"] .offer-name{color:#c9fc54}
+body[data-ft-theme="profile"] .offer-value{color:#ebffd0}
+body[data-ft-theme="profile"] .offer-card.emphasis{
+ background:#1e5133;border:2px solid #c9fc54;
+}
+body[data-ft-theme="profile"] .barter-card{background:#103b2e}
+body[data-ft-theme="profile"] footer{background:#051711;border-top:1px solid var(--ft-outline)}
+
+/* Painéis da família e do apoiador: escurece moldura, mantém cartões internos claros
+   e formulários legíveis, sem interferir em autenticação ou botões condicionais. */
+body[data-ft-theme="journey"]{
+ --lime:#c9fc54;--forest:#173f34;--focus:#6dad42;
+ background:radial-gradient(ellipse at 90% 0%,#74ba4a29,transparent 47%),
+ linear-gradient(160deg,#061b16,#0e2e23);
+ min-height:100dvh;
+}
+body[data-ft-theme="journey"] .topbar{
+ background:#061c15f2;border-bottom:1px solid var(--ft-outline);
+}
+body[data-ft-theme="journey"] .topbar .logo{color:#f1fff1}
+body[data-ft-theme="journey"] .topbar .logo span{color:#f1fff1}
+body[data-ft-theme="journey"] .toplink{
+ color:#d5ffa0;background:#173c2a;border:1px solid #8aba7966;
+}
+body[data-ft-theme="journey"] .sessionbar,
+body[data-ft-theme="journey"] .hero .headcopy,
+body[data-ft-theme="journey"] .footnotes,
+body[data-ft-theme="journey"] .sectionTitle{
+ color:#e5f7e5;
+}
+body[data-ft-theme="journey"] .sectionTitle small{color:#b9d1bc}
+body[data-ft-theme="journey"] :is(.loginbox,.panel,.mission,.event,.nextcard,.achievement,.partnerCard,.numberCard,.simpleRow,.sheet){
+ border-radius:18px;
+}
+body[data-ft-theme="journey"] .panel{
+ box-shadow:0 18px 42px #0005;
+ border:1px solid #91c98166;
+}
+body[data-ft-theme="journey"] .loginbox .panel{background:#f7fdf7}
+body[data-ft-theme="journey"] .action:not(.secondary):not(.warning):not(.soft){
+ background:#c9fc54;border-color:#5f8f3f;color:#16371e;
+}
+body[data-ft-theme="journey"] .weekhero{background:linear-gradient(135deg,#123c2c,#267444)}
+body[data-ft-theme="journey"] .chip{border-color:#b4d8a8}
+body[data-ft-theme="journey"] :is(.field,.formbutton):focus-visible{
+ outline:3px solid #8fe56c;outline-offset:2px;
+}
+
+/* Fluxo bancário isolado: identidade escura na moldura, resumo e Pix permanecem claros.
+   A versão embutida permanece inteiramente clara para combinar com o modal aberto. */
+body[data-ft-theme="checkout"]{
+ background:radial-gradient(circle at 87% 0%,#74b74a38,transparent 43%),
+ linear-gradient(150deg,#061b15,#0b291e);
+ color:#eefbef;
+}
+body[data-ft-theme="checkout"] .topbar-pay{
+ background:#051711;border-bottom:1px solid var(--ft-outline);
+}
+body[data-ft-theme="checkout"] .pay-brand{color:#efffee}
+body[data-ft-theme="checkout"] .pay-wrap>h1{color:#f2fff0}
+body[data-ft-theme="checkout"] .pay-wrap>.pay-lead{color:#bedbc5}
+body[data-ft-theme="checkout"] .pay-wrap>.pay-over{color:#c9fc54}
+body[data-ft-theme="checkout"] .pay-card{
+ background:#fcfffc;color:#193a28;border-color:#99c58b;
+ box-shadow:0 17px 42px #0004;
+}
+body[data-ft-theme="checkout"] .pay-card h2{color:#173e29}
+body[data-ft-theme="checkout"] .pay-btn{background:#c9fc54;color:#16351e}
+body[data-ft-theme="checkout"].embedded-pay{
+ background:#f0f7f1;color:#19362b;
+}
+body[data-ft-theme="checkout"].embedded-pay .pay-card{box-shadow:none}
+body[data-ft-theme="checkout"].embedded-pay .pay-wrap>h1{color:#193b30}
+body[data-ft-theme="checkout"].embedded-pay .pay-wrap>.pay-lead{color:#547064}
+
+/* Área de gestão: tokens do produto, fundo e bordas. Sem mexer em tabelas,
+   validação de formulários, cores semânticas de status ou conteúdo privado. */
+body[data-ft-theme="workspace"]{
+ --bg:#061913;--surface:#102e23;--surface2:#173c2e;
+ --ink:#f2fff1;--muted:#b5d1bd;--line:var(--ft-outline);--brand:#c9fc54;--cyan:#9de49b;
+ background:linear-gradient(165deg,#061913,#0b291f);
+ color:#f1fff3;
+}
+body[data-ft-theme="workspace"] .top{background:#051711eb;border-color:var(--ft-outline)}
+body[data-ft-theme="workspace"] .nav a{color:#d7f1d6}
+body[data-ft-theme="workspace"] .nav .nav-cta{color:#10341e;background:#c9fc54}
+body[data-ft-theme="workspace"] :is(.sheet,.panel,.lead-card,.metricbox){
+ background:#102f24;border-color:#7db97861;
+}
+body[data-ft-theme="workspace"] :is(.panel,.sheet) h2{color:#f3fff0}
+body[data-ft-theme="workspace"] :is(.inbox-intro,.sheet p){color:#b9d3bf}
+body[data-ft-theme="workspace"] :is(.inbox-toolbar select,.inbox-toolbar button,.access-link-input){
+ background:#0a281d;border-color:#5c9472;color:#effeef;
+}
+body[data-ft-theme="workspace"] .eyebrow{color:#c9fc54}
+body[data-ft-theme="workspace"] th{color:#c9fc54}
+body[data-ft-theme="workspace"] .sheet{box-shadow:var(--ft-shadow)}
+body[data-ft-theme="workspace"] :is(button,.button):focus-visible{outline-color:#c9fc54}
+
+/* Propriedades responsivas compartilhadas. */
+@media(max-width:680px){
+ body[data-ft-theme="core"] .top-row{min-height:62px}
+ body[data-ft-theme="core"] .nav{gap:9px}
+ body[data-ft-theme="landing"] .formcard{border-radius:20px}
+ body[data-ft-theme="profile"] .profile-intro h1{line-height:1.04}
+ body[data-ft-theme="journey"] .topbar .topinner{gap:8px}
+}

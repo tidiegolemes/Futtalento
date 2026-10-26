@@ -123,6 +123,28 @@ function makeCard(card){
  card.classList.add('ft-reel-card');
  const scoreNote=elt('p','ft-r-footer-note','Arraste para conhecer o potencial deste atleta.');
  info.insertBefore(scoreNote,info.querySelector('.talent-bottomline'));
+// Realce de pontuação com estrelas PROPORCIONAIS ao índice esportivo documentado.
+// Não representa avaliações de usuários, reputação pública ou nota geral da plataforma.
+ const spotlight=elt('section','ft-r-score-spotlight');
+ spotlight.setAttribute('aria-label','Nota esportiva documentada; não são avaliações de usuários');
+ const topLine=elt('div','ft-r-spotlight-head');
+ topLine.append(elt('span','ft-r-spotlight-label','✦ NOTA ESPORTIVA'),
+  elt('span','ft-r-spotlight-source','Índice FutTalento · acervo'));
+ const mainLine=elt('div','ft-r-spotlight-content');
+ const starsBox=elt('div','ft-r-spotlight-stars');
+ starsBox.setAttribute('aria-hidden','true');
+ starsBox.append(elt('span','ft-r-spotlight-stars-empty','★★★★★'));
+ const starsFill=elt('span','ft-r-spotlight-stars-fill');
+ starsFill.textContent='★★★★★';
+ starsBox.append(starsFill);
+ const scoreNumber=elt('div','ft-r-spotlight-score');
+ scoreNumber.append(elt('strong','ft-r-spotlight-value','—'),
+  elt('span','ft-r-spotlight-max','/100'));
+ mainLine.append(starsBox,scoreNumber);
+ const spotFoot=elt('p','ft-r-spotlight-foot','Estrelas ilustram pontos documentados; não são avaliações de pessoas.');
+ spotlight.append(topLine,mainLine,spotFoot);
+ info.insertBefore(spotlight,scoreNote);
+
  const explain=elt('details','ft-r-score-details');
  explain.append(elt('summary','','Entenda a pontuação esportiva'));
  const scoreBody=elt('div','ft-r-score-body');
@@ -158,7 +180,7 @@ function makeCard(card){
  track.addEventListener('scroll',()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(sync)},{passive:true});
  window.addEventListener('resize',()=>go(active),{passive:true});
  sync();
- return {athlete,card,badge,impactBadge,note:source,scoreBody};
+ return {athlete,card,badge,impactBadge,note:source,scoreBody,spotlight,starsFill,scoreNumber};
 }
 const live=cards.map(makeCard).filter(Boolean);
 function show(record,entry){
@@ -174,6 +196,16 @@ function show(record,entry){
  entry.badge.querySelector('.ft-r-rating-label').textContent=stats.badgeLabel;
  entry.badge.querySelector('.ft-r-rating-value').textContent=stats.badgeValue;
  entry.badge.querySelector('.ft-r-rating-sub').textContent=stats.badgeSub;
+ const points=stats.sportsScore100;
+ entry.badge.classList.toggle('ft-r-rating-sport',stats.rating===null&&points!==null);
+ const value=entry.scoreNumber.querySelector('.ft-r-spotlight-value');
+ value.textContent=points===null?'—':String(points);
+ entry.spotlight.classList.toggle('ft-r-spotlight-unavailable',points===null);
+ entry.starsFill.style.width=points===null?'0%':Math.max(0,Math.min(100,points))+'%';
+ entry.spotlight.setAttribute('aria-label',points===null?
+  'Nota esportiva indisponível: aguardando registros documentados':
+  'Nota esportiva '+points+' de 100 pontos, representada por '+new Intl.NumberFormat('pt-BR',{maximumFractionDigits:1}).format(points/20)+' de 5 estrelas ilustrativas. Não são avaliações de usuários.');
+
  entry.impactBadge.querySelector('strong').textContent=stats.rating===null?'—':String(stats.rating);
  entry.impactBadge.querySelector('small').textContent=stats.rating===null?'Em formação':'Índice autorizado';
  const label=stats.verifiedSource?

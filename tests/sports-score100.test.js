@@ -36,3 +36,11 @@ test('approved full index remains independent from normalized sports rating',()=
  assert.equal(stats.badgeLabel,'ÍNDICE GERAL');
  assert.equal(stats.badgeValue,'63');
 });
+
+test('A visual five-star scale uses the documented sports score, never unverified reviews',()=>{
+ const athlete='lucas';
+ const src='https://www.lucasazambuja.com.br/';
+ const stats=getReelStats({athlete,index:{value:null},evidence:{athlete,source:src,sports:{points:5}}},athlete);
+ assert.equal(stats.sportsScore100,20);
+ assert.equal(stats.sportsScore100/20,1); // one illustrated star out of five
+});

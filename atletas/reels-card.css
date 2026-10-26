@@ -175,3 +175,39 @@
 .ft-reel-card .ft-r-score-note{color:#bed2c4;font-size:.7rem;margin:9px 0}
 .ft-reel-card .ft-r-score-pending{font-size:.72rem;font-weight:750;color:#c9fc54;margin:11px 0}
 .ft-reel-card .ft-r-score-source{display:inline-block;color:#c9fc54;font-weight:800;font-size:.72rem;text-underline-offset:3px;padding:6px 0;min-height:28px}
+
+/* Rating spotlight: cinco estrelas VISUAIS para escala esportiva 0–100 (não reviews). */
+.ft-reel-card .ft-r-score-spotlight{
+  --ft-star-gold:#ffcc51;
+  margin:3px 0 11px;padding:12px 13px 11px;border-radius:15px;
+  background:linear-gradient(105deg,#244329 0%,#14281d 64%,#15291d 100%);
+  border:1px solid #e6ad45a6;
+  box-shadow:0 4px 17px #0004, inset 0 1px 0 #f3cc4a25;
+  color:#fff;
+}
+.ft-reel-card .ft-r-spotlight-head{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:5px;flex-wrap:wrap}
+.ft-reel-card .ft-r-spotlight-label{color:#ffe5a6;font-size:.7rem;font-weight:950;letter-spacing:.08em}
+.ft-reel-card .ft-r-spotlight-source{color:#bad1bd;font-size:.59rem;letter-spacing:.01em}
+.ft-reel-card .ft-r-spotlight-content{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0}
+.ft-reel-card .ft-r-spotlight-stars{position:relative;display:inline-block;line-height:1;white-space:nowrap;flex:0 1 auto;font-size:clamp(1.24rem,2.8vw,1.65rem);letter-spacing:1.5px;font-weight:900}
+.ft-reel-card .ft-r-spotlight-stars-empty{display:block;color:#657467;text-shadow:0 1px 1px #0007}
+.ft-reel-card .ft-r-spotlight-stars-fill{
+  position:absolute;inset:0 auto auto 0;display:block;overflow:hidden;
+  white-space:nowrap;width:0%;max-width:100%;
+  color:var(--ft-star-gold);text-shadow:0 0 13px #ffbe3a4d;
+  transition:width .35s ease;
+}
+.ft-reel-card .ft-r-spotlight-score{display:flex;align-items:baseline;gap:3px;white-space:nowrap;flex:0 0 auto}
+.ft-reel-card .ft-r-spotlight-value{color:#ffdd82;font-size:clamp(2rem,4vw,2.65rem);letter-spacing:-.065em;font-weight:950;line-height:1}
+.ft-reel-card .ft-r-spotlight-max{color:#e6e8cc;font-weight:800;font-size:.86rem}
+.ft-reel-card .ft-r-spotlight-foot{color:#c6d4c9;margin:7px 0 0;font-size:.61rem;line-height:1.35}
+.ft-reel-card .ft-r-spotlight-unavailable{border-color:#62836a88;background:#1b3226}
+.ft-reel-card .ft-r-spotlight-unavailable .ft-r-spotlight-value{color:#dae5d6}
+.ft-reel-card .ft-r-rating-sport .ft-r-rating-value{color:#ffdc79}
+@media(max-width:380px){
+  .ft-reel-card .ft-r-score-spotlight{padding:10px}
+  .ft-reel-card .ft-r-spotlight-stars{font-size:1.12rem;letter-spacing:1px}
+  .ft-reel-card .ft-r-spotlight-value{font-size:1.8rem}
+  .ft-reel-card .ft-r-spotlight-source{font-size:.55rem}
+}
+@media(prefers-reduced-motion:reduce){.ft-reel-card .ft-r-spotlight-stars-fill{transition:none}}

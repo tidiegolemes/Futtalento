@@ -53,7 +53,7 @@
   const more=el('a','talent-more','Ver perfil completo ↗');more.href=p.page;footer.append(more,link);
   article.append(stage,footer);rail.append(article);
  }
- fetch('/api/athlete-onboarding?action=list',{cache:'no-store'}).then(async r=>{
+ fetch('/api/captacao-lead?onboarding=1&action=list',{cache:'no-store'}).then(async r=>{
   if(!r.ok)throw Error();return r.json()
  }).then(data=>{
   for(const p of data.athletes||[])card(p);

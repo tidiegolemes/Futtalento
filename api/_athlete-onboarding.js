@@ -296,7 +296,7 @@ export default async function handler(req,res){
    const hash=crypto.scryptSync(password,a.passwordSalt,64);
    if(!crypto.timingSafeEqual(hash,Buffer.from(a.passwordHash,'hex')))return err(res,401,'Credenciais inválidas');
    res.setHeader('Set-Cookie',sessionCookie({kind:'ft-guardian',id:a.id,emailHash:digest(address),exp:Date.now()+7*86400000},7*86400));
-   return res.status(200).json({ok:true,verified:!!a.guardianEmailVerified,status:a.status});
+   return res.status(200).json({ok:true,verified:!!a.guardianEmailVerified,status:a.status,needsProfile:!a.slug});
   }
   if(action==='verify'){
    const a=await requireAccount(req),code=String(body.code||'');

@@ -1,4 +1,5 @@
 import checkout from './_checkout-futtalento.js';
+import athleteOnboarding from './_athlete-onboarding.js';
 import indiceAtletas from './_indice-atletas.js';
 import {storeLucasEvidence} from '../indice/lucas-public.js';
 import {storeOtherAthleteEvidence} from '../indice/other-athletes-public.js';
@@ -47,6 +48,7 @@ export default async function handler(req,res){
     return res.status(success?200:503).json({ok:success,athletes});
 
   }
+  if(req.query?.onboarding==='1')return athleteOnboarding(req,res);
   if(req.query?.pixCheckout==='1')return checkout(req,res);
   if(req.query?.indice==='1')return indiceAtletas(req,res);
   res.setHeader('Cache-Control','private, no-store, max-age=0');

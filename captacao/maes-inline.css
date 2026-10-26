@@ -1,0 +1,21 @@
+.ft-inline-register{scroll-margin-top:105px;min-width:0}
+.ft-inline-register #ftMotherSignup{margin-top:17px}
+.ft-inline-register .panel{margin:0;background:transparent;color:#193e2b;border:0;box-shadow:none;padding:0}
+.ft-inline-register .panel h2{font-size:1.25rem;color:#1b452f;margin:10px 0}
+.ft-inline-register .panel>p{color:#4c7058;font-size:.83rem;line-height:1.6}
+.ft-inline-register :is(#authForm,#profileForm){display:grid;gap:6px}
+.ft-inline-register :is(#authForm,#profileForm) label:not(.check){display:block;color:#204d32;font-weight:850;font-size:.83rem;margin:10px 0}
+.ft-inline-register :is(#authForm,#profileForm) input:not([type=checkbox]),.ft-inline-register textarea{
+ width:100%;min-height:44px;border:1px solid #aacdaf;background:#fff;color:#173c28;
+ padding:11px 12px;border-radius:11px;font:inherit;display:block;margin:6px 0 0}
+.ft-inline-register .check{display:flex;align-items:flex-start;gap:10px;color:#385b44;font-size:.81rem;line-height:1.48;margin:11px 0}
+.ft-inline-register .check input{width:19px;height:19px;min-width:19px;accent-color:#2b774c}
+.ft-inline-register .actions{display:flex;flex-wrap:wrap;gap:9px;margin:13px 0}
+.ft-inline-register button{cursor:pointer;background:#c9fc54;border:1px solid #85ae40;color:#12351c;border-radius:12px;padding:11px 15px;font-weight:900;min-height:43px}
+.ft-inline-register button.secondary,.ft-inline-register button.logout{color:#2b5940;background:#e6f2e4;border-color:#a4c4a7}
+.ft-inline-register .two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.ft-inline-register .help,.ft-inline-register small{color:#678170;font-size:.73rem;line-height:1.5}
+.ft-inline-register .trap{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;opacity:0}
+.ft-inline-register .ft-mother-status,.ft-inline-register #status{padding:8px 0;color:#285d3e;font-weight:800}
+.ft-inline-register :is(input,textarea,button):focus-visible{outline:3px solid #2e8552;outline-offset:2px}
+@media(max-width:650px){.ft-inline-register .two{grid-template-columns:1fr;gap:0}.ft-inline-register .actions{display:grid;grid-template-columns:1fr}.ft-inline-register .actions button{width:100%}}

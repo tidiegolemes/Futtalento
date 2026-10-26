@@ -13,13 +13,21 @@ export const ATHLETE_SOURCES=Object.freeze({
   {id:'liga-serrana-encosta-2022',name:'Bicampeonato 2022 (registro)',year:2022,competition:true,title:true,anchor:'encosta',radius:95,pattern:'2022\\s+bicampeao\\W+ligaserrana\\W+encosta',checks:['2022','bicampeão','ligaserrana','encosta']}
  ]}
 });
+// Histórico nomeado em versão anterior do site oficial de Lucas, encontrada no
+// índice público em 26/10/2026. Fonte do atleta, sem chancela da organização.
+const LUCAS_HISTORIC_EVENTS=[
+ {id:'new-cup-chopinzinho-2026',name:'New Cup Chopinzinho 2026 — campeão',year:2026,competition:true,title:true,basis:'versao_anterior_site_oficial'},
+ {id:'iberleague-rs-2025',name:'IberLeague RS 2025 — campeão',year:2025,competition:true,title:true,basis:'versao_anterior_site_oficial'},
+ {id:'liga-canoense-2025',name:'Liga Canoense Série Ouro 2025 — campeão',year:2025,competition:true,title:true,basis:'versao_anterior_site_oficial'},
+ {id:'torneio-linf-2025',name:'Torneio LINF 2025 — campeão',year:2025,competition:true,title:true,basis:'versao_anterior_site_oficial'}
+];
 const simplify=html=>String(html||'').replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi,' ').replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi,' ').replace(/<[^>]+>/g,' ').replace(/&(?:amp|nbsp|quot|lt|gt);/gi,' ').normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[@®]/g,'').replace(/\s+/g,' ').toLowerCase();
 const cleanWord=s=>String(s).normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[@®]/g,'').toLowerCase();
 export function extractSports(athlete,html,asOf=new Date().toISOString().slice(0,10)){
  const cfg=ATHLETE_SOURCES[athlete];
  if(!cfg)throw new Error('Atleta inválido');
  const text=simplify(html);
- const events=cfg.events.filter(e=>{
+ const currentEvents=cfg.events.filter(e=>{
   if(e.pattern)return new RegExp(e.pattern,'i').test(text);
   const anchor=cleanWord(e.anchor||e.checks.at(-1));
   let position=text.indexOf(anchor);
@@ -31,6 +39,11 @@ export function extractSports(athlete,html,asOf=new Date().toISOString().slice(0
   }
   return false;
  });
+ const recognizedLucas=athlete==='lucas'&&text.includes('lukinhas10')&&text.includes('gremio')&&
+   text.includes('copa base baby')&&text.includes('1 gol + 1 assistencia');
+ // Identidade e torneio atual devem estar presentes antes de unir documentos
+ // históricos: nunca pontuar eventos de um homônimo ou de site redirecionado.
+ const events=recognizedLucas?[...currentEvents,...LUCAS_HISTORIC_EVENTS]:currentEvents;
  const metrics={titlesVerified:events.some(e=>e.title)?events.filter(e=>e.title).length:null,competitionsVerified:events.some(e=>e.competition)?events.filter(e=>e.competition).length:null};
  // The Thalles profile says "2023 - ATUAL". Without a start month, use only a
  // conservative lower bound of complete years between 2023 and now.
@@ -38,7 +51,11 @@ export function extractSports(athlete,html,asOf=new Date().toISOString().slice(0
  const clubDocumented=athlete==='thalles'&&/2023\s*[-–—]\s*atual/i.test(text)&&text.includes('juventude');
  if(clubDocumented&&Number.isInteger(currentYear)&&currentYear>=2024)
   metrics.clubMonths=Math.max(0,(currentYear-2023-1)*12);
+ // Versão anterior do site: Grêmio 2024–atual; edição atual confirma Grêmio.
+ // Início sem mês: apenas 12 meses completos conservadores em 2026.
+ if(recognizedLucas&&Number.isInteger(currentYear)&&currentYear>=2025)
+  metrics.clubMonths=Math.max(0,(currentYear-2024-1)*12);
  return {athlete,source:cfg.url,sourceLabel:cfg.label,checkedAt:asOf,metrics,
-  events:events.map(e=>({id:e.id,label:e.name,year:e.year,title:e.title,source:cfg.url})),
+  events:events.map(e=>({id:e.id,label:e.name,year:e.year,title:e.title,source:cfg.url,basis:e.basis||'pagina_atual'})),hasHistoricalArchive:recognizedLucas,
   caveat:'Pré-preenchimento por marcos documentados. Tempo de clube, quando disponível, usa apenas um mínimo conservador — não um início contratual exato. Revise a fonte antes de publicar.'};
 }

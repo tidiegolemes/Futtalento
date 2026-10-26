@@ -90,8 +90,6 @@ function formatProfile(body,existing={}){
 }
 async function owner(req){
  const key=emailHashFromSession(req);if(!key)return null;
- const files=await list({prefix:ACCOUNT+key+'.json',limit:2});
- if(!(files.blobs||[]).some(x=>x.pathname===ACCOUNT+key+'.json'))return null;
  const account=await read(ACCOUNT+key+'.json');
  return account&&account.id===key?account:null;
 }
@@ -138,7 +136,9 @@ export default async function handler(req,res){
    if(body.website)return respond(res,400,{ok:false,error:'Cadastro inválido'});
    if(await read(accountPath(email)))return respond(res,409,{ok:false,error:'Conta já cadastrada; faça login'});
    const slug='at-'+randomBytes(10).toString('hex');
-   const profile=formatProfile(body,{slug,createdAt:new Date().toISOString(),status:'rascunho'});
+   const profile={slug,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),status:'rascunho',
+   name:'',guardianName:'',guardianPhone:'',club:'',position:'',titles:'',photoUrl:'',networks:{},
+   guardianAttested:true,consentToDisplay:false};
    const account={id:hash(email),email,slug,passwordDigest:passwordHash(password),createdAt:new Date().toISOString()};
    await save(profilePath(slug),profile);
    await save(accountPath(email),account);

@@ -138,11 +138,12 @@ export default async function handler(req,res){
    return res.status(200).json({ok:true,leads:leads.filter(Boolean)});
   }catch(e){return err(res,503,'Não foi possível consultar os interessados')}
  }
+ if(req.method==='GET'&&action==='google-config')return res.status(200).json({ok:true,clientId:process.env.FUTTALENTO_GOOGLE_CLIENT_ID||''});
  if(req.method==='GET'&&action==='session'){
   try{
    const a=await requireAccount(req);
    return res.status(200).json({ok:true,loggedIn:!!a,verified:!!a?.guardianEmailVerified,athlete:a?{name:a.athleteName,slug:a.slug,status:a.status}:null,
-    emailVerificationConfigured:!!(process.env.FUTTALENTO_MAIL_API_KEY&&process.env.FUTTALENTO_MAIL_FROM)});
+    emailVerificationConfigured:!!(process.env.FUTTALENTO_MAIL_API_KEY&&process.env.FUTTALENTO_MAIL_FROM),needsProfile:!!a&&!a.slug});
   }catch{return err(res,503,'Cadastro temporariamente indisponível')}
  }
  if(req.method!=='POST')return err(res,405,'Método não permitido');
@@ -168,6 +169,75 @@ export default async function handler(req,res){
    await write(BASE+'leads/'+Date.now()+'-'+lead.id+'.json',lead);
    res.setHeader('Set-Cookie','ft_athlete_interest='+signed({exp:Date.now()+90000})+'; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=90');
    return res.status(201).json({ok:true,message:'Interesse encaminhado à EyAgência para avaliar a contratação.'});
+  }
+
+  // Etapa 1: cria uma conta privada só com e-mail e senha, sem coletar dados de menores.
+  if(action==='start'){
+   const address=email(body.email),password=String(body.password||'');
+   if(!address||password.length<12||password.length>128)return err(res,400,'Informe um e-mail válido e senha de pelo menos 12 caracteres');
+   if(await read(pathFor(address)))return err(res,409,'Este e-mail já tem cadastro. Escolha entrar.');
+   const id=crypto.randomUUID(),salt=crypto.randomBytes(16).toString('hex');
+   const a={id,email:address,passwordSalt:salt,passwordHash:crypto.scryptSync(password,salt,64).toString('hex'),
+    guardianEmailVerified:false,guardianConsent:false,publicationConsent:false,status:'rascunho',createdAt:new Date().toISOString()};
+   await write(pathFor(address),a);
+   res.setHeader('Set-Cookie',sessionCookie({kind:'ft-guardian',id,emailHash:digest(address),exp:Date.now()+7*86400000},7*86400));
+   return res.status(201).json({ok:true,needsProfile:true});
+  }
+  // Google Identity Services: o token é verificado no servidor, nunca apenas no navegador.
+  if(action==='google'){
+   const clientId=process.env.FUTTALENTO_GOOGLE_CLIENT_ID;
+   const credential=String(body.credential||'');
+   if(!clientId||credential.length<100||credential.length>6000)return err(res,503,'Entrar com Google indisponível');
+   const googleResponse=await fetch('https://oauth2.googleapis.com/tokeninfo?id_token='+encodeURIComponent(credential));
+   if(!googleResponse.ok)return err(res,401,'Não foi possível validar sua conta Google');
+   const identity=await googleResponse.json();
+   const address=email(identity.email);
+   if(identity.aud!==clientId||!['accounts.google.com','https://accounts.google.com'].includes(identity.iss)||
+      !identity.sub||!address||(identity.email_verified!==true&&identity.email_verified!=='true'))
+     return err(res,401,'Identidade Google não verificada');
+   let a=await read(pathFor(address));
+   if(a?.googleSubject&&a.googleSubject!==identity.sub)return err(res,403,'Esta conta está vinculada a outro acesso Google');
+   if(!a)a={id:crypto.randomUUID(),email:address,status:'rascunho',guardianConsent:false,publicationConsent:false,createdAt:new Date().toISOString()};
+   a.googleSubject=identity.sub;
+   a.googleLinkedAt=a.googleLinkedAt||new Date().toISOString();
+   await write(pathFor(address),a);
+   res.setHeader('Set-Cookie',sessionCookie({kind:'ft-guardian',id:a.id,emailHash:digest(address),exp:Date.now()+7*86400000},7*86400));
+   return res.status(200).json({ok:true,needsProfile:!a.slug,verified:!!a.guardianEmailVerified,
+    page:a.slug?toPublic(a).page:null});
+  }
+  // Etapa 2: somente após a autenticação, pede dados do responsável e do atleta.
+  if(action==='complete'){
+   const a=await requireAccount(req);
+   if(!a)return err(res,401,'Crie sua conta ou entre antes de preencher o perfil');
+   if(a.slug)return err(res,409,'O perfil desta conta já foi preenchido');
+   const checked=validAthlete(body),photo=imageFrom(body);
+   if(checked.error)return err(res,400,checked.error);
+   if(!photo)return err(res,400,'Envie uma foto JPG, PNG ou WebP até 350 KB');
+   const slug=checked.value.athleteName.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,54)+'-'+crypto.randomBytes(4).toString('hex');
+   Object.assign(a,checked.value,{slug,guardianConsent:true,publicationConsent:true,
+    photoMime:photo.mime,photoExtension:photo.extension,profileCompletedAt:new Date().toISOString()});
+   await put(BASE+'photos/'+slug+'.'+photo.extension,photo.bytes,{
+    access:'private',allowOverwrite:true,addRandomSuffix:false,contentType:photo.mime
+   });
+   if(a.googleSubject){
+    // Login Google já prova a titularidade do e-mail; autorização explícita é colhida acima.
+    a.guardianEmailVerified=true;a.publishedAt=new Date().toISOString();a.status='publicado';
+    const publication={...toPublic(a),slug:a.slug,publishedAt:a.publishedAt,
+     guardianConsent:true,publicationConsent:true,guardianEmailVerified:true,
+     photoExtension:a.photoExtension,photoMime:a.photoMime,athleteName:a.athleteName,
+     position:a.position,category:a.category,club:a.club,clubKey:a.clubKey,titles:a.titles,socials:a.socials};
+    await write(BASE+'published/'+slug+'.json',publication);
+    await write(pathFor(a.email),a);
+    return res.status(201).json({ok:true,verified:true,profile:toPublic(a),message:'Página criada e publicada!'});
+   }
+   const code=String(crypto.randomInt(100000,1000000));
+   a.guardianEmailVerified=false;a.status='aguardando_verificacao';
+   a.verifyCodeHash=hmac(a.id+':'+code);a.verifyExpiresAt=Date.now()+15*60000;a.verifyAttempts=0;
+   await write(pathFor(a.email),a);
+   let sent=false;
+   try{sent=await sendVerification(a.email,code)}catch(e){console.error('guardian email verification',e.name)}
+   return res.status(201).json({ok:true,verified:false,emailSent:sent,
+    message:sent?'Confira o código enviado ao seu e-mail.':'Perfil privado salvo. A publicação depende da ativação do envio de e-mail.'});
   }
   if(action==='register'){
    const address=email(body.email),password=String(body.password||'');
@@ -231,6 +301,7 @@ export default async function handler(req,res){
   if(action==='verify'){
    const a=await requireAccount(req),code=String(body.code||'');
    if(!a)return err(res,401,'Faça login primeiro');
+   if(!a.slug||!a.guardianConsent||!a.publicationConsent)return err(res,409,'Finalize o perfil e as autorizações antes de publicar');
    if(a.guardianEmailVerified)return res.status(200).json({ok:true,verified:true,profile:toPublic(a)});
    if(!/^\d{6}$/.test(code)||Date.now()>a.verifyExpiresAt||a.verifyAttempts>=6)return err(res,400,'Código inválido ou expirado');
    a.verifyAttempts++;

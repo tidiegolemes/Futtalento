@@ -1,0 +1,55 @@
+<!doctype html><html lang="pt-BR"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="index,follow"><meta name="theme-color" content="#061913">
+<title>Cadastre um atleta | FutTalento</title>
+<meta name="description" content="Responsáveis podem registrar a jornada de um jovem atleta no FutTalento e solicitar publicação de um perfil oficial.">
+<link rel="canonical" href="https://www.futtalento.com.br/atletas/cadastrar/">
+<link rel="icon" href="/favicon.png">
+<link rel="stylesheet" href="/atletas/cadastrar/cadastro.css">
+<link rel="stylesheet" href="/assets/futtalento-theme.css">
+</head><body data-ft-theme="marketplace">
+<a class="skip" href="#cadastro">Pular para o formulário</a>
+<header class="ft-onboard-header"><a href="/" class="ft-onboard-logo" aria-label="FutTalento, página inicial"><img src="/futtalentologo.png" width="37" height="37" alt=""> FUT<strong>TALENTO</strong></a><a href="/atletas/">← Ver atletas</a></header>
+<main class="ft-onboard-main" id="cadastro">
+ <div class="ft-onboard-hero"><span class="eyebrow">PARA PAIS E RESPONSÁVEIS</span>
+ <h1>O próximo talento pode ser <em>o seu atleta.</em></h1>
+ <p>Crie a jornada esportiva, inclua uma foto e prepare uma página oficial FutTalento. O responsável controla a autorização de publicação, e dados pessoais não aparecem na vitrine.</p>
+ <div class="ft-onboard-benefits"><span>⚽ Perfil individual</span><span>🏆 História esportiva</span><span>🤝 Interesse de empresas</span></div>
+ </div>
+ <div class="ft-onboard-panel">
+ <nav class="ft-auth-tabs" aria-label="Acesso"><button type="button" class="selected" data-auth-tab="register" aria-pressed="true">Criar cadastro</button><button type="button" data-auth-tab="login" aria-pressed="false">Já tenho cadastro</button></nav>
+ <form id="ftRegister" class="ft-onboard-form" novalidate>
+ <div class="form-title"><span>1</span><h2>Dados de acesso e responsável</h2></div>
+ <div class="ft-fields"><label>Nome do responsável *<input name="guardianName" required autocomplete="name" minlength="3" maxlength="100" placeholder="Nome completo"></label>
+ <label>Telefone/WhatsApp com DDD *<input name="guardianPhone" type="tel" inputmode="tel" autocomplete="tel" required placeholder="(48) 99999-9999"></label>
+ <label>Email para entrar *<input name="email" type="email" autocomplete="email" required maxlength="150" placeholder="voce@exemplo.com"></label>
+ <label>Crie uma senha *<input name="password" type="password" autocomplete="new-password" minlength="12" maxlength="128" required placeholder="Pelo menos 12 caracteres"></label></div>
+ <div class="form-title"><span>2</span><h2>História do atleta</h2></div>
+ <div class="ft-fields"><label>Nome do atleta *<input name="athleteName" required minlength="3" maxlength="100" placeholder="Nome completo do atleta"></label>
+ <label>Clube atual (opcional)<input name="club" maxlength="100" placeholder="Ex.: Cruzeiro-RS ou Sem clube"></label>
+ <label>Data de nascimento (privada)<input name="birthDate" type="date" max="2026-10-26"></label>
+ <label>Posição em campo<input name="position" maxlength="60" placeholder="Ex.: meia, atacante, goleiro"></label>
+ <label>Categoria<input name="category" maxlength="50" placeholder="Ex.: Sub-12"></label>
+ <label class="full">Últimos títulos ou momentos marcantes<textarea name="titles" maxlength="450" rows="3" placeholder="Ex.: campeão da Copa... (descreva somente fatos que possa comprovar)"></textarea></label></div>
+ <div class="form-title"><span>3</span><h2>Foto e redes sociais</h2></div>
+ <label class="ft-upload">Imagem de destaque do atleta *<input name="photoFile" type="file" required accept="image/jpeg,image/png,image/webp"><span>Toque para escolher a imagem · JPG, PNG ou WebP</span><img id="ftPhotoPreview" alt="Prévia da foto escolhida" hidden></label>
+ <div class="ft-fields"><label>Instagram<input name="instagram" type="url" inputmode="url" placeholder="https://instagram.com/..."></label>
+ <label>TikTok<input name="tiktok" type="url" placeholder="https://tiktok.com/@..."></label>
+ <label>YouTube<input name="youtube" type="url" placeholder="https://youtube.com/@..."></label>
+ <label>Site<input name="website" type="url" placeholder="https://..."></label></div>
+ <div class="ft-consent"><label><input name="adultGuardian" type="checkbox" required> <span>Confirmo que sou maior de 18 anos e responsável legal pelo atleta.</span></label>
+ <label><input name="guardianConsent" type="checkbox" required> <span>Autorizo o tratamento dos dados do cadastro para criar e administrar o perfil.</span></label>
+ <label><input name="publicationConsent" type="checkbox" required> <span>Autorizo a divulgação do nome, foto, trajetória e links informados nas páginas públicas do FutTalento após verificação do meu email. Meu nome, telefone, email e a data completa de nascimento não serão publicados.</span></label></div>
+ <p class="ft-onboard-help">Leia a <a href="/privacidade.html">política de privacidade</a>. A publicação não implica vínculo oficial com o clube nem aprovação automática de propostas comerciais.</p>
+ <button class="ft-submit" type="submit">Criar minha página FutTalento <span>→</span></button>
+ </form>
+ <form id="ftLogin" class="ft-onboard-form" hidden>
+ <h2>Acesse seu cadastro</h2><label>Email<input name="email" type="email" required autocomplete="email"></label>
+ <label>Senha<input name="password" type="password" required autocomplete="current-password"></label>
+ <button type="submit" class="ft-submit">Entrar <span>→</span></button></form>
+ <section id="ftVerify" class="ft-verify" hidden><h2>Confirme seu email</h2><p id="ftVerifyDescription">Para publicar a página, digite o código enviado ao email do responsável.</p>
+ <form id="ftVerifyForm"><label>Código de seis números<input name="code" required inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code"></label><button type="submit" class="ft-submit">Confirmar e publicar <span>→</span></button></form></section>
+ <div role="status" aria-live="polite" id="ftSignupStatus" class="ft-signup-status" hidden></div>
+ </div>
+</main><footer class="ft-onboard-footer"><p>FutTalento · Jornada do atleta com acompanhamento da EyAgência.</p><a href="/privacidade.html">Privacidade</a><a href="/atletas/">Atletas</a></footer>
+<script defer src="/atletas/cadastrar/cadastro.js"></script></body></html>

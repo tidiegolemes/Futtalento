@@ -227,7 +227,7 @@ function show(record,entry){
  const rows=[
   ['Títulos da trajetória',stats.sportsBreakdown.titles,'registros','12'],
   ['Competições',stats.sportsBreakdown.competitions,'registros','5'],
-  ['Tempo de clube',stats.sportsBreakdown.clubMonths,'meses mínimos','8']
+  ['Tempo de clube (proporcional à geração)',stats.sportsBreakdown.clubMonths,'meses mínimos','8']
  ];
  for(const [label,part,unit,maximum] of rows){
   const wrapper=elt('div','ft-r-score-row');
@@ -237,7 +237,12 @@ function show(record,entry){
   wrapper.append(dt,dd);list.append(wrapper);
  }
  panel.append(list);
- panel.append(elt('p','ft-r-score-note','Nota esportiva = (pontos documentados / 25) × 100. Os 25 pontos originais são divididos em: títulos até 12 (teto em 3), competições até 5 (teto em 5) e tempo de clube até 8 (teto em 24 meses). Datas incompletas geram apenas estimativas mínimas conservadoras.'));
+ panel.append(elt('p','ft-r-score-note','Nota esportiva = (pontos documentados / 25) × 100. Títulos: até 12 pontos; competições: até 5 pontos; tempo de clube: até 8 pontos, proporcional à geração do atleta.'));
+ if(stats.sportsBreakdown.clubMonths.count!==null){
+  const ref=stats.sportsBreakdown.clubMonths.referenceMonths;
+  const generation=stats.cohortYear?'geração '+stats.cohortYear:'geração não confirmada';
+  panel.append(elt('p','ft-r-score-note','Tempo documentado: '+stats.sportsBreakdown.clubMonths.count+' meses. Referência proporcional: '+ref+' meses ('+generation+'). Sem data de nascimento exata; datas de vínculo incompletas usam mínimos conservadores.'));
+ }
  panel.append(elt('p','ft-r-score-note','Registros publicados em fonte vinculada ao atleta; não representam avaliação técnica, auditoria independente ou comparação justa de habilidade.'));
  if(entry.athlete==='lucas'&&record?.evidence?.historicalArchiveUsed)
   panel.append(elt('p','ft-r-score-note','Os títulos New Cup, IberLeague RS, Liga Canoense e LINF constavam em versão anterior do site oficial do atleta. São registros históricos atribuídos à fonte do próprio atleta, ainda sem homologação independente.'));

@@ -174,13 +174,19 @@ export default async function handler(req,res){
   // Etapa 1: cria uma conta privada só com e-mail e senha, sem coletar dados de menores.
   if(action==='start'){
    const address=email(body.email),password=String(body.password||'');
+   const repeat=String(req.headers.cookie||'').split(';').map(x=>x.trim()).find(x=>x.startsWith('ft_signup_cooldown='));
+   const cooldown=verify(repeat?.slice('ft_signup_cooldown='.length));
+   if(cooldown?.exp>Date.now())return err(res,429,'Aguarde alguns minutos antes de criar outro cadastro');
    if(!address||password.length<12||password.length>128)return err(res,400,'Informe um e-mail válido e senha de pelo menos 12 caracteres');
    if(await read(pathFor(address)))return err(res,409,'Este e-mail já tem cadastro. Escolha entrar.');
    const id=crypto.randomUUID(),salt=crypto.randomBytes(16).toString('hex');
    const a={id,email:address,passwordSalt:salt,passwordHash:crypto.scryptSync(password,salt,64).toString('hex'),
     guardianEmailVerified:false,guardianConsent:false,publicationConsent:false,status:'rascunho',createdAt:new Date().toISOString()};
    await write(pathFor(address),a);
-   res.setHeader('Set-Cookie',sessionCookie({kind:'ft-guardian',id,emailHash:digest(address),exp:Date.now()+7*86400000},7*86400));
+   res.setHeader('Set-Cookie',[
+    sessionCookie({kind:'ft-guardian',id,emailHash:digest(address),exp:Date.now()+7*86400000},7*86400),
+    'ft_signup_cooldown='+signed({exp:Date.now()+120000})+'; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=120'
+   ]);
    return res.status(201).json({ok:true,needsProfile:true});
   }
   // Google Identity Services: o token é verificado no servidor, nunca apenas no navegador.
@@ -188,15 +194,21 @@ export default async function handler(req,res){
    const clientId=process.env.FUTTALENTO_GOOGLE_CLIENT_ID;
    const credential=String(body.credential||'');
    if(!clientId||credential.length<100||credential.length>6000)return err(res,503,'Entrar com Google indisponível');
-   const googleResponse=await fetch('https://oauth2.googleapis.com/tokeninfo?id_token='+encodeURIComponent(credential));
-   if(!googleResponse.ok)return err(res,401,'Não foi possível validar sua conta Google');
-   const identity=await googleResponse.json();
-   const address=email(identity.email);
-   if(identity.aud!==clientId||!['accounts.google.com','https://accounts.google.com'].includes(identity.iss)||
-      !identity.sub||!address||(identity.email_verified!==true&&identity.email_verified!=='true'))
+   let identity;
+   try{
+    const {OAuth2Client}=await import('google-auth-library');
+    const ticket=await new OAuth2Client(clientId).verifyIdToken({idToken:credential,audience:clientId});
+    identity=ticket.getPayload();
+   }catch(_){return err(res,401,'Não foi possível validar sua conta Google')}
+   const address=email(identity?.email);
+   if(!identity||identity.aud!==clientId||!['accounts.google.com','https://accounts.google.com'].includes(identity.iss)||
+      !identity.sub||!address||identity.email_verified!==true)
      return err(res,401,'Identidade Google não verificada');
+   // Google é autoridade pelo e-mail quando é Gmail ou uma conta Workspace identificada por hd.
+   if(!address.endsWith('@gmail.com')&&!identity.hd)return err(res,403,'Para este e-mail, crie a conta com senha e confirme o endereço');
    let a=await read(pathFor(address));
    if(a?.googleSubject&&a.googleSubject!==identity.sub)return err(res,403,'Esta conta está vinculada a outro acesso Google');
+   if(a&&!a.googleSubject)return err(res,409,'Este e-mail já possui cadastro por senha. Entre com e-mail e senha.');
    if(!a)a={id:crypto.randomUUID(),email:address,status:'rascunho',guardianConsent:false,publicationConsent:false,createdAt:new Date().toISOString()};
    a.googleSubject=identity.sub;
    a.googleLinkedAt=a.googleLinkedAt||new Date().toISOString();

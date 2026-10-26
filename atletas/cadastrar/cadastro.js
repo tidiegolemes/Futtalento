@@ -68,7 +68,12 @@ $('ftVerifyForm').addEventListener('submit',async event=>{
   verify.hidden=true;say('Página criada e publicada! Seu atleta já pode aparecer na vitrine.',data.profile?.page);
  }catch(error){say(error.message)}finally{button.disabled=false}
 });
-fetch(route+'?action=session',{credentials:'same-origin',cache:'no-store'}).then(x=>x.json()).then(data=>{
+$('ftResendCode').addEventListener('click',async()=>{
+ const button=$('ftResendCode');button.disabled=true;
+ try{const data=await request('resend',{});say(data.message||'Código enviado.')}
+ catch(error){say(error.message)}finally{button.disabled=false}
+});
+fetch(route+'&action=session',{credentials:'same-origin',cache:'no-store'}).then(x=>x.json()).then(data=>{
  if(data.loggedIn&&!data.verified){register.hidden=true;login.hidden=true;verify.hidden=false;
  $('ftVerifyDescription').textContent=data.emailVerificationConfigured?'Digite o código enviado ao seu email.':'Seu cadastro está salvo, mas a verificação por email ainda não foi ativada pelo FutTalento.';}
 }).catch(()=>{});

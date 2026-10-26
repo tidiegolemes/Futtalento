@@ -5,7 +5,7 @@ if(!slug||!/^[a-z0-9-]{4,90}$/.test(slug)){loading.textContent='Link do atleta i
 const text=(id,value)=>$(id).textContent=value||'';
 (async()=>{
  try{
-  const r=await fetch('/api/athlete-onboarding?action=profile&slug='+encodeURIComponent(slug),{cache:'no-store'});
+  const r=await fetch('/api/captacao-lead?onboarding=1&action=profile&slug='+encodeURIComponent(slug),{cache:'no-store'});
   const data=await r.json();if(!r.ok||!data.ok)throw Error(data.error||'Perfil indisponível');
   const p=data.profile;
   if(!p){throw Error('Perfil não encontrado')}
@@ -33,7 +33,7 @@ $('ftInterestForm').addEventListener('submit',async event=>{
  const btn=form.querySelector('button');btn.disabled=true;
  try{
   const d=Object.fromEntries(new FormData(form));d.slug=slug;d.consent=!!form.elements.consent.checked;
-  const resp=await fetch('/api/athlete-onboarding?action=interest',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});
+  const resp=await fetch('/api/captacao-lead?onboarding=1&action=interest',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});
   const info=await resp.json();if(!resp.ok||!info.ok)throw Error(info.error||'Não foi possível enviar');
   $('ftInterestStatus').textContent=info.message;form.reset();
  }catch(e){$('ftInterestStatus').textContent=e.message}finally{btn.disabled=false}

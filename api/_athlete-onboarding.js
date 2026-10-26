@@ -120,12 +120,12 @@ export default async function handler(req,res){
      const published=await publishedList();
      const urls=published.filter(p=>/^[a-z0-9-]{4,90}$/.test(p.slug)).map(p=>{
        const location='https://www.futtalento.com.br/atletas/perfil/?id='+encodeURIComponent(p.slug);
-       const lastmod=/^\\d{4}-\\d{2}-\\d{2}/.test(String(p.joinedAt||''))?
+       const lastmod=/^\d{4}-\d{2}-\d{2}/.test(String(p.joinedAt||''))?
          '<lastmod>'+String(p.joinedAt).slice(0,10)+'</lastmod>':'';
        return '<url><loc>'+location+'</loc>'+lastmod+'</url>';
      });
      res.setHeader('Content-Type','application/xml; charset=utf-8');
-     return res.status(200).send('<?xml version="1.0" encoding="UTF-8"?>\\n'+
+     return res.status(200).send('<?xml version="1.0" encoding="UTF-8"?>\n'+
        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+
        urls.join('')+'</urlset>');
    }

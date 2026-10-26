@@ -1,4 +1,5 @@
 // Only approved, source-attributed measurements appear in FutTalento's public Reel cards.
+import {clubTenureReferenceMonths} from '../indice/score.js';
 const KNOWN=Object.freeze({
  lucas:'https://www.lucasazambuja.com.br/',
  ryan:'https://www.futtalento.com.br/atletas/ryan/',
@@ -24,10 +25,14 @@ export function getReelStats(record,athlete){
  const titles=integer(sports.titlesDocumented,0,100)??integer(metrics.titlesVerified,0,100);
  const competitions=integer(sports.competitionsDocumented,0,200)??integer(metrics.competitionsVerified,0,200);
  const clubMonths=integer(sports.clubMonthsDocumented,0,300)??integer(metrics.clubMonths,0,300);
+ const cohortYear=validEvidence?integer(evidence.cohortYear,1900,2100):null;
+ const observedAt=validEvidence&&typeof evidence.checkedAt==='string'?evidence.checkedAt:undefined;
+ const clubMonthsReference=clubTenureReferenceMonths(cohortYear,observedAt);
+
  const sportsBreakdown=sportsPoints===null?null:{
   titles:{count:integer(sports.titlesDocumented,0,100),score:points(integer(sports.titlesDocumented,0,100),12,3),maximum:12},
   competitions:{count:integer(sports.competitionsDocumented,0,200),score:points(integer(sports.competitionsDocumented,0,200),5,5),maximum:5},
-  clubMonths:{count:integer(sports.clubMonthsDocumented,0,300),score:points(integer(sports.clubMonthsDocumented,0,300),8,24),maximum:8}
+  clubMonths:{count:integer(sports.clubMonthsDocumented,0,300),score:points(integer(sports.clubMonthsDocumented,0,300),8,clubMonthsReference),maximum:8,referenceMonths:clubMonthsReference,cohortYear}
  };
  const social=evidence?.publicSocial;
  const observed=Date.parse(social?.observedAt||'');
@@ -46,6 +51,7 @@ export function getReelStats(record,athlete){
   badgeValue:value!==null?String(value):sportsScore100!==null?String(sportsScore100):'—',
   badgeSub:value!==null?'de 100 · geral':sportsScore100!==null?'de 100 · acervo':'Em formação',
   titles,competitions,clubMonths,followers,reach,interactions,sportsPoints,sportsScore100,sportsBreakdown,
+  cohortYear,clubMonthsReference,
   publicFollowerDisplay:followers===null&&publicFollowers?'≈'+new Intl.NumberFormat('pt-BR',{maximumFractionDigits:1}).format(publicFollowers.approxFollowers/1000)+' mil':null,
   publicFollowerSource:publicFollowers?.url||null,
   publicFollowerObservedAt:publicFollowers?.observedAt||null,

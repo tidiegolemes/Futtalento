@@ -40,6 +40,7 @@ async function autoSync(){
   if(!response.ok||!data.ok)throw Error(data.error||'Não foi possível consultar as fontes');
   if(seq!==autoSeq||athlete!==$('athlete').value)return;
   pendingAuto=data.suggestions;
+  prefillV2(data.suggestions,athlete);
   const permission=$('autoPermission');
   if(permission.dataset.loadedFor!==athlete){
     permission.checked=data.current?.automaticUpdatesAuthorized===true;
@@ -179,4 +180,72 @@ $('scoreForm').addEventListener('submit',async e=>{
  }catch(err){$('status').textContent=err.message||'Erro ao salvar.'}
  finally{loading=false;$('saveIndex').disabled=false}
 });
+
+function prefillV2(suggestions,athlete){
+ const selection=$('v2Athlete');
+ if(!selection||selection.value!==athlete)return;
+ const report=suggestions?.metrics||{};
+ const fresh=suggestions?.instagram?.status==='conectado';
+ for(const input of document.querySelectorAll('[data-v2-metric]')){
+  if(input.value.trim())continue;
+  const key=input.dataset.v2Metric;
+  const verifiedSocial=['reach28d','followers','interactions28d'];
+  if(verifiedSocial.includes(key)&&!fresh)continue;
+  const val=report[key];
+  if(Number.isFinite(val))input.value=String(val);
+ }
+ if(!$('v2ObservedAt').value)$('v2ObservedAt').value=new Date().toISOString().slice(0,10);
+ $('v2Status').textContent=fresh?
+  'Insights Meta conectados. Revise os campos, o período, as publicações e as autorizações antes de publicar.':
+  'Aguardando Insights Meta oficiais. Os títulos documentados podem ser revisados; nenhuma pontuação comercial será publicada sem autenticação.';
+}
+const v2Form=$('v2Form');
+if(v2Form){
+ $('v2ObservedAt').value=new Date().toISOString().slice(0,10);
+ $('v2Athlete').addEventListener('change',()=>{
+  for(const field of v2Form.querySelectorAll('[data-v2-metric]'))field.value='';
+  $('v2Reference').value='';
+  $('v2Status').textContent='Carregando as fontes do atleta selecionado...';
+  $('athlete').value=$('v2Athlete').value;
+  $('athlete').dispatchEvent(new Event('change'));
+ });
+ $('athlete').addEventListener('change',()=>{
+  $('v2Athlete').value=$('athlete').value;
+  for(const field of v2Form.querySelectorAll('[data-v2-metric]'))field.value='';
+ });
+ v2Form.addEventListener('submit',async event=>{
+  event.preventDefault();
+  const button=$('v2Submit');
+  const actor=$('v2Athlete').value;
+  if(!ATHLETES.includes(actor))return;
+  const metrics=Object.fromEntries([...v2Form.querySelectorAll('[data-v2-metric]')].map(field=>
+   [field.dataset.v2Metric,Number(field.value)]));
+  const payload={
+   mode:'potential-v2',athlete:actor,
+   observedAt:$('v2ObservedAt').value,reference:$('v2Reference').value.trim(),
+   metrics,publicApproved:$('v2Approve').checked,
+   guardianOrAgentAuthorized:$('v2Consent').checked,
+   activation:{
+    approvedProfile:$('v2Profile').checked,
+    guardianConsent:$('v2Consent').checked,
+    trackingReady:$('v2Tracking').checked
+   }
+  };
+  button.disabled=true;
+  $('v2Status').textContent='Conferindo Meta Insights, fontes esportivas e autorização...';
+  try{
+   const r=await fetch('/api/captacao-lead?indice=1&mode=potential-v2',{
+    method:'POST',credentials:'same-origin',cache:'no-store',
+    headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)
+   });
+   const data=await r.json();
+   if(!r.ok||!data.ok)throw Error(data.error||'A validação oficial não foi concluída');
+   $('v2Status').textContent='Índice de Patrocínio FutTalento 2.0 verificado e publicado: '+data.potential.value+'/100.';
+   $('v2Approve').checked=false;
+  }catch(e){
+   $('v2Status').textContent=(e.message||'Falha de validação')+'. Nenhuma nota foi publicada.';
+  }finally{button.disabled=false;}
+ });
+}
+
 clean();load();

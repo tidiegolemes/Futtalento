@@ -189,6 +189,7 @@ function show(record,entry){
  for(const el of nodes){
   const key=el.dataset.ftReelMetric;
   if(key==='sports')el.textContent=stats.sportsScore100===null?'Em formação':stats.sportsScore100+' / 100';
+  else if(key==='followers'&&stats.followers===null&&stats.publicFollowerDisplay)el.textContent=stats.publicFollowerDisplay;
   else if(key==='tiktok')el.textContent='Métricas pendentes';
   else if(key==='site')el.textContent='Acervo online';
   else el.textContent=stats.display[key]||'A validar';
@@ -211,7 +212,9 @@ function show(record,entry){
  const label=stats.verifiedSource?
   'Parcial esportiva do '+stats.sourceLabel+'; sem auditoria independente'+(stats.sportsStale?' · atualização pendente':''):
   'Estatísticas aguardando comprovação';
- entry.note.textContent=label+'. Instagram e alcance somente após autorização. Sem previsão de resultados.';
+ entry.note.textContent=label+'. '+(stats.publicFollowerSource?
+  'Instagram: seguidores públicos aproximados observados em '+stats.publicFollowerObservedAt+'; alcance e engajamento ainda não validados pela Meta. ':
+  'Instagram e alcance somente após autorização. ')+'Sem previsão de resultados.';
  const panel=entry.scoreBody;
  panel.replaceChildren();
  if(stats.sportsPoints===null||!stats.sportsBreakdown){
@@ -236,6 +239,8 @@ function show(record,entry){
  panel.append(list);
  panel.append(elt('p','ft-r-score-note','Nota esportiva = (pontos documentados / 25) × 100. Os 25 pontos originais são divididos em: títulos até 12 (teto em 3), competições até 5 (teto em 5) e tempo de clube até 8 (teto em 24 meses). Datas incompletas geram apenas estimativas mínimas conservadoras.'));
  panel.append(elt('p','ft-r-score-note','Registros publicados em fonte vinculada ao atleta; não representam avaliação técnica, auditoria independente ou comparação justa de habilidade.'));
+ if(entry.athlete==='lucas'&&record?.evidence?.historicalArchiveUsed)
+  panel.append(elt('p','ft-r-score-note','Os títulos New Cup, IberLeague RS, Liga Canoense e LINF constavam em versão anterior do site oficial do atleta. São registros históricos atribuídos à fonte do próprio atleta, ainda sem homologação independente.'));
  if(stats.rating===null)panel.append(elt('p','ft-r-score-pending','Índice FutTalento geral / 100: pendente até validar audiência, engajamento, parcerias e cobertura mínima dos indicadores.'));
  if(stats.verifiedSource){
   const sourceLink=elt('a','ft-r-score-source','Conferir registros de origem ↗');

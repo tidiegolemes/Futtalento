@@ -25,6 +25,13 @@ function originValid(req){
   const origin=req.headers.origin,host=req.headers.host;
   return typeof origin==='string'&&['www.futtalento.com.br','futtalento.com.br'].includes(host)&&origin==='https://'+host;
 }
+function safePublicPostUrl(raw){
+ try{
+  const u=new URL(String(raw||''));
+  return u.protocol==='https:'&&/(^|\.)instagram\.com$/.test(u.hostname)&&
+   !u.username&&!u.password&&u.href.length<=300?u.href:null;
+ }catch{return null}
+}
 function summarize(id,ops,family){
   const activities=(ops?.activities||[]).filter(a=>a.partner===id)
     .filter(a=>['story','reel','post','cupom','resgate','venda','entrega'].includes(a.type))
@@ -32,7 +39,7 @@ function summarize(id,ops,family){
     .map(a=>({date:safe(a.date,10),type:safe(a.type,16),status:safe(a.status,30),
       qty:positive(a.qty),channel:safe(a.channel,35),revenue:a.type==='venda'&&a.status==='confirmado'?positive(a.revenue):null,
       // Source and agency notes are not returned: may contain sensitive internal information.
-      hasEvidence:!!a.source}));
+      hasEvidence:!!a.source,postUrl:['story','reel','post'].includes(a.type)?safePublicPostUrl(a.source):null}));
   const confirmed=activities.filter(a=>a.status==='confirmado'||a.status==='publicado');
   const publications=confirmed.filter(a=>['story','reel','post'].includes(a.type)).reduce((s,a)=>s+(a.qty||1),0);
   const publicationsLucas=confirmed.filter(a=>['story','reel','post'].includes(a.type)&&a.channel==='instagram-lucas').reduce((s,a)=>s+(a.qty||1),0);

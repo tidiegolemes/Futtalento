@@ -57,9 +57,61 @@ async function save(key,button){
  }catch(e){show(e.message||'Falha ao salvar.');}
  finally{busy=false;button.disabled=false;}
 }
+
+async function loadClaims(){
+ const area=$('claims'),button=$('refreshClaims');
+ button.disabled=true;area.textContent='Consultando solicitações...';
+ try{
+  const res=await fetch('/api/captacao-lead?onboarding=1&action=admin-claims',{
+   credentials:'same-origin',cache:'no-store'});
+  const data=await res.json();
+  if(!res.ok||!data.ok)throw Error(data.error||'Consulta indisponível');
+  area.replaceChildren();
+  if(!data.claims.length){area.textContent='Nenhuma solicitação registrada.';return}
+  for(const claim of data.claims){
+   const article=document.createElement('article');article.className='lead-card';
+   const heading=document.createElement('h3');
+   heading.textContent=(claim.athleteName||claim.athlete||'Atleta')+' — '+(claim.status||'pendente');
+   const who=document.createElement('p');
+   who.textContent='Solicitante: '+(claim.guardianName||'')+' · WhatsApp: '+(claim.guardianPhone||'')+' · Data: '+getDate(claim.createdAt);
+   article.append(heading,who);
+   if(claim.status==='pending'){
+    const review=document.createElement('label');
+    review.style.display='flex';review.style.gap='9px';review.style.alignItems='start';
+    const checkbox=document.createElement('input');checkbox.type='checkbox';
+    review.append(checkbox,document.createTextNode('Conferi a responsabilidade legal e a autorização com documentação por canal seguro.'));
+    const actions=document.createElement('div');actions.className='actions';
+    for(const decision of [{name:'Aprovar vínculo',approved:true},{name:'Rejeitar',approved:false}]){
+     const btn=document.createElement('button');btn.type='button';btn.textContent=decision.name;
+     btn.addEventListener('click',async()=>{
+      if(decision.approved&&!checkbox.checked){show('Antes de aprovar, confira e marque a verificação da documentação.');return}
+      if(!window.confirm(decision.approved?'Confirma que conferiu a documentação e autoriza a gestão do perfil existente?':'Rejeitar esta solicitação?'))return;
+      btn.disabled=true;
+      try{
+       const response=await fetch('/api/captacao-lead?onboarding=1&action=admin-claim-review',{
+        method:'POST',credentials:'same-origin',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({id:claim.id,athlete:claim.athlete,approved:decision.approved,evidenceReviewed:checkbox.checked})
+       });
+       const result=await response.json();
+       if(!response.ok||!result.ok)throw Error(result.error||'Falha na análise');
+       show('Solicitação atualizada: '+result.status);await loadClaims();
+      }catch(e){show(e.message||'Falha ao registrar decisão');btn.disabled=false}
+     });
+     actions.append(btn);
+    }
+    article.append(review,actions);
+   }
+   area.append(article);
+  }
+ }catch(e){area.textContent=e.message||'Não foi possível consultar solicitações'}
+ finally{button.disabled=false}
+}
+$('refreshClaims').addEventListener('click',loadClaims);
 $('leads').addEventListener('click',e=>{const btn=e.target.closest('button[data-save]');if(btn)save(btn.dataset.save,btn);});
 $('filterAudience').addEventListener('change',render);
 $('loadNext').addEventListener('click',()=>load(false));
 $('refresh').addEventListener('click',()=>load(true));
 load(true);
+loadClaims();
 })();

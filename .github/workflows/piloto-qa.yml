@@ -1,0 +1,25 @@
+name: FutTalento Pilot QA
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  static-and-regression-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9fb3b # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Show runtime
+        run: node --version
+      - name: Check backend and client JavaScript
+        run: |
+          node --check api/_athlete-onboarding.js
+          node --check atletas/cadastrar/cadastro.js
+          node --check atletas/perfil-gerenciado.js
+          node --check sponsor/lucas/gestao/captacao/captacao.js
+      - name: Run repository regression suite
+        run: node --test tests/*.test.js

@@ -43,7 +43,7 @@ test('Family journey shows per-company proof stages, not invented engagement',()
  assert.match(guardianPage,/id="ftFamilyImpactCards"/);
  assert.match(guardianUi,/function renderImpact/);
  assert.match(guardianUi,/hasPartnerVerification/);
- assert.match(guardianUi,/Alcance do período/);
+ assert.match(guardianUi,/Alcance do perfil do Lucas no período/);
  assert.match(guardianUi,/não significa alcance exclusivo do post/);
  assert.match(guardianUi,/não somamos estes registros|não são somados para evitar duplicidade/i);
  assert.doesNotMatch(guardianUi,/score:\s*100/);
@@ -63,4 +63,30 @@ test('Approved athlete editor links directly to family journey',()=>{
  const onboarding=read('atletas/cadastrar/cadastro.js');
  assert.match(onboarding,/managedAthlete==='lucas'/);
  assert.match(onboarding,/link\.href='\/sponsor\/lucas\/'/);
+});
+
+test('Agency records each media item under a verifiable channel, not a generic sponsor platform',()=>{
+ const agency=read('sponsor/lucas/painel.js');
+ const agencyPage=read('sponsor/lucas/gestao/index.html');
+ const api=read('api/sponsor-state.js');
+ assert.match(agencyPage,/id="acChannel"/);
+ assert.match(agencyPage,/id="soChannel"/);
+ assert.match(agencyPage,/id="soScope"/);
+ assert.match(agencyPage,/id="soPostUrl"/);
+ assert.match(agency,/channel:\$\('acChannel'\)\.value/);
+ assert.match(agency,/channel:'instagram-lucas'/);
+ assert.match(api,/\['instagram-lucas','instagram-futtalento'\]\.includes\(a.channel\)/);
+ assert.match(api,/scope:\['post','periodo'\]/);
+ assert.match(agency,/const deliveriesFutTalento=/);
+});
+
+test('Parent and company dashboards never treat other Instagram reach as Lucas reach',()=>{
+ const api=read('api/family-state.js');
+ const partnerAPI=read('api/partner-state.js');
+ assert.match(api,/x.channel==='instagram-lucas'/);
+ assert.match(api,/reachScope:latest\?\.scope/);
+ assert.match(partnerAPI,/publicationsLucas/);
+ assert.match(partnerAPI,/publicationsFutTalento/);
+ assert.match(sponsorUi,/s\.channel==='instagram-lucas'/);
+ assert.match(guardianUi,/x.channel==='instagram-lucas'/);
 });

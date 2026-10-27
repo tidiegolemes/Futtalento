@@ -351,7 +351,7 @@ export default async function handler(req,res){
   if(action==='complete'){
    const a=await requireAccount(req);
    if(!a)return err(res,401,'Crie sua conta ou entre antes de preencher o perfil');
-   if(a.slug)return err(res,409,'O perfil desta conta já foi preenchido');
+   if(a.slug||a.claimAthlete)return err(res,409,'Esta conta já possui um perfil ou vínculo em análise');
    const checked=validAthlete(body),photo=imageFrom(body);
    if(checked.error)return err(res,400,checked.error);
    if(existingAthlete(checked.value.athleteName))

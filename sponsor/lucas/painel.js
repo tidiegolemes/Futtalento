@@ -57,7 +57,7 @@ $('activityRows').innerHTML=(state.activities||[]).slice().sort((a,b)=>b.date.lo
  }).join('');
 renderMetrics();
 }
-function renderSocial(){$('socialRows').innerHTML=(state.social||[]).slice().reverse().map((a,i)=>'<tr><td>'+safe(a.date)+'</td><td>'+safe(label(a.partner))+'</td><td>'+safe(channelLabel(a.channel))+'</td><td>'+safe(a.scope==='post'?'Post específico':'Período')+'</td><td>'+number(a.followers)+</td><td>'+number(a.reach)+'</td><td>'+number(a.visits)+'</td><td>'+safe(a.source||'—')+'</td><td><button type="button" data-rm-social="'+(state.social.length-1-i)+'">Excluir</button></td></tr>').join('');}
+function renderSocial(){$('socialRows').innerHTML=(state.social||[]).slice().reverse().map((a,i)=>'<tr><td>'+safe(a.date)+'</td><td>'+safe(label(a.partner))+'</td><td>'+safe(channelLabel(a.channel))+'</td><td>'+safe(a.scope==='post'?'Post específico':'Período')+'</td><td>'+number(a.followers)+'</td><td>'+number(a.reach)+'</td><td>'+number(a.visits)+'</td><td>'+safe(a.source||'—')+'</td><td><button type="button" data-rm-social="'+(state.social.length-1-i)+'">Excluir</button></td></tr>').join('');}
 function render(){renderPartners();renderMissions();renderActivities();renderSocial();renderCalendar();renderReport();}
 function renderCalendar(){
  const month=$('calendarMonth').value;

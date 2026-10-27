@@ -104,7 +104,7 @@ function numberBox(value,label,missing=false){
 function renderImpactCycle(){
  const metrics=summary?.metrics||{};
  const offer=portal?.offer?.status==='approved'||summary?.agreement?.approved===true;
- const published=Number(metrics.publications||0)>0;
+ const published=Number(metrics.publicationsLucas||0)>0;
  const proof=(portal?.results||[]).some(x=>x.status==='verified');
  const stages=[
   {done:offer,title:'Oferta aprovada',detail:offer?'Pronta para campanha':'A agência ainda precisa validar'},
@@ -139,21 +139,26 @@ function renderNumbers(){
  const confirmedSales=(portal.results||[]).filter(x=>x.type==='compra'&&x.status==='verified');
  const confirmedQty=confirmedSales.reduce((s,x)=>s+Number(x.qty||0),0);
  const confirmedRevenue=confirmedSales.reduce((s,x)=>s+Number(x.amount||0),0);
- $('resultNumbers').innerHTML=numberBox(count(metrics.publications||0),'Conteúdos publicados registrados')+
+ $('resultNumbers').innerHTML=numberBox(count(metrics.publications||0),'Publicações no Instagram do Lucas')+
+  numberBox(count(metrics.publicationsFutTalento||0),'Publicações no Instagram FutTalento')+
   numberBox(count(metrics.coupons||0),'Resgates confirmados pela agência')+
   numberBox(verified.length?count(confirmedCouponQty):'A confirmar','Resgates confirmados pelo comércio',!verified.length)+
   numberBox(verified.length?count(confirmedQty):'A confirmar','Compras confirmadas pelo comércio',!verified.length)+
   numberBox(verified.length?money(confirmedRevenue):'A confirmar','Valor das compras confirmadas',!verified.length);
  $('legacyResults').hidden=!(Number(metrics.sales||0)>0||Number(metrics.revenue||0)>0);
  $('legacyResults').textContent='Registros comerciais anteriores da agência: '+count(metrics.sales||0)+' compra(s), '+money(metrics.revenue||0)+'. Os dois históricos não são somados automaticamente para evitar contar a mesma venda duas vezes.';
- const social=metrics.social||[],snap=social.length?social[social.length-1]:null;
- const history=social.length>1?social[0]:null;
+ const social=(metrics.social||[]).filter(s=>s.channel==='instagram-lucas');
+ const periods=social.filter(s=>s.scope!=='post'),posts=social.filter(s=>s.scope==='post');
+ const snap=periods.length?periods[periods.length-1]:null;
+ const post=posts.length?posts[posts.length-1]:null;
+ const history=periods.length>1?periods[0]:null;
  const delta=history&&snap?Number(snap.followers)-Number(history.followers):null;
  $('socialNumbers').innerHTML=[
-  ['Seguidores atuais',snap?count(snap.followers):'A integrar'],
+  ['Seguidores na conta do Lucas',snap?count(snap.followers):'Não medido'],
   ['Variação total de seguidores',delta===null?'A integrar':(delta>0?'+':'')+count(delta)],
-  ['Alcance do período',snap?count(snap.reach):'A integrar'],
-  ['Visitas ao perfil',snap?count(snap.visits):'A integrar'],
+  ['Alcance da conta do Lucas no período',snap?count(snap.reach):'Não medido'],
+   ['Alcance de post/Reel individual do Lucas',post?count(post.reach):'Não medido'],
+  ['Visitas ao perfil do Lucas',snap?count(snap.visits):'Não medido'],
   ['Visitas vindas especificamente do Lucas','Ainda não mensurado']
  ].map(([k,v])=>'<div class="simpleRow"><span>'+esc(k)+'</span><b>'+esc(v)+'</b></div>').join('')+
  '<div class="trackNotice">Dados de Instagram dependem de acesso autorizado e conferência do período. Atribuir seguidores a um único Story exige cautela; não há garantia de causalidade.</div>';
@@ -168,8 +173,8 @@ function renderDeliveries(){
  const posts=all.filter(a=>['story','reel','post'].includes(a.type)).sort((a,b)=>(b.date||'').localeCompare(a.date||'')).slice(0,30);
  $('deliveriesList').innerHTML=posts.length?posts.map(a=>{
  const published=['publicado','confirmado'].includes(a.status),emoji={story:'📱',reel:'🎬',post:'🖼️'}[a.type];
- const name={story:'Story',reel:'Reel',post:'Carrossel/post'}[a.type];
- return '<article class="event"><div class="deliveryIcon" aria-hidden="true">'+emoji+'</div><div><h3>'+name+'</h3><p>'+dateLabel(a.date)+'</p><span class="deliveryState '+(published?'live':'')+'">'+(published?'✓ Publicado':'Em planejamento')+'</span></div></article>';
+ const name={story:'Story',reel:'Reel',post:'Carrossel/post'}[a.type],channel=a.channel==='instagram-lucas'?'Instagram do Lucas':'Instagram FutTalento';
+ return '<article class="event"><div class="deliveryIcon" aria-hidden="true">'+emoji+'</div><div><h3>'+name+'</h3><p>'+dateLabel(a.date)+' · '+esc(channel)+'</p><span class="deliveryState '+(published?'live':'')+'">'+(published?'✓ Publicado':'Em planejamento')+'</span></div></article>';
  }).join(''):'<div class="panel"><h3>🎬 A agência está preparando as primeiras entregas</h3><p class="small muted" style="margin-top:10px">Assim que houver um conteúdo registrado e aprovado, a programação vai aparecer aqui. Por enquanto não há publicações confirmadas neste painel.</p></div>';
 }
 function renderOffer(){

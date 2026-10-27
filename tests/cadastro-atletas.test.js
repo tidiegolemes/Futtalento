@@ -114,3 +114,11 @@ test('The pilot does not bypass sponsorship payment approvals',()=>{
  assert.match(onboarding,/A aprovação exige conferência documentada da responsabilidade legal/);
  assert.match(legacy,/atletas\/perfil-gerenciado\.js/);
 });
+
+test('Public managed-profile endpoint excludes guardian contact fields',()=>{
+ const handler=onboarding.slice(onboarding.indexOf("if(action==='managed-profile')return"),onboarding.indexOf("if(!saved.photoExtension)"));
+ assert.match(handler,/name:saved.athleteName/);
+ assert.match(handler,/club:saved.club/);
+ for(const key of ['guardianPhone','guardianName','birthDate','email:saved.email','passwordHash'])
+  assert.equal(handler.includes(key),false,'Sensitive field leaked: '+key);
+});

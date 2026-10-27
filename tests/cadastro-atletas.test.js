@@ -106,3 +106,11 @@ test('Guardian-approved updates augment legacy pages without removing their spor
  assert.match(layer,/profile-hero/);
  assert.doesNotMatch(layer,/innerHTML/);
 });
+
+test('The pilot does not bypass sponsorship payment approvals',()=>{
+ const route=read('api/captacao-lead.js');
+ const legacy=read('atletas/lucas/index.html');
+ assert.match(route,/pixCheckout/);
+ assert.match(onboarding,/A aprovação exige conferência documentada da responsabilidade legal/);
+ assert.match(legacy,/atletas\/perfil-gerenciado\.js/);
+});

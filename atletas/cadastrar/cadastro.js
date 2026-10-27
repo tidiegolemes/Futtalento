@@ -52,6 +52,13 @@ async function showEditor(){
   $('ftProfileIntro').textContent='Seu perfil já foi publicado. Edite seus dados esportivos sem criar uma nova página.';
   $('ftProfileSubmit').firstChild.textContent='Salvar alterações ';
   show(register,false);say('Gerenciamento do perfil ativo.',profile.page);
+  if(data.managedAthlete==='lucas'){
+   const link=document.createElement('a');
+   link.href='/sponsor/lucas/';
+   link.textContent='Abrir Minha Jornada do Lucas →';
+   link.style.display='block';link.style.marginTop='10px';
+   status.append(link);
+  }
  }catch(error){show(null);say(error.message)}
 }
 async function afterLogin(data,scroll=true){

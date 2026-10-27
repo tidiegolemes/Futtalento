@@ -55,6 +55,51 @@ feedback(success);
 }catch(e){feedback(e.message||'Falha ao salvar',true);if(e.message?.includes('outro dispositivo'))await load().catch(()=>{});}
 finally{busy=false}
 }
+const brl=value=>Number(value||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const qty=value=>Number(value||0).toLocaleString('pt-BR');
+function renderImpact(){
+ const entries=Array.isArray(state?.impact)?state.impact:[];
+ const summary=$('ftFamilyImpactSummary'),grid=$('ftFamilyImpactCards');
+ if(!entries.length){
+  summary.textContent='O boletim de resultados ainda não está disponível.';
+  grid.replaceChildren();return;
+ }
+ const published=entries.reduce((n,r)=>n+(Number(r.published)||0),0);
+ const approved=entries.filter(r=>r.approved).length;
+ const verified=entries.filter(r=>r.hasPartnerVerification||r.hasAgencySales).length;
+ summary.innerHTML='<div class="ft-impact-snapshot"><strong>'+qty(published)+'</strong><span>publicações registradas como realizadas</span></div>'+
+  '<div class="ft-impact-snapshot"><strong>'+qty(approved)+'</strong><span>parcerias com oferta aprovada</span></div>'+
+  '<div class="ft-impact-snapshot"><strong>'+qty(verified)+'</strong><span>parceiros com comprovações comerciais</span></div>';
+ grid.innerHTML=entries.map(r=>{
+  const who=partner(r.id),step=[r.approved,r.published>0,r.hasPartnerVerification||r.hasAgencySales];
+  const done=step.filter(Boolean).length,percent=Math.round(done/3*100);
+  const line=(label,value,notice='')=>'<div class="ft-proof-line"><span>'+esc(label)+'</span><b>'+esc(value)+'</b></div>'+(notice?'<p class="ft-proof-note">'+esc(notice)+'</p>':'');
+  const partnerSales=r.hasPartnerVerification?qty(r.salesVerifiedByPartner)+' compra(s)':'Aguardando comprovação';
+  const partnerRevenue=r.hasPartnerVerification?brl(r.revenueVerifiedByPartner):'Aguardando comprovação';
+  const agencySales=r.hasAgencySales?qty(r.salesReportedByAgency)+' compra(s)':'Sem registros validados';
+  const reach=r.reachSnapshot===null?'Não informado':qty(r.reachSnapshot);
+  return '<article class="ft-impact-card">'+
+   '<div class="ft-impact-card-top"><span class="ft-impact-emoji" aria-hidden="true">'+esc(who.icon)+'</span>'+
+   '<div><h3>'+esc(who.name)+'</h3><p class="small muted">Ciclo documentado · '+done+' de 3 marcos</p></div>'+
+   '<div class="ft-impact-ring" role="img" aria-label="'+percent+'% dos marcos documentados" style="--impact-percent:'+percent+'%"><span>'+done+'/3</span></div></div>'+
+   '<div class="ft-impact-steps"><span class="'+(step[0]?'complete':'')+'">1 · Oferta</span><span class="'+(step[1]?'complete':'')+'">2 · Publicação</span><span class="'+(step[2]?'complete':'')+'">3 · Resultado</span></div>'+
+   line('Publicações no Instagram do Lucas',r.published?qty(r.published):'A confirmar')+
+   line('Cupom aprovado',r.coupon||'Não cadastrado')+
+   line(r.reachScope==='post'?'Alcance de publicação do Lucas':'Alcance do perfil do Lucas no período',reach,
+    r.reachSnapshot===null?'Ainda sem Insight do Lucas identificado.':
+    r.reachScope==='post'?'Post específico registrado em '+(r.reachDate||'data não informada')+'.':
+    'Fotografia da conta em '+(r.reachDate||'data não informada')+'; não significa alcance exclusivo do post.')+
+   line('Resgates validados pelo parceiro',r.hasPartnerVerification?qty(r.couponsVerifiedByPartner):'Aguardando comprovação')+
+   line('Vendas validadas pelo parceiro',partnerSales)+
+   line('Valor de vendas validado pelo parceiro',partnerRevenue)+
+   '<details class="ft-impact-details"><summary>Outros registros da agência</summary>'+
+   line('Resgates registrados pela agência',r.couponsReportedByAgency?qty(r.couponsReportedByAgency):'Sem confirmação')+
+   line('Vendas registradas pela agência',agencySales)+
+   line('Faturamento registrado pela agência',r.hasAgencySales?brl(r.revenueReportedByAgency):'Sem confirmação')+
+   '<p class="small muted">Fontes possivelmente sobrepostas. Não somamos estes registros aos resultados do estabelecimento.</p></details>'+
+   '</article>';
+ }).join('');
+}
 function renderToday(){
   const events=(state?.schedule||[]).filter(x=>x.date>=todayISO()).slice(0,3);
   $('monthPreview').innerHTML=events.length?events.map(renderEvent).join(''):'<p class="small muted">A equipe está preparando o próximo calendário. Quando houver datas registradas, elas aparecerão aqui.</p>';
@@ -70,7 +115,7 @@ function formatDate(date){if(!/^20\d\d-\d\d-\d\d$/.test(date||''))return date||'
 function renderEvent(x){
   const format={story:'📱 Story',reel:'🎬 Reel',post:'🖼️ Publicação'}[x.type]||'📍 Conteúdo';
   const statusLabel={planejado:'Em planejamento',em_producao:'Em produção',aguardando_autorizacao:'Aguardando autorização',pronto:'Pronto para programar',agendado:'Agendamento informado pela agência',publicado:'Publicação informada pela agência',confirmado:'Confirmado'}[x.status]||'Em planejamento';
-  return '<article class="event"><div class="date">'+esc(x.date.slice(8,10))+'<br>'+esc(x.date.slice(5,7))+'</div><div style="flex:1"><h3>'+format+' · '+esc(partner(x.partner).name)+'</h3><p>Canal: Instagram FutTalento'+(x.collab?' · Colab previsto':'')+'</p><p style="margin-top:6px">● '+esc(statusLabel)+'</p></div></article>';
+  return '<article class="event"><div class="date">'+esc(x.date.slice(8,10))+'<br>'+esc(x.date.slice(5,7))+'</div><div style="flex:1"><h3>'+format+' · '+esc(partner(x.partner).name)+'</h3><p>Canal: '+(x.channel==='instagram-lucas'?'Instagram do Lucas':'Instagram FutTalento')+(x.collab?' · Colab previsto':'')+'</p><p style="margin-top:6px">● '+esc(statusLabel)+'</p></div></article>';
 }
 function renderAgenda(){
   const events=(state?.schedule||[]).slice().sort((a,b)=>a.date.localeCompare(b.date));
@@ -82,7 +127,7 @@ function renderConquistas(){
   $('partnerCards').innerHTML=catalog.map(p=>'<article class="partnerCard"><span style="font-size:1.75rem">'+p.icon+'</span><strong>'+esc(p.name)+'</strong><small>'+esc(p.kind)+'</small><a class="linktext tiny" href="'+esc(p.url)+'" target="_blank" rel="noopener noreferrer">Conhecer ↗</a></article>').join('');
   $('benefitList').innerHTML=(state.benefits||[]).length?state.benefits.slice().reverse().map(b=>'<div class="benefit"><span class="ico">'+partner(b.partner).icon+'</span><div><b>'+esc(b.description)+'</b><small>'+esc(partner(b.partner).name)+' · '+esc(formatDate(b.date))+'</small><small>'+(b.verification==='verified_by_agency'?'✅ Confirmado pela equipe':'⏳ Em conferência pela equipe')+'</small></div></div>').join(''):'<p class="small muted" style="margin-top:13px">Ainda não há apoios recebidos registrados.</p>';
 }
-function render(){renderToday();renderAgenda();renderConquistas();setView(activeView);}
+function render(){renderToday();renderImpact();renderAgenda();renderConquistas();setView(activeView);}
 function setView(name){
 if(!['hoje','agenda','conquistas'].includes(name))name='hoje';activeView=name;
 document.querySelectorAll('.view').forEach(x=>x.classList.toggle('active',x.id==='view-'+name));

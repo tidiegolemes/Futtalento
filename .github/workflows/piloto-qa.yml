@@ -21,6 +21,10 @@ jobs:
           node --check atletas/cadastrar/cadastro.js
           node --check atletas/perfil-gerenciado.js
           node --check sponsor/lucas/gestao/captacao/captacao.js
+          node --check api/family-state.js
+          node --check sponsor/lucas/jornada.js
+          node --check sponsor/lucas/painel.js
+          node --check apoiador/painel.js
       - name: Install dependencies without lifecycle scripts
         run: npm install --ignore-scripts --no-audit --no-fund
       - name: Run repository regression suite

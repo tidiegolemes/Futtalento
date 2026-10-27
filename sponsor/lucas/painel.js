@@ -10,7 +10,7 @@ const tasks=[
  ['permissions','Agência','Solicitar e arquivar autorizações de uso de imagem e comunicação publicitária, somente quando aplicáveis','Antes de veicular'],
  ['contracts','Agência','Confirmar contratos, pacotes e contrapartidas de cada apoiador','Início de mês'],
  ['materials','Agência','Solicitar por WhatsApp imagens e vídeos à família e aos parceiros, sem tarefas no painel familiar','Início de mês'],
- ['calendar','Agência','Fechar calendário editorial do mês seguinte no Instagram FutTalento','Mensal'],
+ ['calendar','Agência','Fechar calendário editorial do mês seguinte no Instagram do Lucas e/ou FutTalento','Mensal'],
  ['creative','Agência','Redigir legendas, criar artes, Stories, Reels e carrosséis do mês','Mensal'],
  ['approval','Agência','Organizar revisões pontuais de imagem e publicidade antes da veiculação','Quando necessário'],
  ['partnercolab','Agência + parceiro','Convidar perfis de apoiadores para Collab em Reels/posts elegíveis','Conforme cronograma'],
@@ -26,6 +26,7 @@ let state=defaults(),ready=false;
 const $=id=>document.getElementById(id);
 const safe=(value)=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 const label=id=>partnerCatalog.find(x=>x.id===id)?.name||'Não identificado';
+const channelLabel=id=>id==='instagram-lucas'?'Instagram Lucas':id==='instagram-futtalento'?'Instagram FutTalento':'Canal não classificado';
 const money=v=>Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
 const number=v=>Number(v||0).toLocaleString('pt-BR');
 const partnerOptions=()=>partnerCatalog.map(p=>'<option value="'+p.id+'">'+safe(p.name)+'</option>').join('');
@@ -52,11 +53,11 @@ $('activityRows').innerHTML=(state.activities||[]).slice().sort((a,b)=>b.date.lo
  const opts={planejado:'Planejado',em_producao:'Em produção',aguardando_autorizacao:'Aguardando autorização',pronto:'Pronto',agendado:'Agendado (manual)',publicado:'Publicado',confirmado:'Confirmado'};
  const select='<select aria-label="Etapa da publicação" data-status-activity="'+safe(a.id)+'">'+Object.entries(opts).map(([v,t])=>'<option value="'+v+'"'+(a.status===v?' selected':'')+'>'+t+'</option>').join('')+'</select>';
  const material='<select aria-label="Estado do material" data-material-activity="'+safe(a.id)+'">'+Object.entries({pendente:'A solicitar',solicitado:'Solicitado',recebido:'Recebido',aprovado:'Autorizado'}).map(([v,t])=>'<option value="'+v+'"'+(a.material===v?' selected':'')+'>'+t+'</option>').join('')+'</select>';
- return '<tr><td>'+safe(a.date)+'</td><td>'+safe(label(a.partner))+'</td><td>'+safe(a.type)+'</td><td>'+select+'</td><td>'+material+'</td><td><input aria-label="Collab previsto" type="checkbox" data-collab-activity="'+safe(a.id)+'"'+(a.collab?' checked':'')+(a.type==='story'?' disabled':'')+'></td><td>'+number(a.qty)+'</td><td>'+money(a.revenue)+'</td><td>'+safe(a.source||'—')+'</td><td><button type="button" data-rm-activity="'+safe(a.id)+'" aria-label="Excluir registro">Excluir</button></td></tr>';
+ return '<tr><td>'+safe(a.date)+'</td><td>'+safe(label(a.partner)) +'</td><td>'+safe(channelLabel(a.channel))+'</td><td>'+safe(a.type)+'</td><td>'+select+'</td><td>'+material+'</td><td><input aria-label="Collab previsto" type="checkbox" data-collab-activity="'+safe(a.id)+'"'+(a.collab?' checked':'')+(a.type==='story'?' disabled':'')+'></td><td>'+number(a.qty)+'</td><td>'+money(a.revenue)+'</td><td>'+safe(a.source||'—')+'</td><td><button type="button" data-rm-activity="'+safe(a.id)+'" aria-label="Excluir registro">Excluir</button></td></tr>';
  }).join('');
 renderMetrics();
 }
-function renderSocial(){$('socialRows').innerHTML=(state.social||[]).slice().reverse().map((a,i)=>'<tr><td>'+safe(a.date)+'</td><td>'+safe(label(a.partner))+'</td><td>'+number(a.followers)+'</td><td>'+number(a.reach)+'</td><td>'+number(a.visits)+'</td><td>'+safe(a.source||'—')+'</td><td><button type="button" data-rm-social="'+(state.social.length-1-i)+'">Excluir</button></td></tr>').join('');}
+function renderSocial(){$('socialRows').innerHTML=(state.social||[]).slice().reverse().map((a,i)=>'<tr><td>'+safe(a.date)+'</td><td>'+safe(label(a.partner))+'</td><td>'+safe(channelLabel(a.channel))+'</td><td>'+safe(a.scope==='post'?'Post específico':'Período')+'</td><td>'+number(a.followers)+'</td><td>'+number(a.reach)+'</td><td>'+number(a.visits)+'</td><td>'+safe(a.source||'—')+'</td><td><button type="button" data-rm-social="'+(state.social.length-1-i)+'">Excluir</button></td></tr>').join('');}
 function render(){renderPartners();renderMissions();renderActivities();renderSocial();renderCalendar();renderReport();}
 function renderCalendar(){
  const month=$('calendarMonth').value;
@@ -76,7 +77,7 @@ function generateMonthlyDraft(){
   const maxDay=new Date(Number(month.slice(0,4)),Number(month.slice(5,7)),0).getDate();
   const date=month+'-'+String(Math.min(day,maxDay)).padStart(2,'0');
   if(state.activities.some(x=>x.date===date&&x.partner===item.partner&&x.type===item.type))return;
-  state.activities.push({id:'editorial-'+date+'-'+item.partner+'-'+item.type,date,partner:item.partner,type:item.type,status:'planejado',channel:'instagram-futtalento',collab:item.type!=='story',material:'pendente',source:'',qty:1,revenue:0,note:item.note||'Pauta a produzir pela agência'});
+  state.activities.push({id:'editorial-'+date+'-'+item.partner+'-'+item.type,date,partner:item.partner,type:item.type,status:'planejado',channel:'instagram-lucas',collab:item.type!=='story',material:'pendente',source:'',qty:1,revenue:0,note:item.note||'Pauta a produzir pela agência'});
   added++;
  });
  renderActivities();renderCalendar();status(added+' pauta(s) incluída(s) no mês como rascunho interno. Revise pacotes e autorizações e clique Salvar atualizações.');
@@ -98,14 +99,16 @@ catch(err){status(err.message,true)}finally{$('save').disabled=false}
 }
 
 function renderReport(){
-const id=$('reportPartner').value||'oze',p=state.partners[id]||{},events=(state.activities||[]).filter(x=>x.partner===id),snapshots=(state.social||[]).filter(x=>x.partner===id).sort((a,b)=>a.date.localeCompare(b.date));
-const deliveries=events.filter(x=>['story','reel','post'].includes(x.type)&&['publicado','confirmado'].includes(x.status)).reduce((n,x)=>n+(x.qty||1),0);
+const id=$('reportPartner').value||'oze',p=state.partners[id]||{},events=(state.activities||[]).filter(x=>x.partner===id),snapshots=(state.social||[]).filter(x=>x.partner===id&&x.channel==='instagram-lucas'&&x.scope!=='post').sort((a,b)=>a.date.localeCompare(b.date));
+const delivered=events.filter(x=>['story','reel','post'].includes(x.type)&&['publicado','confirmado'].includes(x.status));
+const deliveries=delivered.filter(x=>x.channel==='instagram-lucas').reduce((n,x)=>n+(x.qty||1),0);
+const deliveriesFutTalento=delivered.filter(x=>x.channel!=='instagram-lucas').reduce((n,x)=>n+(x.qty||1),0);
 const coupons=events.filter(x=>['resgate','cupom'].includes(x.type)&&x.status==='confirmado').reduce((n,x)=>n+(x.qty||0),0);
 const sales=events.filter(x=>x.type==='venda'&&x.status==='confirmado').reduce((n,x)=>n+(x.qty||0),0);
 const value=events.filter(x=>x.type==='venda'&&x.status==='confirmado').reduce((n,x)=>n+(x.revenue||0),0);
 const followerGain=snapshots.length>=2?snapshots[snapshots.length-1].followers-snapshots[0].followers:null;
 const evidence=events.filter(x=>x.status==='confirmado'&&x.source).map(x=>'<li>'+safe(x.date)+' · '+safe(x.type)+' · '+safe(x.source)+'</li>').join('')||'<li>Sem comprovações confirmadas ainda.</li>';
-$('reportContent').innerHTML='<div class="record"><span class="eyebrow">FutTalento Sponsor · Relatório de acompanhamento</span><h2>'+safe(label(id))+'</h2><p class="mini">Data: '+new Date().toLocaleDateString('pt-BR')+' · Atleta: Lucas Azambuja · Estado da parceria: '+(p.approved?'registrada como aprovada':'pendente de confirmação')+'</p><p><b>Modalidade:</b> '+safe(p.kind||'A confirmar')+'<br><b>Oferta:</b> '+safe(p.offer||'Não definida')+'<br><b>Cupom:</b> '+safe(p.coupon||'Não definido')+'<br><b>Período:</b> '+safe(p.validity||'Não definido')+'</p><div class="panels"><div class="metricbox"><small>Conteúdos publicados</small><strong>'+number(deliveries)+'</strong></div><div class="metricbox"><small>Cupons/resgates</small><strong>'+number(coupons)+'</strong></div><div class="metricbox"><small>Compras confirmadas</small><strong>'+number(sales)+'</strong></div><div class="metricbox"><small>Vendas atribuídas</small><strong>'+money(value)+'</strong></div></div><h3>Instagram / audiência</h3><p>Seguidores em data inicial: <b>'+(snapshots.length?number(snapshots[0].followers):'Sem dados')+'</b> · Última medição: <b>'+(snapshots.length?number(snapshots[snapshots.length-1].followers):'Sem dados')+'</b> · Variação observada: <b>'+(followerGain===null?'Sem série histórica':(followerGain>0?'+':'')+number(followerGain))+'</b></p><p class="mini">Variação total de seguidores não comprova que o crescimento veio de um post específico. Cliques e visitas originados de Stories/Reels dependerão de links instrumentados e integração GA4; visitas ao perfil do Instagram exigem Insights da conta autorizada.</p><h3>Comprovações</h3><ul>'+evidence+'</ul><p class="mini">Fonte de vendas: registro validado pelo comércio. Não representa lucro líquido, resultado causal ou retorno financeiro garantido. Este resumo não contém dados pessoais dos consumidores.</p></div>';
+$('reportContent').innerHTML='<div class="record"><span class="eyebrow">FutTalento Sponsor · Relatório de acompanhamento</span><h2>'+safe(label(id))+'</h2><p class="mini">Data: '+new Date().toLocaleDateString('pt-BR')+' · Atleta: Lucas Azambuja · Estado da parceria: '+(p.approved?'registrada como aprovada':'pendente de confirmação')+'</p><p><b>Modalidade:</b> '+safe(p.kind||'A confirmar')+'<br><b>Oferta:</b> '+safe(p.offer||'Não definida')+'<br><b>Cupom:</b> '+safe(p.coupon||'Não definido')+'<br><b>Período:</b> '+safe(p.validity||'Não definido')+'</p><div class="panels"><div class="metricbox"><small>Publicações no Instagram do Lucas</small><strong>'+number(deliveries)+'</strong></div><div class="metricbox"><small>Cupons/resgates</small><strong>'+number(coupons)+'</strong></div><div class="metricbox"><small>Compras confirmadas</small><strong>'+number(sales)+'</strong></div><div class="metricbox"><small>Vendas atribuídas</small><strong>'+money(value)+'</strong></div></div><p class="mini">Outras publicações no Instagram FutTalento: '+number(deliveriesFutTalento)+'. As contas não são confundidas.</p><h3>Instagram do Lucas / audiência do período</h3><p>Seguidores em data inicial: <b>'+(snapshots.length?number(snapshots[0].followers):'Sem dados')+'</b> · Última medição: <b>'+(snapshots.length?number(snapshots[snapshots.length-1].followers):'Sem dados')+'</b> · Variação observada: <b>'+(followerGain===null?'Sem série histórica':(followerGain>0?'+':'')+number(followerGain))+'</b></p><p class="mini">Variação total de seguidores não comprova que o crescimento veio de um post específico. Cliques e visitas originados de Stories/Reels dependerão de links instrumentados e integração GA4; visitas ao perfil do Instagram exigem Insights da conta autorizada.</p><h3>Comprovações</h3><ul>'+evidence+'</ul><p class="mini">Fonte de vendas: registro validado pelo comércio. Não representa lucro líquido, resultado causal ou retorno financeiro garantido. Este resumo não contém dados pessoais dos consumidores.</p></div>';
 }
 
 function campaignUrl(){const medium=$('linkMedium').value,campaign=($('linkCampaign').value||'futtalento').toLowerCase().replace(/[^a-z0-9_-]/g,'-').slice(0,60);return 'https://www.futtalento.com.br/apoiadores/lucas/?'+new URLSearchParams({utm_source:'instagram',utm_medium:medium,utm_campaign:campaign}).toString()}
@@ -150,12 +153,18 @@ $('acPartner').innerHTML=partnerOptions();$('soPartner').innerHTML=partnerOption
 $('addActivity').addEventListener('click',()=>{pullPartners();pullMissions();const type=$('acType').value,statusVal=$('acStatus').value,qty=Number($('acQty').value||0),revenue=Number($('acRevenue').value||0),source=$('acSource').value.trim();
 if(!$('acDate').value||qty<0||revenue<0)return alert('Verifique data, quantidade e valor.');
 if(['cupom','resgate','venda'].includes(type)&&statusVal==='confirmado'&&!source)return alert('Para confirmar venda ou cupom, inclua a fonte da comprovação.');
-state.activities.push({id:'a-'+Date.now()+'-'+Math.random().toString(36).slice(2,8),date:$('acDate').value,partner:$('acPartner').value,type,status:statusVal,qty,revenue,source,note:$('acNote').value.trim(),channel:'instagram-futtalento',collab:($('acCollab').checked&&['post','reel'].includes(type)),material:$('acMaterial').value});
+if(['story','reel','post'].includes(type)&&['publicado','confirmado'].includes(statusVal)&&!source)return alert('Para marcar publicação como realizada, informe um link ou referência verificável da entrega.');
+state.activities.push({id:'a-'+Date.now()+'-'+Math.random().toString(36).slice(2,8),date:$('acDate').value,partner:$('acPartner').value,type,status:statusVal,qty,revenue,source,note:$('acNote').value.trim(),channel:$('acChannel').value,collab:($('acCollab').checked&&['post','reel'].includes(type)),material:$('acMaterial').value});
 $('acSource').value='';$('acNote').value='';renderActivities();renderCalendar();renderReport();status('Registro adicionado; clique Salvar atualizações para persistir.')});
 $('activityRows').addEventListener('click',e=>{const id=e.target.dataset.rmActivity;if(!id)return;state.activities=state.activities.filter(x=>x.id!==id);renderActivities();renderCalendar();renderReport();status('Exclusão pendente de salvar.')});
 $('activityRows').addEventListener('change',e=>{const id=e.target.dataset.statusActivity||e.target.dataset.materialActivity||e.target.dataset.collabActivity;if(!id)return;const item=state.activities.find(x=>x.id===id);if(!item)return;if(e.target.dataset.statusActivity)item.status=e.target.value;if(e.target.dataset.materialActivity)item.material=e.target.value;if(e.target.dataset.collabActivity)item.collab=e.target.checked&&['post','reel'].includes(item.type);renderCalendar();renderMetrics();status('Etapa atualizada; clique Salvar atualizações para persistir.');});
-$('addSocial').addEventListener('click',()=>{const s={date:$('soDate').value,partner:$('soPartner').value,followers:Number($('soFollowers').value),reach:Number($('soReach').value),visits:Number($('soVisits').value),source:$('soSource').value.trim()};
-if(!s.date||!s.source||!Number.isFinite(s.followers)||s.followers<0)return alert('Informe data, dados válidos e a fonte real.');
+$('addSocial').addEventListener('click',()=>{const s={date:$('soDate').value,partner:$('soPartner').value,followers:Number($('soFollowers').value),reach:Number($('soReach').value),visits:Number($('soVisits').value),source:$('soSource').value.trim(),channel:$('soChannel').value,
+scope:$('soScope').value,postUrl:$('soPostUrl').value.trim()};
+if(!s.date||!s.source||$('soReach').value.trim()===''||
+  (s.scope==='periodo'&&$('soFollowers').value.trim()==='')||
+  !Number.isFinite(s.reach)||s.reach<0||!Number.isFinite(s.followers)||s.followers<0)
+ return alert('Informe data, alcance real, fonte e seguidores quando for um período da conta.');
+if(s.scope==='post'&&!/^https:\/\/(www\.)?instagram\.com\//.test(s.postUrl))return alert('Para medir um post específico, inclua o permalink HTTPS do Instagram.');
 state.social.push(s);renderSocial();renderReport();status('Insight adicionado; clique Salvar.')});
 $('socialRows').addEventListener('click',e=>{const i=e.target.dataset.rmSocial;if(i===undefined)return;state.social.splice(Number(i),1);renderSocial();renderReport();status('Exclusão pendente de salvar.')});
 fetchData();

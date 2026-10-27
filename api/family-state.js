@@ -1,5 +1,5 @@
 import crypto from 'node:crypto';
-import {authenticate} from './_sponsor-auth.js';
+import {authenticate,verify} from './_sponsor-auth.js';
 
 const PATH='lucas/family-journey-v1.json';
 const PARTNERS=['guimaraes','didi','oze','realgaucho'];
@@ -8,6 +8,30 @@ const clip=(value,length=300)=>typeof value==='string'?value.trim().slice(0,leng
 const isoDate=value=>/^20\d\d-\d\d-\d\d$/.test(value||'')?value:'';
 const initial=()=>({version:1,revision:0,athlete:'Lucas Azambuja',missions:{},drafts:[],benefits:[],help:[],updatedAt:null});
 const isStaff=user=>user.kind==='sponsor';
+/* A gestão do perfil do Lucas permite acessar a jornada da família após aprovação humana.
+   Não aceita apenas um cookie de inscrição: confere conta e propriedade atual no banco privado. */
+async function approvedGuardian(req){
+ const raw=String(req.headers.cookie||'').split(';').map(v=>v.trim()).find(v=>v.startsWith('ft_guardian='));
+ const auth=verify(raw?.slice('ft_guardian='.length));
+ if(!auth||auth.kind!=='ft-guardian'||!Number.isFinite(auth.exp)||auth.exp<Date.now()||
+    !/^[a-f0-9]{64}$/.test(auth.emailHash||'')||typeof auth.id!=='string')return null;
+ try{
+  const {get}=await import('@vercel/blob');
+  const parse=async path=>{
+   const x=await get(path,{access:'private'});
+   return x?.stream?JSON.parse(await new Response(x.stream).text()):null;
+  };
+  const [a,owner]=await Promise.all([
+   parse('futtalento/onboarding/v1/accounts/'+auth.emailHash+'.json'),
+   parse('futtalento/onboarding/v1/ownership/lucas.json')
+  ]);
+  if(!a||a.id!==auth.id||!a.guardianEmailVerified||a.managedAthlete!=='lucas'||
+     a.claimStatus!=='approved'||a.guardianConsent!==true||
+     a.publicationConsent!==true||owner?.id!==auth.id)return null;
+  return {kind:'family-guardian',login:'responsavel-autorizado'};
+ }catch(e){console.error('Guardian family authorization',e?.name);return null}
+}
+
 async function readState(){
   const {list,get}=await import('@vercel/blob');
   const listing=await list({prefix:PATH,limit:30});
@@ -32,9 +56,53 @@ async function readEditorialSchedule(){
     const record=JSON.parse(await new Response(file.stream).text());
     return (Array.isArray(record.activities)?record.activities:[])
       .filter(x=>['story','reel','post'].includes(x.type)&&PARTNERS.includes(x.partner)&&/^20\d{2}-\d{2}-\d{2}$/.test(x.date||''))
-      .map(x=>({date:x.date,partner:x.partner,type:x.type,status:x.status||'planejado',collab:x.collab===true}))
+      .map(x=>({date:x.date,partner:x.partner,type:x.type,status:x.status||'planejado',channel:x.channel||'instagram-futtalento',collab:x.collab===true}))
       .sort((a,b)=>a.date.localeCompare(b.date)).slice(-180);
   }catch(err){console.error('Schedule unavailable',err?.message);return [];}
+}
+/* Somente agregados confirmados; nunca devolve nomes de compradores, pedidos, senhas ou fontes internas. */
+async function readImpactSummary(){
+ const {get}=await import('@vercel/blob');
+ async function getPrivate(path,fallback){
+  try{
+   const item=await get(path,{access:'private'});
+   return item?.stream?JSON.parse(await new Response(item.stream).text()):fallback;
+  }catch(e){
+   if(/not.found|404|does not exist/i.test(String(e?.message||'')))return fallback;
+   throw e;
+  }
+ }
+ const ops=await getPrivate('lucas/sponsor-operations-v1.json',{partners:{},activities:[],social:[]});
+ const ids=['oze','didi','guimaraes','realgaucho'];
+ const portals=await Promise.all(ids.map(id=>getPrivate('lucas/partner-portal-'+id+'-v1.json',{offer:null,results:[]})));
+ const sum=(a,key)=>a.reduce((n,item)=>n+Math.max(0,Number(item[key])||0),0);
+ const included=x=>['publicado','confirmado'].includes(x.status);
+ return ids.map((id,i)=>{
+  const events=(Array.isArray(ops.activities)?ops.activities:[]).filter(x=>x.partner===id);
+  const media=events.filter(x=>['story','reel','post'].includes(x.type)&&included(x)&&x.channel==='instagram-lucas');
+  const agencyCoupons=events.filter(x=>['cupom','resgate'].includes(x.type)&&x.status==='confirmado');
+  const agencySales=events.filter(x=>x.type==='venda'&&x.status==='confirmado');
+  const portal=portals[i];
+  const verified=(Array.isArray(portal.results)?portal.results:[]).filter(x=>x.status==='verified');
+  const verifiedSales=verified.filter(x=>x.type==='compra');
+  const verifiedCoupons=verified.filter(x=>x.type==='cupom');
+  const approval=(ops.partners||{})[id];
+  const offer=portal.offer?.status==='approved'?portal.offer:approval?.approved?approval:null;
+  const snapshots=(Array.isArray(ops.social)?ops.social:[]).filter(x=>x.partner===id&&x.source&&x.channel==='instagram-lucas').sort((a,b)=>String(a.date).localeCompare(String(b.date)));
+  const latest=snapshots.at(-1)||null;
+  return {
+   id,approved:!!offer,coupon:offer&&typeof offer.coupon==='string'?offer.coupon.slice(0,60):'',
+   published:sum(media,'qty')||media.length,
+   couponsVerifiedByPartner:sum(verifiedCoupons,'qty'),couponsReportedByAgency:sum(agencyCoupons,'qty'),
+   salesVerifiedByPartner:sum(verifiedSales,'qty'),salesReportedByAgency:sum(agencySales,'qty'),
+   revenueVerifiedByPartner:sum(verifiedSales,'amount'),revenueReportedByAgency:sum(agencySales,'revenue'),
+   hasPartnerVerification:verified.length>0,hasAgencySales:agencySales.length>0,
+   reachSnapshot:latest?Math.max(0,Number(latest.reach)||0):null,
+   reachDate:latest?.date||null,reachScope:latest?.scope||'periodo',reachPostUrl:latest?.scope==='post'?latest.postUrl||null:null,
+   hasSource:!!latest,
+   updatedAt:ops.updatedAt||null
+  };
+ });
 }
 function reject(res,status,message){return res.status(status).json({error:message})}
 function verifyOrigin(req){
@@ -45,7 +113,7 @@ export default async function handler(req,res){
   res.setHeader('Cache-Control','private, no-store');
   res.setHeader('X-Content-Type-Options','nosniff');
   res.setHeader('Referrer-Policy','no-referrer');
-  const user=authenticate(req);
+  const user=authenticate(req)||await approvedGuardian(req);
   if(!user)return reject(res,401,'Entre com a senha temporária ou sua conta autorizada.');
   if(!['GET','POST'].includes(req.method))return reject(res,405,'Método não permitido.');
   if(req.method==='POST'&&!verifyOrigin(req))return reject(res,403,'Origem não autorizada.');
@@ -53,7 +121,7 @@ export default async function handler(req,res){
   if(req.method==='POST'&&JSON.stringify(req.body||{}).length>12000)return reject(res,413,'Registro muito grande.');
   try{
     const data=await readState();
-    if(req.method==='GET')return res.status(200).json({role:isStaff(user)?'agency':'family',user:user.login,data:{...data,schedule:await readEditorialSchedule()}});
+    if(req.method==='GET')return res.status(200).json({role:isStaff(user)?'agency':'family',user:user.login,data:{...data,schedule:await readEditorialSchedule(),impact:await readImpactSummary().catch(e=>{console.error('Impact summary unavailable',e?.name);return []})}});
     const body=req.body||{};
     if(!Number.isInteger(body.revision)||body.revision!==data.revision)return reject(res,409,'A jornada foi atualizada em outro dispositivo. Recarregue antes de continuar.');
     const action=clip(body.action,50);

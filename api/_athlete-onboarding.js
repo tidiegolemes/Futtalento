@@ -145,6 +145,19 @@ export default async function handler(req,res){
   }catch(e){console.error('athlete public read',e.name);return err(res,503,'Perfis temporariamente indisponíveis');}
  }
  if(!hostOK(req))return err(res,403,'Domínio não permitido');
+ if(req.method==='GET'&&action==='admin-claims'){
+  const staff=authenticate(req);
+  if(!staff||staff.kind!=='sponsor')return err(res,403,'Acesso restrito à equipe autorizada');
+  try{
+   const claims=[];let cursor;
+   for(let n=0;n<5;n++){
+    const page=await list({prefix:BASE+'claims/',limit:100,cursor,access:'private'});
+    for(const file of page.blobs||[]){const c=await read(file.pathname);if(c)claims.push(c);}
+    if(!page.hasMore||!page.cursor)break;cursor=page.cursor;
+   }
+   return res.status(200).json({ok:true,claims});
+  }catch(e){return err(res,503,'Falha na consulta de solicitações')}
+ }
  if(req.method==='GET'&&action==='my-profile'){
   try{
    const a=await requireAccount(req);
@@ -170,7 +183,9 @@ export default async function handler(req,res){
   try{
    const a=await requireAccount(req);
    return res.status(200).json({ok:true,loggedIn:!!a,verified:!!a?.guardianEmailVerified,athlete:a?{name:a.athleteName,slug:a.slug,status:a.status}:null,
-    emailVerificationConfigured:!!(process.env.FUTTALENTO_MAIL_API_KEY&&process.env.FUTTALENTO_MAIL_FROM),needsProfile:!!a&&!a.slug});
+    emailVerificationConfigured:!!(process.env.FUTTALENTO_MAIL_API_KEY&&process.env.FUTTALENTO_MAIL_FROM),
+    needsProfile:!!a&&!a.slug&&!a.claimAthlete,claimStatus:a?.claimStatus||null,
+    claimAthlete:a?.claimAthlete||null,managedAthlete:a?.managedAthlete||null});
   }catch{return err(res,503,'Cadastro temporariamente indisponível')}
  }
  if(req.method!=='POST')return err(res,405,'Método não permitido');
@@ -199,6 +214,59 @@ export default async function handler(req,res){
   }
 
   // Etapa 1: cria uma conta privada só com e-mail e senha, sem coletar dados de menores.
+  if(action==='request-claim'){
+   const a=await requireAccount(req);
+   if(!a)return err(res,401,'Faça login para solicitar vínculo');
+   if(a.slug||a.managedAthlete||a.claimStatus==='pending')return err(res,409,'Esta conta já está associada a um atleta ou solicitação');
+   const athlete=String(body.athlete||'');
+   if(!EXISTING_ATHLETES[athlete])return err(res,400,'Atleta existente inválido');
+   const guardianName=clean(body.guardianName),guardianPhone=String(body.guardianPhone||'').replace(/\D/g,'');
+   if(!safeName(guardianName)||guardianPhone.length<10||guardianPhone.length>13||
+      body.adultGuardian!==true||body.guardianConsent!==true)
+    return err(res,400,'Informe os dados do responsável e confirme a autorização');
+   if(await read(BASE+'ownership/'+athlete+'.json'))
+    return err(res,409,'Este atleta já possui responsável vinculado. Fale com a equipe.');
+   a.guardianName=guardianName;a.guardianPhone=guardianPhone;
+   a.claimAthlete=athlete;a.claimStatus='pending';
+   const claim={id:a.id,emailHash:digest(a.email),athlete,athleteName:EXISTING_ATHLETES[athlete],
+    guardianName,guardianPhone,status:'pending',createdAt:new Date().toISOString()};
+   if(a.googleSubject){a.guardianEmailVerified=true;}
+   else{
+    const code=String(crypto.randomInt(100000,1000000));
+    a.verifyCodeHash=hmac(a.id+':'+code);a.verifyExpiresAt=Date.now()+15*60000;a.verifyAttempts=0;
+    try{claim.emailSent=await sendVerification(a.email,code)}catch(e){claim.emailSent=false;console.error('claim email',e.name)}
+   }
+   await write(pathFor(a.email),a);
+   await write(BASE+'claims/'+athlete+'-'+a.id+'.json',claim);
+   return res.status(201).json({ok:true,claimPending:true,
+    requiresEmailVerification:!a.guardianEmailVerified,emailSent:claim.emailSent===true,
+    message:'Solicitação registrada. Após a confirmação do e-mail, a equipe fará a verificação do vínculo.'});
+  }
+  if(action==='admin-claim-review'){
+   const staff=authenticate(req);
+   if(!staff||staff.kind!=='sponsor')return err(res,403,'Acesso restrito à equipe autorizada');
+   const athlete=String(body.athlete||''),id=String(body.id||'');
+   if(!EXISTING_ATHLETES[athlete]||!/^[a-f0-9-]{36}$/.test(id)||typeof body.approved!=='boolean)
+    return err(res,400,'Solicitação inválida');
+   const pathname=BASE+'claims/'+athlete+'-'+id+'.json',claim=await read(pathname);
+   if(!claim||claim.status!=='pending')return err(res,404,'Solicitação pendente não encontrada');
+   if(body.approved&&body.evidenceReviewed!==true)
+    return err(res,400,'A aprovação exige conferência documentada da responsabilidade legal');
+   const a=await read(BASE+'accounts/'+claim.emailHash+'.json');
+   if(!a||a.id!==id||a.claimAthlete!==athlete||a.claimStatus!=='pending')
+    return err(res,409,'Os dados da conta não conferem');
+   if(body.approved&&!a.guardianEmailVerified)return err(res,409,'Confirmação de e-mail pendente');
+   if(body.approved){
+    const owner=await read(BASE+'ownership/'+athlete+'.json');
+    if(owner&&owner.id!==id)return err(res,409,'Atleta já vinculado a outra conta');
+    await write(BASE+'ownership/'+athlete+'.json',{id,emailHash:claim.emailHash,
+     reviewer:staff.login,approvedAt:new Date().toISOString()});
+    a.managedAthlete=athlete;a.guardianConsent=true;a.publicationConsent=true;a.claimStatus='approved';
+   }else a.claimStatus='rejected';
+   claim.status=body.approved?'approved':'rejected';claim.reviewedAt=new Date().toISOString();claim.reviewer=staff.login;
+   await write(pathname,claim);await write(pathFor(a.email),a);
+   return res.status(200).json({ok:true,status:claim.status});
+  }
   if(action==='start'){
    const address=email(body.email),password=String(body.password||'');
    const repeat=String(req.headers.cookie||'').split(';').map(x=>x.trim()).find(x=>x.startsWith('ft_signup_cooldown='));
@@ -241,7 +309,9 @@ export default async function handler(req,res){
    a.googleLinkedAt=a.googleLinkedAt||new Date().toISOString();
    await write(pathFor(address),a);
    res.setHeader('Set-Cookie',sessionCookie({kind:'ft-guardian',id:a.id,emailHash:digest(address),exp:Date.now()+7*86400000},7*86400));
-   return res.status(200).json({ok:true,needsProfile:!a.slug,verified:!!a.guardianEmailVerified,
+   return res.status(200).json({ok:true,needsProfile:!a.slug&&!a.claimAthlete,
+     claimStatus:a.claimStatus||null,claimAthlete:a.claimAthlete||null,
+     managedAthlete:a.managedAthlete||null,verified:!!a.guardianEmailVerified,
     page:a.slug?toPublic(a).page:null});
   }
   // Etapa 2: somente após a autenticação, pede dados do responsável e do atleta.
@@ -369,11 +439,23 @@ export default async function handler(req,res){
    const hash=crypto.scryptSync(password,a.passwordSalt,64);
    if(!crypto.timingSafeEqual(hash,Buffer.from(a.passwordHash,'hex')))return err(res,401,'Credenciais inválidas');
    res.setHeader('Set-Cookie',sessionCookie({kind:'ft-guardian',id:a.id,emailHash:digest(address),exp:Date.now()+7*86400000},7*86400));
-   return res.status(200).json({ok:true,verified:!!a.guardianEmailVerified,status:a.status,needsProfile:!a.slug});
+   return res.status(200).json({ok:true,verified:!!a.guardianEmailVerified,status:a.status,
+     needsProfile:!a.slug&&!a.claimAthlete,claimStatus:a.claimStatus||null,
+     claimAthlete:a.claimAthlete||null,managedAthlete:a.managedAthlete||null});
   }
   if(action==='verify'){
    const a=await requireAccount(req),code=String(body.code||'');
    if(!a)return err(res,401,'Faça login primeiro');
+   if(!a.slug&&a.claimAthlete&&a.claimStatus==='pending'){
+    if(!/^\d{6}$/.test(code)||Date.now()>a.verifyExpiresAt||a.verifyAttempts>=6)
+     return err(res,400,'Código inválido ou expirado');
+    a.verifyAttempts++;
+    if(hmac(a.id+':'+code)!==a.verifyCodeHash){await write(pathFor(a.email),a);return err(res,400,'Código inválido');}
+    a.guardianEmailVerified=true;
+    delete a.verifyCodeHash;delete a.verifyExpiresAt;delete a.verifyAttempts;
+    await write(pathFor(a.email),a);
+    return res.status(200).json({ok:true,claimPending:true,message:'E-mail confirmado. Vínculo aguardando aprovação da equipe.'});
+   }
    if(!a.slug||!a.guardianConsent||!a.publicationConsent)return err(res,409,'Finalize o perfil e as autorizações antes de publicar');
    if(a.guardianEmailVerified)return res.status(200).json({ok:true,verified:true,profile:toPublic(a)});
    if(!/^\d{6}$/.test(code)||Date.now()>a.verifyExpiresAt||a.verifyAttempts>=6)return err(res,400,'Código inválido ou expirado');

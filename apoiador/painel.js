@@ -113,7 +113,7 @@ function renderImpactCycle(){
  ];
  const completed=stages.filter(x=>x.done).length;
  const ring=$('partnerImpactRing');
- ring.style.setProperty('--impact',String(Math.round(completed/3*100)));
+ ring.style.setProperty('--impact',String(Math.round(completed/3*100))+'%');
  ring.setAttribute('aria-label','Progresso documentado: '+completed+' de 3 etapas');
  $('partnerImpactFraction').textContent=completed+'/3';
  $('partnerImpactSteps').innerHTML=stages.map((st,i)=>

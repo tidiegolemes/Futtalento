@@ -115,7 +115,7 @@ export default async function handler(req,res){
  res.setHeader('X-Content-Type-Options','nosniff');
  res.setHeader('Referrer-Policy','no-referrer');
  const action=String(req.query?.action||'');
- if(req.method==='GET'&&['list','profile','photo','sitemap'].includes(action)){
+ if(req.method==='GET'&&['list','profile','photo','sitemap','managed-profile','managed-photo'].includes(action)){
   publiclySafe(req,res);
   try{
    if(action==='list')return res.status(200).json({ok:true,athletes:await publishedList()});
@@ -134,6 +134,22 @@ export default async function handler(req,res){
    }
    const slug=String(req.query.slug||'');
    if(!/^[a-z0-9-]{4,90}$/.test(slug))return err(res,400,'Identificador inválido');
+   if(action==='managed-profile'||action==='managed-photo'){
+    if(!EXISTING_ATHLETES[slug])return err(res,404,'Atleta não encontrado');
+    const saved=await read(BASE+'managed/'+slug+'.json');
+    if(!saved)return err(res,404,'Nenhuma alteração publicada');
+    if(action==='managed-profile')return res.status(200).json({ok:true,profile:{
+     name:saved.athleteName,club:saved.club,position:saved.position,
+     category:saved.category,titles:saved.titles,socials:saved.socials,
+     image:saved.photoExtension?'/api/captacao-lead?onboarding=1&action=managed-photo&slug='+slug:null
+    }});
+    if(!saved.photoExtension)return err(res,404,'Foto adicional indisponível');
+    const managedPhoto=await get(BASE+'photos/'+slug+'-managed.'+saved.photoExtension,{access:'private'});
+    if(!managedPhoto?.stream)return err(res,404,'Imagem indisponível');
+    res.setHeader('Content-Type',saved.photoMime);
+    res.setHeader('Content-Disposition','inline');
+    return new Response(managedPhoto.stream).arrayBuffer().then(buffer=>res.status(200).send(Buffer.from(buffer)));
+   }
    const record=await read(BASE+'published/'+slug+'.json');
    if(!record?.publishedAt||!record.guardianEmailVerified)return err(res,404,'Perfil indisponível');
    if(action==='profile')return res.status(200).json({ok:true,profile:toPublic(record)});
@@ -162,10 +178,16 @@ export default async function handler(req,res){
   try{
    const a=await requireAccount(req);
    if(!a)return err(res,401,'Entre para gerenciar seu perfil');
-   return res.status(200).json({ok:true,profile:a.slug?{
+   const managed=a.managedAthlete?await read(BASE+'managed/'+a.managedAthlete+'.json'):null;
+   return res.status(200).json({ok:true,managedAthlete:a.managedAthlete||null,profile:a.slug?{
      athleteName:a.athleteName,guardianName:a.guardianName,guardianPhone:a.guardianPhone,
      club:a.club,position:a.position,category:a.category,titles:a.titles,birthDate:a.birthDate,
      socials:a.socials||{},page:toPublic(a).page
+   }:a.managedAthlete?{
+     athleteName:EXISTING_ATHLETES[a.managedAthlete],guardianName:a.guardianName,
+     guardianPhone:a.guardianPhone,club:managed?.club||'',
+     position:managed?.position||'',category:managed?.category||'',titles:managed?.titles||'',
+     socials:managed?.socials||{},page:'/atletas/'+a.managedAthlete+'/'
    }:null});
   }catch(e){return err(res,503,'Não foi possível carregar dados da conta')}
  }
@@ -222,11 +244,11 @@ export default async function handler(req,res){
    if(!EXISTING_ATHLETES[athlete])return err(res,400,'Atleta existente inválido');
    const guardianName=clean(body.guardianName),guardianPhone=String(body.guardianPhone||'').replace(/\D/g,'');
    if(!safeName(guardianName)||guardianPhone.length<10||guardianPhone.length>13||
-      body.adultGuardian!==true||body.guardianConsent!==true)
+      body.adultGuardian!==true||body.guardianConsent!==true||body.publicationConsent!==true)
     return err(res,400,'Informe os dados do responsável e confirme a autorização');
    if(await read(BASE+'ownership/'+athlete+'.json'))
     return err(res,409,'Este atleta já possui responsável vinculado. Fale com a equipe.');
-   a.guardianName=guardianName;a.guardianPhone=guardianPhone;
+   a.guardianName=guardianName;a.guardianPhone=guardianPhone;a.guardianConsent=true;a.publicationConsent=true;
    a.claimAthlete=athlete;a.claimStatus='pending';
    const claim={id:a.id,emailHash:digest(a.email),athlete,athleteName:EXISTING_ATHLETES[athlete],
     guardianName,guardianPhone,status:'pending',createdAt:new Date().toISOString()};
@@ -387,15 +409,32 @@ export default async function handler(req,res){
   }
   if(action==='update-profile'){
    const a=await requireAccount(req);
-   if(!a||!a.slug||!a.guardianEmailVerified||!a.guardianConsent||!a.publicationConsent)
+   if(!a||(!a.slug&&!a.managedAthlete)||!a.guardianEmailVerified||!a.guardianConsent||!a.publicationConsent)
     return err(res,403,'Apenas o responsável autorizado pode editar este perfil');
-   const checked=validAthlete({...body,athleteName:a.athleteName,
+   if(a.managedAthlete){
+    const owned=await read(BASE+'ownership/'+a.managedAthlete+'.json');
+    if(owned?.id!==a.id)return err(res,403,'Este perfil não está autorizado para sua conta');
+   }
+   const checked=validAthlete({...body,athleteName:a.managedAthlete?EXISTING_ATHLETES[a.managedAthlete]:a.athleteName,
      guardianName:a.guardianName,guardianPhone:a.guardianPhone,
      adultGuardian:true,guardianConsent:true,publicationConsent:true});
    if(checked.error)return err(res,400,checked.error);
    const photo=body.photo?imageFrom(body):null;
    if(body.photo&&!photo)return err(res,400,'Foto inválida. Envie JPG, PNG ou WebP até 350 KB');
    const now=new Date().toISOString();
+   if(a.managedAthlete){
+    const id=a.managedAthlete,previous=await read(BASE+'managed/'+id+'.json')||{};
+    const record={...previous,athleteName:EXISTING_ATHLETES[id],slug:id,
+      club:checked.value.club,clubKey:checked.value.clubKey,position:checked.value.position,
+      category:checked.value.category,titles:checked.value.titles,socials:checked.value.socials,updatedAt:now};
+    if(photo){
+     await put(BASE+'photos/'+id+'-managed.'+photo.extension,photo.bytes,{
+       access:'private',allowOverwrite:true,addRandomSuffix:false,contentType:photo.mime});
+     record.photoExtension=photo.extension;record.photoMime=photo.mime;
+    }
+    await write(BASE+'managed/'+id+'.json',record);
+    return res.status(200).json({ok:true,page:'/atletas/'+id+'/',message:'Alterações publicadas no perfil existente'});
+   }
    Object.assign(a,{club:checked.value.club,clubKey:checked.value.clubKey,
      position:checked.value.position,category:checked.value.category,
      titles:checked.value.titles,socials:checked.value.socials,updatedAt:now});

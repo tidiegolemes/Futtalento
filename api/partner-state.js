@@ -30,20 +30,22 @@ function summarize(id,ops,family){
     .filter(a=>['story','reel','post','cupom','resgate','venda','entrega'].includes(a.type))
     .slice(-100)
     .map(a=>({date:safe(a.date,10),type:safe(a.type,16),status:safe(a.status,30),
-      qty:positive(a.qty),revenue:a.type==='venda'&&a.status==='confirmado'?positive(a.revenue):null,
+      qty:positive(a.qty),channel:safe(a.channel,35),revenue:a.type==='venda'&&a.status==='confirmado'?positive(a.revenue):null,
       // Source and agency notes are not returned: may contain sensitive internal information.
       hasEvidence:!!a.source}));
   const confirmed=activities.filter(a=>a.status==='confirmado'||a.status==='publicado');
   const publications=confirmed.filter(a=>['story','reel','post'].includes(a.type)).reduce((s,a)=>s+(a.qty||1),0);
+  const publicationsLucas=confirmed.filter(a=>['story','reel','post'].includes(a.type)&&a.channel==='instagram-lucas').reduce((s,a)=>s+(a.qty||1),0);
+  const publicationsFutTalento=publications-publicationsLucas;
   const coupons=activities.filter(a=>['cupom','resgate'].includes(a.type)&&a.status==='confirmado').reduce((s,a)=>s+a.qty,0);
   const sales=activities.filter(a=>a.type==='venda'&&a.status==='confirmado').reduce((s,a)=>s+a.qty,0);
   const revenue=activities.filter(a=>a.type==='venda'&&a.status==='confirmado').reduce((s,a)=>s+(a.revenue||0),0);
-  const social=(ops?.social||[]).filter(s=>s.partner===id).slice(-40).map(s=>({date:safe(s.date,10),followers:positive(s.followers),reach:positive(s.reach),visits:positive(s.visits)}));
+  const social=(ops?.social||[]).filter(s=>s.partner===id).slice(-40).map(s=>({date:safe(s.date,10),followers:positive(s.followers),reach:positive(s.reach),visits:positive(s.visits),channel:safe(s.channel,35),scope:safe(s.scope,20),postUrl:safe(s.postUrl,300)}));
   const agreement=ops?.partners?.[id]||{};
   const benefits=(family?.benefits||[]).filter(b=>b.partner===id&&b.verification==='verified_by_agency')
     .map(b=>({date:safe(b.date,10),verified:true})).slice(-15);
   return {
-    activities,metrics:{publications,coupons,sales,revenue,social,agencyUpdatedAt:ops?.updatedAt||null},
+    activities,metrics:{publications,publicationsLucas,publicationsFutTalento,coupons,sales,revenue,social,agencyUpdatedAt:ops?.updatedAt||null},
     agreement:agreement.approved?{
       approved:true,kind:safe(agreement.kind,90),offer:safe(agreement.offer,300),
       coupon:safe(agreement.coupon,60),validity:safe(agreement.validity,120),

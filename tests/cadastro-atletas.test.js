@@ -59,3 +59,50 @@ test('New athlete sponsorship request cannot silently generate Pix',()=>{
  assert.doesNotMatch(interest,/efi\(/);
  assert.match(interest,/Acesso restrito à agência|leads\//);
 });
+
+
+test('Legacy profiles cannot be duplicated through either signup route',()=>{
+ assert.match(onboarding,/EXISTING_ATHLETES=\{lucas:'Lucas Azambuja',ryan:'Ryan Coelho',thalles:'Thalles Silvino'\}/);
+ assert.match(onboarding,/existingAthlete\(checked\.value\.athleteName\)/);
+ assert.match(onboarding,/Este atleta já possui perfil oficial/);
+});
+test('Existing athlete claims require verified email, agency review and scoped ownership',()=>{
+ assert.match(onboarding,/if\(action==='request-claim'\)/);
+ assert.match(onboarding,/if\(action==='admin-claim-review'\)/);
+ assert.match(onboarding,/staff\.kind!=='sponsor'/);
+ assert.match(onboarding,/body\.evidenceReviewed!==true/);
+ assert.match(onboarding,/!a\.guardianEmailVerified/);
+ assert.match(onboarding,/BASE\+'ownership\/'\+athlete/);
+ assert.match(onboarding,/if\(owned\?\.id!==a\.id\)/);
+});
+test('Guardian edits remain authenticated, confined and exclude private fields from public results',()=>{
+ assert.match(onboarding,/if\(action==='update-profile'\)/);
+ assert.match(onboarding,/a\.guardianEmailVerified/);
+ assert.match(onboarding,/if\(a\.managedAthlete\)/);
+ assert.match(onboarding,/managed-profile/);
+ const register=read('atletas/cadastrar/cadastro.js');
+ const form=read('atletas/cadastrar/index.html');
+ assert.match(register,/request\('update-profile',body\)/);
+ assert.match(register,/request\('request-claim',body\)/);
+ assert.match(register,/afterLogin\(data/);
+ assert.match(form,/id="ftClaimForm"/);
+ assert.match(form,/id="ftProfileSubmit"/);
+ assert.match(form,/name="publicationConsent"/);
+});
+test('Agency has controlled review interface for existing athlete claims',()=>{
+ const page=read('sponsor/lucas/gestao/captacao/index.html');
+ const js=read('sponsor/lucas/gestao/captacao/captacao.js');
+ assert.match(page,/id="guardianClaims"/);
+ assert.match(js,/admin-claims/);
+ assert.match(js,/admin-claim-review/);
+ assert.match(js,/evidenceReviewed:checkbox\.checked/);
+ assert.match(js,/document\.createElement/);
+});
+test('Guardian-approved updates augment legacy pages without removing their sports history',()=>{
+ const layer=read('atletas/perfil-gerenciado.js');
+ for(const athlete of ['lucas','ryan','thalles'])
+  assert.match(read('atletas/'+athlete+'/index.html'),/perfil-gerenciado\.js/);
+ assert.match(layer,/managed-profile/);
+ assert.match(layer,/profile-hero/);
+ assert.doesNotMatch(layer,/innerHTML/);
+});

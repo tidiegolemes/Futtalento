@@ -97,7 +97,7 @@ export default async function handler(req,res){
   if(req.method==='POST'&&JSON.stringify(req.body||{}).length>12000)return reject(res,413,'Registro muito grande.');
   try{
     const data=await readState();
-    if(req.method==='GET')return res.status(200).json({role:isStaff(user)?'agency':'family',user:user.login,data:{...data,schedule:await readEditorialSchedule(),impact:await readImpactSummary()}});
+    if(req.method==='GET')return res.status(200).json({role:isStaff(user)?'agency':'family',user:user.login,data:{...data,schedule:await readEditorialSchedule(),impact:await readImpactSummary().catch(e=>{console.error('Impact summary unavailable',e?.name);return []})}});
     const body=req.body||{};
     if(!Number.isInteger(body.revision)||body.revision!==data.revision)return reject(res,409,'A jornada foi atualizada em outro dispositivo. Recarregue antes de continuar.');
     const action=clip(body.action,50);

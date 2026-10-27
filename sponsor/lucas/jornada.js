@@ -83,9 +83,12 @@ function renderImpact(){
    '<div><h3>'+esc(who.name)+'</h3><p class="small muted">Ciclo documentado · '+done+' de 3 marcos</p></div>'+
    '<div class="ft-impact-ring" role="img" aria-label="'+percent+'% dos marcos documentados" style="--impact-percent:'+percent+'%"><span>'+done+'/3</span></div></div>'+
    '<div class="ft-impact-steps"><span class="'+(step[0]?'complete':'')+'">1 · Oferta</span><span class="'+(step[1]?'complete':'')+'">2 · Publicação</span><span class="'+(step[2]?'complete':'')+'">3 · Resultado</span></div>'+
-   line('Conteúdos publicados',r.published?qty(r.published):'A confirmar')+
+   line('Publicações no Instagram do Lucas',r.published?qty(r.published):'A confirmar')+
    line('Cupom aprovado',r.coupon||'Não cadastrado')+
-   line('Alcance do período',reach,r.reachSnapshot===null?'Ainda sem captura autenticada.':'Fotografia da conta em '+(r.reachDate||'data não informada')+'; não significa alcance exclusivo do post.')+
+   line(r.reachScope==='post'?'Alcance de publicação do Lucas':'Alcance do perfil do Lucas no período',reach,
+    r.reachSnapshot===null?'Ainda sem Insight do Lucas identificado.':
+    r.reachScope==='post'?'Post específico registrado em '+(r.reachDate||'data não informada')+'.':
+    'Fotografia da conta em '+(r.reachDate||'data não informada')+'; não significa alcance exclusivo do post.')+
    line('Resgates validados pelo parceiro',r.hasPartnerVerification?qty(r.couponsVerifiedByPartner):'Aguardando comprovação')+
    line('Vendas validadas pelo parceiro',partnerSales)+
    line('Valor de vendas validado pelo parceiro',partnerRevenue)+
@@ -112,7 +115,7 @@ function formatDate(date){if(!/^20\d\d-\d\d-\d\d$/.test(date||''))return date||'
 function renderEvent(x){
   const format={story:'📱 Story',reel:'🎬 Reel',post:'🖼️ Publicação'}[x.type]||'📍 Conteúdo';
   const statusLabel={planejado:'Em planejamento',em_producao:'Em produção',aguardando_autorizacao:'Aguardando autorização',pronto:'Pronto para programar',agendado:'Agendamento informado pela agência',publicado:'Publicação informada pela agência',confirmado:'Confirmado'}[x.status]||'Em planejamento';
-  return '<article class="event"><div class="date">'+esc(x.date.slice(8,10))+'<br>'+esc(x.date.slice(5,7))+'</div><div style="flex:1"><h3>'+format+' · '+esc(partner(x.partner).name)+'</h3><p>Canal: Instagram FutTalento'+(x.collab?' · Colab previsto':'')+'</p><p style="margin-top:6px">● '+esc(statusLabel)+'</p></div></article>';
+  return '<article class="event"><div class="date">'+esc(x.date.slice(8,10))+'<br>'+esc(x.date.slice(5,7))+'</div><div style="flex:1"><h3>'+format+' · '+esc(partner(x.partner).name)+'</h3><p>Canal: '+(x.channel==='instagram-lucas'?'Instagram do Lucas':'Instagram FutTalento')+(x.collab?' · Colab previsto':'')+'</p><p style="margin-top:6px">● '+esc(statusLabel)+'</p></div></article>';
 }
 function renderAgenda(){
   const events=(state?.schedule||[]).slice().sort((a,b)=>a.date.localeCompare(b.date));

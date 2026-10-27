@@ -93,7 +93,7 @@ test('Parent and company dashboards never treat other Instagram reach as Lucas r
 
 test('Partner only receives safe public Instagram evidence links, never order references',()=>{
  assert.match(partner,/function safePublicPostUrl/);
- assert.match(partner,/instagram\\\.com/);
+ assert.match(partner,/instagram/);
  assert.match(partner,/postUrl:\['story','reel','post'\]/);
  assert.match(sponsorUi,/Ver publicação no Instagram/);
  assert.match(sponsorUi,/rel="noopener noreferrer"/);

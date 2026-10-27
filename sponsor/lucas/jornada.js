@@ -81,7 +81,7 @@ function renderImpact(){
   return '<article class="ft-impact-card">'+
    '<div class="ft-impact-card-top"><span class="ft-impact-emoji" aria-hidden="true">'+esc(who.icon)+'</span>'+
    '<div><h3>'+esc(who.name)+'</h3><p class="small muted">Ciclo documentado · '+done+' de 3 marcos</p></div>'+
-   '<div class="ft-impact-ring" role="img" aria-label="'+percent+'% dos marcos documentados" style="--impact-percent:'+percent+'"><span>'+done+'/3</span></div></div>'+
+   '<div class="ft-impact-ring" role="img" aria-label="'+percent+'% dos marcos documentados" style="--impact-percent:'+percent+'%"><span>'+done+'/3</span></div></div>'+
    '<div class="ft-impact-steps"><span class="'+(step[0]?'complete':'')+'">1 · Oferta</span><span class="'+(step[1]?'complete':'')+'">2 · Publicação</span><span class="'+(step[2]?'complete':'')+'">3 · Resultado</span></div>'+
    line('Conteúdos publicados',r.published?qty(r.published):'A confirmar')+
    line('Cupom aprovado',r.coupon||'Não cadastrado')+

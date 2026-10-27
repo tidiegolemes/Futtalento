@@ -3,7 +3,9 @@
 const $=id=>document.getElementById(id);
 const register=$('ftRegister'),login=$('ftLogin'),verify=$('ftVerify'),status=$('ftSignupStatus');
 const entry=$('ftEntry'),passwordPane=$('ftPasswordPane'),emailStart=$('ftEmailStart'),passwordStart=$('ftPasswordStart');
-const stages=[entry,passwordPane,register,login,verify];
+const claim=$('ftClaimForm'),claimPending=$('ftClaimPending');
+const stages=[entry,passwordPane,register,login,verify,claim,claimPending];
+register.elements.birthDate.max=new Date().toISOString().slice(0,10);
 const route='/api/captacao-lead?onboarding=1';
 const show=(element,scroll=true)=>{
  stages.forEach(el=>{el.hidden=el!==element});
@@ -27,6 +29,62 @@ const request=async(action,body)=>{
  if(!response.ok||!data.ok)throw new Error(data.error||'Não foi possível concluir');
  return data;
 };
+async function showEditor(){
+ try{
+  const response=await fetch(route+'&action=my-profile',{credentials:'same-origin',cache:'no-store'});
+  const data=await response.json();
+  if(!response.ok||!data.ok||!data.profile)throw Error(data.error||'Perfil indisponível');
+  const profile=data.profile;
+  for(const key of ['athleteName','guardianName','guardianPhone','club','position','category','titles','birthDate'])
+   if(register.elements[key])register.elements[key].value=profile[key]||'';
+  for(const key of ['instagram','tiktok','youtube','website'])
+   register.elements[key].value=profile.socials?.[key]||'';
+  for(const key of ['adultGuardian','guardianConsent','publicationConsent'])
+   register.elements[key].checked=true;
+  register.elements.athleteName.readOnly=true;
+  register.elements.guardianName.readOnly=true;
+  register.elements.guardianPhone.readOnly=true;
+  register.elements.birthDate.readOnly=true;
+  register.elements.photoFile.required=false;
+  register.dataset.editing='true';
+  $('ftOpenClaim').hidden=true;
+  $('ftPhotoLabel').textContent='Atualizar foto (opcional)';
+  $('ftProfileIntro').textContent='Seu perfil já foi publicado. Edite seus dados esportivos sem criar uma nova página.';
+  $('ftProfileSubmit').firstChild.textContent='Salvar alterações ';
+  show(register,false);say('Gerenciamento do perfil ativo.',profile.page);
+ }catch(error){show(null);say(error.message)}
+}
+async function afterLogin(data,scroll=true){
+ if(data.claimStatus==='pending'){
+  show(data.verified?claimPending:verify,scroll);
+  if(!data.verified)$('ftVerifyDescription').textContent='Confirme seu e-mail para validar o pedido de vínculo.';
+  return;
+ }
+ if(data.claimStatus==='approved'||(data.verified&&!data.needsProfile)){
+  await showEditor();return;
+ }
+ if(data.claimStatus==='rejected'){
+  show(claim,scroll);say('A solicitação anterior não foi aprovada. Fale com a equipe.');return;
+ }
+ if(data.needsProfile){show(register,scroll);return}
+ show(verify,scroll);
+}
+$('ftOpenClaim').addEventListener('click',()=>show(claim));
+$('ftBackFromClaim').addEventListener('click',()=>show(register));
+claim.addEventListener('submit',async event=>{
+ event.preventDefault();if(!claim.reportValidity())return;
+ const button=claim.querySelector('[type=submit]');button.disabled=true;
+ try{
+  const f=new FormData(claim),body=Object.fromEntries(f);
+  for(const key of ['adultGuardian','guardianConsent','publicationConsent'])body[key]=f.has(key);
+  const data=await request('request-claim',body);
+  show(data.requiresEmailVerification?verify:claimPending);
+  if(data.requiresEmailVerification)$('ftVerifyDescription').textContent=data.emailSent?
+   'Digite o código enviado ao seu e-mail para validar o pedido.':
+   'O código não pôde ser enviado. Solicite suporte à equipe.';
+  say(data.message);
+ }catch(error){say(error.message)}finally{button.disabled=false}
+});
 const setEmailForLogin=email=>{login.elements.email.value=email||''};
 const openLogin=()=>{setEmailForLogin(emailStart.elements.email.value);show(login);login.elements.email.focus({preventScroll:true})};
 $('ftShowLogin').addEventListener('click',openLogin);
@@ -74,24 +132,34 @@ register.addEventListener('submit',async event=>{
   const f=new FormData(register);
   const body=Object.fromEntries([...f.entries()].filter(([key])=>key!=='photoFile'));
   for(const key of ['adultGuardian','guardianConsent','publicationConsent'])body[key]=f.has(key);
-  body.photo=await photoData(photo.files?.[0]);
+  body.photo=photo.files?.[0]?await photoData(photo.files[0]):null;
+  if(register.dataset.editing==='true'){
+   const saved=await request('update-profile',body);
+   say(saved.message||'Alterações salvas',saved.page);return;
+  }
   const data=await request('complete',body);
-  if(data.verified){show(null);say(data.message||'Página publicada!',data.profile?.page);return}
+  if(data.verified){await showEditor();say(data.message||'Página publicada!',data.profile?.page);return}
   show(verify);
   $('ftVerifyDescription').textContent=data.emailSent?
    'Enviamos um código para o seu e-mail. Confirme para publicar o atleta.':
    'Seu perfil está salvo, mas a verificação de e-mail ainda não foi ativada. Nenhum dado do atleta será publicado até a confirmação.';
   say(data.message);
- }catch(error){say(error.message)}finally{button.disabled=false}
+ }catch(error){
+   if(/já possui perfil oficial/i.test(error.message)){
+    const name=register.elements.athleteName.value.toLowerCase();
+    claim.elements.athlete.value=name.includes('lucas')?'lucas':name.includes('ryan')?'ryan':'thalles';
+    show(claim);
+   }
+   say(error.message);
+  }finally{button.disabled=false}
 });
 login.addEventListener('submit',async event=>{
  event.preventDefault();if(!login.reportValidity())return;
  const button=login.querySelector('[type=submit]');button.disabled=true;
  try{
   const f=new FormData(login),data=await request('login',Object.fromEntries(f));
-  if(data.needsProfile){show(register);return}
-  if(data.verified){show(null);say('Você já possui uma página publicada. Veja o perfil na vitrine.','/atletas/')}
-  else{show(verify);say('Você entrou. Seu perfil permanece privado até a confirmação do e-mail.')}
+  await afterLogin(data);
+  if(!data.verified&&!data.claimStatus)say('Você entrou. O perfil permanece privado até a confirmação do e-mail.')
  }catch(error){say(error.message)}finally{button.disabled=false}
 });
 $('ftVerifyForm').addEventListener('submit',async event=>{
@@ -100,7 +168,8 @@ $('ftVerifyForm').addEventListener('submit',async event=>{
  try{
   const code=String(new FormData(event.currentTarget).get('code')||'');
   const data=await request('verify',{code});
-  show(null);say('Página criada e publicada! Seu atleta já pode aparecer na vitrine.',data.profile?.page);
+  if(data.claimPending){show(claimPending);say(data.message||'E-mail confirmado. Aguarde validação da equipe.')}
+  else{await showEditor();say('Página criada e publicada! Seu atleta já pode aparecer na vitrine.',data.profile?.page);}
  }catch(error){say(error.message)}finally{button.disabled=false}
 });
 $('ftResendCode').addEventListener('click',async()=>{
@@ -124,9 +193,8 @@ async function initGoogle(){
      if(!response?.credential)return;
      try{
       const result=await request('google',{credential:response.credential});
-      if(result.needsProfile){show(register);return}
-      if(result.verified){show(null);say('Você entrou com Google. Acesse sua página na vitrine.',result.page||'/atletas/')}
-      else{show(verify);say('Confirme seu e-mail para publicar o atleta.')}
+      await afterLogin(result);
+      if(!result.verified&&!result.claimStatus)say('Confirme seu e-mail para publicar o atleta.')
      }catch(error){say(error.message)}
     }
    });
@@ -140,7 +208,7 @@ fetch(route+'&action=session',{credentials:'same-origin',cache:'no-store'})
  .then(x=>x.json()).then(data=>{
   if(!data.loggedIn){show(entry,false);return}
   if(data.needsProfile){show(register,false);return}
-  if(data.verified){show(null,false);say('Você já tem um atleta cadastrado. Acesse a vitrine.','/atletas/');return}
+  if(data.verified||data.claimStatus){afterLogin(data,false);return}
   show(verify,false);
   $('ftVerifyDescription').textContent=data.emailVerificationConfigured?
    'Digite o código enviado ao e-mail para publicar a página.':

@@ -21,7 +21,7 @@ test('sports partials explain Lucas, Ryan, and Thalles without fabricating a 100
   assert.equal(stats.sportsPoints,score);
   assert.equal(stats.sportsScore100,score*4);
   assert.equal(stats.badgeValue,String(score*4));
-  assert.match(stats.badgeSub,/parcial|Parcial/);
+  assert.match(stats.badgeSub,/parcial|acervo/i);
   assert.equal(stats.sportsBreakdown.titles.score,components[0]);
   assert.equal(stats.sportsBreakdown.competitions.score,components[1]);
   assert.equal(stats.sportsBreakdown.clubMonths.score,components[2]);

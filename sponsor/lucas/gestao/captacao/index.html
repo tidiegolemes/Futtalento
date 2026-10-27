@@ -28,5 +28,11 @@
 <div class="inbox-toolbar"><label for="filterAudience">Filtrar por público</label><select id="filterAudience"><option value="todos">Todos os contatos</option><option value="familia">Famílias</option><option value="empresa">Empresas</option></select>
 <button id="refresh" type="button">Atualizar lista</button><a class="btn btn-outline" href="/para-familias/">Landing de famílias ↗</a><a class="btn btn-outline" href="/para-empresas/">Landing de empresas ↗</a></div>
 <div id="leads" aria-live="polite"></div><button class="load-next" id="loadNext" type="button" hidden>Carregar mais</button>
+<section class="lead-card" id="guardianClaims" aria-labelledby="guardianClaimsTitle">
+ <h2 id="guardianClaimsTitle">Solicitações de vínculo com atletas publicados</h2>
+ <p>Confira a relação de responsabilidade legal por canal seguro antes de aprovar. A declaração no formulário e o e-mail confirmado, isoladamente, não comprovam a responsabilidade. Não aprove sem documentação.</p>
+ <button class="load-next" type="button" id="refreshClaims">Atualizar solicitações</button>
+ <div id="claims" aria-live="polite"></div>
+</section>
 </div><p id="status" role="status" aria-live="polite" style="margin-top:15px;color:#c9fc54"></p>
 </main><script defer src="captacao.js"></script></body></html>

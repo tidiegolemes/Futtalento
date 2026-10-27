@@ -3,6 +3,19 @@ import {get,put,list} from '@vercel/blob';
 import {signed,verify,authenticate} from './_sponsor-auth.js';
 
 const BASE='futtalento/onboarding/v1/';
+const EXISTING_ATHLETES={lucas:'Lucas Azambuja',ryan:'Ryan Coelho',thalles:'Thalles Silvino'};
+// Valores públicos documentados nas páginas estáticas; usados apenas para predefinir o editor.
+const EXISTING_DETAILS={
+ lucas:{club:'Grêmio FBPA',position:'Meia canhoto',category:'Sub-8 (2018)',
+  socials:{instagram:'https://www.instagram.com/lucasazambujaoficial/',tiktok:'https://www.tiktok.com/@lukinhas10_oficial',youtube:'https://www.youtube.com/@LucasAzambujaoficial'}},
+ ryan:{club:'Cruzeiro-RS',position:'Meio-campo',category:'',
+  socials:{instagram:'https://www.instagram.com/ryanzinho_8/',tiktok:'https://www.tiktok.com/@ryanzinho_8'}},
+ thalles:{club:'E.C. Juventude',position:'Lateral e meia',category:'Geração 2012',
+  socials:{instagram:'https://www.instagram.com/thalles_silvino012/',tiktok:'https://www.tiktok.com/@thallessilvinooficial',youtube:'https://www.youtube.com/@ThallesSilvino'}}
+};
+const isExistingKey=v=>typeof v==='string'&&Object.hasOwn(EXISTING_ATHLETES,v);
+const athleteKey=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+const existingAthlete=v=>Object.keys(EXISTING_ATHLETES).find(k=>athleteKey(EXISTING_ATHLETES[k])===athleteKey(v))||null;
 const NOT_FOUND=/not.found|404|does not exist/i;
 const LIMIT=200;
 const err=(res,n,msg)=>res.status(n).json({ok:false,error:msg});
@@ -32,7 +45,7 @@ const toPublic=r=>({
  category:r.category||'Formação',titles:r.titles||'',socials:r.socials||{},
  image:'/api/captacao-lead?onboarding=1&action=photo&slug='+encodeURIComponent(r.slug),
  page:'/atletas/perfil/?id='+encodeURIComponent(r.slug),
- joinedAt:r.publishedAt
+ joinedAt:r.updatedAt||r.publishedAt
 });
 function validAthlete(body){
  const athleteName=clean(body.athleteName,100),guardianName=clean(body.guardianName,100);
@@ -112,7 +125,7 @@ export default async function handler(req,res){
  res.setHeader('X-Content-Type-Options','nosniff');
  res.setHeader('Referrer-Policy','no-referrer');
  const action=String(req.query?.action||'');
- if(req.method==='GET'&&['list','profile','photo','sitemap'].includes(action)){
+ if(req.method==='GET'&&['list','profile','photo','sitemap','managed-profile','managed-photo'].includes(action)){
   publiclySafe(req,res);
   try{
    if(action==='list')return res.status(200).json({ok:true,athletes:await publishedList()});
@@ -131,6 +144,22 @@ export default async function handler(req,res){
    }
    const slug=String(req.query.slug||'');
    if(!/^[a-z0-9-]{4,90}$/.test(slug))return err(res,400,'Identificador inválido');
+   if(action==='managed-profile'||action==='managed-photo'){
+    if(!isExistingKey(slug))return err(res,404,'Atleta não encontrado');
+    const saved=await read(BASE+'managed/'+slug+'.json');
+    if(!saved)return err(res,404,'Nenhuma alteração publicada');
+    if(action==='managed-profile')return res.status(200).json({ok:true,profile:{
+     name:saved.athleteName,club:saved.club,position:saved.position,
+     category:saved.category,titles:saved.titles,socials:saved.socials,
+     image:saved.photoExtension?'/api/captacao-lead?onboarding=1&action=managed-photo&slug='+slug:null
+    }});
+    if(!saved.photoExtension)return err(res,404,'Foto adicional indisponível');
+    const managedPhoto=await get(BASE+'photos/'+slug+'-managed.'+saved.photoExtension,{access:'private'});
+    if(!managedPhoto?.stream)return err(res,404,'Imagem indisponível');
+    res.setHeader('Content-Type',saved.photoMime);
+    res.setHeader('Content-Disposition','inline');
+    return new Response(managedPhoto.stream).arrayBuffer().then(buffer=>res.status(200).send(Buffer.from(buffer)));
+   }
    const record=await read(BASE+'published/'+slug+'.json');
    if(!record?.publishedAt||!record.guardianEmailVerified)return err(res,404,'Perfil indisponível');
    if(action==='profile')return res.status(200).json({ok:true,profile:toPublic(record)});
@@ -142,6 +171,38 @@ export default async function handler(req,res){
   }catch(e){console.error('athlete public read',e.name);return err(res,503,'Perfis temporariamente indisponíveis');}
  }
  if(!hostOK(req))return err(res,403,'Domínio não permitido');
+ if(req.method==='GET'&&action==='admin-claims'){
+  const staff=authenticate(req);
+  if(!staff||staff.kind!=='sponsor')return err(res,403,'Acesso restrito à equipe autorizada');
+  try{
+   const claims=[];let cursor;
+   for(let n=0;n<5;n++){
+    const page=await list({prefix:BASE+'claims/',limit:100,cursor,access:'private'});
+    for(const file of page.blobs||[]){const c=await read(file.pathname);if(c)claims.push(c);}
+    if(!page.hasMore||!page.cursor)break;cursor=page.cursor;
+   }
+   return res.status(200).json({ok:true,claims});
+  }catch(e){return err(res,503,'Falha na consulta de solicitações')}
+ }
+ if(req.method==='GET'&&action==='my-profile'){
+  try{
+   const a=await requireAccount(req);
+   if(!a)return err(res,401,'Entre para gerenciar seu perfil');
+   const managed=a.managedAthlete?await read(BASE+'managed/'+a.managedAthlete+'.json'):null;
+   return res.status(200).json({ok:true,managedAthlete:a.managedAthlete||null,profile:a.slug?{
+     athleteName:a.athleteName,guardianName:a.guardianName,guardianPhone:a.guardianPhone,
+     club:a.club,position:a.position,category:a.category,titles:a.titles,birthDate:a.birthDate,
+     socials:a.socials||{},page:toPublic(a).page
+   }:a.managedAthlete?{
+     athleteName:EXISTING_ATHLETES[a.managedAthlete],guardianName:a.guardianName,
+     guardianPhone:a.guardianPhone,club:managed?.club||EXISTING_DETAILS[a.managedAthlete]?.club||'',
+     position:managed?.position||EXISTING_DETAILS[a.managedAthlete]?.position||'',
+     category:managed?.category||EXISTING_DETAILS[a.managedAthlete]?.category||'',
+     titles:managed?.titles||'',socials:managed?.socials||EXISTING_DETAILS[a.managedAthlete]?.socials||{},
+     page:'/atletas/'+a.managedAthlete+'/'
+   }:null});
+  }catch(e){return err(res,503,'Não foi possível carregar dados da conta')}
+ }
  if(req.method==='GET'&&action==='admin-leads'){
   const staff=authenticate(req);
   if(!staff||staff.kind!=='sponsor')return err(res,403,'Acesso restrito à agência');
@@ -156,7 +217,9 @@ export default async function handler(req,res){
   try{
    const a=await requireAccount(req);
    return res.status(200).json({ok:true,loggedIn:!!a,verified:!!a?.guardianEmailVerified,athlete:a?{name:a.athleteName,slug:a.slug,status:a.status}:null,
-    emailVerificationConfigured:!!(process.env.FUTTALENTO_MAIL_API_KEY&&process.env.FUTTALENTO_MAIL_FROM),needsProfile:!!a&&!a.slug});
+    emailVerificationConfigured:!!(process.env.FUTTALENTO_MAIL_API_KEY&&process.env.FUTTALENTO_MAIL_FROM),
+    needsProfile:!!a&&!a.slug&&!a.claimAthlete,claimStatus:a?.claimStatus||null,
+    claimAthlete:a?.claimAthlete||null,managedAthlete:a?.managedAthlete||null});
   }catch{return err(res,503,'Cadastro temporariamente indisponível')}
  }
  if(req.method!=='POST')return err(res,405,'Método não permitido');
@@ -185,6 +248,59 @@ export default async function handler(req,res){
   }
 
   // Etapa 1: cria uma conta privada só com e-mail e senha, sem coletar dados de menores.
+  if(action==='request-claim'){
+   const a=await requireAccount(req);
+   if(!a)return err(res,401,'Faça login para solicitar vínculo');
+   if(a.slug||a.managedAthlete||a.claimStatus==='pending')return err(res,409,'Esta conta já está associada a um atleta ou solicitação');
+   const athlete=String(body.athlete||'');
+   if(!isExistingKey(athlete))return err(res,400,'Atleta existente inválido');
+   const guardianName=clean(body.guardianName),guardianPhone=String(body.guardianPhone||'').replace(/\D/g,'');
+   if(!safeName(guardianName)||guardianPhone.length<10||guardianPhone.length>13||
+      body.adultGuardian!==true||body.guardianConsent!==true||body.publicationConsent!==true)
+    return err(res,400,'Informe os dados do responsável e confirme a autorização');
+   if(await read(BASE+'ownership/'+athlete+'.json'))
+    return err(res,409,'Este atleta já possui responsável vinculado. Fale com a equipe.');
+   a.guardianName=guardianName;a.guardianPhone=guardianPhone;a.guardianConsent=true;a.publicationConsent=true;
+   a.claimAthlete=athlete;a.claimStatus='pending';
+   const claim={id:a.id,emailHash:digest(a.email),athlete,athleteName:EXISTING_ATHLETES[athlete],
+    guardianName,guardianPhone,status:'pending',createdAt:new Date().toISOString()};
+   if(a.googleSubject){a.guardianEmailVerified=true;}
+   else{
+    const code=String(crypto.randomInt(100000,1000000));
+    a.verifyCodeHash=hmac(a.id+':'+code);a.verifyExpiresAt=Date.now()+15*60000;a.verifyAttempts=0;
+    try{claim.emailSent=await sendVerification(a.email,code)}catch(e){claim.emailSent=false;console.error('claim email',e.name)}
+   }
+   await write(pathFor(a.email),a);
+   await write(BASE+'claims/'+athlete+'-'+a.id+'.json',claim);
+   return res.status(201).json({ok:true,claimPending:true,
+    requiresEmailVerification:!a.guardianEmailVerified,emailSent:claim.emailSent===true,
+    message:'Solicitação registrada. Após a confirmação do e-mail, a equipe fará a verificação do vínculo.'});
+  }
+  if(action==='admin-claim-review'){
+   const staff=authenticate(req);
+   if(!staff||staff.kind!=='sponsor')return err(res,403,'Acesso restrito à equipe autorizada');
+   const athlete=String(body.athlete||''),id=String(body.id||'');
+   if(!isExistingKey(athlete)||!/^[a-f0-9-]{36}$/.test(id)||typeof body.approved!=='boolean')
+    return err(res,400,'Solicitação inválida');
+   const pathname=BASE+'claims/'+athlete+'-'+id+'.json',claim=await read(pathname);
+   if(!claim||claim.status!=='pending')return err(res,404,'Solicitação pendente não encontrada');
+   if(body.approved&&body.evidenceReviewed!==true)
+    return err(res,400,'A aprovação exige conferência documentada da responsabilidade legal');
+   const a=await read(BASE+'accounts/'+claim.emailHash+'.json');
+   if(!a||a.id!==id||a.claimAthlete!==athlete||a.claimStatus!=='pending')
+    return err(res,409,'Os dados da conta não conferem');
+   if(body.approved&&!a.guardianEmailVerified)return err(res,409,'Confirmação de e-mail pendente');
+   if(body.approved){
+    const owner=await read(BASE+'ownership/'+athlete+'.json');
+    if(owner&&owner.id!==id)return err(res,409,'Atleta já vinculado a outra conta');
+    await write(BASE+'ownership/'+athlete+'.json',{id,emailHash:claim.emailHash,
+     reviewer:staff.login,approvedAt:new Date().toISOString()});
+    a.managedAthlete=athlete;a.guardianConsent=true;a.publicationConsent=true;a.claimStatus='approved';
+   }else {a.claimStatus='rejected';delete a.claimAthlete;}
+   claim.status=body.approved?'approved':'rejected';claim.reviewedAt=new Date().toISOString();claim.reviewer=staff.login;
+   await write(pathname,claim);await write(pathFor(a.email),a);
+   return res.status(200).json({ok:true,status:claim.status});
+  }
   if(action==='start'){
    const address=email(body.email),password=String(body.password||'');
    const repeat=String(req.headers.cookie||'').split(';').map(x=>x.trim()).find(x=>x.startsWith('ft_signup_cooldown='));
@@ -227,16 +343,20 @@ export default async function handler(req,res){
    a.googleLinkedAt=a.googleLinkedAt||new Date().toISOString();
    await write(pathFor(address),a);
    res.setHeader('Set-Cookie',sessionCookie({kind:'ft-guardian',id:a.id,emailHash:digest(address),exp:Date.now()+7*86400000},7*86400));
-   return res.status(200).json({ok:true,needsProfile:!a.slug,verified:!!a.guardianEmailVerified,
+   return res.status(200).json({ok:true,needsProfile:!a.slug&&!a.claimAthlete,
+     claimStatus:a.claimStatus||null,claimAthlete:a.claimAthlete||null,
+     managedAthlete:a.managedAthlete||null,verified:!!a.guardianEmailVerified,
     page:a.slug?toPublic(a).page:null});
   }
   // Etapa 2: somente após a autenticação, pede dados do responsável e do atleta.
   if(action==='complete'){
    const a=await requireAccount(req);
    if(!a)return err(res,401,'Crie sua conta ou entre antes de preencher o perfil');
-   if(a.slug)return err(res,409,'O perfil desta conta já foi preenchido');
+   if(a.slug||a.claimAthlete)return err(res,409,'Esta conta já possui um perfil ou vínculo em análise');
    const checked=validAthlete(body),photo=imageFrom(body);
    if(checked.error)return err(res,400,checked.error);
+   if(existingAthlete(checked.value.athleteName))
+    return err(res,409,'Este atleta já possui perfil oficial. Solicite o vínculo à equipe FutTalento, sem criar outra página.');
    if(!photo)return err(res,400,'Envie uma foto JPG, PNG ou WebP até 350 KB');
    const slug=checked.value.athleteName.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,54)+'-'+crypto.randomBytes(4).toString('hex');
    Object.assign(a,checked.value,{slug,guardianConsent:true,publicationConsent:true,
@@ -273,6 +393,8 @@ export default async function handler(req,res){
    const checked=validAthlete(body),photo=imageFrom(body);
    if(!address||password.length<12||password.length>128)return err(res,400,'Informe email válido e senha com pelo menos 12 caracteres');
    if(checked.error)return err(res,400,checked.error);
+   if(existingAthlete(checked.value.athleteName))
+    return err(res,409,'Este atleta já possui perfil oficial. Solicite vínculo à equipe FutTalento.');
    if(!photo)return err(res,400,'Envie uma foto JPG, PNG ou WebP até 350 KB');
    if(await read(pathFor(address)))return err(res,409,'Este email já tem cadastro. Entre com sua senha.');
    const slug=checked.value.athleteName.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,54)+'-'+crypto.randomBytes(4).toString('hex');
@@ -296,6 +418,54 @@ export default async function handler(req,res){
    ]);
    return res.status(201).json({ok:true,registered:true,verified:false,emailSent:sent,
     message:sent?'Confira o código enviado ao seu email.':'Cadastro privado criado. A publicação aguarda ativação da verificação por email.'});
+  }
+  if(action==='update-profile'){
+   const a=await requireAccount(req);
+   if(!a||(!a.slug&&!a.managedAthlete)||!a.guardianEmailVerified||!a.guardianConsent||!a.publicationConsent)
+    return err(res,403,'Apenas o responsável autorizado pode editar este perfil');
+   if(a.managedAthlete){
+    const owned=await read(BASE+'ownership/'+a.managedAthlete+'.json');
+    if(owned?.id!==a.id)return err(res,403,'Este perfil não está autorizado para sua conta');
+   }
+   const checked=validAthlete({...body,athleteName:a.managedAthlete?EXISTING_ATHLETES[a.managedAthlete]:a.athleteName,
+     guardianName:a.guardianName,guardianPhone:a.guardianPhone,
+     adultGuardian:true,guardianConsent:true,publicationConsent:true});
+   if(checked.error)return err(res,400,checked.error);
+   const photo=body.photo?imageFrom(body):null;
+   if(body.photo&&!photo)return err(res,400,'Foto inválida. Envie JPG, PNG ou WebP até 350 KB');
+   const now=new Date().toISOString();
+   if(a.managedAthlete){
+    const id=a.managedAthlete,previous=await read(BASE+'managed/'+id+'.json')||{};
+    const record={...previous,athleteName:EXISTING_ATHLETES[id],slug:id,
+      club:body.club?checked.value.club:previous.club||'',clubKey:body.club?checked.value.clubKey:previous.clubKey||'',
+      position:checked.value.position,
+      category:checked.value.category,titles:checked.value.titles,socials:checked.value.socials,updatedAt:now};
+    if(photo){
+     await put(BASE+'photos/'+id+'-managed.'+photo.extension,photo.bytes,{
+       access:'private',allowOverwrite:true,addRandomSuffix:false,contentType:photo.mime});
+     record.photoExtension=photo.extension;record.photoMime=photo.mime;
+    }
+    await write(BASE+'managed/'+id+'.json',record);
+    return res.status(200).json({ok:true,page:'/atletas/'+id+'/',message:'Alterações publicadas no perfil existente'});
+   }
+   Object.assign(a,{club:checked.value.club,clubKey:checked.value.clubKey,
+     position:checked.value.position,category:checked.value.category,
+     titles:checked.value.titles,socials:checked.value.socials,updatedAt:now});
+   if(photo){
+    const pathname=BASE+'photos/'+a.slug+'.'+photo.extension;
+    await put(pathname,photo.bytes,{access:'private',allowOverwrite:true,
+      addRandomSuffix:false,contentType:photo.mime});
+    a.photoMime=photo.mime;a.photoExtension=photo.extension;
+   }
+   await write(pathFor(a.email),a);
+   await write(BASE+'published/'+a.slug+'.json',{
+     slug:a.slug,athleteName:a.athleteName,club:a.club,clubKey:a.clubKey,
+     position:a.position,category:a.category,titles:a.titles,socials:a.socials,
+     guardianConsent:true,publicationConsent:true,guardianEmailVerified:true,
+     publishedAt:a.publishedAt,updatedAt:now,photoExtension:a.photoExtension,
+     photoMime:a.photoMime
+   });
+   return res.status(200).json({ok:true,page:toPublic(a).page,message:'Perfil atualizado'});
   }
   if(action==='resend'){
    const a=await requireAccount(req);
@@ -321,11 +491,23 @@ export default async function handler(req,res){
    const hash=crypto.scryptSync(password,a.passwordSalt,64);
    if(!crypto.timingSafeEqual(hash,Buffer.from(a.passwordHash,'hex')))return err(res,401,'Credenciais inválidas');
    res.setHeader('Set-Cookie',sessionCookie({kind:'ft-guardian',id:a.id,emailHash:digest(address),exp:Date.now()+7*86400000},7*86400));
-   return res.status(200).json({ok:true,verified:!!a.guardianEmailVerified,status:a.status,needsProfile:!a.slug});
+   return res.status(200).json({ok:true,verified:!!a.guardianEmailVerified,status:a.status,
+     needsProfile:!a.slug&&!a.claimAthlete,claimStatus:a.claimStatus||null,
+     claimAthlete:a.claimAthlete||null,managedAthlete:a.managedAthlete||null});
   }
   if(action==='verify'){
    const a=await requireAccount(req),code=String(body.code||'');
    if(!a)return err(res,401,'Faça login primeiro');
+   if(!a.slug&&a.claimAthlete&&a.claimStatus==='pending'){
+    if(!/^\d{6}$/.test(code)||Date.now()>a.verifyExpiresAt||a.verifyAttempts>=6)
+     return err(res,400,'Código inválido ou expirado');
+    a.verifyAttempts++;
+    if(hmac(a.id+':'+code)!==a.verifyCodeHash){await write(pathFor(a.email),a);return err(res,400,'Código inválido');}
+    a.guardianEmailVerified=true;
+    delete a.verifyCodeHash;delete a.verifyExpiresAt;delete a.verifyAttempts;
+    await write(pathFor(a.email),a);
+    return res.status(200).json({ok:true,claimPending:true,message:'E-mail confirmado. Vínculo aguardando aprovação da equipe.'});
+   }
    if(!a.slug||!a.guardianConsent||!a.publicationConsent)return err(res,409,'Finalize o perfil e as autorizações antes de publicar');
    if(a.guardianEmailVerified)return res.status(200).json({ok:true,verified:true,profile:toPublic(a)});
    if(!/^\d{6}$/.test(code)||Date.now()>a.verifyExpiresAt||a.verifyAttempts>=6)return err(res,400,'Código inválido ou expirado');

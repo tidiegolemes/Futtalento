@@ -29,7 +29,7 @@ function setup(query=''){
  };
  const history=[];
  const url='https://www.futtalento.com.br/atletas/?utm_source=test'+query;
- const context={document,window:{history:{replaceState:(a,b,v)=>history.push(v)}},
+ const context={document,window:{addEventListener(){},history:{replaceState:(a,b,v)=>history.push(v)}},
   location:{href:url,search:new URL(url).search},localStorage:{getItem:()=> 'denied'},
   URL,URLSearchParams};
  vm.runInNewContext(source,context,{filename:'atletas/catalogo.js'});

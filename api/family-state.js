@@ -56,7 +56,7 @@ async function readEditorialSchedule(){
     const record=JSON.parse(await new Response(file.stream).text());
     return (Array.isArray(record.activities)?record.activities:[])
       .filter(x=>['story','reel','post'].includes(x.type)&&PARTNERS.includes(x.partner)&&/^20\d{2}-\d{2}-\d{2}$/.test(x.date||''))
-      .map(x=>({date:x.date,partner:x.partner,type:x.type,status:x.status||'planejado',collab:x.collab===true}))
+      .map(x=>({date:x.date,partner:x.partner,type:x.type,status:x.status||'planejado',channel:x.channel||'instagram-futtalento',collab:x.collab===true}))
       .sort((a,b)=>a.date.localeCompare(b.date)).slice(-180);
   }catch(err){console.error('Schedule unavailable',err?.message);return [];}
 }
@@ -79,7 +79,7 @@ async function readImpactSummary(){
  const included=x=>['publicado','confirmado'].includes(x.status);
  return ids.map((id,i)=>{
   const events=(Array.isArray(ops.activities)?ops.activities:[]).filter(x=>x.partner===id);
-  const media=events.filter(x=>['story','reel','post'].includes(x.type)&&included(x));
+  const media=events.filter(x=>['story','reel','post'].includes(x.type)&&included(x)&&x.channel==='instagram-lucas');
   const agencyCoupons=events.filter(x=>['cupom','resgate'].includes(x.type)&&x.status==='confirmado');
   const agencySales=events.filter(x=>x.type==='venda'&&x.status==='confirmado');
   const portal=portals[i];
@@ -88,7 +88,7 @@ async function readImpactSummary(){
   const verifiedCoupons=verified.filter(x=>x.type==='cupom');
   const approval=(ops.partners||{})[id];
   const offer=portal.offer?.status==='approved'?portal.offer:approval?.approved?approval:null;
-  const snapshots=(Array.isArray(ops.social)?ops.social:[]).filter(x=>x.partner===id&&x.source).sort((a,b)=>String(a.date).localeCompare(String(b.date)));
+  const snapshots=(Array.isArray(ops.social)?ops.social:[]).filter(x=>x.partner===id&&x.source&&x.channel==='instagram-lucas').sort((a,b)=>String(a.date).localeCompare(String(b.date)));
   const latest=snapshots.at(-1)||null;
   return {
    id,approved:!!offer,coupon:offer&&typeof offer.coupon==='string'?offer.coupon.slice(0,60):'',
@@ -98,7 +98,7 @@ async function readImpactSummary(){
    revenueVerifiedByPartner:sum(verifiedSales,'amount'),revenueReportedByAgency:sum(agencySales,'revenue'),
    hasPartnerVerification:verified.length>0,hasAgencySales:agencySales.length>0,
    reachSnapshot:latest?Math.max(0,Number(latest.reach)||0):null,
-   reachDate:latest?.date||null,
+   reachDate:latest?.date||null,reachScope:latest?.scope||'periodo',reachPostUrl:latest?.scope==='post'?latest.postUrl||null:null,
    hasSource:!!latest,
    updatedAt:ops.updatedAt||null
   };

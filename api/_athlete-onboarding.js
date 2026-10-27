@@ -13,6 +13,7 @@ const EXISTING_DETAILS={
  thalles:{club:'E.C. Juventude',position:'Lateral e meia',category:'Geração 2012',
   socials:{instagram:'https://www.instagram.com/thalles_silvino012/',tiktok:'https://www.tiktok.com/@thallessilvinooficial',youtube:'https://www.youtube.com/@ThallesSilvino'}}
 };
+const isExistingKey=v=>typeof v==='string'&&Object.hasOwn(EXISTING_ATHLETES,v);
 const athleteKey=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
 const existingAthlete=v=>Object.keys(EXISTING_ATHLETES).find(k=>athleteKey(EXISTING_ATHLETES[k])===athleteKey(v))||null;
 const NOT_FOUND=/not.found|404|does not exist/i;
@@ -144,7 +145,7 @@ export default async function handler(req,res){
    const slug=String(req.query.slug||'');
    if(!/^[a-z0-9-]{4,90}$/.test(slug))return err(res,400,'Identificador inválido');
    if(action==='managed-profile'||action==='managed-photo'){
-    if(!EXISTING_ATHLETES[slug])return err(res,404,'Atleta não encontrado');
+    if(!isExistingKey(slug))return err(res,404,'Atleta não encontrado');
     const saved=await read(BASE+'managed/'+slug+'.json');
     if(!saved)return err(res,404,'Nenhuma alteração publicada');
     if(action==='managed-profile')return res.status(200).json({ok:true,profile:{
@@ -252,7 +253,7 @@ export default async function handler(req,res){
    if(!a)return err(res,401,'Faça login para solicitar vínculo');
    if(a.slug||a.managedAthlete||a.claimStatus==='pending')return err(res,409,'Esta conta já está associada a um atleta ou solicitação');
    const athlete=String(body.athlete||'');
-   if(!EXISTING_ATHLETES[athlete])return err(res,400,'Atleta existente inválido');
+   if(!isExistingKey(athlete))return err(res,400,'Atleta existente inválido');
    const guardianName=clean(body.guardianName),guardianPhone=String(body.guardianPhone||'').replace(/\D/g,'');
    if(!safeName(guardianName)||guardianPhone.length<10||guardianPhone.length>13||
       body.adultGuardian!==true||body.guardianConsent!==true||body.publicationConsent!==true)
@@ -279,7 +280,7 @@ export default async function handler(req,res){
    const staff=authenticate(req);
    if(!staff||staff.kind!=='sponsor')return err(res,403,'Acesso restrito à equipe autorizada');
    const athlete=String(body.athlete||''),id=String(body.id||'');
-   if(!EXISTING_ATHLETES[athlete]||!/^[a-f0-9-]{36}$/.test(id)||typeof body.approved!=='boolean')
+   if(!isExistingKey(athlete)||!/^[a-f0-9-]{36}$/.test(id)||typeof body.approved!=='boolean')
     return err(res,400,'Solicitação inválida');
    const pathname=BASE+'claims/'+athlete+'-'+id+'.json',claim=await read(pathname);
    if(!claim||claim.status!=='pending')return err(res,404,'Solicitação pendente não encontrada');
@@ -295,7 +296,7 @@ export default async function handler(req,res){
     await write(BASE+'ownership/'+athlete+'.json',{id,emailHash:claim.emailHash,
      reviewer:staff.login,approvedAt:new Date().toISOString()});
     a.managedAthlete=athlete;a.guardianConsent=true;a.publicationConsent=true;a.claimStatus='approved';
-   }else a.claimStatus='rejected';
+   }else {a.claimStatus='rejected';delete a.claimAthlete;}
    claim.status=body.approved?'approved':'rejected';claim.reviewedAt=new Date().toISOString();claim.reviewer=staff.login;
    await write(pathname,claim);await write(pathFor(a.email),a);
    return res.status(200).json({ok:true,status:claim.status});

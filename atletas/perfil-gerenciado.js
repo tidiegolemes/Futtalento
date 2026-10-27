@@ -10,24 +10,35 @@
   return response.json();
  }).then(result=>{
   if(!result?.ok||!result.profile)return;
-  const p=result.profile,hero=document.querySelector('.profile-hero');
+  const p=result.profile,hero=document.querySelector('.profile-hero, .athlete-hero');
   if(!hero)return;
   if(p.image){
-   const img=hero.querySelector('.portrait > img');
+   const img=hero.querySelector('.portrait > img, .ryan-cover > img');
    if(img){img.removeAttribute('onerror');img.onerror=null;img.src=p.image;img.alt='Imagem autorizada de '+p.name;}
   }
   if(p.club){
-   const club=hero.querySelector('.club-float span');
+   const club=hero.querySelector('.club-float span, .ryan-cover-club');
    if(club&&club.textContent.trim()!==p.club){
     club.textContent=p.club;
-    const crest=hero.querySelector('.club-float img');
+    const crest=hero.querySelector('.club-float img, .ryan-cover-club img');
     if(crest)crest.hidden=true; // não atribuir escudo de outro clube
    }
   }
   const chips=hero.querySelectorAll('.chips span');
   if(chips[0]&&p.position)chips[0].textContent=p.position;
   if(chips[1]&&p.category)chips[1].textContent=p.category;
-  const socials=hero.querySelector('.social-row');
+  if(slug==='ryan'){
+   const old=hero.querySelector('.actions a[href*="instagram.com"]');
+   if(old)old.hidden=true;
+   const details=document.createElement('p');details.className='ft-guardian-meta';
+   details.textContent=[p.position,p.category].filter(Boolean).join(' · ');
+   if(details.textContent)hero.querySelector('.ryan-cover-copy')?.append(details);
+  }
+  let socials=hero.querySelector('.social-row');
+  if(!socials&&slug==='ryan'){
+   socials=document.createElement('div');socials.className='social-row';
+   hero.querySelector('.ryan-cover-copy')?.append(socials);
+  }
   if(socials){
    socials.replaceChildren();
    for(const key of ['instagram','tiktok','youtube','website']){

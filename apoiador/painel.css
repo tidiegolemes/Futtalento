@@ -37,7 +37,7 @@
 .partner-impact-lead{margin-bottom:14px;background:linear-gradient(135deg,#fff 0%,#eefaeb 100%);border:1px solid #c5e4bc}
 .partner-impact-lead h3{font-size:1.2rem;margin:0 0 8px;color:#214c35}
 .partner-impact-grid{display:flex;align-items:center;gap:21px;margin:17px 0}
-.partner-impact-ring{--impact:0;display:grid;place-items:center;width:122px;height:122px;flex:0 0 122px;border-radius:50%;background:conic-gradient(#65bb54 calc(var(--impact)*1%),#e0ebe0 0);box-shadow:0 6px 22px #26513a20}
+.partner-impact-ring{--impact:0;display:grid;place-items:center;width:122px;height:122px;flex:0 0 122px;border-radius:50%;background:conic-gradient(#65bb54 var(--impact),#e0ebe0 0);box-shadow:0 6px 22px #26513a20}
 .partner-impact-ring span{display:grid;place-items:center;width:96px;height:96px;border-radius:50%;background:white;color:#1b5638;font-size:2rem;font-weight:950;letter-spacing:-.06em}
 .partner-impact-flow{display:grid;gap:8px;flex:1}
 .partner-proof-step{display:flex;align-items:center;gap:10px;border:1px solid #e0e9e0;background:#f8fbf7;padding:9px 12px;border-radius:15px}

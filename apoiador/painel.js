@@ -174,7 +174,7 @@ function renderDeliveries(){
  $('deliveriesList').innerHTML=posts.length?posts.map(a=>{
  const published=['publicado','confirmado'].includes(a.status),emoji={story:'📱',reel:'🎬',post:'🖼️'}[a.type];
  const name={story:'Story',reel:'Reel',post:'Carrossel/post'}[a.type],channel=a.channel==='instagram-lucas'?'Instagram do Lucas':'Instagram FutTalento';
- return '<article class="event"><div class="deliveryIcon" aria-hidden="true">'+emoji+'</div><div><h3>'+name+'</h3><p>'+dateLabel(a.date)+' · '+esc(channel)+'</p><span class="deliveryState '+(published?'live':'')+'">'+(published?'✓ Publicado':'Em planejamento')+'</span></div></article>';
+ return '<article class="event"><div class="deliveryIcon" aria-hidden="true">'+emoji+'</div><div><h3>'+name+'</h3><p>'+dateLabel(a.date)+' · '+esc(channel)+'</p><span class="deliveryState '+(published?'live':'')+'">'+(published?'✓ Publicado':'Em planejamento')+'</span>'+(published&&a.postUrl?'<p><a class="action-link" href="'+esc(a.postUrl)+'" target="_blank" rel="noopener noreferrer">Ver publicação no Instagram ↗</a></p>':'')+'</div></article>';
  }).join(''):'<div class="panel"><h3>🎬 A agência está preparando as primeiras entregas</h3><p class="small muted" style="margin-top:10px">Assim que houver um conteúdo registrado e aprovado, a programação vai aparecer aqui. Por enquanto não há publicações confirmadas neste painel.</p></div>';
 }
 function renderOffer(){

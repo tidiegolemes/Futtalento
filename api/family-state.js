@@ -1,5 +1,5 @@
 import crypto from 'node:crypto';
-import {authenticate} from './_sponsor-auth.js';
+import {authenticate,verify} from './_sponsor-auth.js';
 
 const PATH='lucas/family-journey-v1.json';
 const PARTNERS=['guimaraes','didi','oze','realgaucho'];
@@ -8,6 +8,30 @@ const clip=(value,length=300)=>typeof value==='string'?value.trim().slice(0,leng
 const isoDate=value=>/^20\d\d-\d\d-\d\d$/.test(value||'')?value:'';
 const initial=()=>({version:1,revision:0,athlete:'Lucas Azambuja',missions:{},drafts:[],benefits:[],help:[],updatedAt:null});
 const isStaff=user=>user.kind==='sponsor';
+/* A gestão do perfil do Lucas permite acessar a jornada da família após aprovação humana.
+   Não aceita apenas um cookie de inscrição: confere conta e propriedade atual no banco privado. */
+async function approvedGuardian(req){
+ const raw=String(req.headers.cookie||'').split(';').map(v=>v.trim()).find(v=>v.startsWith('ft_guardian='));
+ const auth=verify(raw?.slice('ft_guardian='.length));
+ if(!auth||auth.kind!=='ft-guardian'||!Number.isFinite(auth.exp)||auth.exp<Date.now()||
+    !/^[a-f0-9]{64}$/.test(auth.emailHash||'')||typeof auth.id!=='string')return null;
+ try{
+  const {get}=await import('@vercel/blob');
+  const parse=async path=>{
+   const x=await get(path,{access:'private'});
+   return x?.stream?JSON.parse(await new Response(x.stream).text()):null;
+  };
+  const [a,owner]=await Promise.all([
+   parse('futtalento/onboarding/v1/accounts/'+auth.emailHash+'.json'),
+   parse('futtalento/onboarding/v1/ownership/lucas.json')
+  ]);
+  if(!a||a.id!==auth.id||!a.guardianEmailVerified||a.managedAthlete!=='lucas'||
+     a.claimStatus!=='approved'||a.guardianConsent!==true||
+     a.publicationConsent!==true||owner?.id!==auth.id)return null;
+  return {kind:'family-guardian',login:'responsavel-autorizado'};
+ }catch(e){console.error('Guardian family authorization',e?.name);return null}
+}
+
 async function readState(){
   const {list,get}=await import('@vercel/blob');
   const listing=await list({prefix:PATH,limit:30});
@@ -89,7 +113,7 @@ export default async function handler(req,res){
   res.setHeader('Cache-Control','private, no-store');
   res.setHeader('X-Content-Type-Options','nosniff');
   res.setHeader('Referrer-Policy','no-referrer');
-  const user=authenticate(req);
+  const user=authenticate(req)||await approvedGuardian(req);
   if(!user)return reject(res,401,'Entre com a senha temporária ou sua conta autorizada.');
   if(!['GET','POST'].includes(req.method))return reject(res,405,'Método não permitido.');
   if(req.method==='POST'&&!verifyOrigin(req))return reject(res,403,'Origem não autorizada.');

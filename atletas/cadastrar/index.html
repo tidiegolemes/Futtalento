@@ -42,7 +42,7 @@
  <nav class="ft-auth-tabs" aria-label="Acesso" hidden><button type="button" data-auth-tab="register" aria-pressed="false">Criar cadastro</button><button type="button" data-auth-tab="login" aria-pressed="false">Já tenho cadastro</button></nav>
 
  <form id="ftRegister" class="ft-onboard-form" novalidate hidden>
- <p class="ft-progress">PASSO 2 DE 2 · PÁGINA DO ATLETA</p><p class="ft-profile-intro">Sua conta está pronta! Agora conte um pouco sobre o atleta.</p>
+ <p class="ft-progress">PASSO 2 DE 2 · PÁGINA DO ATLETA</p><p class="ft-profile-intro" id="ftProfileIntro">Sua conta está pronta! Agora conte um pouco sobre o atleta.</p>
  <div class="form-title"><span>1</span><h2>Sobre o responsável</h2></div>
  <div class="ft-fields"><label>Nome do responsável *<input name="guardianName" required autocomplete="name" minlength="3" maxlength="100" placeholder="Nome completo"></label>
  <label>Telefone/WhatsApp com DDD *<input name="guardianPhone" type="tel" inputmode="tel" autocomplete="tel" required placeholder="(48) 99999-9999"></label>
@@ -52,13 +52,13 @@
  <details class="ft-optional"><summary>Adicionar clube, conquistas e posição <small>(opcional)</small></summary>
  <div class="ft-fields">
  <label>Clube atual<input name="club" maxlength="100" placeholder="Ex.: Cruzeiro-RS ou Sem clube"></label>
- <label>Data de nascimento (privada)<input name="birthDate" type="date" max="2026-10-26"></label>
+ <label>Data de nascimento (privada)<input name="birthDate" type="date"></label>
  <label>Posição em campo<input name="position" maxlength="60" placeholder="Ex.: atacante"></label>
  <label>Categoria<input name="category" maxlength="50" placeholder="Ex.: Sub-12"></label>
  <label class="full">Últimos títulos ou momentos marcantes<textarea name="titles" maxlength="450" rows="3" placeholder="Ex.: campeão da Copa..."></textarea></label>
  </div></details>
  <div class="form-title"><span>3</span><h2>Foto e redes sociais</h2></div>
- <label class="ft-upload">Imagem de destaque do atleta *<input name="photoFile" type="file" required accept="image/jpeg,image/png,image/webp"><span>Toque para escolher a imagem · JPG, PNG ou WebP</span><img id="ftPhotoPreview" alt="Prévia da foto escolhida" hidden></label>
+ <label class="ft-upload"><span id="ftPhotoLabel">Imagem de destaque do atleta *</span><input name="photoFile" type="file" required accept="image/jpeg,image/png,image/webp"><span>Toque para escolher a imagem · JPG, PNG ou WebP</span><img id="ftPhotoPreview" alt="Prévia da foto escolhida" hidden></label>
  <details class="ft-optional"><summary>Adicionar redes sociais <small>(opcional)</small></summary>
  <div class="ft-fields"><label>Instagram<input name="instagram" type="url" inputmode="url" placeholder="https://instagram.com/..."></label>
  <label>TikTok<input name="tiktok" type="url" placeholder="https://tiktok.com/@..."></label>
@@ -70,8 +70,34 @@
  <label><input name="guardianConsent" type="checkbox" required> <span>Autorizo o tratamento dos dados do cadastro para criar e administrar o perfil.</span></label>
  <label><input name="publicationConsent" type="checkbox" required> <span>Autorizo a divulgação do nome, foto, trajetória e links informados nas páginas públicas do FutTalento após verificação do meu email. Meu nome, telefone, email e a data completa de nascimento não serão publicados.</span></label></div>
  <p class="ft-onboard-help">Leia a <a href="/privacidade.html">política de privacidade</a>. A publicação não implica vínculo oficial com o clube nem aprovação automática de propostas comerciais.</p>
- <button class="ft-submit" type="submit">Criar minha página FutTalento <span>→</span></button>
+ <button class="ft-submit" id="ftProfileSubmit" type="submit">Criar minha página FutTalento <span>→</span></button>
+  <button id="ftOpenClaim" type="button" class="ft-text-link">Meu atleta já aparece no FutTalento · Solicitar acesso</button>
  </form>
+ <form id="ftClaimForm" class="ft-onboard-form" hidden>
+   <p class="ft-progress">VINCULAR PERFIL EXISTENTE</p>
+   <h2>Seu atleta já está na vitrine?</h2>
+   <p class="ft-onboard-help">Solicite a gestão da página já publicada. Não criaremos uma segunda página. A equipe FutTalento verificará a responsabilidade legal antes de autorizar alterações.</p>
+   <label>Atleta com página publicada
+     <select name="athlete" required>
+       <option value="lucas">Lucas Azambuja</option>
+       <option value="ryan">Ryan Coelho</option>
+       <option value="thalles">Thalles Silvino</option>
+     </select>
+   </label>
+   <label>Nome completo do responsável<input name="guardianName" required minlength="3" maxlength="100" autocomplete="name"></label>
+   <label>Telefone/WhatsApp com DDD<input name="guardianPhone" type="tel" required autocomplete="tel" inputmode="tel"></label>
+   <div class="ft-consent">
+    <label><input type="checkbox" name="adultGuardian" required> Sou maior de 18 anos e responsável legal pelo atleta.</label>
+    <label><input type="checkbox" name="guardianConsent" required> Autorizo tratar meus dados privados para verificar a relação com o atleta.</label>
+    <label><input type="checkbox" name="publicationConsent" required> Autorizo manter e editar os dados públicos e imagens do perfil existente, conforme a <a href="/privacidade.html">política de privacidade</a>.</label>
+   </div>
+   <button type="submit" class="ft-submit">Solicitar vínculo seguro <span>→</span></button>
+   <button id="ftBackFromClaim" type="button" class="ft-text-link">← Voltar ao cadastro de novo atleta</button>
+ </form>
+ <section id="ftClaimPending" class="ft-verify" hidden>
+   <h2>Vínculo solicitado</h2><p>Recebemos seu pedido. Após confirmar o e-mail, aguarde a conferência pela equipe FutTalento. O perfil original continua publicado sem alteração.</p>
+   <a class="ft-text-link" href="mailto:contato@futtalento.com.br?subject=V%C3%ADnculo%20de%20respons%C3%A1vel%20FutTalento">Falar com a equipe ↗</a>
+ </section>
  <form id="ftLogin" class="ft-onboard-form" hidden>
  <p class="ft-progress">BEM-VINDO DE VOLTA</p>
  <h2>Acesse seu cadastro</h2><label>Email<input name="email" type="email" required autocomplete="email"></label>

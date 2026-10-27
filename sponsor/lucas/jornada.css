@@ -110,3 +110,31 @@ label.field-label+.field{margin-bottom:15px}
 @media(max-width:480px){.hero{gap:10px}.avatar{width:61px;height:61px;border-radius:21px}.headcopy h1{font-size:1.88rem}.panel{padding:17px;border-radius:21px}.mission{padding:17px}.mission-grid{gap:12px}.illustration{width:63px;height:63px;border-radius:18px;font-size:2rem}.mission-text h2{font-size:1.25rem}.groupactions{grid-template-columns:1fr}.next-grid{grid-template-columns:1fr 1fr}.nextcard{padding:11px;gap:6px}.nextcard .symbol{font-size:1.4rem}.partnerGrid{grid-template-columns:1fr 1fr}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
 @media print{.topbar,.bottomnav,.action,.sessionbar,.loginbox,.no-print{display:none!important}.view{display:block!important}body{background:white;padding:0}.panel,.mission{break-inside:avoid}}
+
+
+/* Jornada de impacto: progresso sobre evidências, nunca metas para crianças ou familiares. */
+.ft-impact-panel{margin:16px 0;background:linear-gradient(145deg,#fff 0%,#f1fae8 100%);border-color:#b5d99e}
+.ft-impact-panel>h2{margin:5px 0 8px;font-size:clamp(1.3rem,3vw,1.8rem)}
+.ft-impact-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:16px 0}
+.ft-impact-snapshot{background:white;border:1px solid #d6e6cd;border-radius:17px;padding:14px 10px;display:grid;gap:3px}
+.ft-impact-snapshot strong{font-size:clamp(1.3rem,4vw,1.95rem);color:#194d35;font-variant-numeric:tabular-nums}
+.ft-impact-snapshot span{font-size:.72rem;font-weight:700;color:#597468;line-height:1.3}
+.ft-impact-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px 0}
+.ft-impact-card{background:#fff;border:1px solid #d7e8d0;border-radius:20px;padding:15px;min-width:0;box-shadow:0 5px 18px #31573d0b}
+.ft-impact-card-top{display:flex;gap:10px;align-items:center;margin-bottom:12px}
+.ft-impact-card-top>div:nth-child(2){flex:1;min-width:0}
+.ft-impact-card h3{font-size:.96rem;line-height:1.2;margin:0 0 3px}
+.ft-impact-card p{margin:0}
+.ft-impact-emoji{font-size:1.6rem}
+.ft-impact-ring{--impact-percent:0;flex:0 0 57px;width:57px;height:57px;display:grid;place-items:center;border-radius:50%;background:conic-gradient(#5aad54 calc(var(--impact-percent)*1%),#e7f1e6 0)}
+.ft-impact-ring span{background:white;display:grid;place-items:center;width:43px;height:43px;border-radius:50%;font-size:.8rem;font-weight:900}
+.ft-impact-steps{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:13px}
+.ft-impact-steps span{padding:6px 8px;background:#f1f3f1;color:#7a857b;border-radius:99px;font-size:.66rem;font-weight:850}
+.ft-impact-steps .complete{background:#dcf6c4;color:#28592c}
+.ft-proof-line{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:8px 0;border-bottom:1px solid #eef2ec;font-size:.78rem}
+.ft-proof-line span{color:#5d7569;flex:1}
+.ft-proof-line b{color:#194532;text-align:right;max-width:60%;overflow-wrap:anywhere;font-size:.78rem}
+.ft-proof-note{color:#6a7e75;font-size:.7rem;margin:3px 0 8px!important}
+.ft-impact-details{margin-top:13px}.ft-impact-details summary{font-size:.77rem;color:#356e4b;cursor:pointer;font-weight:850}
+@media(max-width:660px){.ft-impact-grid{grid-template-columns:1fr}.ft-impact-summary{gap:6px}.ft-impact-snapshot{padding:10px 8px}.ft-impact-snapshot span{font-size:.65rem}}
+@media(prefers-reduced-motion:reduce){.ft-impact-ring{transition:none}}

@@ -45,7 +45,7 @@ test('Family journey shows per-company proof stages, not invented engagement',()
  assert.match(guardianUi,/hasPartnerVerification/);
  assert.match(guardianUi,/Alcance do período/);
  assert.match(guardianUi,/não significa alcance exclusivo do post/);
- assert.match(guardianUi,/não são somados para evitar duplicidade/i);
+ assert.match(guardianUi,/não somamos estes registros|não são somados para evitar duplicidade/i);
  assert.doesNotMatch(guardianUi,/score:\s*100/);
 });
 

@@ -4,6 +4,15 @@ import {signed,verify,authenticate} from './_sponsor-auth.js';
 
 const BASE='futtalento/onboarding/v1/';
 const EXISTING_ATHLETES={lucas:'Lucas Azambuja',ryan:'Ryan Coelho',thalles:'Thalles Silvino'};
+// Valores públicos documentados nas páginas estáticas; usados apenas para predefinir o editor.
+const EXISTING_DETAILS={
+ lucas:{club:'Grêmio FBPA',position:'Meia canhoto',category:'Sub-8 (2018)',
+  socials:{instagram:'https://www.instagram.com/lucasazambujaoficial/',tiktok:'https://www.tiktok.com/@lukinhas10_oficial',youtube:'https://www.youtube.com/@LucasAzambujaoficial'}},
+ ryan:{club:'Cruzeiro-RS',position:'Meio-campo',category:'',
+  socials:{instagram:'https://www.instagram.com/ryanzinho_8/',tiktok:'https://www.tiktok.com/@ryanzinho_8'}},
+ thalles:{club:'E.C. Juventude',position:'Lateral e meia',category:'Geração 2012',
+  socials:{instagram:'https://www.instagram.com/thalles_silvino012/',tiktok:'https://www.tiktok.com/@thallessilvinooficial',youtube:'https://www.youtube.com/@ThallesSilvino'}}
+};
 const athleteKey=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
 const existingAthlete=v=>Object.keys(EXISTING_ATHLETES).find(k=>athleteKey(EXISTING_ATHLETES[k])===athleteKey(v))||null;
 const NOT_FOUND=/not.found|404|does not exist/i;
@@ -185,9 +194,11 @@ export default async function handler(req,res){
      socials:a.socials||{},page:toPublic(a).page
    }:a.managedAthlete?{
      athleteName:EXISTING_ATHLETES[a.managedAthlete],guardianName:a.guardianName,
-     guardianPhone:a.guardianPhone,club:managed?.club||'',
-     position:managed?.position||'',category:managed?.category||'',titles:managed?.titles||'',
-     socials:managed?.socials||{},page:'/atletas/'+a.managedAthlete+'/'
+     guardianPhone:a.guardianPhone,club:managed?.club||EXISTING_DETAILS[a.managedAthlete]?.club||'',
+     position:managed?.position||EXISTING_DETAILS[a.managedAthlete]?.position||'',
+     category:managed?.category||EXISTING_DETAILS[a.managedAthlete]?.category||'',
+     titles:managed?.titles||'',socials:managed?.socials||EXISTING_DETAILS[a.managedAthlete]?.socials||{},
+     page:'/atletas/'+a.managedAthlete+'/'
    }:null});
   }catch(e){return err(res,503,'Não foi possível carregar dados da conta')}
  }
@@ -425,7 +436,8 @@ export default async function handler(req,res){
    if(a.managedAthlete){
     const id=a.managedAthlete,previous=await read(BASE+'managed/'+id+'.json')||{};
     const record={...previous,athleteName:EXISTING_ATHLETES[id],slug:id,
-      club:checked.value.club,clubKey:checked.value.clubKey,position:checked.value.position,
+      club:body.club?checked.value.club:previous.club||'',clubKey:body.club?checked.value.clubKey:previous.clubKey||'',
+      position:checked.value.position,
       category:checked.value.category,titles:checked.value.titles,socials:checked.value.socials,updatedAt:now};
     if(photo){
      await put(BASE+'photos/'+id+'-managed.'+photo.extension,photo.bytes,{

@@ -279,7 +279,7 @@ export default async function handler(req,res){
    const staff=authenticate(req);
    if(!staff||staff.kind!=='sponsor')return err(res,403,'Acesso restrito à equipe autorizada');
    const athlete=String(body.athlete||''),id=String(body.id||'');
-   if(!EXISTING_ATHLETES[athlete]||!/^[a-f0-9-]{36}$/.test(id)||typeof body.approved!=='boolean)
+   if(!EXISTING_ATHLETES[athlete]||!/^[a-f0-9-]{36}$/.test(id)||typeof body.approved!=='boolean')
     return err(res,400,'Solicitação inválida');
    const pathname=BASE+'claims/'+athlete+'-'+id+'.json',claim=await read(pathname);
    if(!claim||claim.status!=='pending')return err(res,404,'Solicitação pendente não encontrada');

@@ -10,6 +10,7 @@ test('Click events require consent, validated partner and same-site origin',()=>
  assert.ok(ingest.includes("origin!=='https://'+host"));
  assert.match(ingest,/validPartner\(partner\)/);
  assert.match(store,/ACTIONS=new Set/);
+ assert.match(store,/SOURCES=new Set/);
 });
 test('Private sponsor report cannot be cross-read by individual partner',()=>{
  assert.match(report,/authenticatePartner\(req\)/);
@@ -22,6 +23,8 @@ test('Campaign link contains partner and creative; click tracking follows consen
  assert.match(links,/ft_campaign_/);
  assert.match(links,/pref!=='granted'/);
  assert.match(links,/sendBeacon/);
+ assert.match(links,/referral_source:source/);
+ assert.match(links,/futtalento_partner_click/);
 });
 test('UI reports clicks without misrepresenting messages or sales',()=>{
  assert.match(partner,/Cliques rastreados para a empresa/);

@@ -98,3 +98,9 @@ test('Partner only receives safe public Instagram evidence links, never order re
  assert.match(sponsorUi,/Ver publicação no Instagram/);
  assert.match(sponsorUi,/rel="noopener noreferrer"/);
 });
+
+test('Partner dashboard uses channel-specific counts for Lucas and FutTalento',()=>{
+ assert.match(sponsorUi,/numberBox\(count\(metrics\.publicationsLucas\|\|0\),'Publicações no Instagram do Lucas'\)/);
+ assert.match(sponsorUi,/numberBox\(count\(metrics\.publicationsFutTalento\|\|0\),'Publicações no Instagram FutTalento'\)/);
+ assert.doesNotMatch(sponsorUi,/numberBox\(count\(metrics\.publications\|\|0\),'Publicações no Instagram do Lucas'\)/);
+});

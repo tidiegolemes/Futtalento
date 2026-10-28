@@ -115,7 +115,7 @@ fetch('/api/campaign-report?partner='+encodeURIComponent(selected),{credentials:
 .then(data=>{
  const target=$('liveCampaignCounts');if(!target||$('reportPartner').value!==selected)return;
  const n=data.counts||{},rows=(data.byCreative||[]).slice(0,8).map(x=>
-  '<li>'+safe(x.campaign)+' / '+safe(x.creative)+' / '+safe(x.medium)+': '+number(x.landing_view)+' visitas, '+number(x.partner_click)+' cliques no parceiro, '+number(x.whatsapp_click)+' cliques WhatsApp</li>').join('');
+  '<li>'+safe(x.campaign)+' / '+safe(x.creative)+' / '+safe(x.source)+' / '+safe(x.medium)+': '+number(x.landing_view)+' visitas, '+number(x.partner_click)+' cliques no parceiro, '+number(x.whatsapp_click)+' cliques WhatsApp</li>').join('');
  target.innerHTML='<p>Visitas consentidas: <b>'+number(n.landing_view||0)+'</b> · Cliques para a empresa: <b>'+number(n.partner_click||0)+'</b> · Cliques no WhatsApp rastreado: <b>'+number(n.whatsapp_click||0)+'</b></p>'+
  (data.truncated?'<p>Volume acima do limite do relatório piloto; totais parciais.</p>':'')+
  '<p>Cliques não comprovam novos seguidores, conversas nem vendas. WhatsApp só é contado quando existir link do parceiro identificado.</p>'+

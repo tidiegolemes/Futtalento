@@ -25,6 +25,9 @@ jobs:
           node --check sponsor/lucas/jornada.js
           node --check sponsor/lucas/painel.js
           node --check apoiador/painel.js
+          node --check api/_campaign-events.js
+          node --check api/campaign-event.js
+          node --check api/campaign-report.js
       - name: Install dependencies without lifecycle scripts
         run: npm install --ignore-scripts --no-audit --no-fund
       - name: Run repository regression suite

@@ -25,7 +25,27 @@ const s=document.createElement('script');s.async=true;s.src='https://www.googlet
 if(pref==='granted')activate();
 document.getElementById('metric-yes').addEventListener('click',()=>{try{localStorage.setItem(key,'granted')}catch(e){}pref='granted';notice.hidden=true;activate()});
 document.getElementById('metric-no').addEventListener('click',()=>{try{localStorage.setItem(key,'denied')}catch(e){}pref='denied';notice.hidden=true});
+const qs=new URLSearchParams(location.search);
+const allowed=new Set(['oze','didi','guimaraes','realgaucho']);
+const safe=v=>/^[a-z0-9][a-z0-9_-]{0,59}$/.test(v||'')?v:'';
+const partner=safe(qs.get('partner')),campaign=safe(qs.get('utm_campaign'));
+const creative=safe(qs.get('utm_content')),medium=safe(qs.get('utm_medium')),source=safe(qs.get('utm_source'));
+let landingSent=false;
+function emit(action,id){
+ if(pref!=='granted'||!allowed.has(id)||id!==partner||!campaign||!creative||!medium)return;
+ const payload={partner:id,campaign,creative,medium,source,action,consent:true};
+ window.dataLayer=window.dataLayer||[];
+ window.dataLayer.push({event:'ft_campaign_'+action,partner_id:id,campaign_id:campaign,creative_id:creative,referral_medium:medium,referral_source:source});
+ const json=JSON.stringify(payload);
+ if(navigator.sendBeacon)navigator.sendBeacon('/api/campaign-event',new Blob([json],{type:'application/json'}));
+ else fetch('/api/campaign-event',{method:'POST',headers:{'Content-Type':'application/json'},body:json,keepalive:true}).catch(()=>{});
+}
+function landing(){if(landingSent)return;landingSent=true;emit('landing_view',partner);}
+for(const link of document.querySelectorAll('.sponsor-cta'))link.addEventListener('click',()=>emit('partner_click',link.dataset.partner));
 for(const link of document.querySelectorAll('.sponsor-cta'))link.addEventListener('click',()=>{if(pref!=='granted')return;window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'futtalento_partner_click',partner_id:link.dataset.partner,referral_medium:new URLSearchParams(location.search).get('utm_medium')||'unknown',referral_campaign:new URLSearchParams(location.search).get('utm_campaign')||'unknown',referral_content:new URLSearchParams(location.search).get('utm_content')||'unknown'})});
+for(const link of document.querySelectorAll('a[data-partner-whatsapp]'))link.addEventListener('click',()=>emit('whatsapp_click',link.dataset.partnerWhatsapp));
+if(pref==='granted')landing();
+document.getElementById('metric-yes').addEventListener('click',landing);
 })();
 </script>
 </body></html>

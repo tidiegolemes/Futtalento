@@ -7,7 +7,7 @@ const store=read('api/_campaign-events.js'),links=read('apoiadores/lucas/index.h
 const agency=read('sponsor/lucas/painel.js'),partner=read('apoiador/painel.js');
 test('Click events require consent, validated partner and same-site origin',()=>{
  assert.match(ingest,/consent!==true/);
- assert.match(ingest,/origin!=='https:'\+host/);
+ assert.ok(ingest.includes("origin!=='https://'+host"));
  assert.match(ingest,/validPartner\(partner\)/);
  assert.match(store,/ACTIONS=new Set/);
 });

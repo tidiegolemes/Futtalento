@@ -139,7 +139,7 @@ function renderNumbers(){
  const confirmedSales=(portal.results||[]).filter(x=>x.type==='compra'&&x.status==='verified');
  const confirmedQty=confirmedSales.reduce((s,x)=>s+Number(x.qty||0),0);
  const confirmedRevenue=confirmedSales.reduce((s,x)=>s+Number(x.amount||0),0);
- $('resultNumbers').innerHTML=numberBox(count(metrics.publications||0),'Publicações no Instagram do Lucas')+
+ $('resultNumbers').innerHTML=numberBox(count(metrics.publicationsLucas||0),'Publicações no Instagram do Lucas')+
   numberBox(count(metrics.publicationsFutTalento||0),'Publicações no Instagram FutTalento')+
   numberBox(count(metrics.coupons||0),'Resgates confirmados pela agência')+
   numberBox(verified.length?count(confirmedCouponQty):'A confirmar','Resgates confirmados pelo comércio',!verified.length)+

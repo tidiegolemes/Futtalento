@@ -18,6 +18,7 @@ const count=v=>Number(v||0).toLocaleString('pt-BR');
 const dateLabel=d=>/^20\d\d-\d\d-\d\d$/.test(d||'')?d.slice(8,10)+'/'+d.slice(5,7)+'/'+d.slice(0,4):'a definir';
 const today=()=>{const d=new Date();return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10)};
 let partner=null,role=null,portal=null,summary=null,active='hoje',working=false,installPrompt=null;
+let tracked=null;
 const message=(s,bad=false)=>{$('appFeedback').textContent=s||'';$('appFeedback').style.color=bad?'#9e2f29':'#326f4a'};
 const catalog=()=>names[partner]||names.oze;
 const approvedOffers=()=>portal?.offer?.status==='approved';
@@ -49,7 +50,15 @@ async function fetchPortal(){
  const data=await res.json();
  if(!res.ok)throw Error(data.error||'Não foi possível abrir sua parceria.');
  partner=data.partner;role=data.role;portal=data.data;summary=data.summary;
- displayApp();return true;
+ displayApp();loadCampaignMetrics(partner);return true;
+}
+async function loadCampaignMetrics(expectedPartner){
+ try{
+  const r=await fetch('/api/campaign-report',{credentials:'same-origin',cache:'no-store'});
+  if(!r.ok)throw Error('unavailable');
+  const data=await r.json();
+  if(partner===expectedPartner&&data.partner===partner){tracked=data;renderNumbers();}
+ }catch{if(partner===expectedPartner){tracked=null;renderNumbers();}}
 }
 async function signIn(e){
  e.preventDefault();
@@ -133,7 +142,8 @@ function renderNumbers(){
  $('quickNumbers').innerHTML=numberBox(count(metrics.publications||0),'Conteúdos publicados pela agência')+
   numberBox(count(verified.length),'Registros validados')+
   numberBox(reports.length?count(reports.length):'Nenhum','Enviados para conferência')+
-  numberBox('Em integração','Cliques em links rastreados',true);
+  numberBox(tracked?count(tracked.counts.partner_click):'Não medido','Cliques rastreados para a empresa',!tracked)+
+  numberBox(tracked?count(tracked.counts.landing_view):'Não medido','Visitas de campanha consentidas',!tracked);
  const confirmedCoupons=(portal.results||[]).filter(x=>x.type==='cupom'&&x.status==='verified');
  const confirmedCouponQty=confirmedCoupons.reduce((n,x)=>n+Number(x.qty||0),0);
  const confirmedSales=(portal.results||[]).filter(x=>x.type==='compra'&&x.status==='verified');
